@@ -79,7 +79,7 @@ include = [
 # Version Bumping (bump-my-version):
 # ====================================
 [tool.bumpversion]
-current_version = "0.1.1"
+current_version = "0.1.0"
 parse = "(?P<major>\\d+)\\.(?P<minor>\\d+)\\.(?P<patch>\\d+)"
 serialize = ["{major}.{minor}.{patch}"]
 search = "{current_version}"
