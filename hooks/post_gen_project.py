@@ -46,7 +46,7 @@ def main() -> None:
         "install",
         "git-init",
         "pre-commit-init",
-        # "changelog",
+        "changelog",
         # "build-docs",
     ]
 
