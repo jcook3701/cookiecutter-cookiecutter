@@ -1,0 +1,30 @@
+# typecheck
+---
+name: Cookiecutter Template Typecheck
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  typecheck:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install mypy
+        run: |
+          make install
+
+      - name: Run typecheck
+        run: |
+          make typecheck
