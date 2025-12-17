@@ -180,6 +180,7 @@ NUTRIMATIC := $(PYTHON) -m nutrimatic
 # --------------------------------------------------
 # Functions
 # --------------------------------------------------
+{% raw %}
 # Finds files of a given extension or "*" (all files) under a directory,
 # skipping VENV_DIR and template markers like {{ }}.
 define get_files_by_extension
@@ -190,6 +191,7 @@ define get_files_by_extension
 		! -path "*}}*" \
 		-print0
 endef
+{% endraw %}
 
 JINJA_FILE_LIST := ( \
 		$(call get_files_by_extension,$(PROJECT_ROOT),*.j2); \

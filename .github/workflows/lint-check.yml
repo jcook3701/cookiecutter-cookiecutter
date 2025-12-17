@@ -21,10 +21,25 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Install Jinja2 CLI
+      - name: Install Linting Tools
         run: |
           make install
+
+      - name: Render Cookiecutter Template
+        run: |
+          make render-cookiecutter
 
       - name: Lint Jinja templates
         run: |
           make jinja2-lint-check
+
+      - name: Run Ruff Lint Check
+        run: |
+          make ruff-lint-check
+
+      - name: Run Toml Lint Check
+        run: |
+          make toml-lint-check
+      - name: Run YAML Lint Check
+        run: |
+          make yaml-lint-check

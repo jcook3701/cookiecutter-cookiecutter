@@ -31,9 +31,10 @@
   ],
   "_copy_without_render": [
     ".github/workflows/*",
-    "{{ cookiecutter.project_slug }}/cookiecutter.json",
-    "{{ cookiecutter.project_slug }}/.pre-commit-config.yaml",
-    "{{ cookiecutter.project_slug }}/.yamllint"
+    "cookiecutter.json",
+    ".pre-commit-config.yaml",
+    ".yamllint",
+    "cliff.toml"
   ],
   "_jinja2_env_vars": {
     "lstrip_blocks": true,

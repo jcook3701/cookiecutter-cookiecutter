@@ -1,7 +1,7 @@
 # Cookiecutter Cookiecutter
 
 __Author:__ Jared Cook  
-__Version:__ 0.1.1  
+__Version:__ 0.1.0  
 
 ## Overview:
 Cookiecutter cookiecutter template project + [Github docs](https://github.com/jcook3701/github-docs-cookiecutter) template generation + [Sphinx docs](https://github.com/jcook3701/sphinx-cookiecutter) template generation.  

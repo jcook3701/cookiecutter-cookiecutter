@@ -48,7 +48,7 @@ endef
 # --------------------------------------------------
 PACKAGE_NAME := "cookiecutter-cookiecutter"
 AUTHOR := "Jared Cook"
-VERSION := 0.1.1
+VERSION := 0.1.0
 RELEASE := v$(VERSION)
 # --------------------------------------------------
 # 🐙 Github Build Settings
