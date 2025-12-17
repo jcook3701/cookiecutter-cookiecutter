@@ -51,7 +51,7 @@ def main() -> None:
     ]
 
     for cmd in make_cmds:
-        make(cmd)
+        make(cmd, verbose=True)
 
 
 if __name__ == "__main__":

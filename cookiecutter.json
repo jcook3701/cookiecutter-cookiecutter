@@ -1,6 +1,6 @@
 {
   "project_name": "cookiecutter-cookiecutter",
-  "__project_name": "{{ cookiecutter.project_name|lower|replace('-', '_')|replace(' ', '_') }}",
+  "__project_name": "{{ cookiecutter.project_name|lower|replace('_', '-')|replace(' ', '-') }}",
   "project_slug": "{{ cookiecutter.__project_name }}",
   "__py_package_name": "{{ cookiecutter.__project_name }}",
   "__title": "{{ cookiecutter.project_name }}",
