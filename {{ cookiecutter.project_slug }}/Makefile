@@ -77,8 +77,7 @@ GITHUB_REPO := $(GITHUB_USER)/$(PACKAGE_NAME)
 # --------------------------------------------------
 # 📁 Build Directories
 # --------------------------------------------------
-# $(call cc_or_std,$(COOKIECUTTER_RENDER_DIR)/$(PACKAGE_NAME),$(PWD))
-PROJECT_ROOT := $(CURDIR)
+PROJECT_ROOT := $(call cc_or_std,$(CURDIR),$(PWD))
 HOOKS_DIR := $(PROJECT_ROOT)/hooks
 SRC_DIR := $(HOOKS_DIR)
 TEST_DIR := $(PROJECT_ROOT)/tests
