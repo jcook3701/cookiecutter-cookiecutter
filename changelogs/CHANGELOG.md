@@ -11,6 +11,7 @@
 ### 🐛 Fixed
 
 - *(dependency)* Fixed dependency check.
+- *(template)* Made it so the cookiecutter.json could be modified.
 
 ### 🚀 Added
 
