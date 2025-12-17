@@ -11,7 +11,6 @@ import os
 
 from nutrimatic.core import make
 from nutrimatic.hooks.post_gen_logic import (
-    generate_ansible_dirs,
     generate_docs_templates,
 )
 
@@ -27,7 +26,6 @@ def main() -> None:
     context = json.loads("""{{ cookiecutter | jsonify }}""")
 
     generate_docs_templates(context)
-    generate_ansible_dirs()
 
     # Run make commands to get project seeded
     make_cmds = [

@@ -21,7 +21,6 @@ ifeq ($(V),0)
 else
     AT =
 endif
-
 # Detect if we are running inside GitHub Actions CI.
 # GitHub sets the environment variable GITHUB_ACTIONS=true in workflows.
 # We set CI=1 if running in GitHub Actions, otherwise CI=0 for local runs.
@@ -29,6 +28,15 @@ ifeq ($(GITHUB_ACTIONS),true)
 CI := 1
 else
 CI := 0
+endif
+# Detect if we are running inside Cookiecutter (pre/post) hooks.
+# Cookiecutter hooks are used to set the environment variable COOKIECUTTER_HOOKS=true.
+# We set CC=1 if running in Cookiecutter hooks, otherwise CC=0 for standard runs.
+COOKIECUTTER_RENDER_DIR := /tmp/rendered
+ifeq ($(COOKIECUTTER_HOOKS),true)
+CC := 1
+else
+CC := 0
 endif
 # --------------------------------------------------
 # 🏗️ CI/CD Functions
@@ -45,6 +53,15 @@ define run_ci_safe =
 	fi \
 )
 endef
+# cc_or_std:
+#   Selects between Cookiecutter hook context and standard execution context.
+#
+#   If COOKIECUTTER_HOOKS=true, expands to the first argument (Cookiecutter render).
+#   Otherwise, expands to the second argument (normal project execution).
+#
+#   Usage:
+#     PROJECT_ROOT := $(call cc_or_std,$(COOKIECUTTER_RENDER_DIR),$(PWD))
+cc_or_std = $(if $(filter true,$(COOKIECUTTER_HOOKS)),$(1),$(2))
 # --------------------------------------------------
 # ⚙️ Build Settings
 # --------------------------------------------------
@@ -60,7 +77,7 @@ GITHUB_REPO := $(GITHUB_USER)/$(PACKAGE_NAME)
 # --------------------------------------------------
 # 📁 Build Directories
 # --------------------------------------------------
-PROJECT_ROOT := $(PWD)
+PROJECT_ROOT := $(call cc_or_std,$(COOKIECUTTER_RENDER_DIR)/$(PACKAGE_NAME),$(PWD))
 HOOKS_DIR := $(PROJECT_ROOT)/hooks
 SRC_DIR := $(HOOKS_DIR)
 TEST_DIR := $(PROJECT_ROOT)/tests
@@ -104,9 +121,10 @@ ACTIVATE := source $(VENV_DIR)/bin/activate
 PYTHON := $(ACTIVATE) && $(PYTHON_CMD)
 PIP := $(PYTHON) -m pip
 # --------------------------------------------------
-# 🍪 Render template (cookiecutter)
+# 🍪 Render template (cookiecutter, cookiecutter_project_upgrader)
 # --------------------------------------------------
 COOKIECUTTER := $(ACTIVATE) && cookiecutter
+PROJECT_UPGRADE := $(ACTIVATE) && cookiecutter_project_upgrader
 # --------------------------------------------------
 # 🧬 Dependency Management (deptry)
 # --------------------------------------------------
@@ -169,6 +187,8 @@ GITCLIFF_CHANGELOG_RELEASE := $(GITCLIFF) --unreleased --tag $(RELEASE) --output
 # --------------------------------------------------
 GIT := git
 GITHUB := gh
+# Commands:
+GIT_INIT_STATUS := git rev-parse --is-inside-work-tree > /dev/null 2>&1
 # --------------------------------------------------
 # 🚨 Pre-Commit (pre-commit)
 # --------------------------------------------------
@@ -221,6 +241,16 @@ list-folders:
 	🐍 src: $(SRC_DIR)\n\
 	🧪 Test: $(TESTS_DIR)\n"
 # --------------------------------------------------
+# Dependency Checks
+# --------------------------------------------------
+git-dependency-check:
+	$(AT)which $(GIT) >/dev/null || \
+		{ echo "Git is required: sudo apt install git"; exit 1; }
+
+gh-dependency-check:
+	$(AT)which $(GITHUB) >/dev/null || \
+		{ echo "GitHub is required: sudo apt install gh"; exit 1; }
+# --------------------------------------------------
 # 🐍 Virtual Environment Setup
 # --------------------------------------------------
 venv:
@@ -238,12 +268,20 @@ install: venv
 # --------------------------------------------------
 # 🚨 Pre-Commit (pre-commit)
 # --------------------------------------------------
+# Note: Run as part of project initialization.  No manual run needed.
 pre-commit-init:
 	$(AT)echo "📦 Installing pre-commit hooks and hook-types..."
 	$(AT)which $(GIT) >/dev/null || { echo "Git is required"; exit 1; }
 	$(AT)$(PRECOMMIT) install --install-hooks
 	$(AT)$(PRECOMMIT) install --hook-type pre-commit --hook-type commit-msg
 	$(AT)echo "✅ pre-commit dependencies installed!"
+# --------------------------------------------------
+# 🍪 Project Updater (cookiecutter_project_upgrader)
+# --------------------------------------------------
+project-upgrade:
+	$(AT)echo "🍪 Upgrading project from initial cookiecutter template..."
+	$(AT)$(PROJECT_UPGRADE) --context-file ./docs/cookiecutter_input.json --upgrade-branch main
+	$(AT)echo "✅ Finished project upgrade!"
 # --------------------------------------------------
 # 🛡️ Security (pip-audit)
 # --------------------------------------------------
@@ -376,6 +414,7 @@ bump-version-patch:
 # --------------------------------------------------
 # Note: Run as part of pre-commit.  No manual run needed.
 changelog:
+	$(AT) echo $(GITCLIFF_CHANGELOG)
 	$(AT)echo "📜 $(PACKAGE_NAME) Changelog Generation..."
 	$(AT)$(GITCLIFF_CHANGELOG)
 	$(AT)$(GITCLIFF_CHANGELOG_RELEASE)
@@ -385,12 +424,29 @@ changelog:
 # --------------------------------------------------
 # 🐙 Github Commands (git)
 # --------------------------------------------------
+# Note: Run as part of project initialization.  No manual run needed.
+git-init: git-dependency-check
+	$(AT)if ! $(GIT_INIT_STATUS); then \
+		echo "🌱 $(GALAXY_PACKAGE_NAME) Git initialization! 🎉"; \
+		$(GIT) init; \
+		$(GIT) add --all; \
+		$(GIT) commit -m "chore(init): Init commit. \
+			Project $(GALAXY_PACKAGE_NAME) template generation complete."; \
+		echo "✅ Finished Git initialization!"; \
+	else \
+		echo "ℹ️ Git is already initialized for $(GALAXY_PACKAGE_NAME)."; \
+	fi
+
 git-release:
-	$(AT)echo "📦 $(PACKAGE_NAME) Release Tag - $(RELEASE)! 🎉"
-	$(AT)$(GIT) tag -a $(RELEASE) -m "Release $(RELEASE)"
-	$(AT)$(GIT) push origin $(RELEASE)
-	$(AT)$(GITHUB) release create $(RELEASE) --generate-notes
-	$(AT)echo "✅ Finished uploading Release - $(RELEASE)! 🎉"
+	$(AT)if $(GIT_INIT_STATUS); then \
+		echo "📦 $(PACKAGE_NAME) Release Tag - $(RELEASE)! 🎉"; \
+		$(GIT) tag -a $(RELEASE) -m "Release $(RELEASE)"; \
+		$(GIT) push origin $(RELEASE); \
+		$(GITHUB) release create $(RELEASE) --generate-notes; \
+	echo "✅ Finished uploading Release - $(RELEASE)! 🎉"; \
+	else \
+		echo "❌ Git is not yet initialized.  Skipping version release." \
+	fi
 # --------------------------------------------------
 # 📢 Release
 # --------------------------------------------------
