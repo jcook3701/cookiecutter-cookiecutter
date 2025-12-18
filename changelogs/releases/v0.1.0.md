@@ -16,6 +16,7 @@
 - *(cookiecutter)* Fixed project naming to fit with what I am already using for my cookiecutter projects.
 - *(build)* Found out about Makefile default ; fixes problems when file is called by hooks. Makefile paths are all relative to the Makefile, which is necessary for build to succeed.
 - *(build)* Found out about Makefile default ; fixes problems when file is called by hooks. Makefile paths are all relative to the Makefile, which is necessary for build to succeed.
+- *(ci/cd)* Fixes so that ci/cd runs on feature branches.
 
 ### 🚀 Added
 
