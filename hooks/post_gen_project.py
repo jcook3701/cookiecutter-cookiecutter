@@ -24,6 +24,7 @@ from nutrimatic.core import make
 from nutrimatic.hooks.post_gen_logic import (
     generate_cliff_changelog_dirs,
     generate_docs_templates,
+    get_make_cmds,
 )
 
 
@@ -41,14 +42,7 @@ def main() -> None:
     generate_docs_templates(context)
     generate_cliff_changelog_dirs()
 
-    # Run make commands to get project seeded
-    make_cmds = [
-        "install",
-        "git-init",
-        "pre-commit-init",
-        "changelog",
-        # "build-docs",
-    ]
+    make_cmds: list[str] = get_make_cmds(context)
 
     for cmd in make_cmds:
         make(cmd, verbose=True)

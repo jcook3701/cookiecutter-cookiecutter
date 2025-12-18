@@ -35,6 +35,15 @@
     "pmarsceill/just-the-docs",
     "carlosperate/jekyll-theme-rtd"
   ],
+  "_hooks": {
+    "post_gen_make_cmds": {
+      "install": true,
+      "git-init": true,
+      "pre-commit-init": true,
+      "changelog": true,
+      "build-docs": false
+    }
+  },
   "_copy_without_render": [
     ".github/workflows/*"
   ],

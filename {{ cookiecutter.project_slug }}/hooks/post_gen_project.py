@@ -12,6 +12,7 @@ import os
 from nutrimatic.core import make
 from nutrimatic.hooks.post_gen_logic import (
     generate_docs_templates,
+    get_make_cmds,
 )
 
 
@@ -21,20 +22,14 @@ def main() -> None:
     if os.getenv("CI"):
         print("⚙️  Detected CI environment — skipping GitHub Docs generation.")
         return
-
+    {%- raw %}
     # Access cookiecutter context safely
     context = json.loads("""{{ cookiecutter | jsonify }}""")
-
+    {% endraw %}
     generate_docs_templates(context)
 
     # Run make commands to get project seeded
-    make_cmds = [
-        "install",
-        "git-init",
-        "pre-commit-init",
-        "changelog",
-        # "build-docs",
-    ]
+    make_cmds: list[str] = get_make_cmds(context)
 
     for cmd in make_cmds:
         make(cmd)

@@ -16,7 +16,9 @@ def main() -> None:
     if os.getenv("CI"):
         print("⚙️  Detected CI environment — skipping GitHub Docs generation.")
         return
+    {%- raw %}
     context = json.loads("""{{ cookiecutter | jsonify }}""")
+    {% endraw %}
     print(f"Context: {context}")
     # json_file = "cookiecutter.json"
 
