@@ -30,4 +30,4 @@ def test_bake_with_custom_name(cookies: Cookies) -> None:
     assert result.exit_code == 0
     assert result.exception is None
     assert result.project_path.is_dir()
-    assert result.project_path.name == "jcook3701.test_project"
+    assert result.project_path.name == "test_project"
