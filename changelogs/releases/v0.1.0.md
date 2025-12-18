@@ -20,3 +20,4 @@
 ### 🚀 Added
 
 - *(build)* Build appears to be working now.
+- *(hooks)* Updated hooks to use cookiecutter.json file vars and now don't have to do a ton a templating to make sure the hook make commands work correctly depending on the template being generated.
