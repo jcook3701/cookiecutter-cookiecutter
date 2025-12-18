@@ -3,17 +3,18 @@
     "language": "en",
     "useGitignore": true,
     "words": [
+        "cli",
         "codespell",
         "cookiecutter",
         "cookiecutter_project_upgrader",
-        "cli",
-        "mkdirp",
-        "pyproject",
-        "tsmerge",
         "githubusercontent",
+        "mkdirp",
+        "nutrimatic",
+        "pyproject",
         "streetsidesoftware",
-        "vsmarketplacebadge",
-        "visualstudio"
+        "tsmerge",
+        "visualstudio",
+        "vsmarketplacebadge"
     ],
     "flagWords": [
         "hte"

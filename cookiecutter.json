@@ -1,12 +1,12 @@
 {
   "project_name": "cookiecutter-cookiecutter",
-  "__project_name": "{{ cookiecutter.project_name|lower|replace('-', '_')|replace(' ', '_') }}",
+  "__project_name": "{{ cookiecutter.project_name|lower|replace('_', '-')|replace(' ', '-') }}",
   "project_slug": "{{ cookiecutter.__project_name }}",
   "__py_package_name": "{{ cookiecutter.__project_name }}",
   "__title": "{{ cookiecutter.project_name }}",
   "author": "Jared Cook",
   "email": "jcook3701+github@gmail.com",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "license": [
     "GPL-3.0",
     "Apache-2.0",
@@ -29,9 +29,17 @@
     "pmarsceill/just-the-docs",
     "carlosperate/jekyll-theme-rtd"
   ],
+  "_hooks": {
+    "post_gen_make_cmds": {
+      "install": true,
+      "git-init": true,
+      "pre-commit-init": true,
+      "changelog": true,
+      "build-docs": false
+    }
+  },
   "_copy_without_render": [
     ".github/workflows/*",
-    "cookiecutter.json",
     ".pre-commit-config.yaml",
     ".yamllint",
     "cliff.toml"

@@ -2,11 +2,7 @@
 ---
 name: Cookiecutter Template Jinja2 Lint
 
-on:
-  push:
-    branches: [main, develop]
-  pull_request:
-    branches: [main, develop]
+on: [push, pull_request]
 
 jobs:
   jinja2-lint:
