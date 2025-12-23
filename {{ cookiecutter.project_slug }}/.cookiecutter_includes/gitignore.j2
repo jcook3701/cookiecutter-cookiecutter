@@ -29,10 +29,10 @@ dist/
 """
 %}
 
-{%- set cookiecutter = python ~ ansible %}
+{%- set ansible_cookiecutter = python ~ ansible %}
 
 {% if template_type == "ansible" -%}
-{{ ansible }}
+{{ ansible_cookiecutter }}
 {%- elif template_type in ["c", "c++"] -%}
 # =========================================
 # C/C++ Ignores #
@@ -40,9 +40,7 @@ dist/
 *.o
 *.a
 *.out
-{%- elif template_type == "cookiecutter" -%}
-{{ cookiecutter }}
-{%- elif template_type in ["github-docs", "python", "sphinx-docs"] -%}
+{%- elif template_type in ["cookiecutter", "github-docs", "python", "sphinx-docs"] -%}
 {{ python }}
 {%- elif template_type == "ros2" -%}
 # =========================================
