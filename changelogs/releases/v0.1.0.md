@@ -30,6 +30,10 @@
 
 Feat 001 (#1)
 
+### 🐛 Fixed
+
+- *(template)* Testing for project update.
+
 ### 🚀 Added
 
 - *(build)* Build appears to be working now.

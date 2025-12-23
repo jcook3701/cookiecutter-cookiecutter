@@ -13,6 +13,7 @@
         "pyproject",
         "streetsidesoftware",
         "tsmerge",
+        "upgrader",
         "visualstudio",
         "vsmarketplacebadge"
     ],

@@ -98,7 +98,9 @@ CHANGELOG_RELEASE_FILE := $(CHANGELOG_RELEASE_DIR)/$(RELEASE).md
 # --------------------------------------------------
 # 🍪 Template Directories (cookiecutter)
 # --------------------------------------------------
+{% raw %}
 COOKIE_DIR := $(PROJECT_ROOT)/{{ cookiecutter.project_slug }}
+{% endraw %}
 COOKIE_MACRO_DIR := $(COOKIE_DIR)/.cookiecutter_includes
 RENDERED_COOKIE_DIR := /tmp/rendered
 RENDERED_VENV_DIR := $(RENDERED_COOKIE_DIR)/**/.venv
@@ -280,7 +282,7 @@ pre-commit-init:
 # --------------------------------------------------
 project-upgrade:
 	$(AT)echo "🍪 Upgrading project from initial cookiecutter template..."
-	$(AT)$(PROJECT_UPGRADE) --context-file ./docs/cookiecutter_input.json --upgrade-branch main
+	$(AT)$(PROJECT_UPGRADE) --context-file ./docs/cookiecutter_input.json --upgrade-branch main -e $(COOKIE_DIR)
 	$(AT)echo "✅ Finished project upgrade!"
 # --------------------------------------------------
 # 🛡️ Security (pip-audit)
