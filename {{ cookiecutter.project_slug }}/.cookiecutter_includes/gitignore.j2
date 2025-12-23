@@ -33,7 +33,7 @@ dist/
 
 {% if template_type == "ansible" -%}
 {{ ansible }}
-{%- elif template_type == "c" or "c++" -%}
+{%- elif template_type in ["c", "c++"] -%}
 # =========================================
 # C/C++ Ignores #
 # =========================================
@@ -42,7 +42,7 @@ dist/
 *.out
 {%- elif template_type == "cookiecutter" -%}
 {{ cookiecutter }}
-{%- elif template_type == "github-docs" or "python" or "sphinx-docs" -%}
+{%- elif template_type in ["github-docs", "python", "sphinx-docs"] -%}
 {{ python }}
 {%- elif template_type == "ros2" -%}
 # =========================================
