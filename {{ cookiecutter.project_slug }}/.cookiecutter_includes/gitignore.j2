@@ -2,8 +2,8 @@
     template_type
 ) -%}
 
-{%- set ansible = """
-# =========================================
+{%- set ansible =
+"""# =========================================
 # Ansible Galaxy Ignores #
 # =========================================
 ansible.cfg
@@ -12,11 +12,10 @@ inventory.yml
 **/vault.yml
 /group_vars
 /host_vars
-"""
-%}
+""" -%}
 
-{%- set python = """
-# =========================================
+{%- set python =
+"""# =========================================
 # Python project ignores #
 # =========================================
 __pycache__/
@@ -26,8 +25,7 @@ __pycache__/
 .ruff_cache/
 .venv/
 dist/
-"""
-%}
+""" -%}
 
 {%- set ansible_cookiecutter = python ~ ansible %}
 
