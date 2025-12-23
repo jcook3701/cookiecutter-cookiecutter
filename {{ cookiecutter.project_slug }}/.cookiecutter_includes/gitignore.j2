@@ -1,0 +1,62 @@
+{%- macro gitignore(
+    template_type,
+) -%}
+
+{%- set ansible = """
+# =========================================
+# Ansible Galaxy Ignores #
+# =========================================
+ansible.cfg
+hosts
+inventory.yml
+**/vault.yml
+/group_vars
+/host_vars
+"""
+%}
+
+{%- set python = """
+# =========================================
+# Python project ignores #
+# =========================================
+__pycache__/
+*.egg-info/
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+.venv/
+dist/
+"""
+%}
+
+{%- set cookiecutter = python ~ ansible %}
+
+{% if template_type == "ansible" -%}
+{{ ansible }}
+{%- elif template_type == "c" or "c++" -%}
+# =========================================
+# C/C++ Ignores #
+# =========================================
+*.o
+*.a
+*.out
+{%- elif template_type == "cookiecutter" -%}
+{{ cookiecutter }}
+{%- elif template_type == "github-docs" or "python" or "sphinx-docs" -%}
+{{ python }}
+{%- elif template_type == "ros2" -%}
+# =========================================
+# ROS2 Ignores #
+# =========================================
+install/
+build/
+log/
+{%- elif template_type == "typescript" -%}
+# =========================================
+# Typescript Ignores #
+# =========================================
+node_modules/
+dist/
+*.tsbuildinfo
+{% endif -%}
+{%- endmacro -%}

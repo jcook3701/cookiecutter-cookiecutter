@@ -98,7 +98,7 @@ CHANGELOG_RELEASE_FILE := $(CHANGELOG_RELEASE_DIR)/$(RELEASE).md
 # --------------------------------------------------
 # 🍪 Template Directories (cookiecutter)
 # --------------------------------------------------
-{% raw %}
+{%- raw %}
 COOKIE_DIR := $(PROJECT_ROOT)/{{ cookiecutter.project_slug }}
 {% endraw %}
 COOKIE_MACRO_DIR := $(COOKIE_DIR)/.cookiecutter_includes
@@ -202,7 +202,7 @@ NUTRIMATIC := $(PYTHON) -m nutrimatic
 # --------------------------------------------------
 # Functions
 # --------------------------------------------------
-{% raw %}
+{%- raw %}
 # Finds files of a given extension or "*" (all files) under a directory,
 # skipping VENV_DIR and template markers like {{ }}.
 define get_files_by_extension
