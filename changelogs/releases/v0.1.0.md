@@ -33,3 +33,4 @@ Feat 001 (#1)
 ### 🚀 Added
 
 - *(build)* Build appears to be working now.
+- *(template)* Added sub template files to try and help ensure main cookiecutter directory is not set for deletion.
