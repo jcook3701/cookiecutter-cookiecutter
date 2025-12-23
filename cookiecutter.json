@@ -20,6 +20,12 @@
     "3.10"
   ],
   "__python_target_version": "py{{ cookiecutter.python_version|replace('.', '') }}",
+  "_python_keywords": [
+    "python3",
+    "cookiecutter",
+    "template",
+    "automation"
+  ],
   "ga_tracking": "G-C7PWLWSHB9",
   "github_username": "jcook3701",
   "twitter_username": "",
