@@ -5,7 +5,7 @@
   "project_slug": "{{ cookiecutter.__project_name }}",
   "__py_package_name": "{{ cookiecutter.__project_name }}",
   "__title": "{{ cookiecutter.project_name }}",
-{%- endraw %}
+{% endraw %}
   "author": "Jared Cook",
   "email": "jcook3701+github@gmail.com",
   "version": "0.1.0",
@@ -17,7 +17,7 @@
   ],
 {%- raw %}
   "__copyright": "Copyright (c) {% now 'utc', '%Y' %} {{ cookiecutter.author }}",
-{%- endraw %}
+{% endraw %}
   "description": "Description of cookiecutter template project.",
   "python_version": [
     "3.11",
@@ -25,7 +25,7 @@
   ],
 {%- raw %}
   "__python_target_version": "py{{ cookiecutter.python_version|replace('.', '') }}",
-{%- endraw %}
+{% endraw %}
   "ga_tracking": "G-C7PWLWSHB9",
   "github_username": "jcook3701",
   "twitter_username": "",
