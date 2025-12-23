@@ -29,6 +29,15 @@
     "pmarsceill/just-the-docs",
     "carlosperate/jekyll-theme-rtd"
   ],
+  "template_type": [
+    "ansible",
+    "cookiecutter",
+    "github-docs",
+    "python",
+    "ros2",
+    "sphinx-docs",
+    "typescript"
+  ],
   "_hooks": {
     "post_gen_make_cmds": {
       "install": true,
@@ -38,15 +47,6 @@
       "build-docs": false
     }
   },
-  "_template_type": [
-    "ansible",
-    "cookiecutter",
-    "github-docs",
-    "python",
-    "ros2",
-    "sphinx-docs",
-    "typescript"
-  ],
   "_copy_without_render": [
     ".github/workflows/*",
     "{{ '{{' }} cookiecutter.project_slug {{ '}}' }}/*",
