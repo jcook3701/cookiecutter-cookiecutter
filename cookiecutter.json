@@ -38,6 +38,14 @@
       "build-docs": false
     }
   },
+  "_template_type": [
+    "ansible",
+    "github-docs",
+    "python",
+    "ros2",
+    "sphinx-docs",
+    "typescript"
+  ],
   "_copy_without_render": [
     ".github/workflows/*",
     "{{ '{{' }} cookiecutter.project_slug {{ '}}' }}/*",

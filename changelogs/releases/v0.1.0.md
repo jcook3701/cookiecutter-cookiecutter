@@ -33,6 +33,7 @@ Feat 001 (#1)
 ### 🐛 Fixed
 
 - *(template)* Testing for project update.
+- *(template)* Removed items in the sub-template besides cookiecutter_input.json used by cookiecutter project upgrader.  Using exclude with the project upgrader command fixes everything.
 
 ### 🚀 Added
 

@@ -77,7 +77,7 @@ where = [
   "hooks",
 ]
 include = [
-  "hooks*",
+  "*",
 ]
 # ====================================
 # Black Configuration: (Formatting)
@@ -151,13 +151,12 @@ exclude = [
 [tool.ruff]
 # Target Python version
 target-version = "{{ cookiecutter.__python_target_version }}"
-{% raw %}
 # Directories to lint and format
 src = [
   "hooks",
   "tests",
-  "{{ cookiecutter.project_slug }}/tests",
 ]
+{% raw %}
 # Exclude these paths
 exclude = [
   ".venv",
@@ -168,10 +167,10 @@ exclude = [
   "*.egg-info",
   ".git",
   ".github",
-  "{{ cookiecutter.project_slug }}/pyproject.toml",
+  "*{{*cookiecutter.project_slug*}}*",
 ]
 {% endraw %}
-
+force-exclude = true
 # Maximum line length
 line-length = 120
 # ====================================
@@ -206,7 +205,7 @@ ignore = [
 # ====================================
 [tool.ruff.lint.isort]
 combine-as-imports = true
-known-first-party = ["{{ cookiecutter.__project_name }}"]
+known-first-party = ["{{ cookiecutter.__project_name }}", "hooks"]
 # ====================================
 # Formatter Configuration:
 # Ruff also formats YAML, TOML, and Markdown
@@ -234,7 +233,6 @@ ignore_missing_imports = true
 # ====================================
 # Pytest Configuration:
 # ====================================
-{% raw %}
 [tool.pytest.ini_options]
 minversion = "7.0"
 addopts = ["-v", "--maxfail=1", "-W always", "-rw", "--strict-markers"]
@@ -242,8 +240,5 @@ testpaths = [
   "tests",
 ]
 pythonpath = [
-  ".",
-  "{{ cookiecutter.project_slug }}",
   "hooks",
 ]
-{% endraw %}
