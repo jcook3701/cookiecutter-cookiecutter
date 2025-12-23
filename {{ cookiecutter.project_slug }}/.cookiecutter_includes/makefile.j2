@@ -1,6 +1,7 @@
 {%- macro makefile(
-    template_type,
+    template_type
 ) -%}
+
 {% if template_type == "ansible" -%}
 
 {%- elif template_type == "cookiecutter" -%}

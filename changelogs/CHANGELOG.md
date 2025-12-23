@@ -41,3 +41,4 @@ Feat 001 (#1)
 
 - *(build)* Build appears to be working now.
 - *(template)* Added sub template files to try and help ensure main cookiecutter directory is not set for deletion.
+- *(template)* Setup templates for gitignore. And prepared for makefile and pyproject files.
