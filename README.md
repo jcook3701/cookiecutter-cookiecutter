@@ -186,5 +186,6 @@ $ cargo install git-cliff
 
 ### Authors Hidden TODO's
 
+For Sphinx-cookiecutter -> Need to move from cookiecutter.project_name to cookiecutter.project_slug
 1.
 --->
