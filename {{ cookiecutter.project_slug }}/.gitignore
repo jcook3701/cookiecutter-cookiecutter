@@ -10,7 +10,7 @@
 {%- import '.cookiecutter_includes/gitignore.j2' as gitignore_macros with context %}
 {{- gitignore_macros.gitignore(
     cookiecutter.template_type
-) }}
+) -}}
 # =========================================
 ## Default Ignores #
 # =========================================
