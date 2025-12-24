@@ -57,3 +57,4 @@ Feat 001 (#1)
 - *(template)* Simplified templates and added functionality.
 - *(template)* Updated template makefile to add or remove document gen commands depending on cookiecutter settings.
 - *(template)* Docs are now removed/added from makefile depending on user selection.
+- *(build)* Template updates for auto generating the project makefile.  Getting this setup to eventually be pulled into sub-projects to use in sub-templates that also use Makefile for project building.

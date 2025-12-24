@@ -58,7 +58,9 @@
     "{{ '{{' }} cookiecutter.project_slug {{ '}}' }}/*",
     ".pre-commit-config.yaml",
     ".yamllint",
-    "cliff.toml"
+    "cliff.toml",
+    ".cookiecutter_includes/*",
+    ".cookiecutter_includes/**/*"
   ],
   "_jinja2_env_vars": {
     "lstrip_blocks": true,

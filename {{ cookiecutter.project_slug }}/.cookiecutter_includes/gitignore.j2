@@ -1,4 +1,4 @@
-{%- macro gitignore(
+{% macro gitignore(
     template_type
 ) -%}
 
@@ -31,28 +31,28 @@ dist/
 
 {% if template_type == "ansible" -%}
 {{ ansible_cookiecutter }}
-{%- elif template_type in ["c", "c++"] -%}
+{% elif template_type in ["c", "c++"] %}
 # =========================================
 # C/C++ Ignores #
 # =========================================
 *.o
 *.a
 *.out
-{%- elif template_type in ["cookiecutter", "github-docs", "python", "sphinx-docs"] -%}
+{% elif template_type in ["cookiecutter", "github-docs", "python", "sphinx-docs"] %}
 {{ python }}
-{%- elif template_type == "ros2" -%}
+{% elif template_type == "ros2" %}
 # =========================================
 # ROS2 Ignores #
 # =========================================
 install/
 build/
 log/
-{%- elif template_type == "typescript" -%}
+{% elif template_type == "typescript" %}
 # =========================================
 # Typescript Ignores #
 # =========================================
 node_modules/
 dist/
 *.tsbuildinfo
-{% endif -%}
+{% endif %}
 {%- endmacro -%}
