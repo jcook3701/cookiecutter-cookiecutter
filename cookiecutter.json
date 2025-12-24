@@ -65,5 +65,5 @@
     "trim_blocks": true
   },
   "add_github_docs": true,
-  "add_sphinx_docs": false
+  "add_sphinx_docs": true
 }

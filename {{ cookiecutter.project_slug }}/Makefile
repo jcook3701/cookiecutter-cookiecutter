@@ -1,10 +1,15 @@
 {% import '.cookiecutter_includes/license_header.j2' as license_macros with context %}
+{% import '.cookiecutter_includes/make/docs.j2' as makefile_macros with context %}
 {{- license_macros.license_header(
 	cookiecutter.license,
 	cookiecutter.author,
 	cookiecutter.project_slug,
 	file_name='Makefile',
 	comment_style='hash') -}}
+
+{%- set sphinx = cookiecutter.add_sphinx_docs -%}
+{%- set github = cookiecutter.add_github_docs -%}
+
 # --------------------------------------------------
 # ⚙️ Environment Settings
 # --------------------------------------------------
@@ -83,10 +88,10 @@ SRC_DIR := $(HOOKS_DIR)
 TEST_DIR := $(PROJECT_ROOT)/tests
 TESTS_DIR := $(TEST_DIR)
 DOCS_DIR := $(PROJECT_ROOT)/docs
-{% if cookiecutter.add_github_docs %}
+{% if github %}
 JEKYLL_DIR := $(DOCS_DIR)/jekyll
 {% endif %}
-{% if cookiecutter.add_sphinx_docs %}
+{% if sphinx %}
 SPHINX_DIR := $(DOCS_DIR)/sphinx
 JEKYLL_SPHINX_DIR := $(JEKYLL_DIR)/sphinx
 {% endif %}
@@ -167,17 +172,9 @@ MYPY := $(PYTHON) -m mypy
 # 🧪 Testing (pytest)
 # --------------------------------------------------
 PYTEST := $(PYTHON) -m pytest
-# --------------------------------------------------
-# 📚 Documentation (Sphinx + Jekyll)
-# --------------------------------------------------
-{% if cookiecutter.add_sphinx_docs %}
-SPHINX := $(PYTHON) -m sphinx -b markdown
-{% endif %}
-{% if cookiecutter.add_github_docs %}
-JEKYLL_BUILD := bundle exec jekyll build --quiet
-JEKYLL_CLEAN := bundle exec jekyll clean
-JEKYLL_SERVE := bundle exec jekyll serve
-{% endif %}
+{{ makefile_macros.doc_commands_section(
+	jekyll_enabled=cookiecutter.add_github_docs,
+	sphinx_enabled=cookiecutter.add_sphinx_docs) }}
 # --------------------------------------------------
 # 🔖 Version Bumping (bumpy-my-version)
 # --------------------------------------------------
@@ -236,8 +233,8 @@ TOML_FILE_LIST := 	( \
 	dependency-check black-formatter-check black-formatter-fix \
 	format-check format-fix ruff-lint-check ruff-lint-fix \
 	toml-lint-check yaml-lint-check jinja2-lint-check \
-	lint-check lint-fix spellcheck typecheck test sphinx \
-	jekyll jekyll-serve build-docs run-docs bump-version-patch \
+	lint-check lint-fix spellcheck typecheck test {% if sphinx %}sphinx{% endif %} \
+	{% if github %}jekyll{% endif %} jekyll-serve build-docs run-docs bump-version-patch \
 	changelog clean help
 # --------------------------------------------------
 # Default: run lint, typecheck, tests, and docs
@@ -397,24 +394,9 @@ test:
 	$(AT)echo "🧪 Running tests with pytest..."
 	$(AT)$(call run_ci_safe, $(PYTEST) $(TEST))
 	$(AT)echo "✅ Python tests complete!"
-# --------------------------------------------------
-# 📚 Documentation (Sphinx + Jekyll)
-# --------------------------------------------------
-{% if cookiecutter.add_sphinx_docs %}
-sphinx:
-	$(MAKE) -C $(SPHINX_DIR) all PUBLISHDIR=$(JEKYLL_SPHINX_DIR)
-
-{% endif %}
-{% if cookiecutter.add_github_docs %}
-jekyll:
-	$(MAKE) -C $(JEKYLL_DIR) all;
-{% endif %}
-
-jekyll-serve: docs
-	$(MAKE) -C $(JEKYLL_DIR) run;
-
-build-docs: sphinx jekyll
-run-docs: jekyll-serve
+{{ makefile_macros.doc_actions(
+	jekyll_enabled=cookiecutter.add_github_docs,
+	sphinx_enabled=cookiecutter.add_sphinx_docs) }}
 # --------------------------------------------------
 # 🔖 Version Bumping (bumpy-my-version)
 # --------------------------------------------------
@@ -472,10 +454,10 @@ release: git-release bump-version-patch
 # --------------------------------------------------
 clean-docs:
 	$(AT)echo "🧹 Cleaning documentation artifacts..."
-{% if cookiecutter.add_sphinx_docs %}
+{% if sphinx %}
 	$(AT)$(MAKE) -C $(SPHINX_DIR) clean
 {% endif %}
-{% if cookiecutter.add_github_docs %}
+{% if github %}
 	$(AT)$(MAKE) -C $(JEKYLL_DIR) clean
 {% endif %}
 	$(AT)echo "✅ Cleaned documentation artifacts..."
@@ -516,11 +498,11 @@ help:
 	$(AT)echo "  make lint-fix               Run all project linter autofixes (ruff)"
 	$(AT)echo "  make typecheck              Run Mypy type checking"
 	$(AT)echo "  make test                   Run Pytest suite"
-{% if cookiecutter.add_sphinx_docs %}
+{% if sphinx %}
 	$(AT)echo "  make sphinx                 Generate Sphinx Documentation"
 {% endif %}
 	$(AT)echo "  make jekyll                 Generate Jekyll Documentation"
-{% if cookiecutter.add_github_docs %}
+{% if github %}
 	$(AT)echo "  make build-docs             Build Sphinx + Jekyll documentation"
 {% endif %}
 	$(AT)echo "  make run-docs               Serve Jekyll site locally"
