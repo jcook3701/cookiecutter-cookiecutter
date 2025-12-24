@@ -1,5 +1,6 @@
 {% import '.cookiecutter_includes/license_header.j2' as license_macros with context %}
-{% import '.cookiecutter_includes/make/docs.j2' as makefile_macros with context %}
+{% import '.cookiecutter_includes/make/__init__.j2' as make_macros with context %}
+
 {{- license_macros.license_header(
 	cookiecutter.license,
 	cookiecutter.author,
@@ -67,52 +68,9 @@ endef
 #   Usage:
 #     PROJECT_ROOT := $(call cc_or_std,$(COOKIECUTTER_RENDER_DIR),$(PWD))
 cc_or_std = $(if $(filter true,$(COOKIECUTTER_HOOKS)),$(1),$(2))
-# --------------------------------------------------
-# ⚙️ Build Settings
-# --------------------------------------------------
-PROJECT_NAME := "{{ cookiecutter.__python.project_name }}"
-AUTHOR := "{{ cookiecutter.author }}"
-VERSION := {{ cookiecutter.version }}
-RELEASE := v$(VERSION)
-# --------------------------------------------------
-# 🐙 Github Build Settings
-# --------------------------------------------------
-GITHUB_USER := "{{ cookiecutter.github_username }}"
-GITHUB_REPO := $(GITHUB_USER)/$(PROJECT_NAME)
-# --------------------------------------------------
-# 📁 Build Directories
-# --------------------------------------------------
-PROJECT_ROOT := $(call cc_or_std,$(CURDIR),$(PWD))
-HOOKS_DIR := $(PROJECT_ROOT)/hooks
-SRC_DIR := $(HOOKS_DIR)
-TEST_DIR := $(PROJECT_ROOT)/tests
-TESTS_DIR := $(TEST_DIR)
-DOCS_DIR := $(PROJECT_ROOT)/docs
-{% if github %}
-JEKYLL_DIR := $(DOCS_DIR)/jekyll
-{% endif %}
-{% if sphinx %}
-SPHINX_DIR := $(DOCS_DIR)/sphinx
-JEKYLL_SPHINX_DIR := $(JEKYLL_DIR)/sphinx
-{% endif %}
-README_GEN_DIR := $(JEKYLL_DIR)/tmp_readme
-CHANGELOG_DIR := $(PROJECT_ROOT)/changelogs
-CHANGELOG_RELEASE_DIR := $(CHANGELOG_DIR)/releases
-# --------------------------------------------------
-# 📄 Build Files
-# --------------------------------------------------
-README_FILE := $(PROJECT_ROOT)/README.md
-CHANGELOG_FILE := $(CHANGELOG_DIR)/CHANGELOG.md
-CHANGELOG_RELEASE_FILE := $(CHANGELOG_RELEASE_DIR)/$(RELEASE).md
-# --------------------------------------------------
-# 🍪 Template Directories (cookiecutter)
-# --------------------------------------------------
-{%- raw %}
-COOKIE_DIR := $(PROJECT_ROOT)/{{ cookiecutter.project_slug }}
-{% endraw %}
-COOKIE_MACRO_DIR := $(COOKIE_DIR)/.cookiecutter_includes
-RENDERED_COOKIE_DIR := /tmp/rendered
-RENDERED_VENV_DIR := $(RENDERED_COOKIE_DIR)/**/.venv
+{{ make_macros.settings.settings(
+	jekyll_enabled=cookiecutter.add_github_docs,
+	sphinx_enabled=cookiecutter.add_sphinx_docs) }}
 # --------------------------------------------------
 # 🐍 Python / Virtual Environment
 # --------------------------------------------------
@@ -143,7 +101,7 @@ DEPTRY := $(ACTIVATE) && deptry
 # --------------------------------------------------
 # 🛡️ Security Audit (pip-audit)
 # --------------------------------------------------
-PIPAUDIT :=	$(ACTIVATE) && pip-audit
+PIPAUDIT := $(ACTIVATE) && pip-audit
 # --------------------------------------------------
 # 🎨 Formatting (black)
 # --------------------------------------------------
@@ -172,7 +130,7 @@ MYPY := $(PYTHON) -m mypy
 # 🧪 Testing (pytest)
 # --------------------------------------------------
 PYTEST := $(PYTHON) -m pytest
-{{ makefile_macros.doc_commands_section(
+{{ make_macros.docs.doc_commands_section(
 	jekyll_enabled=cookiecutter.add_github_docs,
 	sphinx_enabled=cookiecutter.add_sphinx_docs) }}
 # --------------------------------------------------
@@ -229,13 +187,9 @@ TOML_FILE_LIST := 	( \
 		$(call get_files_by_extension,$(RENDERED_COOKIE_DIR),*.toml) \
 	)
 # --------------------------------------------------
-.PHONY: all list-folders venv install pre-commit-init security \
-	dependency-check black-formatter-check black-formatter-fix \
-	format-check format-fix ruff-lint-check ruff-lint-fix \
-	toml-lint-check yaml-lint-check jinja2-lint-check \
-	lint-check lint-fix spellcheck typecheck test {% if sphinx %}sphinx{% endif %} \
-	{% if github %}jekyll{% endif %} jekyll-serve build-docs run-docs bump-version-patch \
-	changelog clean help
+{{ make_macros.phony.phony(
+	jekyll_enabled=cookiecutter.add_github_docs,
+	sphinx_enabled=cookiecutter.add_sphinx_docs) }}
 # --------------------------------------------------
 # Default: run lint, typecheck, tests, and docs
 # --------------------------------------------------
@@ -394,7 +348,7 @@ test:
 	$(AT)echo "🧪 Running tests with pytest..."
 	$(AT)$(call run_ci_safe, $(PYTEST) $(TEST))
 	$(AT)echo "✅ Python tests complete!"
-{{ makefile_macros.doc_actions(
+{{ make_macros.docs.doc_actions(
 	jekyll_enabled=cookiecutter.add_github_docs,
 	sphinx_enabled=cookiecutter.add_sphinx_docs) }}
 # --------------------------------------------------
@@ -449,66 +403,10 @@ git-release:
 pre-commit: test security dependency-check format-fix lint-check spellcheck typecheck
 pre-release: clean install pre-commit build-docs changelog build
 release: git-release bump-version-patch
-# --------------------------------------------------
-# 🧹 Clean artifacts
-# --------------------------------------------------
-clean-docs:
-	$(AT)echo "🧹 Cleaning documentation artifacts..."
-{% if sphinx %}
-	$(AT)$(MAKE) -C $(SPHINX_DIR) clean
-{% endif %}
-{% if github %}
-	$(AT)$(MAKE) -C $(JEKYLL_DIR) clean
-{% endif %}
-	$(AT)echo "✅ Cleaned documentation artifacts..."
-
-clean-build:
-	$(AT)echo "🧹 Cleaning build artifacts..."
-	$(AT)rm -rf build dist *.egg-info
-	$(AT)find $(SRC_DIR) $(TESTS_DIR) -name "__pycache__" -type d -exec rm -rf {} +
-	$(AT)-[ -d "$(VENV_DIR)" ] && rm -r $(VENV_DIR)
-	$(AT)echo "🧹 Cleaned build artifacts."
-
-clean: clean-docs clean-build
-# --------------------------------------------------
-# Version
-# --------------------------------------------------
-version:
-	$(AT)echo "$(PROJECT_NAME)"
-	$(AT)echo "author: $(AUTHOR)"
-	$(AT)echo "version: $(VERSION)"
-# --------------------------------------------------
-# ❓ Help
-# --------------------------------------------------
-help:
-	$(AT)echo "📦 $(PROJECT_NAME) Makefile"
-	$(AT)echo ""
-	$(AT)echo "Usage:"
-	$(AT)echo "  make venv                   Create virtual environment"
-	$(AT)echo "  make install                Install dependencies"
-	$(AT)echo "  make black-formatter-check  Run Black formatter check"
-	$(AT)echo "  make black-formatter-fix    Run Black formatter"
-	$(AT)echo "  make format-check           Run all project formatter checks (black)"
-	$(AT)echo "  make format-fix             Run all project formatter autofixes (black)"
-	$(AT)echo "  make jinja2-lint-check      Run jinja-cmd linter"
-	$(AT)echo "  make ruff-lint-check        Run Ruff linter"
-	$(AT)echo "  make ruff-lint-fix          Auto-fix lint issues with python ruff"
-	$(AT)echo "  make yaml-lint-check        Run YAML linter"
-	$(AT)echo "  make lint-check             Run all project linters (ruff, yaml, & jinja2)"
-	$(AT)echo "  make lint-fix               Run all project linter autofixes (ruff)"
-	$(AT)echo "  make typecheck              Run Mypy type checking"
-	$(AT)echo "  make test                   Run Pytest suite"
-{% if sphinx %}
-	$(AT)echo "  make sphinx                 Generate Sphinx Documentation"
-{% endif %}
-	$(AT)echo "  make jekyll                 Generate Jekyll Documentation"
-{% if github %}
-	$(AT)echo "  make build-docs             Build Sphinx + Jekyll documentation"
-{% endif %}
-	$(AT)echo "  make run-docs               Serve Jekyll site locally"
-	$(AT)echo "  make clean                  Clean build artifacts"
-	$(AT)echo "  make version                Displays project information."
-	$(AT)echo "  make all                    Run lint, typecheck, test, and docs"
-	$(AT)echo "Options:"
-	$(AT)echo "  V=1             Enable verbose output (show all commands being executed)"
-	$(AT)echo "  make -s         Run completely silently (suppress make's own output AND command echo)"
+{{ make_macros.clean.clean(
+	jekyll_enabled=cookiecutter.add_github_docs,
+	sphinx_enabled=cookiecutter.add_sphinx_docs) }}
+{{ make_macros.version.version() }}
+{{ make_macros.help.help(
+	jekyll_enabled=cookiecutter.add_github_docs,
+	sphinx_enabled=cookiecutter.add_sphinx_docs) }}

@@ -48,8 +48,8 @@ jekyll-serve: docs
     Returns:
       String: A combined command string for both build-docs and run-docs".
   #}
-    {%- set sphinx_cmds = make_cmd_macros.sphinx_cmds() -%}
-    {%- set jekyll_cmds = make_cmd_macros.jekyll_cmds() -%}
+    {%- set sphinx_cmds = sphinx_cmds() -%}
+    {%- set jekyll_cmds = jekyll_cmds() -%}
 
     {%- set docs_body -%}
         {% if sphinx_enabled and jekyll_enabled %}

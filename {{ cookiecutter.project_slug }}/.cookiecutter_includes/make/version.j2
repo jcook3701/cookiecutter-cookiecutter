@@ -1,0 +1,9 @@
+{% macro version() -%}
+# --------------------------------------------------
+# Version
+# --------------------------------------------------
+version:
+	$(AT)echo "$(PROJECT_NAME)"
+	$(AT)echo "author: $(AUTHOR)"
+	$(AT)echo "version: $(VERSION)"
+{%- endmacro -%}
