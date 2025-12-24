@@ -52,3 +52,4 @@ Feat 001 (#1)
 - *(template)* Setup templates for gitignore. And prepared for makefile and pyproject files.
 - *(template)* Setup templates for gitignore. And prepared for makefile and pyproject files.
 - *(template)* Setup template fixes for pyproject.toml.
+- *(template)* Simplified templates and added functionality.
