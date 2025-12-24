@@ -83,9 +83,13 @@ SRC_DIR := $(HOOKS_DIR)
 TEST_DIR := $(PROJECT_ROOT)/tests
 TESTS_DIR := $(TEST_DIR)
 DOCS_DIR := $(PROJECT_ROOT)/docs
-SPHINX_DIR := $(DOCS_DIR)/sphinx
+{% if cookiecutter.add_github_docs %}
 JEKYLL_DIR := $(DOCS_DIR)/jekyll
+{% endif %}
+{% if cookiecutter.add_sphinx_docs %}
+SPHINX_DIR := $(DOCS_DIR)/sphinx
 JEKYLL_SPHINX_DIR := $(JEKYLL_DIR)/sphinx
+{% endif %}
 README_GEN_DIR := $(JEKYLL_DIR)/tmp_readme
 CHANGELOG_DIR := $(PROJECT_ROOT)/changelogs
 CHANGELOG_RELEASE_DIR := $(CHANGELOG_DIR)/releases
@@ -166,10 +170,14 @@ PYTEST := $(PYTHON) -m pytest
 # --------------------------------------------------
 # 📚 Documentation (Sphinx + Jekyll)
 # --------------------------------------------------
+{% if cookiecutter.add_sphinx_docs %}
 SPHINX := $(PYTHON) -m sphinx -b markdown
+{% endif %}
+{% if cookiecutter.add_github_docs %}
 JEKYLL_BUILD := bundle exec jekyll build --quiet
 JEKYLL_CLEAN := bundle exec jekyll clean
 JEKYLL_SERVE := bundle exec jekyll serve
+{% endif %}
 # --------------------------------------------------
 # 🔖 Version Bumping (bumpy-my-version)
 # --------------------------------------------------
@@ -392,11 +400,15 @@ test:
 # --------------------------------------------------
 # 📚 Documentation (Sphinx + Jekyll)
 # --------------------------------------------------
+{% if cookiecutter.add_sphinx_docs %}
 sphinx:
 	$(MAKE) -C $(SPHINX_DIR) all PUBLISHDIR=$(JEKYLL_SPHINX_DIR)
 
+{% endif %}
+{% if cookiecutter.add_github_docs %}
 jekyll:
 	$(MAKE) -C $(JEKYLL_DIR) all;
+{% endif %}
 
 jekyll-serve: docs
 	$(MAKE) -C $(JEKYLL_DIR) run;
@@ -460,8 +472,12 @@ release: git-release bump-version-patch
 # --------------------------------------------------
 clean-docs:
 	$(AT)echo "🧹 Cleaning documentation artifacts..."
-	$(AT)rm -rf $(SPHINX_DIR)/_build $(JEKYLL_SPHINX_DIR)
-	$(AT)$(call run_ci_safe, cd $(JEKYLL_DIR) && $(JEKYLL_CLEAN))
+{% if cookiecutter.add_sphinx_docs %}
+	$(AT)$(MAKE) -C $(SPHINX_DIR) clean
+{% endif %}
+{% if cookiecutter.add_github_docs %}
+	$(AT)$(MAKE) -C $(JEKYLL_DIR) clean
+{% endif %}
 	$(AT)echo "✅ Cleaned documentation artifacts..."
 
 clean-build:
@@ -500,9 +516,13 @@ help:
 	$(AT)echo "  make lint-fix               Run all project linter autofixes (ruff)"
 	$(AT)echo "  make typecheck              Run Mypy type checking"
 	$(AT)echo "  make test                   Run Pytest suite"
+{% if cookiecutter.add_sphinx_docs %}
 	$(AT)echo "  make sphinx                 Generate Sphinx Documentation"
+{% endif %}
 	$(AT)echo "  make jekyll                 Generate Jekyll Documentation"
+{% if cookiecutter.add_github_docs %}
 	$(AT)echo "  make build-docs             Build Sphinx + Jekyll documentation"
+{% endif %}
 	$(AT)echo "  make run-docs               Serve Jekyll site locally"
 	$(AT)echo "  make clean                  Clean build artifacts"
 	$(AT)echo "  make version                Displays project information."

@@ -37,6 +37,7 @@ Feat 001 (#1)
 - *(template)* Updates to template before pushing changes out to existing repos.
 - *(template)* Fixes for jinja2 templating.
 - *(build)* Ci/cd - lint-check, jekyll pages.
+- *(template)* Turned of sphinx docs for cookiecutter template projects.  Not really needed.
 
 ### 🚀 Added
 
