@@ -65,7 +65,7 @@ cc_or_std = $(if $(filter true,$(COOKIECUTTER_HOOKS)),$(1),$(2))
 # --------------------------------------------------
 # ⚙️ Build Settings
 # --------------------------------------------------
-PACKAGE_NAME := "{{ cookiecutter.__project_name }}"
+PROJECT_NAME := "{{ cookiecutter.__python.project_name }}"
 AUTHOR := "{{ cookiecutter.author }}"
 VERSION := {{ cookiecutter.version }}
 RELEASE := v$(VERSION)
@@ -73,7 +73,7 @@ RELEASE := v$(VERSION)
 # 🐙 Github Build Settings
 # --------------------------------------------------
 GITHUB_USER := "{{ cookiecutter.github_username }}"
-GITHUB_REPO := $(GITHUB_USER)/$(PACKAGE_NAME)
+GITHUB_REPO := $(GITHUB_USER)/$(PROJECT_NAME)
 # --------------------------------------------------
 # 📁 Build Directories
 # --------------------------------------------------
@@ -408,16 +408,16 @@ run-docs: jekyll-serve
 # --------------------------------------------------
 # TODO: Also create a git tag of current version.
 bump-version-patch:
-	$(AT)echo "🔖 Updating $(PACKAGE_NAME) version from $(VERSION)..."
+	$(AT)echo "🔖 Updating $(PROJECT_NAME) version from $(VERSION)..."
 	$(AT)$(BUMPVERSION) $(PATCH)
-	$(AT)echo "✅ $(PACKAGE_NAME) version update complete!"
+	$(AT)echo "✅ $(PROJECT_NAME) version update complete!"
 # --------------------------------------------------
 # 📜 Changelog generation (git-cliff)
 # --------------------------------------------------
 # Note: Run as part of pre-commit.  No manual run needed.
 changelog:
 	$(AT) echo $(GITCLIFF_CHANGELOG)
-	$(AT)echo "📜 $(PACKAGE_NAME) Changelog Generation..."
+	$(AT)echo "📜 $(PROJECT_NAME) Changelog Generation..."
 	$(AT)$(GITCLIFF_CHANGELOG)
 	$(AT)$(GITCLIFF_CHANGELOG_RELEASE)
 	$(AT)$(GIT) add $(CHANGELOG_FILE)
@@ -429,19 +429,19 @@ changelog:
 # Note: Run as part of project initialization.  No manual run needed.
 git-init: git-dependency-check
 	$(AT)if ! $(GIT_INIT_STATUS); then \
-		echo "🌱 $(GALAXY_PACKAGE_NAME) Git initialization! 🎉"; \
+		echo "🌱 $(PROJECT_NAME) Git initialization! 🎉"; \
 		$(GIT) init; \
 		$(GIT) add --all; \
 		$(GIT) commit -m "chore(init): Init commit. \
-			Project $(GALAXY_PACKAGE_NAME) template generation complete."; \
+			Project $(PROJECT_NAME) template generation complete."; \
 		echo "✅ Finished Git initialization!"; \
 	else \
-		echo "ℹ️ Git is already initialized for $(GALAXY_PACKAGE_NAME)."; \
+		echo "ℹ️ Git is already initialized for $(PROJECT_NAME)."; \
 	fi
 
 git-release:
 	$(AT)if $(GIT_INIT_STATUS); then \
-		echo "📦 $(PACKAGE_NAME) Release Tag - $(RELEASE)! 🎉"; \
+		echo "📦 $(PROJECT_NAME) Release Tag - $(RELEASE)! 🎉"; \
 		$(GIT) tag -a $(RELEASE) -m "Release $(RELEASE)"; \
 		$(GIT) push origin $(RELEASE); \
 		$(GITHUB) release create $(RELEASE) --generate-notes; \
@@ -476,14 +476,14 @@ clean: clean-docs clean-build
 # Version
 # --------------------------------------------------
 version:
-	$(AT)echo "$(PACKAGE_NAME)"
+	$(AT)echo "$(PROJECT_NAME)"
 	$(AT)echo "author: $(AUTHOR)"
 	$(AT)echo "version: $(VERSION)"
 # --------------------------------------------------
 # ❓ Help
 # --------------------------------------------------
 help:
-	$(AT)echo "📦 $(PACKAGE_NAME) Makefile"
+	$(AT)echo "📦 $(PROJECT_NAME) Makefile"
 	$(AT)echo ""
 	$(AT)echo "Usage:"
 	$(AT)echo "  make venv                   Create virtual environment"

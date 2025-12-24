@@ -1,9 +1,6 @@
 {
   "project_name": "cookiecutter-cookiecutter",
-  "__project_name": "{{ cookiecutter.project_name|lower|replace('_', '-')|replace(' ', '-') }}",
-  "project_slug": "{{ cookiecutter.__project_name }}",
-  "__py_package_name": "{{ cookiecutter.__project_name }}",
-  "__title": "{{ cookiecutter.project_name }}",
+  "project_slug": "{{ cookiecutter.project_name | slugify }}",
   "author": "Jared Cook",
   "email": "jcook3701+github@gmail.com",
   "version": "0.1.0",
@@ -19,13 +16,16 @@
     "3.11",
     "3.10"
   ],
-  "__python_target_version": "py{{ cookiecutter.python_version|replace('.', '') }}",
-  "_python_keywords": [
-    "python3",
-    "cookiecutter",
-    "template",
-    "automation"
-  ],
+  "__python": {
+    "project_name": "{{ cookiecutter.project_slug }}",
+    "target_version": "py{{ cookiecutter.python_version|replace('.', '') }}",
+    "keywords": [
+      "python3",
+      "cookiecutter",
+      "template",
+      "automation"
+    ]
+  },
   "ga_tracking": "G-C7PWLWSHB9",
   "github_username": "jcook3701",
   "twitter_username": "",

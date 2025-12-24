@@ -11,7 +11,7 @@ requires = ["setuptools>=80.0.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "{{ cookiecutter.__project_name }}"
+name = "{{ cookiecutter.__python.project_name }}"
 version = "{{ cookiecutter.version }}"
 description = "{{ cookiecutter.description }}"
 authors = [
@@ -24,7 +24,7 @@ requires-python = ">=3.11"
 dependencies = [
   "nutri-matic>=0.1",
 ]
-keywords = {{ cookiecutter._python_keywords | tojson }}
+keywords = {{ cookiecutter.__python.keywords | tojson }}
 classifiers = [
   "Programming Language :: Python :: 3",
   "Operating System :: OS Independent",
@@ -81,7 +81,7 @@ include = [
 # ====================================
 [tool.black]
 line-length = 88          # Maximum line length (default is 88)
-target-version = ["{{ cookiecutter.__python_target_version }}"] # Target Python version(s)
+target-version = ["{{ cookiecutter.__python.target_version }}"] # Target Python version(s)
 skip-string-normalization = false  # Whether to skip normalizing string quotes
 include = '\.pyi?$'       # Which files to include (regex)
 exclude = '''
@@ -147,7 +147,7 @@ exclude = [
 # ====================================
 [tool.ruff]
 # Target Python version
-target-version = "{{ cookiecutter.__python_target_version }}"
+target-version = "{{ cookiecutter.__python.target_version }}"
 # Directories to lint and format
 src = [
   "hooks",
@@ -202,7 +202,7 @@ ignore = [
 # ====================================
 [tool.ruff.lint.isort]
 combine-as-imports = true
-known-first-party = ["{{ cookiecutter.__project_name }}", "hooks"]
+known-first-party = ["{{ cookiecutter.project_slug }}", "hooks"]
 # ====================================
 # Formatter Configuration:
 # Ruff also formats YAML, TOML, and Markdown

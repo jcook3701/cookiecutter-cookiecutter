@@ -188,4 +188,7 @@ $ cargo install git-cliff
 
 For Sphinx-cookiecutter -> Need to move from cookiecutter.project_name to cookiecutter.project_slug
 1.
+
+# Maybe upgrade to python 3.12 in future: "pyproject>=1!0.1.2",
+
 --->
