@@ -1,6 +1,6 @@
 # black format
 ---
-name: Cookiecutter Template Black Format Check
+name: Cookiecutter Template Format Check
 
 on: [push, pull_request]
 
@@ -17,10 +17,10 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Install Black
+      - name: Install Formatting Tools
         run: |
           make install
 
-      - name: Format check
+      - name: Black Format Check
         run: |
           make black-formatter-check

@@ -28,15 +28,7 @@ def main() -> None:
         print("⚙️  Detected CI environment — skipping GitHub Docs generation.")
         return
     context = json.loads("""{{ cookiecutter | jsonify }}""")
-    print(f"Context: {context}")
-    # json_file = "cookiecutter.json"
-
-    # json_path = Path(__file__).absolute() / "cookiecutter.json"
-    # project_dir = Path.cwd()
-    # print(f"FileName: {json_path}")
-    # print(f"JSON File: {json_file}")
-    # Init Auto Variables
-    # release_date(json_path)
+    print(f"Pre-Gen-Project-Context: {context}")
 
 
 if __name__ == "__main__":

@@ -1,6 +1,12 @@
-# lint check (jinja2, ruff, toml, & yaml)
+{% import '.cookiecutter_includes/license_header.j2' as license_macros with context %}
+{{- license_macros.license_header(
+	cookiecutter.license,
+	cookiecutter.author,
+	cookiecutter.project_slug,
+	file_name='lint-check.yml',
+	comment_style='hash') -}}
 ---
-name: Cookiecutter Template Jinja2 Lint
+name: Cookiecutter Template Lint Check
 
 on: [push, pull_request]
 

@@ -169,7 +169,7 @@ MAJOR := major
 MINOR := minor
 PATCH := patch
 # --------------------------------------------------
-# 📜 Changelog generation (git-clif)
+# 📜 Changelog generation (git-cliff)
 # --------------------------------------------------
 GITCLIFF := git cliff
 GITCLIFF_CHANGELOG := $(GITCLIFF) --output $(CHANGELOG_FILE)

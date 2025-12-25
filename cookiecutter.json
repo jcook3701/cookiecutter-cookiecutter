@@ -53,7 +53,6 @@
     }
   },
   "_copy_without_render": [
-    ".github/workflows/*",
     "{{ '{{' }} cookiecutter.project_slug {{ '}}' }}/*",
     ".pre-commit-config.yaml",
     ".yamllint",
