@@ -194,7 +194,7 @@ TOML_FILE_LIST := 	( \
 	jekyll_enabled=cookiecutter.add_github_docs,
 	sphinx_enabled=cookiecutter.add_sphinx_docs) }}
 # --------------------------------------------------
-# Default: run lint, typecheck, tests, and docs
+# Default: run lint, typecheck, spellcheck, tests, & docs
 # --------------------------------------------------
 all: install lint-check typecheck spellcheck test build-docs
 # --------------------------------------------------

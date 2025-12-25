@@ -62,3 +62,4 @@ Feat 001 (#1)
 - *(build)* Template updates for auto generating the project makefile.  Getting this setup to eventually be pulled into sub-projects to use in sub-templates that also use Makefile for project building.
 - *(template)* Updated all template files to include GPL-V3 header.  Also updates for template to auto generate pytest cookiecutter bake depending on needs.
 - *(ci/cd)* Ci/cd is no longer blocked by the cookiecutter copy without render.  All files should now have header dependent on selected license.  Also updated spellchecker configuration to add a bunch of dictionaries and words that are being used throughout the project.
+- *(template)* Cliff, yamllint, pre-commit, and gitignore updates to include template license header.  Also fixes to .gitignore jinja2 template.

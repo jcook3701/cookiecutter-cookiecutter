@@ -70,7 +70,6 @@ dev = [
   "pytest-cov>=7.0",
   "ruff>=0.14.0",
   "tomllint>=0.3",
-  "typer>=0.20",
   "yamllint>=1.0",
 ]
 docs = [

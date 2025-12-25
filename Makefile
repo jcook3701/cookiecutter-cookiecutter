@@ -218,7 +218,7 @@ TOML_FILE_LIST := 	( \
 	jekyll jekyll-serve build-docs run-docs bump-version-patch \
 	changelog clean help
 # --------------------------------------------------
-# Default: run lint, typecheck, tests, and docs
+# Default: run lint, typecheck, spellcheck, tests, & docs
 # --------------------------------------------------
 all: install lint-check typecheck spellcheck test build-docs
 # --------------------------------------------------
