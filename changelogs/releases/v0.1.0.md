@@ -63,3 +63,4 @@ Feat 001 (#1)
 - *(template)* Updated all template files to include GPL-V3 header.  Also updates for template to auto generate pytest cookiecutter bake depending on needs.
 - *(ci/cd)* Ci/cd is no longer blocked by the cookiecutter copy without render.  All files should now have header dependent on selected license.  Also updated spellchecker configuration to add a bunch of dictionaries and words that are being used throughout the project.
 - *(template)* Cliff, yamllint, pre-commit, and gitignore updates to include template license header.  Also fixes to .gitignore jinja2 template.
+- *(template)* Update makefile template phony and help jinja2 cookiecutter generation.

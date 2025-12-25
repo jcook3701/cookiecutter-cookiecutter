@@ -352,10 +352,9 @@ typecheck:
 # --------------------------------------------------
 # 🧪 Testing (pytest)
 # --------------------------------------------------
-# NOTE: This is using TEST_DIR and not TESTS_DIR at the moment.
 test:
 	$(AT)echo "🧪 Running tests with pytest..."
-	$(AT)$(call run_ci_safe, $(PYTEST) $(TEST))
+	$(AT)$(call run_ci_safe, $(PYTEST))
 	$(AT)echo "✅ Python tests complete!"
 # --------------------------------------------------
 # 📚 Documentation (Sphinx + Jekyll)
