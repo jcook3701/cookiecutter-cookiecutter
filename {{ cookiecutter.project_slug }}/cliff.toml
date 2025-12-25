@@ -1,6 +1,11 @@
-# cliff.toml
+{% import '.cookiecutter_includes/license_header.j2' as license_macros with context %}
+{{- license_macros.license_header(
+  cookiecutter.license,
+  cookiecutter.author,
+  cookiecutter.project_slug,
+  file_name='cliff.toml',
+  comment_style='hash') }}
 # Git-Cliff config for hybrid changelog system
-
 [git]
 conventional_commits = true
 filter_unconventional = false
@@ -61,6 +66,7 @@ sort = "oldest"
 # Hides sections if they have no commits in that release
 filter_sections = true
 # Use a custom template to define the output format
+{%- raw %}
 template = """
 {% for section, commits in sections %}
 ## {{ section | striptags | trim }}
@@ -69,3 +75,4 @@ template = """
 {% endfor %}
 {% endfor %}
 """
+{% endraw %}

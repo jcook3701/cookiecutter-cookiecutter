@@ -61,3 +61,4 @@ Feat 001 (#1)
 - *(template)* Docs are now removed/added from makefile depending on user selection.
 - *(build)* Template updates for auto generating the project makefile.  Getting this setup to eventually be pulled into sub-projects to use in sub-templates that also use Makefile for project building.
 - *(template)* Updated all template files to include GPL-V3 header.  Also updates for template to auto generate pytest cookiecutter bake depending on needs.
+- *(ci/cd)* Ci/cd is no longer blocked by the cookiecutter copy without render.  All files should now have header dependent on selected license.  Also updated spellchecker configuration to add a bunch of dictionaries and words that are being used throughout the project.

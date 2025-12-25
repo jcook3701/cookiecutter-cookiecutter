@@ -47,9 +47,9 @@ __pycache__/
 dist/
 {%- endset -%}
 
-{%- set ansible_cookiecutter = python ~ ansible %}
+{%- set ansible_cookiecutter = ansible ~ '\n' ~ python -%}
 
-{% if template_type == "ansible" -%}
+{% if template_type == "ansible" %}
 {{ ansible_cookiecutter }}
 {% elif template_type in ["c", "c++", "c/cc", "c/c++"] %}
 # =========================================

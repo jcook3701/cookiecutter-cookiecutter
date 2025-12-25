@@ -1,4 +1,10 @@
-# ./pre-commit-config.yaml
+{% import '.cookiecutter_includes/license_header.j2' as license_macros with context %}
+{{- license_macros.license_header(
+  cookiecutter.license,
+  cookiecutter.author,
+  cookiecutter.project_slug,
+  file_name='pre-commit-config.yaml',
+  comment_style='hash') -}}
 ---
 default_install_hook_types:
   - pre-commit
@@ -13,12 +19,14 @@ repos:
         args: [--markdown-linebreak-ext=md, --markdown-linebreak-ext=mdx]
       - id: mixed-line-ending
         args: [--fix=lf]
+        {%- raw %}
       - id: check-yaml
         exclude: '{{ cookiecutter.project_slug }}/.*'
       - id: check-json
         exclude: '{{ cookiecutter.project_slug }}/.*'
       - id: check-toml
         exclude: '{{ cookiecutter.project_slug }}/.*'
+        {% endraw %}
       - id: detect-private-key
       - id: check-case-conflict
       - id: check-added-large-files
@@ -28,7 +36,9 @@ repos:
     rev: 25.11.0
     hooks:
       - id: black
+        {%- raw %}
         exclude: '{{ cookiecutter.project_slug }}/.*'
+        {% endraw %}
 
   - repo: local
     hooks:

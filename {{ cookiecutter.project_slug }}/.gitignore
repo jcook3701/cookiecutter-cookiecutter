@@ -1,14 +1,16 @@
-# .gitignore
-# =========================================
-# Project: {{ cookiecutter.project_name }}
-# =========================================
-
+{% import '.cookiecutter_includes/gitignore.j2' as gitignore_macros with context %}
+{% import '.cookiecutter_includes/license_header.j2' as license_macros with context %}
+{{- license_macros.license_header(
+  cookiecutter.license,
+  cookiecutter.author,
+  cookiecutter.project_slug,
+  file_name='.gitignore',
+  comment_style='hash') -}}
 # =========================================
 # text editor ignores #
 # =========================================
 .vscode/
-{%- import '.cookiecutter_includes/gitignore.j2' as gitignore_macros with context %}
-{{- gitignore_macros.gitignore(
+{{ gitignore_macros.gitignore(
     cookiecutter.template_type
 ) -}}
 # =========================================
