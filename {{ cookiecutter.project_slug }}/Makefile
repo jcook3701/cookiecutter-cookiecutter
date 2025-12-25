@@ -68,6 +68,7 @@ endef
 #   Usage:
 #     PROJECT_ROOT := $(call cc_or_std,$(COOKIECUTTER_RENDER_DIR),$(PWD))
 cc_or_std = $(if $(filter true,$(COOKIECUTTER_HOOKS)),$(1),$(2))
+{# Settings Section #}
 {{ make_macros.settings.settings(
 	jekyll_enabled=cookiecutter.add_github_docs,
 	sphinx_enabled=cookiecutter.add_sphinx_docs) }}
@@ -130,6 +131,7 @@ MYPY := $(PYTHON) -m mypy
 # 🧪 Testing (pytest)
 # --------------------------------------------------
 PYTEST := $(PYTHON) -m pytest
+{# Documentation Command Settings #}
 {{ make_macros.docs.doc_commands_section(
 	jekyll_enabled=cookiecutter.add_github_docs,
 	sphinx_enabled=cookiecutter.add_sphinx_docs) }}
@@ -187,6 +189,7 @@ TOML_FILE_LIST := 	( \
 		$(call get_files_by_extension,$(RENDERED_COOKIE_DIR),*.toml) \
 	)
 # --------------------------------------------------
+{# .PHONY Section #}
 {{ make_macros.phony.phony(
 	jekyll_enabled=cookiecutter.add_github_docs,
 	sphinx_enabled=cookiecutter.add_sphinx_docs) }}
@@ -348,6 +351,7 @@ test:
 	$(AT)echo "🧪 Running tests with pytest..."
 	$(AT)$(call run_ci_safe, $(PYTEST) $(TEST))
 	$(AT)echo "✅ Python tests complete!"
+{# Documentation Section #}
 {{ make_macros.docs.doc_actions(
 	jekyll_enabled=cookiecutter.add_github_docs,
 	sphinx_enabled=cookiecutter.add_sphinx_docs) }}
@@ -403,10 +407,13 @@ git-release:
 pre-commit: test security dependency-check format-fix lint-check spellcheck typecheck
 pre-release: clean install pre-commit build-docs changelog build
 release: git-release bump-version-patch
+{# Clean Section #}
 {{ make_macros.clean.clean(
 	jekyll_enabled=cookiecutter.add_github_docs,
 	sphinx_enabled=cookiecutter.add_sphinx_docs) }}
+{# Version Section #}
 {{ make_macros.version.version() }}
+{# Help Section #}
 {{ make_macros.help.help(
 	jekyll_enabled=cookiecutter.add_github_docs,
 	sphinx_enabled=cookiecutter.add_sphinx_docs) }}

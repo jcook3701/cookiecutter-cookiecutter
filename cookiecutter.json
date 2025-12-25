@@ -37,11 +37,10 @@
   ],
   "template_type": [
     "ansible",
+    "c/c++",
     "cookiecutter",
-    "github-docs",
     "python",
     "ros2",
-    "sphinx-docs",
     "typescript"
   ],
   "_hooks": {
