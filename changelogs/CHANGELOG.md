@@ -97,3 +97,4 @@ Feat 002 (#4)
 ### 🚀 Added
 
 - *(build)* Build appears to be working now.
+- *(template)* Added readme generation to jekyll component.

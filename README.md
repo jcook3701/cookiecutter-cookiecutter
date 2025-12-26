@@ -14,8 +14,8 @@ This project is used to maintain the build and ci/cd structure for the following
 [python-cookiecutter]()  
 -->
 
-![black-format](https://github.com/jcook3701/cookiecutter-cookiecutter/actions/workflows/black-format.yml/badge.svg)
 ![dependency-check](https://github.com/jcook3701/cookiecutter-cookiecutter/actions/workflows/dependency-check.yml/badge.svg)
+![format-check](https://github.com/jcook3701/cookiecutter-cookiecutter/actions/workflows/format-check.yml/badge.svg)
 ![lint-check](https://github.com/jcook3701/cookiecutter-cookiecutter/actions/workflows/lint-check.yml/badge.svg)
 ![security-audit](https://github.com/jcook3701/cookiecutter-cookiecutter/actions/workflows/security-audit.yml/badge.svg)
 ![spellcheck](https://github.com/jcook3701/cookiecutter-cookiecutter/actions/workflows/spellcheck.yml/badge.svg)
