@@ -55,10 +55,19 @@ define run_ci_safe =
 	fi \
 )
 endef
+# cc_or_std:
+#   Selects between Cookiecutter hook context and standard execution context.
+#
+#   If COOKIECUTTER_HOOKS=true, expands to the first argument (Cookiecutter render).
+#   Otherwise, expands to the second argument (normal project execution).
+#
+#   Usage:
+#     PROJECT_ROOT := $(call cc_or_std,$(COOKIECUTTER_RENDER_DIR),$(PWD))
+cc_or_std = $(if $(filter true,$(COOKIECUTTER_HOOKS)),$(1),$(2))
 # --------------------------------------------------
 # ⚙️ Build Settings
 # --------------------------------------------------
-PACKAGE_NAME := "cookiecutter-cookiecutter"
+PROJECT_NAME := "cookiecutter-cookiecutter"
 AUTHOR := "Jared Cook"
 VERSION := 0.1.0
 RELEASE := v$(VERSION)
@@ -66,11 +75,11 @@ RELEASE := v$(VERSION)
 # 🐙 Github Build Settings
 # --------------------------------------------------
 GITHUB_USER := "jcook3701"
-GITHUB_REPO := $(GITHUB_USER)/$(PACKAGE_NAME)
+GITHUB_REPO := $(GITHUB_USER)/$(PROJECT_NAME)
 # --------------------------------------------------
 # 📁 Build Directories
 # --------------------------------------------------
-PROJECT_ROOT := $(PWD)
+PROJECT_ROOT := $(call cc_or_std,$(CURDIR),$(PWD))
 HOOKS_DIR := $(PROJECT_ROOT)/hooks
 SRC_DIR := $(HOOKS_DIR)
 TEST_DIR := $(PROJECT_ROOT)/tests
@@ -169,7 +178,7 @@ MAJOR := major
 MINOR := minor
 PATCH := patch
 # --------------------------------------------------
-# 📜 Changelog generation (git-clif)
+# 📜 Changelog generation (git-cliff)
 # --------------------------------------------------
 GITCLIFF := git cliff
 GITCLIFF_CHANGELOG := $(GITCLIFF) --output $(CHANGELOG_FILE)
@@ -198,6 +207,7 @@ define get_files_by_extension
 		! -path "$(RENDERED_VENV_DIR)/*" \
 		! -path "*{{*" \
 		! -path "*}}*" \
+		! -name "__init__.j2" \
 		-print0
 endef
 
@@ -218,7 +228,7 @@ TOML_FILE_LIST := 	( \
 	jekyll jekyll-serve build-docs run-docs bump-version-patch \
 	changelog clean help
 # --------------------------------------------------
-# Default: run lint, typecheck, tests, and docs
+# Default: run lint, typecheck, spellcheck, tests, & docs
 # --------------------------------------------------
 all: install lint-check typecheck spellcheck test build-docs
 # --------------------------------------------------
@@ -291,6 +301,9 @@ render-cookiecutter:
 		--output-dir $(RENDERED_COOKIE_DIR) \
 		--overwrite-if-exists
 
+test-root:
+	$(AT)echo "$(PROJECT_ROOT)"
+
 jinja2-lint-check:
 	$(AT)echo "🔍 jinja2 lint..."
 	$(AT)jq '{cookiecutter: .}' cookiecutter.json > /tmp/_cc_wrapped.json
@@ -332,7 +345,7 @@ yaml-lint-check:
 	$(AT)$(YAMLLINT) $(RENDERED_COOKIE_DIR)
 	$(AT)echo "✅ Finished linting check of yaml files with yamllint!"
 
-lint-check: render-cookiecutter ruff-lint-check toml-lint-check yaml-lint-check
+lint-check: jinja2-lint-check render-cookiecutter ruff-lint-check toml-lint-check yaml-lint-check
 lint-fix: ruff-lint-fix
 # --------------------------------------------------
 # 🎓 Spellchecker (codespell)
@@ -352,10 +365,9 @@ typecheck:
 # --------------------------------------------------
 # 🧪 Testing (pytest)
 # --------------------------------------------------
-# NOTE: This is using TEST_DIR and not TESTS_DIR at the moment.
 test:
 	$(AT)echo "🧪 Running tests with pytest..."
-	$(AT)$(call run_ci_safe, $(PYTEST) $(TEST))
+	$(AT)$(call run_ci_safe, $(PYTEST))
 	$(AT)echo "✅ Python tests complete!"
 # --------------------------------------------------
 # 📚 Documentation (Sphinx + Jekyll)
@@ -376,15 +388,15 @@ run-docs: jekyll-serve
 # --------------------------------------------------
 # TODO: Also create a git tag of current version.
 bump-version-patch:
-	$(AT)echo "🔖 Updating $(PACKAGE_NAME) version from $(VERSION)..."
+	$(AT)echo "🔖 Updating $(PROJECT_NAME) version from $(VERSION)..."
 	$(AT)$(BUMPVERSION) $(PATCH)
-	$(AT)echo "✅ $(PACKAGE_NAME) version update complete!"
+	$(AT)echo "✅ $(PROJECT_NAME) version update complete!"
 # --------------------------------------------------
 # 📜 Changelog generation (git-cliff)
 # --------------------------------------------------
 # Note: Run as part of pre-commit.  No manual run needed.
 changelog:
-	$(AT)echo "📜 $(PACKAGE_NAME) Changelog Generation..."
+	$(AT)echo "📜 $(PROJECT_NAME) Changelog Generation..."
 	$(AT)$(GITCLIFF_CHANGELOG)
 	$(AT)$(GITCLIFF_CHANGELOG_RELEASE)
 	$(AT)$(GIT) add $(CHANGELOG_FILE)
@@ -394,7 +406,7 @@ changelog:
 # 🐙 Github Commands (git)
 # --------------------------------------------------
 git-release:
-	$(AT)echo "📦 $(PACKAGE_NAME) Release Tag - $(RELEASE)! 🎉"
+	$(AT)echo "📦 $(PROJECT_NAME) Release Tag - $(RELEASE)! 🎉"
 	$(AT)$(GIT) tag -a $(RELEASE) -m "Release $(RELEASE)"
 	$(AT)$(GIT) push origin $(RELEASE)
 	$(AT)$(GITHUB) release create $(RELEASE) --generate-notes
@@ -426,14 +438,14 @@ clean: clean-docs clean-build
 # Version
 # --------------------------------------------------
 version:
-	$(AT)echo "$(PACKAGE_NAME)"
+	$(AT)echo "$(PROJECT_NAME)"
 	$(AT)echo "author: $(AUTHOR)"
 	$(AT)echo "version: $(VERSION)"
 # --------------------------------------------------
 # ❓ Help
 # --------------------------------------------------
 help:
-	$(AT)echo "📦 $(PACKAGE_NAME) Makefile"
+	$(AT)echo "📦 $(PROJECT_NAME) Makefile"
 	$(AT)echo ""
 	$(AT)echo "Usage:"
 	$(AT)echo "  make venv                   Create virtual environment"
@@ -442,10 +454,10 @@ help:
 	$(AT)echo "  make black-formatter-fix    Run Black formatter"
 	$(AT)echo "  make format-check           Run all project formatter checks (black)"
 	$(AT)echo "  make format-fix             Run all project formatter autofixes (black)"
+	$(AT)echo "  make jinja2-lint-check      Run jinja-cmd linter"
 	$(AT)echo "  make ruff-lint-check        Run Ruff linter"
 	$(AT)echo "  make ruff-lint-fix          Auto-fix lint issues with python ruff"
 	$(AT)echo "  make yaml-lint-check        Run YAML linter"
-	$(AT)echo "  make jinja2-lint-check      Run jinja-cmd linter"
 	$(AT)echo "  make lint-check             Run all project linters (ruff, yaml, & jinja2)"
 	$(AT)echo "  make lint-fix               Run all project linter autofixes (ruff)"
 	$(AT)echo "  make typecheck              Run Mypy type checking"
@@ -455,6 +467,7 @@ help:
 	$(AT)echo "  make build-docs             Build Sphinx + Jekyll documentation"
 	$(AT)echo "  make run-docs               Serve Jekyll site locally"
 	$(AT)echo "  make clean                  Clean build artifacts"
+	$(AT)echo "  make version                Displays project information."
 	$(AT)echo "  make all                    Run lint, typecheck, test, and docs"
 	$(AT)echo "Options:"
 	$(AT)echo "  V=1             Enable verbose output (show all commands being executed)"

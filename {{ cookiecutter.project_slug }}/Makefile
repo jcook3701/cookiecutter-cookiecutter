@@ -1,10 +1,16 @@
 {% import '.cookiecutter_includes/license_header.j2' as license_macros with context %}
+{% import '.cookiecutter_includes/make/__init__.j2' as make_macros with context %}
+
 {{- license_macros.license_header(
 	cookiecutter.license,
 	cookiecutter.author,
 	cookiecutter.project_slug,
 	file_name='Makefile',
 	comment_style='hash') -}}
+
+{%- set sphinx = cookiecutter.add_sphinx_docs -%}
+{%- set github = cookiecutter.add_github_docs -%}
+
 # --------------------------------------------------
 # ⚙️ Environment Settings
 # --------------------------------------------------
@@ -62,46 +68,10 @@ endef
 #   Usage:
 #     PROJECT_ROOT := $(call cc_or_std,$(COOKIECUTTER_RENDER_DIR),$(PWD))
 cc_or_std = $(if $(filter true,$(COOKIECUTTER_HOOKS)),$(1),$(2))
-# --------------------------------------------------
-# ⚙️ Build Settings
-# --------------------------------------------------
-PACKAGE_NAME := "{{ cookiecutter.__project_name }}"
-AUTHOR := "{{ cookiecutter.author }}"
-VERSION := {{ cookiecutter.version }}
-RELEASE := v$(VERSION)
-# --------------------------------------------------
-# 🐙 Github Build Settings
-# --------------------------------------------------
-GITHUB_USER := "{{ cookiecutter.github_username }}"
-GITHUB_REPO := $(GITHUB_USER)/$(PACKAGE_NAME)
-# --------------------------------------------------
-# 📁 Build Directories
-# --------------------------------------------------
-PROJECT_ROOT := $(call cc_or_std,$(CURDIR),$(PWD))
-HOOKS_DIR := $(PROJECT_ROOT)/hooks
-SRC_DIR := $(HOOKS_DIR)
-TEST_DIR := $(PROJECT_ROOT)/tests
-TESTS_DIR := $(TEST_DIR)
-DOCS_DIR := $(PROJECT_ROOT)/docs
-SPHINX_DIR := $(DOCS_DIR)/sphinx
-JEKYLL_DIR := $(DOCS_DIR)/jekyll
-JEKYLL_SPHINX_DIR := $(JEKYLL_DIR)/sphinx
-README_GEN_DIR := $(JEKYLL_DIR)/tmp_readme
-CHANGELOG_DIR := $(PROJECT_ROOT)/changelogs
-CHANGELOG_RELEASE_DIR := $(CHANGELOG_DIR)/releases
-# --------------------------------------------------
-# 📄 Build Files
-# --------------------------------------------------
-README_FILE := $(PROJECT_ROOT)/README.md
-CHANGELOG_FILE := $(CHANGELOG_DIR)/CHANGELOG.md
-CHANGELOG_RELEASE_FILE := $(CHANGELOG_RELEASE_DIR)/$(RELEASE).md
-# --------------------------------------------------
-# 🍪 Template Directories (cookiecutter)
-# --------------------------------------------------
-COOKIE_DIR := $(PROJECT_ROOT)/{{ cookiecutter.project_slug }}
-COOKIE_MACRO_DIR := $(COOKIE_DIR)/.cookiecutter_includes
-RENDERED_COOKIE_DIR := /tmp/rendered
-RENDERED_VENV_DIR := $(RENDERED_COOKIE_DIR)/**/.venv
+{# Settings Section #}
+{{ make_macros.settings.settings(
+	jekyll_enabled=cookiecutter.add_github_docs,
+	sphinx_enabled=cookiecutter.add_sphinx_docs) }}
 # --------------------------------------------------
 # 🐍 Python / Virtual Environment
 # --------------------------------------------------
@@ -132,7 +102,7 @@ DEPTRY := $(ACTIVATE) && deptry
 # --------------------------------------------------
 # 🛡️ Security Audit (pip-audit)
 # --------------------------------------------------
-PIPAUDIT :=	$(ACTIVATE) && pip-audit
+PIPAUDIT := $(ACTIVATE) && pip-audit
 # --------------------------------------------------
 # 🎨 Formatting (black)
 # --------------------------------------------------
@@ -161,13 +131,10 @@ MYPY := $(PYTHON) -m mypy
 # 🧪 Testing (pytest)
 # --------------------------------------------------
 PYTEST := $(PYTHON) -m pytest
-# --------------------------------------------------
-# 📚 Documentation (Sphinx + Jekyll)
-# --------------------------------------------------
-SPHINX := $(PYTHON) -m sphinx -b markdown
-JEKYLL_BUILD := bundle exec jekyll build --quiet
-JEKYLL_CLEAN := bundle exec jekyll clean
-JEKYLL_SERVE := bundle exec jekyll serve
+{# Documentation Command Settings #}
+{{ make_macros.docs.doc_commands_section(
+	jekyll_enabled=cookiecutter.add_github_docs,
+	sphinx_enabled=cookiecutter.add_sphinx_docs) }}
 # --------------------------------------------------
 # 🔖 Version Bumping (bumpy-my-version)
 # --------------------------------------------------
@@ -200,7 +167,7 @@ NUTRIMATIC := $(PYTHON) -m nutrimatic
 # --------------------------------------------------
 # Functions
 # --------------------------------------------------
-{% raw %}
+{%- raw %}
 # Finds files of a given extension or "*" (all files) under a directory,
 # skipping VENV_DIR and template markers like {{ }}.
 define get_files_by_extension
@@ -222,15 +189,12 @@ TOML_FILE_LIST := 	( \
 		$(call get_files_by_extension,$(RENDERED_COOKIE_DIR),*.toml) \
 	)
 # --------------------------------------------------
-.PHONY: all list-folders venv install pre-commit-init security \
-	dependency-check black-formatter-check black-formatter-fix \
-	format-check format-fix ruff-lint-check ruff-lint-fix \
-	toml-lint-check yaml-lint-check jinja2-lint-check \
-	lint-check lint-fix spellcheck typecheck test sphinx \
-	jekyll jekyll-serve build-docs run-docs bump-version-patch \
-	changelog clean help
+{# .PHONY Section #}
+{{ make_macros.phony.phony(
+	jekyll_enabled=cookiecutter.add_github_docs,
+	sphinx_enabled=cookiecutter.add_sphinx_docs) }}
 # --------------------------------------------------
-# Default: run lint, typecheck, tests, and docs
+# Default: run lint, typecheck, spellcheck, tests, & docs
 # --------------------------------------------------
 all: install lint-check typecheck spellcheck test build-docs
 # --------------------------------------------------
@@ -280,7 +244,7 @@ pre-commit-init:
 # --------------------------------------------------
 project-upgrade:
 	$(AT)echo "🍪 Upgrading project from initial cookiecutter template..."
-	$(AT)$(PROJECT_UPGRADE) --context-file ./docs/cookiecutter_input.json --upgrade-branch main
+	$(AT)$(PROJECT_UPGRADE) --context-file ./docs/cookiecutter_input.json --upgrade-branch main -e $(COOKIE_DIR)
 	$(AT)echo "✅ Finished project upgrade!"
 # --------------------------------------------------
 # 🛡️ Security (pip-audit)
@@ -382,40 +346,28 @@ typecheck:
 # --------------------------------------------------
 # 🧪 Testing (pytest)
 # --------------------------------------------------
-# NOTE: This is using TEST_DIR and not TESTS_DIR at the moment.
 test:
 	$(AT)echo "🧪 Running tests with pytest..."
-	$(AT)$(call run_ci_safe, $(PYTEST) $(TEST))
+	$(AT)$(call run_ci_safe, $(PYTEST))
 	$(AT)echo "✅ Python tests complete!"
-# --------------------------------------------------
-# 📚 Documentation (Sphinx + Jekyll)
-# --------------------------------------------------
-sphinx:
-	$(MAKE) -C $(SPHINX_DIR) all PUBLISHDIR=$(JEKYLL_SPHINX_DIR)
-
-jekyll:
-	$(MAKE) -C $(JEKYLL_DIR) all;
-
-jekyll-serve: docs
-	$(MAKE) -C $(JEKYLL_DIR) run;
-
-build-docs: sphinx jekyll
-run-docs: jekyll-serve
+{# Documentation Section #}
+{{ make_macros.docs.doc_actions(
+	jekyll_enabled=cookiecutter.add_github_docs,
+	sphinx_enabled=cookiecutter.add_sphinx_docs) }}
 # --------------------------------------------------
 # 🔖 Version Bumping (bumpy-my-version)
 # --------------------------------------------------
 # TODO: Also create a git tag of current version.
 bump-version-patch:
-	$(AT)echo "🔖 Updating $(PACKAGE_NAME) version from $(VERSION)..."
+	$(AT)echo "🔖 Updating $(PROJECT_NAME) version from $(VERSION)..."
 	$(AT)$(BUMPVERSION) $(PATCH)
-	$(AT)echo "✅ $(PACKAGE_NAME) version update complete!"
+	$(AT)echo "✅ $(PROJECT_NAME) version update complete!"
 # --------------------------------------------------
 # 📜 Changelog generation (git-cliff)
 # --------------------------------------------------
 # Note: Run as part of pre-commit.  No manual run needed.
 changelog:
-	$(AT) echo $(GITCLIFF_CHANGELOG)
-	$(AT)echo "📜 $(PACKAGE_NAME) Changelog Generation..."
+	$(AT)echo "📜 $(PROJECT_NAME) Changelog Generation..."
 	$(AT)$(GITCLIFF_CHANGELOG)
 	$(AT)$(GITCLIFF_CHANGELOG_RELEASE)
 	$(AT)$(GIT) add $(CHANGELOG_FILE)
@@ -427,19 +379,19 @@ changelog:
 # Note: Run as part of project initialization.  No manual run needed.
 git-init: git-dependency-check
 	$(AT)if ! $(GIT_INIT_STATUS); then \
-		echo "🌱 $(GALAXY_PACKAGE_NAME) Git initialization! 🎉"; \
+		echo "🌱 $(PROJECT_NAME) Git initialization! 🎉"; \
 		$(GIT) init; \
 		$(GIT) add --all; \
 		$(GIT) commit -m "chore(init): Init commit. \
-			Project $(GALAXY_PACKAGE_NAME) template generation complete."; \
+			Project $(PROJECT_NAME) template generation complete."; \
 		echo "✅ Finished Git initialization!"; \
 	else \
-		echo "ℹ️ Git is already initialized for $(GALAXY_PACKAGE_NAME)."; \
+		echo "ℹ️ Git is already initialized for $(PROJECT_NAME)."; \
 	fi
 
 git-release:
 	$(AT)if $(GIT_INIT_STATUS); then \
-		echo "📦 $(PACKAGE_NAME) Release Tag - $(RELEASE)! 🎉"; \
+		echo "📦 $(PROJECT_NAME) Release Tag - $(RELEASE)! 🎉"; \
 		$(GIT) tag -a $(RELEASE) -m "Release $(RELEASE)"; \
 		$(GIT) push origin $(RELEASE); \
 		$(GITHUB) release create $(RELEASE) --generate-notes; \
@@ -453,57 +405,13 @@ git-release:
 pre-commit: test security dependency-check format-fix lint-check spellcheck typecheck
 pre-release: clean install pre-commit build-docs changelog build
 release: git-release bump-version-patch
-# --------------------------------------------------
-# 🧹 Clean artifacts
-# --------------------------------------------------
-clean-docs:
-	$(AT)echo "🧹 Cleaning documentation artifacts..."
-	$(AT)rm -rf $(SPHINX_DIR)/_build $(JEKYLL_SPHINX_DIR)
-	$(AT)$(call run_ci_safe, cd $(JEKYLL_DIR) && $(JEKYLL_CLEAN))
-	$(AT)echo "✅ Cleaned documentation artifacts..."
-
-clean-build:
-	$(AT)echo "🧹 Cleaning build artifacts..."
-	$(AT)rm -rf build dist *.egg-info
-	$(AT)find $(SRC_DIR) $(TESTS_DIR) -name "__pycache__" -type d -exec rm -rf {} +
-	$(AT)-[ -d "$(VENV_DIR)" ] && rm -r $(VENV_DIR)
-	$(AT)echo "🧹 Cleaned build artifacts."
-
-clean: clean-docs clean-build
-# --------------------------------------------------
-# Version
-# --------------------------------------------------
-version:
-	$(AT)echo "$(PACKAGE_NAME)"
-	$(AT)echo "author: $(AUTHOR)"
-	$(AT)echo "version: $(VERSION)"
-# --------------------------------------------------
-# ❓ Help
-# --------------------------------------------------
-help:
-	$(AT)echo "📦 $(PACKAGE_NAME) Makefile"
-	$(AT)echo ""
-	$(AT)echo "Usage:"
-	$(AT)echo "  make venv                   Create virtual environment"
-	$(AT)echo "  make install                Install dependencies"
-	$(AT)echo "  make black-formatter-check  Run Black formatter check"
-	$(AT)echo "  make black-formatter-fix    Run Black formatter"
-	$(AT)echo "  make format-check           Run all project formatter checks (black)"
-	$(AT)echo "  make format-fix             Run all project formatter autofixes (black)"
-	$(AT)echo "  make ruff-lint-check        Run Ruff linter"
-	$(AT)echo "  make ruff-lint-fix          Auto-fix lint issues with python ruff"
-	$(AT)echo "  make yaml-lint-check        Run YAML linter"
-	$(AT)echo "  make jinja2-lint-check      Run jinja-cmd linter"
-	$(AT)echo "  make lint-check             Run all project linters (ruff, yaml, & jinja2)"
-	$(AT)echo "  make lint-fix               Run all project linter autofixes (ruff)"
-	$(AT)echo "  make typecheck              Run Mypy type checking"
-	$(AT)echo "  make test                   Run Pytest suite"
-	$(AT)echo "  make sphinx                 Generate Sphinx Documentation"
-	$(AT)echo "  make jekyll                 Generate Jekyll Documentation"
-	$(AT)echo "  make build-docs             Build Sphinx + Jekyll documentation"
-	$(AT)echo "  make run-docs               Serve Jekyll site locally"
-	$(AT)echo "  make clean                  Clean build artifacts"
-	$(AT)echo "  make all                    Run lint, typecheck, test, and docs"
-	$(AT)echo "Options:"
-	$(AT)echo "  V=1             Enable verbose output (show all commands being executed)"
-	$(AT)echo "  make -s         Run completely silently (suppress make's own output AND command echo)"
+{# Clean Section #}
+{{ make_macros.clean.clean(
+	jekyll_enabled=cookiecutter.add_github_docs,
+	sphinx_enabled=cookiecutter.add_sphinx_docs) }}
+{# Version Section #}
+{{ make_macros.version.version() }}
+{# Help Section #}
+{{ make_macros.help.help(
+	jekyll_enabled=cookiecutter.add_github_docs,
+	sphinx_enabled=cookiecutter.add_sphinx_docs) }}

@@ -20,14 +20,6 @@ def main() -> None:
     context = json.loads("""{{ cookiecutter | jsonify }}""")
     {% endraw %}
     print(f"Context: {context}")
-    # json_file = "cookiecutter.json"
-
-    # json_path = Path(__file__).absolute() / "cookiecutter.json"
-    # project_dir = Path.cwd()
-    # print(f"FileName: {json_path}")
-    # print(f"JSON File: {json_file}")
-    # Init Auto Variables
-    # release_date(json_path)
 
 
 if __name__ == "__main__":

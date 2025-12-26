@@ -1,32 +1,18 @@
-# .gitignore
-# =========================================
-# Project: {{ cookiecutter.__project_name }}
-# =========================================
-
+{% import '.cookiecutter_includes/gitignore.j2' as gitignore_macros with context %}
+{% import '.cookiecutter_includes/license_header.j2' as license_macros with context %}
+{{- license_macros.license_header(
+  cookiecutter.license,
+  cookiecutter.author,
+  cookiecutter.project_slug,
+  file_name='.gitignore',
+  comment_style='hash') -}}
 # =========================================
 # text editor ignores #
 # =========================================
 .vscode/
-# =========================================
-# Python project ignores #
-# =========================================
-.venv/
-.pytest_cache/
-.mypy_cache/
-.ruff_cache/
-*.egg-info/
-__pycache__/
-dist/
-# =========================================
-# Ansible Galaxy Ignores #
-# =========================================
-ansible.cfg
-hosts
-inventory.yml
-**/vault.yml
-/group_vars
-/host_vars
-
+{{ gitignore_macros.gitignore(
+    cookiecutter.template_type
+) -}}
 # =========================================
 ## Default Ignores #
 # =========================================
