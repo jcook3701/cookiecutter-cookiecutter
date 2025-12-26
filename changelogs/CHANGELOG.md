@@ -40,6 +40,7 @@ Feat 001 (#1)
 - *(template)* Turned of sphinx docs for cookiecutter template projects.  Not really needed.
 - *(template)* Fixed gitignore jinja template.
 - *(template)* Forgot bracket in cookiecutter.json
+- *(build)* Fixed pytest within both main project and template.
 
 ### 🚀 Added
 
