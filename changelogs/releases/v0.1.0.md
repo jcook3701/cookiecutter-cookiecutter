@@ -29,39 +29,72 @@
 - Merge pull request #2 from jcook3701/develop
 
 Feat 001 (#1)
+- Feat 002 (#4)
 
-### 🐛 Fixed
+* feat(template): added sub template files to try and help ensure main cookiecutter directory is not set for deletion.
 
-- *(template)* Testing for project update.
-- *(template)* Removed items in the sub-template besides cookiecutter_input.json used by cookiecutter project upgrader.  Using exclude with the project upgrader command fixes everything.
-- *(template)* Updates to template before pushing changes out to existing repos.
-- *(template)* Fixes for jinja2 templating.
-- *(build)* Ci/cd - lint-check, jekyll pages.
-- *(template)* Turned of sphinx docs for cookiecutter template projects.  Not really needed.
-- *(template)* Fixed gitignore jinja template.
-- *(template)* Forgot bracket in cookiecutter.json
-- *(build)* Fixed pytest within both main project and template.
+* fix(template): testing for project update.
+
+* fix(template): removed items in the sub-template besides cookiecutter_input.json used by cookiecutter project upgrader.  Using exclude with the project upgrader command fixes everything.
+
+* fix(template): updates to template before pushing changes out to existing repos.
+
+* fix(template): fixes for jinja2 templating.
+
+* feat(template): setup templates for gitignore. And prepared for makefile and pyproject files.
+
+* feat(template): setup templates for gitignore. And prepared for makefile and pyproject files.
+
+* feat(template): setup templates for gitignore. And prepared for makefile and pyproject files.
+
+* feat(template): setup templates for gitignore. And prepared for makefile and pyproject files.
+
+* feat(template): setup templates for gitignore. And prepared for makefile and pyproject files.
+
+* feat(template): setup templates for gitignore. And prepared for makefile and pyproject files.
+
+* feat(template): setup templates for gitignore. And prepared for makefile and pyproject files.
+
+* feat(template): setup templates for gitignore. And prepared for makefile and pyproject files.
+
+* feat(template): setup templates for gitignore. And prepared for makefile and pyproject files.
+
+* feat(template): setup templates for gitignore. And prepared for makefile and pyproject files.
+
+* feat(template): setup template fixes for pyproject.toml.
+
+* feat(template): simplified templates and added functionality.
+
+* fix(build): ci/cd - lint-check, jekyll pages.
+
+* fix(template): turned of sphinx docs for cookiecutter template projects.  Not really needed.
+
+* feat(template): updated template makefile to add or remove document gen commands depending on cookiecutter settings.
+
+* feat(template): Docs are now removed/added from makefile depending on user selection.
+
+* feat(build): Template updates for auto generating the project makefile.  Getting this setup to eventually be pulled into sub-projects to use in sub-templates that also use Makefile for project building.
+
+* fix(template): fixed gitignore jinja template.
+
+* feat(template): Updated all template files to include GPL-V3 header.  Also updates for template to auto generate pytest cookiecutter bake depending on needs.
+
+* fix(template): forgot bracket in cookiecutter.json
+
+* feat(ci/cd): ci/cd is no longer blocked by the cookiecutter copy without render.  All files should now have header dependent on selected license.  Also updated spellchecker configuration to add a bunch of dictionaries and words that are being used throughout the project.
+
+* feat(template): cliff, yamllint, pre-commit, and gitignore updates to include template license header.  Also fixes to .gitignore jinja2 template.
+
+* feat(template): Update makefile template phony and help jinja2 cookiecutter generation.
+
+* fix(build): Fixed pytest within both main project and template.
+
+* fix(jinja2): lint check had to ignore __init__.j2 files.  Need to find a better fix for the future.
+- Merge pull request #5 from jcook3701/develop
+
+Feat 002 (#4)
 
 ### 🚀 Added
 
 - *(build)* Build appears to be working now.
-- *(template)* Added sub template files to try and help ensure main cookiecutter directory is not set for deletion.
-- *(template)* Setup templates for gitignore. And prepared for makefile and pyproject files.
-- *(template)* Setup templates for gitignore. And prepared for makefile and pyproject files.
-- *(template)* Setup templates for gitignore. And prepared for makefile and pyproject files.
-- *(template)* Setup templates for gitignore. And prepared for makefile and pyproject files.
-- *(template)* Setup templates for gitignore. And prepared for makefile and pyproject files.
-- *(template)* Setup templates for gitignore. And prepared for makefile and pyproject files.
-- *(template)* Setup templates for gitignore. And prepared for makefile and pyproject files.
-- *(template)* Setup templates for gitignore. And prepared for makefile and pyproject files.
-- *(template)* Setup templates for gitignore. And prepared for makefile and pyproject files.
-- *(template)* Setup templates for gitignore. And prepared for makefile and pyproject files.
-- *(template)* Setup template fixes for pyproject.toml.
-- *(template)* Simplified templates and added functionality.
-- *(template)* Updated template makefile to add or remove document gen commands depending on cookiecutter settings.
-- *(template)* Docs are now removed/added from makefile depending on user selection.
-- *(build)* Template updates for auto generating the project makefile.  Getting this setup to eventually be pulled into sub-projects to use in sub-templates that also use Makefile for project building.
-- *(template)* Updated all template files to include GPL-V3 header.  Also updates for template to auto generate pytest cookiecutter bake depending on needs.
-- *(ci/cd)* Ci/cd is no longer blocked by the cookiecutter copy without render.  All files should now have header dependent on selected license.  Also updated spellchecker configuration to add a bunch of dictionaries and words that are being used throughout the project.
-- *(template)* Cliff, yamllint, pre-commit, and gitignore updates to include template license header.  Also fixes to .gitignore jinja2 template.
-- *(template)* Update makefile template phony and help jinja2 cookiecutter generation.
+- *(template)* Added readme generation to jekyll component.

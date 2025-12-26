@@ -47,7 +47,7 @@
     {%- do targets.extend(python_targets) -%}
     {%- do targets.extend(ci_cd_targets) -%}
     {%- if sphinx_enabled %}{% do targets.append('sphinx') %}{% endif %}
-	{%- if jekyll_enabled %}{% do targets.extend(['jekyll', 'jekyll-serve', 'run-docs']) %}{% endif %}
+	{%- if jekyll_enabled %}{% do targets.extend(['jekyll', 'readme', 'jekyll-serve', 'run-docs']) %}{% endif %}
     {%- do targets.extend(release_targets) -%}
     {%- do targets.extend(internal_tool_targets) -%}
 

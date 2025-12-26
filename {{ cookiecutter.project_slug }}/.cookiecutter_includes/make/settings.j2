@@ -50,13 +50,17 @@ JEKYLL_DIR := $(DOCS_DIR)/jekyll
 SPHINX_DIR := $(DOCS_DIR)/sphinx
 JEKYLL_SPHINX_DIR := $(JEKYLL_DIR)/sphinx
 {% endif %}
+{% if jekyll_enabled %}
 README_GEN_DIR := $(JEKYLL_DIR)/tmp_readme
+{% endif %}
 CHANGELOG_DIR := $(PROJECT_ROOT)/changelogs
 CHANGELOG_RELEASE_DIR := $(CHANGELOG_DIR)/releases
 # --------------------------------------------------
 # 📄 Build Files
 # --------------------------------------------------
+{% if jekyll_enabled %}
 README_FILE := $(PROJECT_ROOT)/README.md
+{% endif %}
 CHANGELOG_FILE := $(CHANGELOG_DIR)/CHANGELOG.md
 CHANGELOG_RELEASE_FILE := $(CHANGELOG_RELEASE_DIR)/$(RELEASE).md
 # --------------------------------------------------

@@ -1,6 +1,6 @@
-# security-check
+# security-audit
 ---
-name: Cookiecutter Template Security Check
+name: Cookiecutter Template Security Audit
 
 on: [push, pull_request]
 

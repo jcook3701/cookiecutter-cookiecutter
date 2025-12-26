@@ -21,7 +21,7 @@
 {% macro sphinx_cmds() -%}
   {# formatted sphinx command string. #}
 sphinx:
-	$(MAKE) -C $(SPHINX_DIR) all PUBLISHDIR=$(JEKYLL_SPHINX_DIR)
+	$(ACTIVATE) && $(MAKE) -C $(SPHINX_DIR) all PUBLISHDIR=$(JEKYLL_SPHINX_DIR)
 {%- endmacro -%}
 
 
@@ -32,6 +32,10 @@ jekyll:
 
 jekyll-serve: docs
 	$(MAKE) -C $(JEKYLL_DIR) run;
+
+readme:
+	$(AT)$(NUTRIMATIC) build readme $(JEKYLL_DIR) $(README_FILE) \
+		--tmp-dir $(README_GEN_DIR) --jekyll-cmd '$(JEKYLL_BUILD)'
 {%- endmacro -%}
 
 
@@ -44,12 +48,12 @@ jekyll-serve: docs
       sphinx_enabled (bool): Whether Sphinx is being used.
 
     Returns:
-      String: A combined title like "Sphinx + Jekyll".
+      String: A combined title like "Sphinx + Jekyll + nutrimatic".
   #}
     {%- set title -%}
         {% if sphinx_enabled -%}Sphinx{%- endif -%}
         {% if sphinx_enabled and jekyll_enabled %} + {% endif -%}
-        {% if jekyll_enabled -%}Jekyll{%- endif -%}
+        {% if jekyll_enabled -%}Jekyll + nutrimatic{%- endif -%}
     {%- endset -%}
 # --------------------------------------------------
 # 📚 Documentation ({{ title }})
@@ -82,9 +86,12 @@ jekyll-serve: docs
 {{ jekyll_cmds }}
         {% endif %}
 
+# Note: Run as part of pre-commit.  No manual run needed.
 build-docs:
         {%- if sphinx_enabled %} sphinx {%- endif %}
-        {%- if jekyll_enabled %} jekyll
+        {%- if jekyll_enabled %} jekyll readme
+	$(AT)$(GIT) add $(DOCS_DIR)
+	$(AT)$(GIT) add $(README_FILE)
 
 run-docs: jekyll-serve
         {%- else -%}
