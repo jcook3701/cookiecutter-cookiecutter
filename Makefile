@@ -116,7 +116,7 @@ DEPS := .
 DEV_DEPS := .[dev]
 DEV_DOCS := .[docs]
 # --------------------------------------------------
-# 🐍 Python Commands
+# 🐍 Python Commands (venv, activate, pip)
 # --------------------------------------------------
 CREATE_VENV := $(PYTHON_CMD) -m venv $(VENV_DIR)
 ACTIVATE := source $(VENV_DIR)/bin/activate
