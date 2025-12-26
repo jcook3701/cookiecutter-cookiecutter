@@ -186,5 +186,46 @@ $ cargo install git-cliff
 
 ### Authors Hidden TODO's
 
+For Sphinx-cookiecutter -> Need to move from cookiecutter.project_name to cookiecutter.project_slug
 1.
+
+# Maybe upgrade to python 3.12 in future: "pyproject>=1!0.1.2",
+
+# TODO: Might add this to cookiecutter.json
+  "_settings": {
+    "changelog": {
+      "ansible": false,
+      "git_cliff": true
+    },
+    "extra": {
+      "cookiecutter_project_upgrader": true,
+      "deptry": true,
+      "pip-audit": true,
+      "pre-commit": true
+    },
+    "format": {
+      "black": true,
+      "ruff": false,
+      "prettier": false
+    },
+    "lint": {
+      "ansible": false,
+      "jinja2": true,
+      "ruff": true,
+      "toml": true,
+      "yaml": true
+    },
+    "spelling": {
+      "codespell": true,
+      "cspell": true
+    },
+    "typecheck": {
+      "mypy": true
+    },
+    "test": {
+      "pytest": true
+    }
+  },
+
+
 --->

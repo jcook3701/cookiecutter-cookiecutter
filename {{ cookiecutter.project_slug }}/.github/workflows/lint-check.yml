@@ -1,6 +1,12 @@
-# jinja2 lint
+{% import '.cookiecutter_includes/license_header.j2' as license_macros with context %}
+{{- license_macros.license_header(
+	cookiecutter.license,
+	cookiecutter.author,
+	cookiecutter.project_slug,
+	file_name='lint-check.yml',
+	comment_style='hash') -}}
 ---
-name: Cookiecutter Template Jinja2 Lint
+name: Cookiecutter Template Lint Check
 
 on: [push, pull_request]
 
@@ -17,10 +23,23 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Install Jinja2 CLI
+      - name: Install Linting Tools
         run: |
           make install
+
+      - name: Render Cookiecutter Template
+        run: |
+          make render-cookiecutter
 
       - name: Lint Jinja templates
         run: |
           make jinja2-lint-check
+      - name: Run Ruff Lint Check
+        run: |
+          make ruff-lint-check
+      - name: Run Toml Lint Check
+        run: |
+          make toml-lint-check
+      - name: Run YAML Lint Check
+        run: |
+          make yaml-lint-check

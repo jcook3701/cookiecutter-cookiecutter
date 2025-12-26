@@ -1,14 +1,20 @@
-# Sample workflow for building and deploying a Jekyll site to GitHub Pages
+{% import '.cookiecutter_includes/license_header.j2' as license_macros with context %}
+{{- license_macros.license_header(
+	cookiecutter.license,
+	cookiecutter.author,
+	cookiecutter.project_slug,
+	file_name='jekyll-gh-pages.yml',
+	comment_style='hash') -}}
 ---
 name: Deploy Jekyll with GitHub Pages dependencies preinstalled
 
 on:
-  # Runs on pushes targeting the default branch
   push:
-    branches: ["master"]
-  pull_request:
-    branches: ["master"]
-
+    branches:
+      - master
+      - main
+    paths:
+      - "docs/**"
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
@@ -40,7 +46,7 @@ jobs:
           destination: ./_site
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
-
+{% raw %}
   # Deployment job
   deploy:
     environment:
@@ -52,3 +58,4 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+{% endraw %}

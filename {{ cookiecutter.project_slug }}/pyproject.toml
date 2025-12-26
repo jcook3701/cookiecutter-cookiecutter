@@ -11,7 +11,7 @@ requires = ["setuptools>=80.0.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "{{ cookiecutter.__project_name }}"
+name = "{{ cookiecutter.__python.project_name }}"
 version = "{{ cookiecutter.version }}"
 description = "{{ cookiecutter.description }}"
 authors = [
@@ -24,10 +24,7 @@ requires-python = ">=3.11"
 dependencies = [
   "nutri-matic>=0.1",
 ]
-keywords = [
-  "cookiecutter",
-  "automation",
-]
+keywords = {{ cookiecutter.__python.keywords | tojson }}
 classifiers = [
   "Programming Language :: Python :: 3",
   "Operating System :: OS Independent",
@@ -38,7 +35,6 @@ Homepage = "https://github.com/jcook3701/{{ cookiecutter.project_slug }}"
 Repository = "https://github.com/jcook3701/{{ cookiecutter.project_slug }}"
 Documentation = "https://github.com/jcook3701/{{ cookiecutter.project_slug }}/docs/jekyll"
 
-# Maybe upgrade to python 3.12 in future: "pyproject>=1!0.1.2",
 [project.optional-dependencies]
 dev = [
   "bump-my-version>=1.2",
@@ -59,7 +55,6 @@ dev = [
   "pytest-cov>=7.0",
   "ruff>=0.14.0",
   "tomllint>=0.3",
-  "typer>=0.20",
   "yamllint>=1.0",
 ]
 docs = [
@@ -77,14 +72,14 @@ where = [
   "hooks",
 ]
 include = [
-  "hooks*",
+  "*",
 ]
 # ====================================
 # Black Configuration: (Formatting)
 # ====================================
 [tool.black]
 line-length = 88          # Maximum line length (default is 88)
-target-version = ["{{ cookiecutter.__python_target_version }}"] # Target Python version(s)
+target-version = ["{{ cookiecutter.__python.target_version }}"] # Target Python version(s)
 skip-string-normalization = false  # Whether to skip normalizing string quotes
 include = '\.pyi?$'       # Which files to include (regex)
 exclude = '''
@@ -150,14 +145,13 @@ exclude = [
 # ====================================
 [tool.ruff]
 # Target Python version
-target-version = "{{ cookiecutter.__python_target_version }}"
-{% raw %}
+target-version = "{{ cookiecutter.__python.target_version }}"
 # Directories to lint and format
 src = [
   "hooks",
   "tests",
-  "{{ cookiecutter.project_slug }}/tests",
 ]
+{% raw %}
 # Exclude these paths
 exclude = [
   ".venv",
@@ -168,10 +162,10 @@ exclude = [
   "*.egg-info",
   ".git",
   ".github",
-  "{{ cookiecutter.project_slug }}/pyproject.toml",
+  "*{{*cookiecutter.project_slug*}}*",
 ]
 {% endraw %}
-
+force-exclude = true
 # Maximum line length
 line-length = 120
 # ====================================
@@ -206,7 +200,10 @@ ignore = [
 # ====================================
 [tool.ruff.lint.isort]
 combine-as-imports = true
-known-first-party = ["{{ cookiecutter.__project_name }}"]
+known-first-party = [
+  "{{ cookiecutter.project_slug }}",
+  "hooks"
+]
 # ====================================
 # Formatter Configuration:
 # Ruff also formats YAML, TOML, and Markdown
@@ -234,7 +231,6 @@ ignore_missing_imports = true
 # ====================================
 # Pytest Configuration:
 # ====================================
-{% raw %}
 [tool.pytest.ini_options]
 minversion = "7.0"
 addopts = ["-v", "--maxfail=1", "-W always", "-rw", "--strict-markers"]
@@ -242,8 +238,5 @@ testpaths = [
   "tests",
 ]
 pythonpath = [
-  ".",
-  "{{ cookiecutter.project_slug }}",
   "hooks",
 ]
-{% endraw %}

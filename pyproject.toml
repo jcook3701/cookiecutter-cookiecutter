@@ -70,7 +70,6 @@ dev = [
   "pytest-cov>=7.0",
   "ruff>=0.14.0",
   "tomllint>=0.3",
-  "typer>=0.20",
   "yamllint>=1.0",
 ]
 docs = [
@@ -87,8 +86,29 @@ where = [
   "hooks",
 ]
 include = [
-  "hooks*",
+  "*",
 ]
+# ====================================
+# Black Configuration: (Formatting)
+# ====================================
+[tool.black]
+line-length = 88          # Maximum line length (default is 88)
+target-version = ["py311"] # Target Python version(s)
+skip-string-normalization = false  # Whether to skip normalizing string quotes
+include = '\.pyi?$'       # Which files to include (regex)
+exclude = '''
+/(
+    \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+)/
+'''
 # ====================================
 # Version Bumping (bump-my-version):
 # ====================================
@@ -144,7 +164,6 @@ target-version = "py311"
 src = [
   "hooks",
   "tests",
-  "{{ cookiecutter.project_slug }}/tests",
 ]
 # Exclude these paths
 exclude = [
@@ -156,8 +175,9 @@ exclude = [
   "*.egg-info",
   ".git",
   ".github",
-  "{{ cookiecutter.project_slug }}/pyproject.toml",
+  "*{{*cookiecutter.project_slug*}}*",
 ]
+force-exclude = true
 # Maximum line length
 line-length = 120
 # ====================================
@@ -192,7 +212,7 @@ ignore = [
 # ====================================
 [tool.ruff.lint.isort]
 combine-as-imports = true
-known-first-party = ["cookiecutter_cookiecutter"]
+known-first-party = ["cookiecutter_cookiecutter", "hooks"]
 # ====================================
 # Formatter Configuration:
 # Ruff also formats YAML, TOML, and Markdown
@@ -227,7 +247,5 @@ testpaths = [
   "tests",
 ]
 pythonpath = [
-  ".",
-  "{{ cookiecutter.project_slug }}",
   "hooks",
 ]
