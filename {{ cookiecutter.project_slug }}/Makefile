@@ -244,7 +244,7 @@ pre-commit-init:
 # --------------------------------------------------
 project-upgrade:
 	$(AT)echo "🍪 Upgrading project from initial cookiecutter template..."
-	$(AT)$(PROJECT_UPGRADE) --context-file ./docs/cookiecutter_input.json --upgrade-branch main -e $(COOKIE_DIR)
+	$(AT)$(PROJECT_UPGRADE) --context-file ./docs/cookiecutter_input.json --upgrade-branch main -e cookiecutter.json
 	$(AT)echo "✅ Finished project upgrade!"
 # --------------------------------------------------
 # 🛡️ Security (pip-audit)

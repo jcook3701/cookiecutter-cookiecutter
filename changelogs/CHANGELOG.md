@@ -93,8 +93,12 @@ Feat 001 (#1)
 - Merge pull request #5 from jcook3701/develop
 
 Feat 002 (#4)
+- Feat 003 (#6)
+
+* feat(template): Added readme generation to jekyll component.
+
+* fix(docs): Minor fix for format-check badge.
 
 ### 🚀 Added
 
 - *(build)* Build appears to be working now.
-- *(template)* Added readme generation to jekyll component.
