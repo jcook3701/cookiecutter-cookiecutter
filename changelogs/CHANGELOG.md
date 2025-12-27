@@ -98,6 +98,13 @@ Feat 002 (#4)
 * feat(template): Added readme generation to jekyll component.
 
 * fix(docs): Minor fix for format-check badge.
+- Merge pull request #8 from jcook3701/develop
+
+fix(build): Updates to template pre-commit to auto build docs on comm…
+
+### 🐛 Fixed
+
+- *(build)* Updates to template pre-commit to auto build docs on commit and fix to project upgrader command. (#7)
 
 ### 🚀 Added
 
