@@ -101,6 +101,9 @@ Feat 002 (#4)
 - Merge pull request #8 from jcook3701/develop
 
 fix(build): Updates to template pre-commit to auto build docs on comm…
+- Merge pull request #10 from jcook3701/develop
+
+feat-005 (#8)
 
 ### 🐛 Fixed
 
@@ -109,3 +112,4 @@ fix(build): Updates to template pre-commit to auto build docs on comm…
 ### 🚀 Added
 
 - *(build)* Build appears to be working now.
+- *(git)* Added git attributes file to hopefully ignore updating specific files after they have been created. (#9)
