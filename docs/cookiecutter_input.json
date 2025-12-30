@@ -10,7 +10,7 @@
         "project_name": "cookiecutter-cookiecutter",
         "target_version": "py311"
     },
-    "_checkout": "main",
+    "_checkout": "feat-010",
     "_copy_without_render": [
         "{{ '{{' }} cookiecutter.project_slug {{ '}}' }}/*",
         ".cookiecutter_includes/*",

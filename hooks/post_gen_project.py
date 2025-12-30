@@ -17,11 +17,13 @@
 # along with this program.  If not, see <www.gnu.org>.
 #
 
+
 import json
 import os
 
 from nutrimatic.core import make
-from nutrimatic.hooks.post_gen_logic import (    generate_docs_templates,
+from nutrimatic.hooks.post_gen_logic import (
+    generate_docs_templates,
     get_make_cmds,
 )
 
