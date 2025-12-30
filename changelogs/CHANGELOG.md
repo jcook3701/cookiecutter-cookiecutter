@@ -113,14 +113,19 @@ Develop
 - Merge pull request #14 from jcook3701/develop
 
 Feat 007 (#13)
+- Merge pull request #15 from jcook3701/feat-008
+
+Feat 008
 
 ### 🐛 Fixed
 
 - *(build)* Updates to template pre-commit to auto build docs on commit and fix to project upgrader command. (#7)
 - *(template)* Fixed git auto remove to ignore all readme files on merge.
+- *(changelogs)* Removed changelogs make command from running during post hook generation scripts.
 
 ### 🚀 Added
 
 - *(build)* Build appears to be working now.
 - *(git)* Added git attributes file to hopefully ignore updating specific files after they have been created. (#9)
 - *(fix)* General fixes for template to ensure proper upgrade functionality. (#13)
+- *(build)* Updates to project-upgrade make command.
