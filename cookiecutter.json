@@ -48,7 +48,7 @@
       "install": true,
       "git-init": true,
       "pre-commit-init": true,
-      "changelog": true,
+      "changelog": false,
       "build-docs": false
     }
   },

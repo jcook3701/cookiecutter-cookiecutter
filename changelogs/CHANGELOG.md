@@ -110,6 +110,9 @@ Feat-006
 - Merge pull request #12 from jcook3701/develop
 
 Develop
+- Merge pull request #14 from jcook3701/develop
+
+Feat 007 (#13)
 
 ### 🐛 Fixed
 
@@ -120,3 +123,4 @@ Develop
 
 - *(build)* Build appears to be working now.
 - *(git)* Added git attributes file to hopefully ignore updating specific files after they have been created. (#9)
+- *(fix)* General fixes for template to ensure proper upgrade functionality. (#13)
