@@ -116,6 +116,14 @@ Feat 007 (#13)
 - Merge pull request #15 from jcook3701/feat-008
 
 Feat 008
+- Feat 009 (#16)
+
+* feat(build): updates to project-upgrade make command.
+
+* fix(upgrade): Upgrade fix.
+- Merge pull request #17 from jcook3701/develop
+
+Feat 009 (#16)
 
 ### 🐛 Fixed
 
@@ -128,4 +136,3 @@ Feat 008
 - *(build)* Build appears to be working now.
 - *(git)* Added git attributes file to hopefully ignore updating specific files after they have been created. (#9)
 - *(fix)* General fixes for template to ensure proper upgrade functionality. (#13)
-- *(build)* Updates to project-upgrade make command.
