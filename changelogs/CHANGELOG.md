@@ -113,11 +113,15 @@ Develop
 - Merge pull request #14 from jcook3701/develop
 
 Feat 007 (#13)
+- Merge pull request #15 from jcook3701/feat-008
+
+Feat 008
 
 ### 🐛 Fixed
 
 - *(build)* Updates to template pre-commit to auto build docs on commit and fix to project upgrader command. (#7)
 - *(template)* Fixed git auto remove to ignore all readme files on merge.
+- *(changelogs)* Removed changelogs make command from running during post hook generation scripts.
 
 ### 🚀 Added
 
