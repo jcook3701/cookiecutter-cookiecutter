@@ -176,6 +176,7 @@ define get_files_by_extension
 		! -path "$(RENDERED_VENV_DIR)/*" \
 		! -path "*{{*" \
 		! -path "*}}*" \
+		! -name "__init__.j2" \
 		-print0
 endef
 {% endraw %}
