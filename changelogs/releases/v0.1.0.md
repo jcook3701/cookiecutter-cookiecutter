@@ -128,3 +128,4 @@ Feat 008
 - *(build)* Build appears to be working now.
 - *(git)* Added git attributes file to hopefully ignore updating specific files after they have been created. (#9)
 - *(fix)* General fixes for template to ensure proper upgrade functionality. (#13)
+- *(build)* Updates to project-upgrade make command.
