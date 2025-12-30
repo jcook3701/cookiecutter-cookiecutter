@@ -17,7 +17,6 @@
 # along with this program.  If not, see <www.gnu.org>.
 #
 
-
 import json
 import os
 
