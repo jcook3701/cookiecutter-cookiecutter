@@ -131,6 +131,7 @@ Feat 009 (#16)
 - *(template)* Fixed git auto remove to ignore all readme files on merge.
 - *(changelogs)* Removed changelogs make command from running during post hook generation scripts.
 - *(template)* Fix for template post generation hooks.
+- *(template)* Fixes for template post generation project.
 
 ### 🚀 Added
 

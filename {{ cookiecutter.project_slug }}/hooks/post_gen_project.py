@@ -5,7 +5,7 @@
 	cookiecutter.project_slug,
 	file_name='post_gen_project.py',
 	comment_style='hash') }}
-{% set template_type = cookiecutter.template_type %}
+{%- set template_type = cookiecutter.template_type %}
 
 import json
 import os
