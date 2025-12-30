@@ -49,7 +49,7 @@
     "project_name": "cookiecutter-cookiecutter",
     "project_slug": "cookiecutter-cookiecutter",
     "python_version": "3.11",
-    "template_type": "ansible",
+    "template_type": "cookiecutter",
     "theme": "pmarsceill/just-the-docs",
     "twitter_username": "",
     "version": "0.1.0"
