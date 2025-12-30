@@ -104,10 +104,17 @@ fix(build): Updates to template pre-commit to auto build docs on comm…
 - Merge pull request #10 from jcook3701/develop
 
 feat-005 (#8)
+- Merge pull request #11 from jcook3701/feat-006
+
+Feat-006
+- Merge pull request #12 from jcook3701/develop
+
+Develop
 
 ### 🐛 Fixed
 
 - *(build)* Updates to template pre-commit to auto build docs on commit and fix to project upgrader command. (#7)
+- *(template)* Fixed git auto remove to ignore all readme files on merge.
 
 ### 🚀 Added
 

@@ -111,6 +111,8 @@ commit = false
 filename = "Makefile"
 [[tool.bumpversion.files]]
 filename = "README.md"
+[[tool.bumpversion.files]]
+filename = "docs/cookiecutter_input.json"
 # ====================================
 # Codespell Configuration:
 # ====================================
