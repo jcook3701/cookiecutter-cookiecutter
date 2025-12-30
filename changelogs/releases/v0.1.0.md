@@ -130,6 +130,7 @@ Feat 009 (#16)
 - *(build)* Updates to template pre-commit to auto build docs on commit and fix to project upgrader command. (#7)
 - *(template)* Fixed git auto remove to ignore all readme files on merge.
 - *(changelogs)* Removed changelogs make command from running during post hook generation scripts.
+- *(template)* Fix for template post generation hooks.
 
 ### 🚀 Added
 

@@ -14,6 +14,8 @@ from nutrimatic.core import make
 from nutrimatic.hooks.post_gen_logic import (
     {% if template_type ==  "ansible" %}
     generate_ansible_dirs,
+    {% else %}
+    generate_cliff_changelog_dirs,
     {% endif %}
     generate_docs_templates,
     get_make_cmds,
@@ -33,8 +35,10 @@ def main() -> None:
     context = json.loads("""{{ cookiecutter | jsonify }}""")
     {% endraw %}
     generate_docs_templates(context)
-    {%- if template_type ==  "ansible" %}
+    {% if template_type ==  "ansible" %}
     generate_ansible_dirs()
+    {% else %}
+    generate_cliff_changelog_dirs()
     {% endif %}
 
     # Run make commands to get project seeded
