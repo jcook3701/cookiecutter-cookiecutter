@@ -1,6 +1,6 @@
-# Makefile for cookiecutter_cookiecutter
+# Makefile for cookiecutter-cookiecutter
 #
-# Copyright (c) 2025, Jared Cook
+# Copyright (c) 2026, Jared Cook
 # SPDX-License-Identifier: GPL-3.0-or-later
 #
 # This program is free software: you can redistribute it and/or modify
@@ -39,6 +39,15 @@ ifeq ($(GITHUB_ACTIONS),true)
 CI := 1
 else
 CI := 0
+endif
+# Detect if we are running inside Cookiecutter (pre/post) hooks.
+# Cookiecutter hooks are used to set the environment variable COOKIECUTTER_HOOKS=true.
+# We set CC=1 if running in Cookiecutter hooks, otherwise CC=0 for standard runs.
+COOKIECUTTER_RENDER_DIR := /tmp/rendered
+ifeq ($(COOKIECUTTER_HOOKS),true)
+CC := 1
+else
+CC := 0
 endif
 # --------------------------------------------------
 # 🏗️ CI/CD Functions
@@ -85,9 +94,7 @@ SRC_DIR := $(HOOKS_DIR)
 TEST_DIR := $(PROJECT_ROOT)/tests
 TESTS_DIR := $(TEST_DIR)
 DOCS_DIR := $(PROJECT_ROOT)/docs
-SPHINX_DIR := $(DOCS_DIR)/sphinx
 JEKYLL_DIR := $(DOCS_DIR)/jekyll
-JEKYLL_SPHINX_DIR := $(JEKYLL_DIR)/sphinx
 README_GEN_DIR := $(JEKYLL_DIR)/tmp_readme
 CHANGELOG_DIR := $(PROJECT_ROOT)/changelogs
 CHANGELOG_RELEASE_DIR := $(CHANGELOG_DIR)/releases
@@ -123,9 +130,10 @@ ACTIVATE := source $(VENV_DIR)/bin/activate
 PYTHON := $(ACTIVATE) && $(PYTHON_CMD)
 PIP := $(PYTHON) -m pip
 # --------------------------------------------------
-# 🍪 Render template (cookiecutter)
+# 🍪 Render template (cookiecutter, cookiecutter_project_upgrader)
 # --------------------------------------------------
 COOKIECUTTER := $(ACTIVATE) && cookiecutter
+PROJECT_UPGRADE := $(ACTIVATE) && cookiecutter_project_upgrader
 # --------------------------------------------------
 # 🧬 Dependency Management (deptry)
 # --------------------------------------------------
@@ -133,7 +141,7 @@ DEPTRY := $(ACTIVATE) && deptry
 # --------------------------------------------------
 # 🛡️ Security Audit (pip-audit)
 # --------------------------------------------------
-PIPAUDIT :=	$(ACTIVATE) && pip-audit
+PIPAUDIT := $(ACTIVATE) && pip-audit
 # --------------------------------------------------
 # 🎨 Formatting (black)
 # --------------------------------------------------
@@ -163,9 +171,8 @@ MYPY := $(PYTHON) -m mypy
 # --------------------------------------------------
 PYTEST := $(PYTHON) -m pytest
 # --------------------------------------------------
-# 📚 Documentation (Sphinx + Jekyll)
+# 📚 Documentation (Jekyll + nutrimatic)
 # --------------------------------------------------
-SPHINX := $(PYTHON) -m sphinx -b markdown
 JEKYLL_BUILD := bundle exec jekyll build --quiet
 JEKYLL_CLEAN := bundle exec jekyll clean
 JEKYLL_SERVE := bundle exec jekyll serve
@@ -188,6 +195,8 @@ GITCLIFF_CHANGELOG_RELEASE := $(GITCLIFF) --unreleased --tag $(RELEASE) --output
 # --------------------------------------------------
 GIT := git
 GITHUB := gh
+# Commands:
+GIT_INIT_STATUS := git rev-parse --is-inside-work-tree > /dev/null 2>&1
 # --------------------------------------------------
 # 🚨 Pre-Commit (pre-commit)
 # --------------------------------------------------
@@ -220,13 +229,17 @@ TOML_FILE_LIST := 	( \
 		$(call get_files_by_extension,$(RENDERED_COOKIE_DIR),*.toml) \
 	)
 # --------------------------------------------------
-.PHONY: all list-folders venv install pre-commit-init security \
-	dependency-check black-formatter-check black-formatter-fix \
-	format-check format-fix ruff-lint-check ruff-lint-fix \
-	toml-lint-check yaml-lint-check jinja2-lint-check \
-	lint-check lint-fix spellcheck typecheck test sphinx \
-	jekyll jekyll-serve build-docs run-docs bump-version-patch \
-	changelog clean help
+.PHONY: \
+	all list-folders venv install \
+	pre-commit-init security dependency-check black-formatter-check \
+	black-formatter-fix render-cookiecutter jinja2-lint-check ruff-lint-check \
+	ruff-lint-fix toml-lint-check yaml-lint-check format-check \
+	format-fix lint-check lint-fix spellcheck \
+	typecheck test jekyll readme \
+	jekyll-serve run-docs build-docs bump-version-patch \
+	changelog git-release pre-commit pre-release \
+	release clean-docs clean-build clean \
+	version help
 # --------------------------------------------------
 # Default: run lint, typecheck, spellcheck, tests, & docs
 # --------------------------------------------------
@@ -238,6 +251,16 @@ list-folders:
 	$(AT)printf "\
 	🐍 src: $(SRC_DIR)\n\
 	🧪 Test: $(TESTS_DIR)\n"
+# --------------------------------------------------
+# Dependency Checks
+# --------------------------------------------------
+git-dependency-check:
+	$(AT)which $(GIT) >/dev/null || \
+		{ echo "Git is required: sudo apt install git"; exit 1; }
+
+gh-dependency-check:
+	$(AT)which $(GITHUB) >/dev/null || \
+		{ echo "GitHub is required: sudo apt install gh"; exit 1; }
 # --------------------------------------------------
 # 🐍 Virtual Environment Setup
 # --------------------------------------------------
@@ -256,12 +279,23 @@ install: venv
 # --------------------------------------------------
 # 🚨 Pre-Commit (pre-commit)
 # --------------------------------------------------
+# Note: Run as part of project initialization.  No manual run needed.
 pre-commit-init:
 	$(AT)echo "📦 Installing pre-commit hooks and hook-types..."
 	$(AT)which $(GIT) >/dev/null || { echo "Git is required"; exit 1; }
 	$(AT)$(PRECOMMIT) install --install-hooks
 	$(AT)$(PRECOMMIT) install --hook-type pre-commit --hook-type commit-msg
 	$(AT)echo "✅ pre-commit dependencies installed!"
+# --------------------------------------------------
+# 🍪 Project Updater (cookiecutter_project_upgrader)
+# --------------------------------------------------
+project-upgrade:
+	$(AT)echo "🍪 Upgrading project from initial cookiecutter template..."
+	$(AT)$(PROJECT_UPGRADE) --context-file ./docs/cookiecutter_input.json \
+		--upgrade-branch main \
+		-e "cookiecutter.json" \
+		-e "$(COOKIE_DIR)"
+	$(AT)echo "✅ Finished project upgrade!"
 # --------------------------------------------------
 # 🛡️ Security (pip-audit)
 # --------------------------------------------------
@@ -370,18 +404,23 @@ test:
 	$(AT)$(call run_ci_safe, $(PYTEST))
 	$(AT)echo "✅ Python tests complete!"
 # --------------------------------------------------
-# 📚 Documentation (Sphinx + Jekyll)
+# 📚 Documentation (Jekyll + nutrimatic)
 # --------------------------------------------------
-sphinx:
-	$(MAKE) -C $(SPHINX_DIR) all PUBLISHDIR=$(JEKYLL_SPHINX_DIR)
-
 jekyll:
 	$(MAKE) -C $(JEKYLL_DIR) all;
 
 jekyll-serve: docs
 	$(MAKE) -C $(JEKYLL_DIR) run;
 
-build-docs: sphinx jekyll
+readme:
+	$(AT)$(NUTRIMATIC) build readme $(JEKYLL_DIR) $(README_FILE) \
+		--tmp-dir $(README_GEN_DIR) --jekyll-cmd '$(JEKYLL_BUILD)'
+
+# Note: Run as part of pre-commit.  No manual run needed.
+build-docs: jekyll readme
+	$(AT)$(GIT) add $(DOCS_DIR)
+	$(AT)$(GIT) add $(README_FILE)
+
 run-docs: jekyll-serve
 # --------------------------------------------------
 # 🔖 Version Bumping (bumpy-my-version)
@@ -405,12 +444,29 @@ changelog:
 # --------------------------------------------------
 # 🐙 Github Commands (git)
 # --------------------------------------------------
+# Note: Run as part of project initialization.  No manual run needed.
+git-init: git-dependency-check
+	$(AT)if ! $(GIT_INIT_STATUS); then \
+		echo "🌱 $(PROJECT_NAME) Git initialization! 🎉"; \
+		$(GIT) init; \
+		$(GIT) add --all; \
+		$(GIT) commit -m "chore(init): Init commit. \
+			Project $(PROJECT_NAME) template generation complete."; \
+		echo "✅ Finished Git initialization!"; \
+	else \
+		echo "ℹ️ Git is already initialized for $(PROJECT_NAME)."; \
+	fi
+
 git-release:
-	$(AT)echo "📦 $(PROJECT_NAME) Release Tag - $(RELEASE)! 🎉"
-	$(AT)$(GIT) tag -a $(RELEASE) -m "Release $(RELEASE)"
-	$(AT)$(GIT) push origin $(RELEASE)
-	$(AT)$(GITHUB) release create $(RELEASE) --generate-notes
-	$(AT)echo "✅ Finished uploading Release - $(RELEASE)! 🎉"
+	$(AT)if $(GIT_INIT_STATUS); then \
+		echo "📦 $(PROJECT_NAME) Release Tag - $(RELEASE)! 🎉"; \
+		$(GIT) tag -a $(RELEASE) -m "Release $(RELEASE)"; \
+		$(GIT) push origin $(RELEASE); \
+		$(GITHUB) release create $(RELEASE) --generate-notes; \
+	echo "✅ Finished uploading Release - $(RELEASE)! 🎉"; \
+	else \
+		echo "❌ Git is not yet initialized.  Skipping version release." \
+	fi
 # --------------------------------------------------
 # 📢 Release
 # --------------------------------------------------
@@ -422,8 +478,7 @@ release: git-release bump-version-patch
 # --------------------------------------------------
 clean-docs:
 	$(AT)echo "🧹 Cleaning documentation artifacts..."
-	$(AT)rm -rf $(SPHINX_DIR)/_build $(JEKYLL_SPHINX_DIR)
-	$(AT)$(call run_ci_safe, cd $(JEKYLL_DIR) && $(JEKYLL_CLEAN))
+	$(AT)$(MAKE) -C $(JEKYLL_DIR) clean
 	$(AT)echo "✅ Cleaned documentation artifacts..."
 
 clean-build:
@@ -448,23 +503,26 @@ help:
 	$(AT)echo "📦 $(PROJECT_NAME) Makefile"
 	$(AT)echo ""
 	$(AT)echo "Usage:"
-	$(AT)echo "  make venv                   Create virtual environment"
-	$(AT)echo "  make install                Install dependencies"
-	$(AT)echo "  make black-formatter-check  Run Black formatter check"
-	$(AT)echo "  make black-formatter-fix    Run Black formatter"
+	$(AT)echo "  make venv                   Create python virtual environment (venv)"
+	$(AT)echo "  make install                Install python project dependencies (pip)"
+	$(AT)echo "  make security               Security audit (pip-audit)"
+	$(AT)echo "  make dependency-check       dependency check (deptry)"
+	$(AT)echo "  make black-formatter-check  Run Black python formatter check (black)"
+	$(AT)echo "  make black-formatter-fix    Run Black python formatter (black)"
 	$(AT)echo "  make format-check           Run all project formatter checks (black)"
 	$(AT)echo "  make format-fix             Run all project formatter autofixes (black)"
-	$(AT)echo "  make jinja2-lint-check      Run jinja-cmd linter"
-	$(AT)echo "  make ruff-lint-check        Run Ruff linter"
-	$(AT)echo "  make ruff-lint-fix          Auto-fix lint issues with python ruff"
-	$(AT)echo "  make yaml-lint-check        Run YAML linter"
-	$(AT)echo "  make lint-check             Run all project linters (ruff, yaml, & jinja2)"
+	$(AT)echo "  make jinja2-lint-check      Run jinja linter (jinja-cmd)"
+	$(AT)echo "  make ruff-lint-check        Run Ruff linter (ruff)"
+	$(AT)echo "  make ruff-lint-fix          Auto-fix python lint issues (ruff)"
+	$(AT)echo "  make toml-lint-check        Run TOML linter (tomllint)"
+	$(AT)echo "  make yaml-lint-check        Run YAML linter (yamllint)"
+	$(AT)echo "  make lint-check             Run all project linters (jinja2, ruff, toml, & yaml)"
 	$(AT)echo "  make lint-fix               Run all project linter autofixes (ruff)"
-	$(AT)echo "  make typecheck              Run Mypy type checking"
-	$(AT)echo "  make test                   Run Pytest suite"
-	$(AT)echo "  make sphinx                 Generate Sphinx Documentation"
+	$(AT)echo "  make spellcheck             Run spellcheck (codespell)"
+	$(AT)echo "  make typecheck              Run type checking (mypy)"
+	$(AT)echo "  make test                   Run test suite (pytest)"
 	$(AT)echo "  make jekyll                 Generate Jekyll Documentation"
-	$(AT)echo "  make build-docs             Build Sphinx + Jekyll documentation"
+	$(AT)echo "  make build-docs             Build all project documentation"
 	$(AT)echo "  make run-docs               Serve Jekyll site locally"
 	$(AT)echo "  make clean                  Clean build artifacts"
 	$(AT)echo "  make version                Displays project information."
