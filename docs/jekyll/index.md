@@ -2,7 +2,7 @@
 layout: default
 title: cookiecutter-cookiecutter
 nav_order: 1
-description: Typescript cookiecutter project.
+description: Cookiecutter cookiecutter template project to rule them all. Generates cookiecutter template projects and is able to be queried by generated projects for updates.
 ---
 
 
