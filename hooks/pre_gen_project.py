@@ -1,4 +1,4 @@
-# pre_gen_project.py for cookiecutter_cookiecutter
+# pre_gen_project.py for cookiecutter-cookiecutter
 #
 # Copyright (c) 2025, Jared Cook
 # SPDX-License-Identifier: GPL-3.0-or-later
@@ -17,6 +17,7 @@
 # along with this program.  If not, see <www.gnu.org>.
 #
 
+
 import json
 import os
 
@@ -28,7 +29,7 @@ def main() -> None:
         print("⚙️  Detected CI environment — skipping GitHub Docs generation.")
         return
     context = json.loads("""{{ cookiecutter | jsonify }}""")
-    print(f"Pre-Gen-Project-Context: {context}")
+    print(f"Context: {context}")
 
 
 if __name__ == "__main__":

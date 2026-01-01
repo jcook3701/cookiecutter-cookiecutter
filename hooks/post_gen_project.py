@@ -1,4 +1,4 @@
-# post_gen_project.py for cookiecutter_cookiecutter
+# post_gen_project.py for cookiecutter-cookiecutter
 #
 # Copyright (c) 2025, Jared Cook
 # SPDX-License-Identifier: GPL-3.0-or-later
@@ -38,14 +38,14 @@ def main() -> None:
 
     # Access cookiecutter context safely
     context = json.loads("""{{ cookiecutter | jsonify }}""")
-
     generate_docs_templates(context)
     generate_cliff_changelog_dirs()
 
+    # Run make commands to get project seeded
     make_cmds: list[str] = get_make_cmds(context)
 
     for cmd in make_cmds:
-        make(cmd, verbose=True)
+        make(cmd)
 
 
 if __name__ == "__main__":

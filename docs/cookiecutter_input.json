@@ -33,7 +33,7 @@
         "lstrip_blocks": true,
         "trim_blocks": true
     },
-    "_output_dir": "/home/jcook/Documents/build/tmp/cookiecutter/cookies/test-env",
+    "_output_dir": "/home/jcook/Documents/git_repo/cookiecutter-cookiecutter/.git/cookiecutter",
     "_repo_dir": "/home/jcook/.cookiecutters/cookiecutter-cookiecutter",
     "_template": "git@github.com:jcook3701/cookiecutter-cookiecutter.git",
     "add_github_docs": true,
