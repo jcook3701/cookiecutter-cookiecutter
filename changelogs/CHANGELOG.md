@@ -124,14 +124,34 @@ Feat 008
 - Merge pull request #17 from jcook3701/develop
 
 Feat 009 (#16)
+- Feat 010 (#18)
+
+* fix(template): fix for template post generation hooks.
+
+* fix(template): fixes for template post generation project.
+
+* fix(template): fixes for template post generation project.
+- Merge pull request #19 from jcook3701/develop
+
+Feat 010 (#18)
+- Update template
+- Update template
+- Update template
+- Update template
+- Update template
+- Update template
+- Update template
+- Merge branch 'cookiecutter-template' into feat-011
+- Update template
+- Merge branch 'cookiecutter-template' into feat-011
+- *(readme)* Pushing readme changes.
 
 ### 🐛 Fixed
 
 - *(build)* Updates to template pre-commit to auto build docs on commit and fix to project upgrader command. (#7)
 - *(template)* Fixed git auto remove to ignore all readme files on merge.
 - *(changelogs)* Removed changelogs make command from running during post hook generation scripts.
-- *(template)* Fix for template post generation hooks.
-- *(template)* Fixes for template post generation project.
+- *(upgrade)* Fix for upgrade variables.
 
 ### 🚀 Added
 
