@@ -144,6 +144,7 @@ Feat 010 (#18)
 - Merge branch 'cookiecutter-template' into feat-011
 - Update template
 - Merge branch 'cookiecutter-template' into feat-011
+- *(readme)* Pushing readme changes.
 
 ### 🐛 Fixed
 
