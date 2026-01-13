@@ -5,6 +5,7 @@
     "words": [
         "bumpversion",
         "cli",
+        "cla",
         "codespell",
         "cookiecutter",
         "cookiecutter_project_upgrader",
