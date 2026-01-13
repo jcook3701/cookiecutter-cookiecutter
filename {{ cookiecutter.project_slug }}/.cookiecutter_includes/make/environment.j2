@@ -1,0 +1,80 @@
+{#
+# make/environment.j2 for cookiecutter-cookiecutter
+#
+# Copyright (c) 2025, Jared Cook
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <www.gnu.org>.
+#}
+
+
+{% macro settings() -%}
+# --------------------------------------------------
+# ⚙️ Environment Settings
+# --------------------------------------------------
+SHELL := /bin/bash
+.SHELLFLAGS := -O globstar -c
+# If V is set to '1' or 'y' on the command line,
+# AT will be empty (verbose).  Otherwise, AT will
+# contain '@' (quiet by default).  The '?' is a
+# conditional assignment operator: it only sets V
+# if it hasn't been set externally.
+V ?= 0
+ifeq ($(V),0)
+    AT = @
+else
+    AT =
+endif
+# Detect if we are running inside GitHub Actions CI.
+# GitHub sets the environment variable GITHUB_ACTIONS=true in workflows.
+# We set CI=1 if running in GitHub Actions, otherwise CI=0 for local runs.
+ifeq ($(GITHUB_ACTIONS),true)
+CI := 1
+else
+CI := 0
+endif
+# Detect if we are running inside Cookiecutter (pre/post) hooks.
+# Cookiecutter hooks are used to set the environment variable COOKIECUTTER_HOOKS=true.
+# We set CC=1 if running in Cookiecutter hooks, otherwise CC=0 for standard runs.
+COOKIECUTTER_RENDER_DIR := /tmp/rendered
+ifeq ($(COOKIECUTTER_HOOKS),true)
+CC := 1
+else
+CC := 0
+endif
+# --------------------------------------------------
+# 🏗️ CI/CD Functions
+# --------------------------------------------------
+# Returns true when CI is off and gracefully moves through failed checks.
+define run_ci_safe =
+( $1 || \
+	if [ "$(CI)" != "1" ]; then \
+		echo "❌ process finished with error; continuing..."; \
+		true; \
+	else \
+		echo "❌ process finished with error"; \
+		exit 1; \
+	fi \
+)
+endef
+# cc_or_std:
+#   Selects between Cookiecutter hook context and standard execution context.
+#
+#   If COOKIECUTTER_HOOKS=true, expands to the first argument (Cookiecutter render).
+#   Otherwise, expands to the second argument (normal project execution).
+#
+#   Usage:
+#     PROJECT_ROOT := $(call cc_or_std,$(COOKIECUTTER_RENDER_DIR),$(PWD))
+cc_or_std = $(if $(filter true,$(COOKIECUTTER_HOOKS)),$(1),$(2))
+{%- endmacro -%}

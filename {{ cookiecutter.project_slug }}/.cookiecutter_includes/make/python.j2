@@ -17,3 +17,161 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <www.gnu.org>.
 #}
+
+
+{% macro header(
+
+) -%}
+{%- endmacro -%}
+
+
+{% macro settings(
+
+) -%}
+# --------------------------------------------------
+# 🐍 Python / Virtual Environment
+# --------------------------------------------------
+PYTHON_CMD := python3.11
+VENV_DIR := $(PROJECT_ROOT)/.venv
+# --------------------------------------------------
+# 🐍 Python Dependencies
+# --------------------------------------------------
+DEPS := .
+DEV_DEPS := .[dev]
+DEV_DOCS := .[docs]
+# --------------------------------------------------
+# 🐍 Python Commands
+# --------------------------------------------------
+CREATE_VENV := $(PYTHON_CMD) -m venv $(VENV_DIR)
+ACTIVATE := source $(VENV_DIR)/bin/activate
+PYTHON := $(ACTIVATE) && $(PYTHON_CMD)
+PIP := $(PYTHON) -m pip
+# --------------------------------------------------
+# 🍪 Render template (cookiecutter, cookiecutter_project_upgrader)
+# --------------------------------------------------
+COOKIECUTTER := $(ACTIVATE) && cookiecutter
+PROJECT_UPGRADE := $(ACTIVATE) && cookiecutter_project_upgrader
+# --------------------------------------------------
+# 🧬 Dependency Management (deptry)
+# --------------------------------------------------
+DEPTRY := $(ACTIVATE) && deptry
+# --------------------------------------------------
+# 🛡️ Security Audit (pip-audit)
+# --------------------------------------------------
+PIPAUDIT := $(ACTIVATE) && pip-audit
+# --------------------------------------------------
+# 🎓 Spellchecker (codespell)
+# --------------------------------------------------
+CODESPELL := $(ACTIVATE) && codespell
+# --------------------------------------------------
+# 🧠 Typing (mypy)
+# --------------------------------------------------
+MYPY := $(PYTHON) -m mypy
+# --------------------------------------------------
+# 🧪 Testing (pytest)
+# --------------------------------------------------
+PYTEST := $(PYTHON) -m pytest
+# --------------------------------------------------
+# 🚨 Pre-Commit (pre-commit)
+# --------------------------------------------------
+PRECOMMIT := $(ACTIVATE) && pre-commit
+# --------------------------------------------------
+# 🏃‍♂️ Nutri-Matic command
+# --------------------------------------------------
+NUTRIMATIC := $(PYTHON) -m nutrimatic
+# --------------------------------------------------
+# 🔖 Version Bumping (bumpy-my-version)
+# --------------------------------------------------
+BUMPVERSION := $(ACTIVATE) && bump-my-version bump --verbose
+# Patch types:
+MAJOR := major
+MINOR := minor
+PATCH := patch
+{%- endmacro -%}
+
+
+{% macro actions(
+
+) -%}
+
+# --------------------------------------------------
+# 🐍 Virtual Environment Setup
+# --------------------------------------------------
+venv:
+	$(AT)echo "🐍 Creating virtual environment..."
+	$(AT)$(CREATE_VENV)
+	$(AT)echo "✅ Virtual environment created."
+
+install: venv
+	$(AT)echo "📦 Installing project dependencies..."
+	$(AT)$(PIP) install --upgrade pip setuptools wheel
+	# $(AT)$(PIP) install -e $(DEPS)
+	$(AT)$(PIP) install -e $(DEV_DEPS)
+	$(AT)$(PIP) install -e $(DEV_DOCS)
+	$(AT)echo "✅ Dependencies installed."
+# --------------------------------------------------
+# 🍪 Project Updater (cookiecutter_project_upgrader)
+# --------------------------------------------------
+project-upgrade:
+	$(AT)echo "🍪 Upgrading project from initial cookiecutter template..."
+	$(AT)$(PROJECT_UPGRADE) --context-file ./docs/cookiecutter_input.json \
+		--upgrade-branch main \
+		-e "cookiecutter.json" \
+		-e "$(COOKIE_DIR)"
+	$(AT)echo "✅ Finished project upgrade!"
+# --------------------------------------------------
+# 🛡️ Security (pip-audit)
+# --------------------------------------------------
+security:
+	$(AT)echo "🛡️ Running security audit..."
+	$(AT)$(call run_ci_safe, $(PIPAUDIT))
+	$(AT)echo "✅ Finished security audit!"
+# --------------------------------------------------
+# 🧬 Dependency Management (deptry)
+# --------------------------------------------------
+dependency-check:
+	$(AT)echo "🧬 Checking dependency issues..."
+	$(AT)$(DEPTRY) --pep621-dev-dependency-groups dev,docs \
+		 $(SRC_DIR)
+	$(AT)echo "✅ Finished checking for dependency issues!"
+# --------------------------------------------------
+# 🎓 Spellchecker (codespell)
+# --------------------------------------------------
+spellcheck:
+	$(AT)echo "🎓 Checking Spelling (codespell)..."
+	$(AT)$(call run_ci_safe, $(CODESPELL))
+	$(AT)echo "✅ Finished spellcheck!"
+# --------------------------------------------------
+# 🧠 Typechecking (MyPy)
+# --------------------------------------------------
+typecheck:
+	$(AT)echo "🧠 Checking types (MyPy)..."
+	$(AT)$(MAKE) list-folders
+	$(AT)$(call run_ci_safe, $(MYPY) $(SRC_DIR) $(TESTS_DIR))
+	$(AT)echo "✅ Python typecheck complete!"
+# --------------------------------------------------
+# 🧪 Testing (pytest)
+# --------------------------------------------------
+test:
+	$(AT)echo "🧪 Running tests with pytest..."
+	$(AT)$(call run_ci_safe, $(PYTEST))
+	$(AT)echo "✅ Python tests complete!"
+# --------------------------------------------------
+# 🚨 Pre-Commit (pre-commit)
+# --------------------------------------------------
+# Note: Run as part of project initialization.  No manual run needed.
+pre-commit-init:
+	$(AT)echo "📦 Installing pre-commit hooks and hook-types..."
+	$(AT)which $(GIT) >/dev/null || { echo "Git is required"; exit 1; }
+	$(AT)$(PRECOMMIT) install --install-hooks
+	$(AT)$(PRECOMMIT) install --hook-type pre-commit --hook-type commit-msg
+	$(AT)echo "✅ pre-commit dependencies installed!"
+# --------------------------------------------------
+# 🔖 Version Bumping (bumpy-my-version)
+# --------------------------------------------------
+# TODO: Also create a git tag of current version.
+bump-version-patch:
+	$(AT)echo "🔖 Updating $(PROJECT_NAME) version from $(VERSION)..."
+	$(AT)$(BUMPVERSION) $(PATCH)
+	$(AT)echo "✅ $(PROJECT_NAME) version update complete!"
+{%- endmacro -%}

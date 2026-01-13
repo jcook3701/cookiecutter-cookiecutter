@@ -5,7 +5,10 @@
   "email": "jcook3701+github@gmail.com",
   "version": "0.1.0",
   "license": [
-    "GPL-3.0",
+    "AGPL-3.0-or-later",
+    "AGPL-3.0-only",
+    "GPL-3.0-or-later",
+    "GPL-3.0-only",
     "Apache-2.0",
     "BSD-3-Clause",
     "MIT"

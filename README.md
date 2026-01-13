@@ -172,7 +172,7 @@ This project is used to maintain the build and ci/cd structure for the following
 <ol>
   <li>Update pyproject.toml to use latest version of cookiecutter to get latest features.</li>
   <li>Update cookiecutter.json with:
- <code class="language-plaintext highlighter-rouge">"license": ["MIT", "GPLv3", "Apache 2.0"],</code></li>
+ <code class="language-plaintext highlighter-rouge">"license": ["GPL-3.0", "Apache-2.0", "BSD-3-Clause", "MIT"],</code></li>
 </ol>
 
 <!--
