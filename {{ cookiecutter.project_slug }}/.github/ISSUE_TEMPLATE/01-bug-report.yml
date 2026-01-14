@@ -6,7 +6,7 @@
   file_name='01-bug_report.yml',
   comment_style='hash') -}}
 ---
-name: Bug Report
+name: 🐞 Bug Report
 description: File a bug report for this template.
 title: "[Bug]: "
 labels: ["bug"]

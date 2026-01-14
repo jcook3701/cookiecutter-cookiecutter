@@ -147,6 +147,16 @@ Feat 011 (#20)
 - Merge pull request #30 from jcook3701/develop
 
 Feat 012 issue templates
+- Update template (#32)
+- Merge pull request #33 from jcook3701/develop
+
+Update template (#32)
+- Feat 016 markdown lint
+
+feat(lint): Added markdown lint file to both project and template.
+- Merge pull request #35 from jcook3701/develop
+
+Feat 016 markdown lint
 
 ### 🐛 Fixed
 
