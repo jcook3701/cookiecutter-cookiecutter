@@ -4,6 +4,11 @@
         "README.md",
         "_includes/*"
     ],
+    "_extensions": [
+        "jinja2.ext.do",
+        "jinja2.ext.loopcontrols"
+    ],
+    "_is_sub_template": true,
     "_jinja2_env_vars": {
         "lstrip_blocks": true,
         "trim_blocks": true
