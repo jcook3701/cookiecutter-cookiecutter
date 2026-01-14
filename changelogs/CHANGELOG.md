@@ -144,6 +144,9 @@ Feat 010 (#18)
 - Merge pull request #21 from jcook3701/develop
 
 Feat 011 (#20)
+- Merge pull request #30 from jcook3701/develop
+
+Feat 012 issue templates
 
 ### 🐛 Fixed
 
@@ -156,3 +159,4 @@ Feat 011 (#20)
 - *(build)* Build appears to be working now.
 - *(git)* Added git attributes file to hopefully ignore updating specific files after they have been created. (#9)
 - *(fix)* General fixes for template to ensure proper upgrade functionality. (#13)
+- *(issues)* Setup issue templates. (#22)
