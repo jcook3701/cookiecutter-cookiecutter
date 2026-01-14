@@ -1,0 +1,23 @@
+{% import '.cookiecutter_includes/license_header.j2' as license_macros with context %}
+{{- license_macros.license_header(
+  cookiecutter.license,
+  cookiecutter.author,
+  cookiecutter.project_slug,
+  file_name='z-developer-issue.yml',
+  comment_style='hash') -}}
+---
+name: "🛠️ Developer / General Issue"
+description: "Blank template for contributors and maintainers (no form)."
+title: "[Dev]: "
+labels: ["internal"]
+assignees:
+  - jcook3701
+body:
+  - type: textarea
+    id: content
+    attributes:
+      label: Issue Content
+      description: "Free-form text area for developer tasks, refactoring, or general notes."
+      placeholder: "Describe the task or internal update..."
+    validations:
+      required: true
