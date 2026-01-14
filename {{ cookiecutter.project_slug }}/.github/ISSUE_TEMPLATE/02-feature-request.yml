@@ -6,7 +6,7 @@
   file_name='02-feature-request.yml',
   comment_style='hash') -}}
 ---
-name: Feature Request
+name: 💡 Feature Request
 description: Suggest an idea for this cookiecutter template.
 title: "[Feature]: "
 labels: ["enhancement"]
