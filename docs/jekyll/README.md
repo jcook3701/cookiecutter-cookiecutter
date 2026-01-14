@@ -181,7 +181,7 @@ $ cargo install git-cliff
 ### TODO's
 1. Update pyproject.toml to use latest version of cookiecutter to get latest features.
 2. Update cookiecutter.json with:
-	```"license": ["MIT", "GPLv3", "Apache 2.0"],```
+	```"license": ["GPL-3.0", "Apache-2.0", "BSD-3-Clause", "MIT"],```
 
 <!--
 ### Helpful Emojis:

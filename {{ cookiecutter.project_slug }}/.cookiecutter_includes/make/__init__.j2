@@ -18,16 +18,30 @@
 # along with this program.  If not, see <www.gnu.org>.
 #}
 
+{% import '.cookiecutter_includes/make/changelog.j2' as _changelog with context %}
 {% import '.cookiecutter_includes/make/clean.j2' as _clean with context %}
 {% import '.cookiecutter_includes/make/docs.j2' as _docs with context %}
+{% import '.cookiecutter_includes/make/environment.j2' as _environment with context %}
+{% import '.cookiecutter_includes/make/format.j2' as _format with context %}
+{% import '.cookiecutter_includes/make/git.j2' as _git with context %}
 {% import '.cookiecutter_includes/make/help.j2' as _help with context %}
+{% import '.cookiecutter_includes/make/lint.j2' as _lint with context %}
 {% import '.cookiecutter_includes/make/phony.j2' as _phony with context %}
+{% import '.cookiecutter_includes/make/python.j2' as _python with context %}
+{% import '.cookiecutter_includes/make/release.j2' as _release with context %}
 {% import '.cookiecutter_includes/make/settings.j2' as _settings with context %}
 {% import '.cookiecutter_includes/make/version.j2' as _version with context %}
 
+{% set changelog = _changelog %}
 {% set clean = _clean %}
 {% set docs = _docs %}
+{% set environment = _environment %}
+{% set format = _format %}
+{% set git = _git %}
 {% set help = _help %}
+{% set lint = _lint %}
 {% set phony = _phony %}
+{% set python = _python %}
+{% set release = _release %}
 {% set settings = _settings %}
 {% set version = _version %}

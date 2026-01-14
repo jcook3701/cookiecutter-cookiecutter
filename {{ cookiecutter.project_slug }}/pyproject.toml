@@ -20,7 +20,7 @@ authors = [
 readme = "README.md"
 license = "{{ cookiecutter.license }}"
 license-files = ["LICENSE"]
-requires-python = ">=3.11"
+requires-python = ">={{ cookiecutter.python_version }}"
 dependencies = [
   "nutri-matic>=0.1",
 ]

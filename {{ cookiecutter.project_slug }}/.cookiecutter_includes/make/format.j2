@@ -1,0 +1,103 @@
+{#
+# make/format.j2 for cookiecutter-cookiecutter
+#
+# Copyright (c) 2025, Jared Cook
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <www.gnu.org>.
+#}
+
+
+{%- macro generate_title(
+    black,
+) -%}
+  {#
+    Generates a documentation, title, string based on active tools.
+
+    Args:
+      black (bool): whether Black format is enabled.
+
+    Returns:
+      String: A combined title like "black, ruff".
+  #}
+    {%- set title -%}
+        {% if sphinx_enabled -%}Sphinx{%- endif -%}
+        {% if sphinx_enabled and jekyll_enabled %} + {% endif -%}
+        {% if jekyll_enabled -%}Jekyll + nutrimatic{%- endif -%}
+    {%- endset -%}
+# --------------------------------------------------
+# 🎨 Formatting ({{ title }})
+# --------------------------------------------------
+{%- endmacro -%}
+
+
+{%- macro settings(
+    black,
+) -%}
+  {#
+    Generates a Makefile, format, settings section based on active tools.
+
+    Args:
+      black (bool): whether Black format is enabled.
+
+    Returns:
+      String: Makefile format command section.
+  #}
+    {%- set title = generate_doc_title(black) -%}
+
+    {%- set format_settings -%}
+{{ title }}
+        {% if black %}
+BLACK := $(PYTHON) -m black
+        {% endif %}
+    {%- endset -%}
+
+{{ format_settings }}
+{%- endmacro -%}
+
+
+{% macro actions(
+    black,
+) -%}
+  {#
+    Generates a Makefile, format, command section based on active tools.
+
+    Args:
+      black (bool): whether Black format is enabled.
+
+    Returns:
+      String: Makefile format command section.
+  #}
+    {%- set title = generate_doc_title(black) -%}
+
+    {%- set format_commands -%}
+{{ title }}
+        {% if black %}
+black-formatter-check:
+	$(AT)echo "🔍 Running black formatter style check..."
+	$(AT)$(call run_ci_safe, $(BLACK) --check $(SRC_DIR) $(TESTS_DIR))
+	$(AT)echo "✅ Finished formatting check of Python code with Black!"
+
+black-formatter-fix:
+	$(AT)echo "🎨 Running black formatter fixes..."
+	$(AT)$(BLACK) $(SRC_DIR) $(TESTS_DIR)
+	$(AT)echo "✅ Finished formatting Python code with Black!"
+        {% endif %}
+
+format-check: black-formatter-check
+format-fix: black-formatter-fix
+    {%- endset -%}
+
+{{ format_commands }}
+{%- endmacro -%}
