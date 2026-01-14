@@ -1,4 +1,4 @@
-# dependency-check.yml for cookiecutter-cookiecutter
+# black-format.yml for cookiecutter-cookiecutter
 #
 # Copyright (c) 2026, Jared Cook
 # SPDX-License-Identifier: GPL-3.0-or-later
@@ -17,12 +17,12 @@
 # along with this program.  If not, see <www.gnu.org>.
 #
 ---
-name: Cookiecutter Template Dependency Check
+name: Cookiecutter Template Format Check
 
 on: [push, pull_request]
 
 jobs:
-  dependency-check:
+  black-format-check:
     runs-on: ubuntu-latest
 
     steps:
@@ -34,10 +34,10 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Install deptry
+      - name: Install Formatting Tools
         run: |
           make install
 
-      - name: Run Dependency Check
+      - name: Black Format Check
         run: |
-          make dependency-check
+          make black-formatter-check
