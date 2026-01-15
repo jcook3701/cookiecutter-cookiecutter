@@ -157,12 +157,20 @@ feat(lint): Added markdown lint file to both project and template.
 - Merge pull request #35 from jcook3701/develop
 
 Feat 016 markdown lint
+- Merge pull request #36 from jcook3701/feat-017-issues-teplate-bug-fix
+
+feat-017 issue template bug fix
+- Merge pull request #37 from jcook3701/develop
+
+Develop
 
 ### 🐛 Fixed
 
 - *(build)* Updates to template pre-commit to auto build docs on commit and fix to project upgrader command. (#7)
 - *(template)* Fixed git auto remove to ignore all readme files on merge.
 - *(changelogs)* Removed changelogs make command from running during post hook generation scripts.
+- *(issues)* Fixes and updates to issue templates.  Added developer only template to avoid having to fill out user forms for each project task.
+- *(update)* I think this should fix the project upgrader and not break the rest of the use cases but a test is needed.
 
 ### 🚀 Added
 
