@@ -1,0 +1,59 @@
+{% import '.cookiecutter_includes/license_header.j2' as license_macros with context %}
+{{- license_macros.license_header(
+  cookiecutter.license,
+  cookiecutter.author,
+  cookiecutter.project_slug,
+  file_name='01-bug_report.yml',
+  comment_style='hash') -}}
+---
+name: 🐞 Bug Report
+description: File a bug report for this template.
+title: "[Bug]: "
+labels: ["bug"]
+assignees:
+  - {{ cookiecutter.github_username }}
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a bug! Please provide as much detail as possible to help us fix it.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: What did you expect to happen vs what actually happened?
+      placeholder: Describe the error here...
+    validations:
+      required: true
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating System
+      description: What OS are you running cookiecutter on?
+      options:
+        - Windows
+        - macOS
+        - Linux
+    validations:
+      required: true
+  - type: input
+    id: cc-version
+    attributes:
+      label: Cookiecutter Version
+      description: Run 'cookiecutter --version' and paste the output.
+      placeholder: e.g. 2.6.0
+    validations:
+      required: false
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant log output or Error Message
+      description: Please copy and paste the traceback or error message here.
+      render: shell
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Acknowledgement
+      options:
+        - label: I have checked the existing issues for similar reports.
+          required: true
