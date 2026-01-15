@@ -17,7 +17,7 @@
 # along with this program.  If not, see <www.gnu.org>.
 #
 ---
-name: Feature Request
+name: 💡 Feature Request
 description: Suggest an idea for this cookiecutter template.
 title: "[Feature]: "
 labels: ["enhancement"]
