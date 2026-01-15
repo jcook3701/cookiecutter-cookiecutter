@@ -107,7 +107,7 @@ CHANGELOG_RELEASE_FILE := $(CHANGELOG_RELEASE_DIR)/$(RELEASE).md
 # --------------------------------------------------
 # 🍪 Template Directories (cookiecutter)
 # --------------------------------------------------
-COOKIE_DIR := $(PROJECT_ROOT)/{{ cookiecutter.project_slug }}
+COOKIE_DIR := {{ cookiecutter.project_slug }}
 COOKIE_MACRO_DIR := $(COOKIE_DIR)/.cookiecutter_includes
 RENDERED_COOKIE_DIR := /tmp/rendered
 RENDERED_VENV_DIR := $(RENDERED_COOKIE_DIR)/**/.venv

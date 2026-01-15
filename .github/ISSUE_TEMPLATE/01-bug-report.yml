@@ -17,7 +17,7 @@
 # along with this program.  If not, see <www.gnu.org>.
 #
 ---
-name: Bug Report
+name: 🐞 Bug Report
 description: File a bug report for this template.
 title: "[Bug]: "
 labels: ["bug"]
