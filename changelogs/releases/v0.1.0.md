@@ -171,10 +171,20 @@ Develop
 - Merge pull request #40 from jcook3701/develop
 
 Feat 018 project upgrader cmd (#39)
-- Update template
-- Update template
-- Update template
-- Merge branch 'cookiecutter-template' into feat-019-docs-update
+- Feat 019 docs update (#42)
+
+* feat(docs): Added security and contributing files to .github folder.
+
+* chore(upgrade): Update template using cookiecutter_project_upgrader.
+
+* feat(jekyll): Project has been upgraded to work with Jekyll 4.4 and builds with a manual command so we can use newer version of just the docs template.
+
+* feat(ci/cd): Updates to spellcheck and markdown lint configuration file.
+
+* fix(ci/cd): Jekyll ci/cd fixes.
+- Merge pull request #43 from jcook3701/develop
+
+Feat 019 docs update (#42)
 
 ### 🐛 Fixed
 
@@ -189,6 +199,3 @@ Feat 018 project upgrader cmd (#39)
 - *(git)* Added git attributes file to hopefully ignore updating specific files after they have been created. (#9)
 - *(fix)* General fixes for template to ensure proper upgrade functionality. (#13)
 - *(issues)* Setup issue templates. (#22)
-- *(docs)* Added security and contributing files to .github folder.
-- *(jekyll)* Project has been upgraded to work with Jekyll 4.4 and builds with a manual command so we can use newer version of just the docs template.
-- *(ci/cd)* Updates to spellcheck and markdown lint configuration file.
