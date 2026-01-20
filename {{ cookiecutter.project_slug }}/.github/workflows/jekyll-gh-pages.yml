@@ -37,13 +37,18 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3' # Recommended for Jekyll 4.4 in 2026
+          bundler-cache: true # Runs 'bundle install' and caches gems automatically
+          working-directory: ./docs/jekyll
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Build with Jekyll site in /docs/jekyll
-        uses: actions/jekyll-build-pages@v1
-        with:
-          source: ./docs/jekyll
-          destination: ./_site
+        run: bundle exec jekyll build --source ./docs/jekyll --destination ./_site
+        env:
+          JEKYLL_ENV: production
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
 {% raw %}
