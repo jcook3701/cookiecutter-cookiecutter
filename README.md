@@ -12,7 +12,8 @@
 
 <p>Cookiecutter cookiecutter template project to rule them all. Generates cookiecutter template projects and is able to be queried by generated projects for updates.</p>
 
-<p><a href="https://github.com/jcook3701/github-docs-cookiecutter">Github docs</a> template generation + <a href="https://github.com/jcook3701/sphinx-cookiecutter">Sphinx docs</a> template generation.</p>
+<p><strong>Documentation Templates:</strong>
+This project utilizes <a href="https://github.com/jcook3701/github-docs-cookiecutter">Github docs</a> and <a href="https://github.com/jcook3701/sphinx-cookiecutter">Sphinx docs</a> as sub-templates for template generation.</p>
 
 <!--
 This project is used to maintain the build and ci/cd structure for the following projects:  
@@ -21,6 +22,7 @@ This project is used to maintain the build and ci/cd structure for the following
 [ansible-galaxy-cookiecutter](https://github.com/jcook3701/ansible-galaxy-cookiecutter)  
 [python-cookiecutter]()  
 -->
+<p><a href="LICENSE"><img src="https://img.shields.io/github/license/jcook3701/cookiecutter-cookiecutter" alt="License" /></a></p>
 
 <p><img src="https://github.com/jcook3701/cookiecutter-cookiecutter/actions/workflows/dependency-check.yml/badge.svg" alt="dependency-check" />
 <img src="https://github.com/jcook3701/cookiecutter-cookiecutter/actions/workflows/format-check.yml/badge.svg" alt="format-check" />

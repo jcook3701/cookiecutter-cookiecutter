@@ -171,6 +171,10 @@ Develop
 - Merge pull request #40 from jcook3701/develop
 
 Feat 018 project upgrader cmd (#39)
+- Update template
+- Update template
+- Update template
+- Merge branch 'cookiecutter-template' into feat-019-docs-update
 
 ### 🐛 Fixed
 
