@@ -2,5 +2,6 @@
 layout: default
 title: Troubleshooting
 nav_order: 1
-parent: cookiecutter-cookiecutter
+has_children: true
 ---
+## Troubleshooting cookiecutter-cookiecutter

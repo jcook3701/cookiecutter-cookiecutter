@@ -4,6 +4,7 @@
 title: "cookiecutter-cookiecutter"
 author: "Jared Cook"
 version: "0.1.0"
+timezone: "America/Los_Angeles"
 description: "Cookiecutter cookiecutter template project to rule them all. Generates cookiecutter template projects and is able to be queried by generated projects for updates."
 remote_theme: "pmarsceill/just-the-docs"
 ga_tracking: "G-C7PWLWSHB9"
@@ -14,6 +15,35 @@ repo_url: >
 
 # Specifies the site's subpath for correct URL generation
 baseurl: "/cookiecutter-cookiecutter"
+
+collections:
+  manual:
+    output: true
+    permalink: /:collection/:path
+
+  resources:
+    output: true
+    permalink: /:collection/:path
+
+just_the_docs:
+  collections:
+    manual:
+      name: Manual
+      nav_fold: true
+      nav_exclude: false
+
+    resources:
+      name: "External Links"
+      nav_fold: false
+      nav_exclude: false
+
+plugins:
+  - jekyll-remote-theme
+  - jekyll-redirect-from
+  - jekyll-seo-tag
+  - jekyll-github-metadata
+  - jekyll-include-cache
+  - jekyll-sitemap
 
 # Author Remote User Accounts
 # twitter_username: ""
@@ -66,11 +96,6 @@ aux_links_new_tab: false
 #     using page variables or the minimal layout
 nav_enabled: true
 
-# External navigation links
-nav_external_links:
-  - title: "cookiecutter-cookiecutter on GitHub"
-    url: "https://github.com/jcook3701/cookiecutter-cookiecutter"
-
 # Back to top link
 back_to_top: true
 back_to_top_text: "Back to top"
@@ -120,21 +145,11 @@ callouts:
     title: Warning
     color: red
 
-collections:
-  manual:
-    output: true
-    permalink: /:manual/:path/
-
-collections_dir: .
-
-plugins:
-  - jekyll-seo-tag
-  - jekyll-github-metadata
-  - jekyll-include-cache
-  - jekyll-sitemap
-
 kramdown:
   auto_ids: true
+
+include:
+  - .well-known
 
 # Exclude files/folders from Jekyll processing
 exclude:

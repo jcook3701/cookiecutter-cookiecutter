@@ -2,5 +2,6 @@
 layout: default
 title: Introduction
 nav_order: 1
-parent: cookiecutter-cookiecutter
+has_children: true
 ---
+## Introduction to cookiecutter-cookiecutter

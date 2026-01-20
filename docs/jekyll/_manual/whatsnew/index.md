@@ -2,6 +2,6 @@
 layout: default
 title: "What's New"
 nav_order: 1
-parent: cookiecutter-cookiecutter
+has_children: true
 ---
-# What's new in cookiecutter-cookiecutter
+## What's new in cookiecutter-cookiecutter

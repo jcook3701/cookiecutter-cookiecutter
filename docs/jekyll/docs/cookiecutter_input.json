@@ -27,6 +27,7 @@
     "project_slug": "cookiecutter-cookiecutter",
     "template_type": "ansible",
     "theme": "pmarsceill/just-the-docs",
+    "timezone": "America/Los_Angeles",
     "twitter_username": "",
     "version": "0.1.0"
 }
