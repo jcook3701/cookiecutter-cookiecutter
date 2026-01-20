@@ -164,6 +164,29 @@ feat-017 issue template bug fix
 
 Develop
 - Merge branch 'develop' into feat-014-cla
+- Feat 018 project upgrader cmd (#39)
+
+* fix(update): I think this should fix the project upgrader and not break the rest of the use cases but a test is needed.
+
+* chore(update) Update template
+- Merge pull request #40 from jcook3701/develop
+
+Feat 018 project upgrader cmd (#39)
+- Feat 019 docs update (#42)
+
+* feat(docs): Added security and contributing files to .github folder.
+
+* chore(upgrade): Update template using cookiecutter_project_upgrader.
+
+* feat(jekyll): Project has been upgraded to work with Jekyll 4.4 and builds with a manual command so we can use newer version of just the docs template.
+
+* feat(ci/cd): Updates to spellcheck and markdown lint configuration file.
+
+* fix(ci/cd): Jekyll ci/cd fixes.
+- Merge pull request #43 from jcook3701/develop
+
+Feat 019 docs update (#42)
+- Merge branch 'develop' into feat-014-cla
 
 ### 🐛 Fixed
 
