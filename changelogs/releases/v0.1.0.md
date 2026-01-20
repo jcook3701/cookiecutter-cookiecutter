@@ -186,3 +186,4 @@ Feat 018 project upgrader cmd (#39)
 - *(fix)* General fixes for template to ensure proper upgrade functionality. (#13)
 - *(issues)* Setup issue templates. (#22)
 - *(docs)* Added security and contributing files to .github folder.
+- *(jekyll)* Project has been upgraded to work with Jekyll 4.4 and builds with a manual command so we can use newer version of just the docs template.
