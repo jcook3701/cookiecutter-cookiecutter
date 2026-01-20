@@ -7,7 +7,8 @@ __Version:__ {{ site.version }}
 
 {{ site.description }}  
 
- [Github docs](https://github.com/jcook3701/github-docs-cookiecutter) template generation + [Sphinx docs](https://github.com/jcook3701/sphinx-cookiecutter) template generation.  
+__Documentation Templates:__
+This project utilizes [Github docs](https://github.com/jcook3701/github-docs-cookiecutter) and [Sphinx docs](https://github.com/jcook3701/sphinx-cookiecutter) as sub-templates for template generation.  
 
 <!--
 This project is used to maintain the build and ci/cd structure for the following projects:  
@@ -16,6 +17,7 @@ This project is used to maintain the build and ci/cd structure for the following
 [ansible-galaxy-cookiecutter](https://github.com/jcook3701/ansible-galaxy-cookiecutter)  
 [python-cookiecutter]()  
 -->
+[![License](https://img.shields.io/github/license/jcook3701/cookiecutter-cookiecutter)](LICENSE)
 
 ![dependency-check](https://github.com/jcook3701/cookiecutter-cookiecutter/actions/workflows/dependency-check.yml/badge.svg)
 ![format-check](https://github.com/jcook3701/cookiecutter-cookiecutter/actions/workflows/format-check.yml/badge.svg)
