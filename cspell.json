@@ -4,8 +4,8 @@
     "useGitignore": true,
     "words": [
         "bumpversion",
-        "cli",
         "cla",
+        "cli",
         "codespell",
         "cookiecutter",
         "cookiecutter_project_upgrader",
@@ -21,6 +21,7 @@
         "pyproject",
         "pytest",
         "rpmnew",
+        "rustc",
         "streetsidesoftware",
         "tomllint",
         "tsmerge",
@@ -46,6 +47,7 @@
         "npm",
         "python",
         "python-common",
+        "rust",
         "softwareTerms",
         "typescript"
     ]

@@ -25,7 +25,9 @@
     "linkedin_usercode": "jared-cook-b3585a114",
     "project_name": "cookiecutter-cookiecutter",
     "project_slug": "cookiecutter-cookiecutter",
+    "template_type": "cookiecutter",
     "theme": "pmarsceill/just-the-docs",
+    "timezone": "America/Los_Angeles",
     "twitter_username": "",
     "version": "0.1.0"
 }

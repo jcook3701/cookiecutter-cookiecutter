@@ -144,12 +144,33 @@ Feat 010 (#18)
 - Merge pull request #21 from jcook3701/develop
 
 Feat 011 (#20)
+- Merge pull request #30 from jcook3701/develop
+
+Feat 012 issue templates
+- Update template (#32)
+- Merge pull request #33 from jcook3701/develop
+
+Update template (#32)
+- Feat 016 markdown lint
+
+feat(lint): Added markdown lint file to both project and template.
+- Merge pull request #35 from jcook3701/develop
+
+Feat 016 markdown lint
+- Merge pull request #36 from jcook3701/feat-017-issues-teplate-bug-fix
+
+feat-017 issue template bug fix
+- Merge pull request #37 from jcook3701/develop
+
+Develop
+- Merge branch 'develop' into feat-014-cla
 
 ### 🐛 Fixed
 
 - *(build)* Updates to template pre-commit to auto build docs on commit and fix to project upgrader command. (#7)
 - *(template)* Fixed git auto remove to ignore all readme files on merge.
 - *(changelogs)* Removed changelogs make command from running during post hook generation scripts.
+- *(issues)* Fixes and updates to issue templates.  Added developer only template to avoid having to fill out user forms for each project task.
 
 ### 🚀 Added
 
@@ -157,3 +178,4 @@ Feat 011 (#20)
 - *(git)* Added git attributes file to hopefully ignore updating specific files after they have been created. (#9)
 - *(fix)* General fixes for template to ensure proper upgrade functionality. (#13)
 - *(cla)* Prep for CLA.
+- *(issues)* Setup issue templates. (#22)
