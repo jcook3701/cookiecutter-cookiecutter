@@ -4,7 +4,11 @@ on:
   issue_comment:
     types: [created]
   pull_request_target:
-    types: [opened,closed,synchronize]
+    types: [
+      opened,
+      closed,
+      synchronize
+    ]
 
 # explicitly configure permissions, in case your GITHUB_TOKEN workflow permissions are set to read-only in repository settings
 permissions:
@@ -32,7 +36,7 @@ jobs:
           path-to-document: 'https://github.com/cla-assistant/github-action/blob/master/SAPCLA.md' # e.g. a CLA or a DCO document
           # branch should not be protected
           branch: 'main'
-          allowlist: {{ cookiecutter.github_username }},github-actions[bot],dependabot[bot],bot*
+          allowlist: "{{ cookiecutter.github_username }},github-actions[bot],dependabot[bot],bot*"
 {% endraw %}
 
          # the followings are the optional inputs - If the optional inputs are not given, then default values will be taken
