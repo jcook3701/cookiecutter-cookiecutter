@@ -195,6 +195,7 @@ Feat 019 docs update (#42)
 - *(changelogs)* Removed changelogs make command from running during post hook generation scripts.
 - *(issues)* Fixes and updates to issue templates.  Added developer only template to avoid having to fill out user forms for each project task.
 - *(cla)* CI/CD fix for item cla causing unit tests to fail.
+- *(yaml)* Yaml format fixes for cla ci/cd action.
 
 ### 🚀 Added
 

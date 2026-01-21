@@ -28,7 +28,8 @@
         "upgrader",
         "venv",
         "visualstudio",
-        "vsmarketplacebadge"
+        "vsmarketplacebadge",
+        "yaml"
     ],
     "flagWords": [
         "hte"
