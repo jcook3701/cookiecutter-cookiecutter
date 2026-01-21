@@ -11,7 +11,7 @@ description: "Blank template for contributors and maintainers (no form)."
 title: "[Dev]: "
 labels: ["internal"]
 assignees:
-  - jcook3701
+  - {{ cookiecutter.github_username }}
 body:
   - type: textarea
     id: content

@@ -206,3 +206,4 @@ Feat 019 docs update (#42)
 - *(fix)* General fixes for template to ensure proper upgrade functionality. (#13)
 - *(cla)* Prep for CLA.
 - *(issues)* Setup issue templates. (#22)
+- *(template)* Added Pull request templates and codeowners to project to speed up pull requests.
