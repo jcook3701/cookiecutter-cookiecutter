@@ -1,14 +1,23 @@
 {
   "project_name": "cookiecutter-cookiecutter",
   "project_slug": "{{ cookiecutter.project_name | slugify }}",
+  "company": null,
   "author": "Jared Cook",
   "email": "jcook3701+github@gmail.com",
   "version": "0.1.0",
+  "timezone": [
+    "America/Los_Angeles"
+  ],
   "license": [
-    "GPL-3.0",
+    "AGPL-3.0-or-later",
+    "GPL-3.0-or-later",
+    "GPL-3.0-only",
     "Apache-2.0",
     "BSD-3-Clause",
-    "MIT"
+    "BSD-2-Clause",
+    "0BSD",
+    "MIT",
+    "Unlicensed"
   ],
   "__copyright": "Copyright (c) {% now 'utc', '%Y' %} {{ cookiecutter.author }}",
   "description": "Description of cookiecutter template project.",
@@ -27,11 +36,14 @@
     ]
   },
   "ga_tracking": "G-C7PWLWSHB9",
+  "github_org": null,
   "github_username": "jcook3701",
   "twitter_username": "",
   "linkedin_usercode": "jared-cook-b3585a114",
   "buymeacoffee_username": "jcook3701",
+  "repo_url": "https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}",
   "theme": [
+    "just-the-docs/just-the-docs@v0.11.0",
     "pmarsceill/just-the-docs",
     "carlosperate/jekyll-theme-rtd"
   ],
@@ -52,19 +64,20 @@
       "build-docs": false
     }
   },
+  "_is_sub_template": false,
   "_copy_without_render": [
     "{{ '{{' }} cookiecutter.project_slug {{ '}}' }}/*",
     ".cookiecutter_includes/*",
     ".cookiecutter_includes/**/*"
   ],
-  "_jinja2_env_vars": {
-    "lstrip_blocks": true,
-    "trim_blocks": true
-  },
   "_extensions": [
     "jinja2.ext.do",
     "jinja2.ext.loopcontrols"
   ],
+  "_jinja2_env_vars": {
+    "lstrip_blocks": true,
+    "trim_blocks": true
+  },
   "add_github_docs": true,
   "add_sphinx_docs": false
 }

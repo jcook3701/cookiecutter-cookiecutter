@@ -149,7 +149,7 @@ BLACK := $(PYTHON) -m black
 # --------------------------------------------------
 # 🔍 Linting (ruff, yaml, jinja2)
 # --------------------------------------------------
-RUFF := $(PYTHON) -m ruff
+DJLINT := $(ACTIVATE) && djlint
 TOMLLINT := tomllint
 YAMLLINT := $(PYTHON) -m yamllint
 JINJA := $(ACTIVATE) && jinja2 --strict \
@@ -337,6 +337,16 @@ render-cookiecutter:
 
 test-root:
 	$(AT)echo "$(PROJECT_ROOT)"
+
+djlint-lint-check:
+	$(AT)echo "🔍 djlint lint..."
+	$(AT)$(DJLINT) . --lint --profile=jinja
+	$(AT)echo "✅ Finished linting check of jinja2 macro files with djlint!"
+
+djlint-lint-fix:
+	$(AT)echo "🔍 djlint reformat..."
+	$(AT)$(DJLINT) . --reformat
+	$(AT)echo "✅ Finished reformating of jinja2 macro files with djlint!
 
 jinja2-lint-check:
 	$(AT)echo "🔍 jinja2 lint..."

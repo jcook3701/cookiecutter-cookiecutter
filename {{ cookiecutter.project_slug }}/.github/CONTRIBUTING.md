@@ -14,7 +14,7 @@ You can help {{ cookiecutter.project_name }} by helping others who use it and ne
 ## Analyze Issues
 
 Analyzing issue reports can be a lot of effort. Any help is welcome!
-Go to [the GitHub issue tracker](https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}/issues?state=open) and find an open issue which needs additional work or a bugfix (e.g. issues labeled with "help wanted" or "bug").
+Go to [the GitHub issue tracker]({{ cookiecutter.repo_url }}/issues?state=open) and find an open issue which needs additional work or a bugfix (e.g. issues labeled with "help wanted" or "bug").
 
 Additional work could include any further information, or a gist, or it might be a hint that helps understanding the issue. Maybe you can even find and [contribute](#contribute-code) a bugfix?
 
@@ -23,7 +23,7 @@ Additional work could include any further information, or a gist, or it might be
 If you find a bug - behavior of {{ cookiecutter.project_name }} code contradicting your expectation - you are welcome to report it.
 We can only handle well-reported, actual bugs, so please follow the guidelines below.
 
-Once you have familiarized with the guidelines, you can go to the [GitHub issue tracker for {{ cookiecutter.project_name }}](https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}/issues/new) to report the issue.
+Once you have familiarized with the guidelines, you can go to the [GitHub issue tracker for {{ cookiecutter.project_name }}]({{ cookiecutter.repo_url }}/issues/new) to report the issue.
 
 ### Quick Checklist for Bug Reports
 
@@ -34,7 +34,7 @@ Issue report checklist:
 * Good summary
 * Well-documented
 * Minimal example
-* Use the [template](ISSUE_TEMPLATE/01-bug-report.yml)
+* Use the [bug template](ISSUE_TEMPLATE/01-bug-report.yml)
 
 ### Issue handling process
 
@@ -76,7 +76,7 @@ You are welcome to contribute code to {{ cookiecutter.project_name }} in order t
 
 <!-- TODO: [Developer Certificate of Origin](https://developercertificate.org/) -->
 There are three important things to know:
-1. You must be aware that you need to submit [CLA]() in order for your contribution to be accepted. This is common practice in all major Open Source projects.
+1. You must be aware that you need to submit [CLA](/docs/jekyll/_manual/developer-resources/cla.md) in order for your contribution to be accepted. This is common practice in all major Open Source projects.
 2. There are **several requirements regarding code style, quality, and product standards** which need to be met (we also have to follow them). The respective section below gives more details on the coding guidelines.
 3. **Not all proposed contributions can be accepted**. Some features may e.g. just fit a third-party add-on better. The code must fit the overall direction of {{ cookiecutter.project_name }} and really improve it. The more effort you invest, the better you should clarify in advance whether the contribution fits: the best way would be to just open an issue to discuss the feature you plan to implement (make it clear you intend to contribute).
 
@@ -89,7 +89,7 @@ Due to legal reasons, contributors will be asked to accept a DCO before they sub
 ## Contributor License Agreement (CLA)
 
 Due to legal reasons, contributors will be asked to accept a CLA before they submit the first pull request to this project, this happens in an automated fashion during the submission process.  We use a derivative of the [ASF Contributor Agreements](https://www.apache.org/licenses/contributor-agreements.html)
-[ICLA] and [CCLA].
+[ICLA] and [CCLA].  
 
 ### Contribution Content Guidelines
 

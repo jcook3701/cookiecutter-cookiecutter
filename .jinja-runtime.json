@@ -1,0 +1,18 @@
+{
+    "templates": {
+        "search_paths": [
+            ".",
+            "./.cookiecutter_includes",
+            "./{{cookiecutter.project_slug}}"
+        ],
+        "base_dir": "."
+    },
+    "env": {
+        "globals": {
+            "cookiecutter": {
+                "project_slug": "cookiecutter-cookiecutter",
+                "chosen_license": "GPL-3.0-or-later"
+            }
+        }
+    }
+}

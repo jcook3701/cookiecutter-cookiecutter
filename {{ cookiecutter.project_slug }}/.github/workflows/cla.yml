@@ -1,3 +1,10 @@
+{% import '.cookiecutter_includes/license/__init__.j2' as license_macros with context %}
+{{- license_macros.license_header.create(
+	cookiecutter.license,
+	cookiecutter.author,
+	cookiecutter.project_slug,
+	file_name='cla.yml',
+	comment_style='hash') -}}
 ---
 name: "CLA Assistant"
 on:
@@ -33,7 +40,7 @@ jobs:
         with:
           signed-commit-message: 'chore: $contributorName has signed the CLA'
           path-to-signatures: 'signatures/version1/cla.json'
-          path-to-document: 'https://github.com/{{ github.repository }}/blob/master/SAPCLA.md' # e.g. a CLA or a DCO document
+          path-to-document: 'https://github.com/{{ github.repository }}/blob/master/docs/jekyll/_manual/developer-resources/cla.md' # e.g. a CLA or a DCO document
           # branch should not be protected
           branch: 'main'
           allowlist: "{{ cookiecutter.github_username }},github-actions[bot],dependabot[bot],bot*"
