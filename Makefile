@@ -346,7 +346,7 @@ djlint-lint-check:
 djlint-lint-fix:
 	$(AT)echo "🔍 djlint reformat..."
 	$(AT)$(DJLINT) . --reformat
-	$(AT)echo "✅ Finished reformating of jinja2 macro files with djlint!
+	$(AT)echo "✅ Finished reformatting of jinja2 macro files with djlint!
 
 jinja2-lint-check:
 	$(AT)echo "🔍 jinja2 lint..."
@@ -389,7 +389,7 @@ yaml-lint-check:
 	$(AT)$(YAMLLINT) $(RENDERED_COOKIE_DIR)
 	$(AT)echo "✅ Finished linting check of yaml files with yamllint!"
 
-lint-check: jinja2-lint-check render-cookiecutter ruff-lint-check toml-lint-check yaml-lint-check
+lint-check:render-cookiecutter djlint-lint-check ruff-lint-check toml-lint-check yaml-lint-check
 lint-fix: ruff-lint-fix
 # --------------------------------------------------
 # 🎓 Spellchecker (codespell)
