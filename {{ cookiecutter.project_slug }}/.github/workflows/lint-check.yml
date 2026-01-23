@@ -33,7 +33,7 @@ jobs:
 
       - name: Lint Jinja templates
         run: |
-          make jinja2-lint-check
+          make djlint-lint-check
       - name: Run Ruff Lint Check
         run: |
           make ruff-lint-check
