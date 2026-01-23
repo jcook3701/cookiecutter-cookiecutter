@@ -2,7 +2,7 @@
 #  license.j2 for cookiecutter-cookiecutter
 #
 # Copyright (c) 2026, Jared Cook
-# SPDX-License-Identifier: GPL-3.0-or-later
+# SPDX-License-Identifier: AGPL-3.0-or-later
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -24,35 +24,35 @@
     license,
     copyright
 ) -%}
-{#
-  Generates a license based on the selected SPDX identifier.
+  {#
+    Generates a license based on the selected SPDX identifier.
 
-  This macro maps a license string to its corresponding full
-  text stored in the `lics` data object.
+    This macro maps a license string to its corresponding full
+    text stored in the `lics` data object.
 
-  Args:
-    chosen_license (str): The SPDX identifier (e.g., 'MIT', 'BSD-3-Clause').
-    copyright (str): The copyright holder line (e.g., '2026 Jane Doe').
+    Args:
+      license (str): The SPDX identifier (e.g., 'MIT', 'BSD-3-Clause').
+      copyright (str): The copyright holder line (e.g., '2026 Jane Doe').
 
-  Returns:
-      str: The formatted license text as Markdown.
-#}
-{% if license == '0BSD' %}
-  {{- lics.zero_bsd.license -}}
-{% elif license in lics.agpl_3_0.spdx %}
-  {{- lics.agpl_3_0.license -}}
-{% elif license == 'Apache-2.0' %}
-  {{- lics.apache_2_0.license -}}
-{% elif license == 'BSD-2-Clause' %}
-  {{- lics.bsd_2_clause.license -}}
-{% elif license == 'BSD-3-Clause' %}
-  {{- lics.bsd_3_clause.license -}}
-{% elif license in lics.gpl_3_0.spdx %}
-  {{- lics.gpl_3_0.license -}}
-{% elif license == 'MIT' %}
-  {{- lics.mit.license -}}
-{% elif license == 'Unlicense' %}
-  {{- lics.unlicense.license -}}
-{% endif %}
+    Returns:
+        str: The formatted license text as Markdown.
+  #}
+  {% if license == '0BSD' %}
+    {{- lics.zero_bsd.license -}}
+  {% elif license in lics.agpl_3_0.spdx %}
+    {{- lics.agpl_3_0.license -}}
+  {% elif license == 'Apache-2.0' %}
+    {{- lics.apache_2_0.license -}}
+  {% elif license == 'BSD-2-Clause' %}
+    {{- lics.bsd_2_clause.license -}}
+  {% elif license == 'BSD-3-Clause' %}
+    {{- lics.bsd_3_clause.license -}}
+  {% elif license in lics.gpl_3_0.spdx %}
+    {{- lics.gpl_3_0.license -}}
+  {% elif license == 'MIT' %}
+    {{- lics.mit.license -}}
+  {% elif license == 'Unlicense' %}
+    {{- lics.unlicense.license -}}
+  {% endif %}
 
 {%- endmacro -%}

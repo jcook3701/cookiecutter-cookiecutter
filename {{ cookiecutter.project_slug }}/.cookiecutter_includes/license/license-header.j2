@@ -2,7 +2,7 @@
 # license-header.j2 for cookiecutter-cookiecutter
 #
 # Copyright (c) 2025, Jared Cook
-# SPDX-License-Identifier: GPL-3.0-or-later
+# SPDX-License-Identifier: AGPL-3.0-or-later
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -21,66 +21,83 @@
 {% import '.cookiecutter_includes/license/license-data.j2' as lics %}
 
 {%- macro create(
-    license_type,
+    license,
     author,
     project_name,
     file_name='none',
     comment_style='hash'
 ) -%}
-    {#
-       This renders license header depending on user selection of cookiecutter.license.
-       Args: license_type, author, file_name, comment_style.
-    #}
-{# This macro generates the correct license header based on input #}
-{# Define variables for start/end comment delimiters #}
-{%- set start_comment = '' -%}
-{%- set end_comment = '' -%}
-{%- set newline = '\n' -%}
-{# Determine the correct comment style #}
-{%- if comment_style == 'python' -%}
-  {# djlint:off T027 #}
-    {%- set start_comment = '"""' + newline -%}
-    {%- set end_comment = newline + '"""' -%}
-  {# djlint:on #}
-{%- elif comment_style == 'html' -%}
-    {%- set start_comment = '<!-- ' + newline -%}
-    {%- set end_comment = newline + '-->' -%}
-{%- else -%}
-    {# Default to hash/pound symbol for yaml, toml, shell scripts, etc. #}
-    {%- set start_comment = '#' -%}
-    {%- set end_comment = newline -%}
-{%- endif -%}
-{# Generate the core license text #}
-{% set license_text %}
-{{ file_name }} for {{ project_name }}
+  {#
+    This renders license header depending on user selection of cookiecutter.license.
 
-SPDX-FileCopyrightText: Copyright (c) {% now "utc", "%Y" %}, {{ author }}
-SPDX-License-Identifier: {{ license_type }}
-{% if license_type == "Apache-2.0" -%}
-  {{- lics.apache_2_0.license_header -}}
-{% elif license_type == "BSD-3-Clause" -%}
-  {{- lics.bsd_3_clause.license_header -}}
-{% elif license_type == "GPL-3.0-or-later" -%}
-  {{- lics.gpl_3_0.license_header -}}
-{% elif license_type == "MIT" -%}
-  {{- lics.mit.license_header }}
-{% endif -%}
-{%- endset -%}
-{# Wrap the generated text with the appropriate start and end delimiters #}
-{%- if comment_style == 'python' or comment_style == 'html' -%}
-{{ start_comment -}}
-{{ license_text | trim }}
-{{- end_comment }}
-{%- else -%}
-{%- set text = license_text.split('\n') -%}
-{# For hash comments, prefix every line with '#' #}
-{%- for line in text -%}
-{%- if line == '' or line == '\n' -%}
-{%- set commented_line = line -%}
-{%- else -%}
-{%- set commented_line = " " + line -%}
-{%- endif -%}
-#{{ commented_line }}
-{% endfor -%}
-{%- endif -%}
+    Args:
+      license (str): The SPDX identifier (e.g., 'MIT', 'BSD-3-Clause').
+      author (str): The authors first and last name.
+      file_name (str): .
+      comment_style (str): .
+
+    Returns:
+      str: the formatted license header text.
+  #}
+  {# This macro generates the correct license header based on input #}
+  {# Define variables for start/end comment delimiters #}
+  {%- set start_comment = '' -%}
+  {%- set end_comment = '' -%}
+  {%- set newline = '\n' -%}
+  {# Determine the correct comment style #}
+  {%- if comment_style == 'python' -%}
+    {# djlint:off T027 #}
+      {%- set start_comment = '"""' + newline -%}
+      {%- set end_comment = newline + '"""' -%}
+    {# djlint:on #}
+  {%- elif comment_style == 'html' -%}
+      {%- set start_comment = '<!-- ' + newline -%}
+      {%- set end_comment = newline + '-->' -%}
+  {%- else -%}
+      {# Default to hash/pound symbol for yaml, toml, shell scripts, etc. #}
+      {%- set start_comment = '#' -%}
+      {%- set end_comment = newline -%}
+  {%- endif -%}
+  {# Generate the core license text #}
+  {% set license_text %}
+    {{- file_name }} for {{ project_name }}
+
+    SPDX-FileCopyrightText: Copyright (c) {% now "utc", "%Y" %}, {{ author }}
+    SPDX-License-Identifier: {{ license }}
+
+    {% if license == "OBSD" %}
+      {{- lics.zero_bsd.license_header -}}
+    {% elif license in lics.agpl_3_0.spdx %}
+      {{- lics.agpl_3_0.license_header -}}
+    {% elif license == "Apache-2.0" -%}
+      {{- lics.apache_2_0.license_header -}}
+    {% elif license == "BSD-2-Clause" -%}
+      {{- lics.bsd_2_clause.license_header -}}
+    {% elif license == "BSD-3-Clause" -%}
+      {{- lics.bsd_3_clause.license_header -}}
+    {% elif license in lics.gpl_3_0.spdx -%}
+      {{- lics.gpl_3_0.license_header -}}
+    {% elif license == "MIT" -%}
+      {{- lics.mit.license_header -}}
+    {% elif license == "Unlicense" -%}
+      {{- lics.unlicense.license_header -}}
+    {% endif -%}
+  {%- endset -%}
+  {# Wrap the generated text with the appropriate start and end delimiters #}
+  {%- if comment_style == 'python' or comment_style == 'html' -%}
+    {{- start_comment -}}
+    {{- license_text | trim }}
+    {{- end_comment }}
+  {%- else -%}
+    {%- set text = license_text.split('\n') -%}
+    {# For hash comments, prefix every line with '#' #}
+      {%- for line in text -%}
+        {%- if line == '' or line == '\n' -%}
+          {%- set commented_line = line -%}
+        {%- else -%}
+          {%- set commented_line = " " + line -%}
+        {%- endif -%}
+        #{{- commented_line }}
+      {% endfor -%}
+  {%- endif -%}
 {%- endmacro -%}

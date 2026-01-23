@@ -4,7 +4,7 @@
   cookiecutter.author,
   cookiecutter.project_slug,
   file_name='cliff.toml',
-  comment_style='hash') }}
+  comment_style='hash') -}}
 # Git-Cliff config for hybrid changelog system
 [git]
 conventional_commits = true
