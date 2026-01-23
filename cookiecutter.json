@@ -10,6 +10,7 @@
   ],
   "license": [
     "AGPL-3.0-or-later",
+    "AGPL-3.0-only",
     "GPL-3.0-or-later",
     "GPL-3.0-only",
     "Apache-2.0",
@@ -17,7 +18,7 @@
     "BSD-2-Clause",
     "0BSD",
     "MIT",
-    "Unlicensed"
+    "Unlicense"
   ],
   "__copyright": "Copyright (c) {% now 'utc', '%Y' %} {{ cookiecutter.author }}",
   "description": "Description of cookiecutter template project.",

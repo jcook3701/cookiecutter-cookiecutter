@@ -200,6 +200,7 @@ Feat 019 docs update (#42)
 - *(contributing)* Updates to the contributing file for use of CLA by default over DCO. Need to update template settings to swap between both.
 - *(template)* Minor fixes removed my actual github username and replaced with cookiecutter.github_username.
 - *(linting)* Fixes moved off jinja2 linter and to djlint.
+- *(linting)* Fixes moved off jinja2 linter and to djlint.
 
 ### 🚀 Added
 

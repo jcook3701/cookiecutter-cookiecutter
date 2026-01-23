@@ -20,34 +20,38 @@
 
 {% import '.cookiecutter_includes/license/license-data.j2' as lics %}
 
-{#
-	cookiecutter.author,
-	cookiecutter.project_slug,
-#}
-
 {% macro create(
-    chosen_license,
+    license,
     copyright
 ) -%}
+{#
+  Generates a license based on the selected SPDX identifier.
 
-{%- set gpl_variations = ['GPL-3.0-only', 'GPL-3.0-or-later'] -%}
+  This macro maps a license string to its corresponding full
+  text stored in the `lics` data object.
 
+  Args:
+    chosen_license (str): The SPDX identifier (e.g., 'MIT', 'BSD-3-Clause').
+    copyright (str): The copyright holder line (e.g., '2026 Jane Doe').
 
-{% if chosen_license == '0BSD' %}
+  Returns:
+      str: The formatted license text as Markdown.
+#}
+{% if license == '0BSD' %}
   {{- lics.zero_bsd.license -}}
-{% elif chosen_license == 'AGPL-3.0-or-later' %}
+{% elif license in lics.agpl_3_0.spdx %}
   {{- lics.agpl_3_0.license -}}
-{% elif chosen_license == 'Apache-2.0' %}
+{% elif license == 'Apache-2.0' %}
   {{- lics.apache_2_0.license -}}
-{% elif chosen_license == 'BSD-2-Clause' %}
+{% elif license == 'BSD-2-Clause' %}
   {{- lics.bsd_2_clause.license -}}
-{% elif chosen_license == 'BSD-3-Clause' %}
+{% elif license == 'BSD-3-Clause' %}
   {{- lics.bsd_3_clause.license -}}
-{% elif chosen_license in gpl_variations %}
+{% elif license in lics.gpl_3_0.spdx %}
   {{- lics.gpl_3_0.license -}}
-{% elif chosen_license == 'MIT' %}
+{% elif license == 'MIT' %}
   {{- lics.mit.license -}}
-{% elif chosen_license == 'Unlicensed' %}
+{% elif license == 'Unlicense' %}
   {{- lics.unlicense.license -}}
 {% endif %}
 

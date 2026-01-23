@@ -150,6 +150,7 @@ BLACK := $(PYTHON) -m black
 # 🔍 Linting (ruff, yaml, jinja2)
 # --------------------------------------------------
 DJLINT := $(ACTIVATE) && djlint
+RUFF := $(ACTIVATE) && ruff
 TOMLLINT := tomllint
 YAMLLINT := $(PYTHON) -m yamllint
 JINJA := $(ACTIVATE) && jinja2 --strict \
@@ -346,7 +347,7 @@ djlint-lint-check:
 djlint-lint-fix:
 	$(AT)echo "🔍 djlint reformat..."
 	$(AT)$(DJLINT) . --reformat
-	$(AT)echo "✅ Finished reformatting of jinja2 macro files with djlint!
+	$(AT)echo "✅ Finished reformatting of jinja2 macro files with djlint!"
 
 jinja2-lint-check:
 	$(AT)echo "🔍 jinja2 lint..."

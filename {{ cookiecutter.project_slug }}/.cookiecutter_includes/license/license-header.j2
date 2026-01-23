@@ -54,7 +54,8 @@
 {% set license_text %}
 {{ file_name }} for {{ project_name }}
 
-Copyright (c) {% now "utc", "%Y" %}, {{ author }}
+SPDX-FileCopyrightText: Copyright (c) {% now "utc", "%Y" %}, {{ author }}
+SPDX-License-Identifier: {{ license_type }}
 {% if license_type == "Apache-2.0" -%}
   {{- lics.apache_2_0.license_header -}}
 {% elif license_type == "BSD-3-Clause" -%}
