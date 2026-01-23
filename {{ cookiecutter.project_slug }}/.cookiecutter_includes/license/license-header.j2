@@ -31,12 +31,12 @@
     Args:
       license (str): The SPDX identifier (e.g., 'MIT', 'BSD-3-Clause').
       author (str): The authors first and last name.
-      project_name (str):
+      project_name (str): Name of project for copyright.
 
     Returns:
-      str: the formatted license SPDX text
+      str: the formatted license SPDX text.
   #}
-  {%- set year %}{% now 'utc', '%Y' %}{% endset -%}
+  {%- set year %}{% now "utc", "%Y" %}{% endset -%}
   {%- set spdx_copyright = "SPDX-FileCopyrightText: Copyright (c) " ~ year ~ ", " ~ author -%}
   {%- set spdx_license = "SPDX-License-Identifier: " ~ license -%}
   {%- set sdpx_text -%}
@@ -54,14 +54,14 @@
     comment_style='hash'
 ) -%}
   {#
-    This renders license header depending on user selection of cookiecutter.license.
+    This renders license header depending on user license selection.
 
     Args:
       license (str): The SPDX identifier (e.g., 'MIT', 'BSD-3-Clause').
       author (str): The authors first and last name.
-      project_name (str): .
-      file_name (str): .
-      comment_style (str): .
+      project_name (str): Name of project for copyright.
+      file_name (str): Name of file that license header is placed within.
+      comment_style (str): File comment style (e.g., 'hash', 'python', 'html').
 
     Returns:
       str: the formatted license header text.

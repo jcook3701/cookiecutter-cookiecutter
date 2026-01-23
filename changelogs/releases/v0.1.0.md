@@ -203,6 +203,7 @@ Feat 019 docs update (#42)
 - *(linting)* Fixes moved off jinja2 linter and to djlint.
 - *(linting)* All linting passes again.
 - *(djlint)* Added djlint to template so doesn't get removed on next project upgrade.
+- *(license)* License header adjusted correctly to be REUSE Compliant.
 
 ### 🚀 Added
 
