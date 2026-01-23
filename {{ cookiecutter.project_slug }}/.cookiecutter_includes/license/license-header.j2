@@ -91,23 +91,23 @@
     {{- "\n\n" -}}
     {{- spdx(license, author, project_name) | trim -}}
     {{- "\n\n" -}}
-    {% if license == "0BSD" %}
+    {% if license == "0BSD" -%}
       {{- lics.zero_bsd.license_header -}}
-    {% elif license in lics.agpl_3_0.spdx %}
+    {%- elif license in lics.agpl_3_0.spdx -%}
       {{- lics.agpl_3_0.license_header -}}
-    {% elif license == "Apache-2.0" -%}
+    {%- elif license == "Apache-2.0" -%}
       {{- lics.apache_2_0.license_header -}}
-    {% elif license == "BSD-2-Clause" -%}
+    {%- elif license == "BSD-2-Clause" -%}
       {{- lics.bsd_2_clause.license_header -}}
-    {% elif license == "BSD-3-Clause" -%}
+    {%- elif license == "BSD-3-Clause" -%}
       {{- lics.bsd_3_clause.license_header -}}
-    {% elif license in lics.gpl_3_0.spdx -%}
+    {%- elif license in lics.gpl_3_0.spdx -%}
       {{- lics.gpl_3_0.license_header -}}
-    {% elif license == "MIT" -%}
+    {%- elif license == "MIT" -%}
       {{- lics.mit.license_header -}}
-    {% elif license == "Unlicense" -%}
+    {%- elif license == "Unlicense" -%}
       {{- lics.unlicense.license_header -}}
-    {% endif -%}
+    {%- endif -%}
   {%- endset -%}
   {# Wrap the generated text with the appropriate start and end delimiters #}
   {%- if comment_style == 'python' or comment_style == 'html' -%}
@@ -118,12 +118,13 @@
     {%- set text = license_text.split('\n') -%}
     {# For hash comments, prefix every line with '#' #}
       {%- for line in text -%}
-        {%- if line == '' or line == '\n' -%}
-          {%- set commented_line = line -%}
-        {%- else -%}
-          {%- set commented_line = " " + line -%}
+        {%- set content = line.strip() -%}
+        {%- if content != '' -%}
+          {{- "# " }}{{ content -}}{{- "\n" -}}
+        {%- elif not loop.last and not loop.first -%}
+          {# This handles intentional blank lines between text blocks #}
+          {{- "# " }}{{- "\n" -}}
         {%- endif -%}
-        #{{- commented_line }}
       {% endfor -%}
   {%- endif -%}
 {%- endmacro -%}

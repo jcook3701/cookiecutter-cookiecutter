@@ -47,6 +47,7 @@ dev = [
   "djlint>=1.36",
   "json-lint-tools>=0.1",
   "jinja2-cli>=0.8",
+  "jinja2-time>=0.2",
   "mypy==1.9",
   "nameisok>=0.1",
   "pip-audit>=2.10",
