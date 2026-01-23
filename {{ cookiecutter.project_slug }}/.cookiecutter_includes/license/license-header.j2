@@ -20,6 +20,32 @@
 
 {% import '.cookiecutter_includes/license/license-data.j2' as lics %}
 
+{%- macro spdx(
+    license,
+    author,
+    project_name
+) -%}
+  {#
+    This renders license SPDX.
+
+    Args:
+      license (str): The SPDX identifier (e.g., 'MIT', 'BSD-3-Clause').
+      author (str): The authors first and last name.
+      project_name (str):
+
+    Returns:
+      str: the formatted license SPDX text
+  #}
+  {%- set year %}{% now 'utc', '%Y' %}{% endset -%}
+  {%- set spdx_copyright = "SPDX-FileCopyrightText: Copyright (c) " ~ year ~ ", " ~ author -%}
+  {%- set spdx_license = "SPDX-License-Identifier: " ~ license -%}
+  {%- set sdpx_text -%}
+    {{- spdx_copyright | trim -}}{{- "\n" -}}
+    {{- spdx_license | trim -}}
+  {%- endset -%}
+  {{ sdpx_text | trim }}
+{%- endmacro -%}
+
 {%- macro create(
     license,
     author,
@@ -33,6 +59,7 @@
     Args:
       license (str): The SPDX identifier (e.g., 'MIT', 'BSD-3-Clause').
       author (str): The authors first and last name.
+      project_name (str): .
       file_name (str): .
       comment_style (str): .
 
@@ -59,13 +86,12 @@
       {%- set end_comment = newline -%}
   {%- endif -%}
   {# Generate the core license text #}
-  {% set license_text %}
-    {{- file_name }} for {{ project_name }}
-
-    SPDX-FileCopyrightText: Copyright (c) {% now "utc", "%Y" %}, {{ author }}
-    SPDX-License-Identifier: {{ license }}
-
-    {% if license == "OBSD" %}
+  {%- set license_text -%}
+    {{- file_name }} for {{ project_name -}}
+    {{- "\n\n" -}}
+    {{- spdx(license, author, project_name) | trim -}}
+    {{- "\n\n" -}}
+    {% if license == "0BSD" %}
       {{- lics.zero_bsd.license_header -}}
     {% elif license in lics.agpl_3_0.spdx %}
       {{- lics.agpl_3_0.license_header -}}
@@ -87,7 +113,7 @@
   {%- if comment_style == 'python' or comment_style == 'html' -%}
     {{- start_comment -}}
     {{- license_text | trim }}
-    {{- end_comment }}
+    {{- end_comment -}}
   {%- else -%}
     {%- set text = license_text.split('\n') -%}
     {# For hash comments, prefix every line with '#' #}

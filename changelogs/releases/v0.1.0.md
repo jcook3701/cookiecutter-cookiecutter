@@ -213,3 +213,4 @@ Feat 019 docs update (#42)
 - *(issues)* Setup issue templates. (#22)
 - *(template)* Added Pull request templates and codeowners to project to speed up pull requests.
 - *(license)* Major license change. Moved everything to .cookiecutter_includes and build license file and headers from there.  Also setup Djlint in the main project and should keep testing along with moving that to the template as well once done.
+- *(license)* License template clean up.  Still a little ways to go.

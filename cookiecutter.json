@@ -73,7 +73,8 @@
   ],
   "_extensions": [
     "jinja2.ext.do",
-    "jinja2.ext.loopcontrols"
+    "jinja2.ext.loopcontrols",
+    "jinja2_time.TimeExtension"
   ],
   "_jinja2_env_vars": {
     "lstrip_blocks": true,
