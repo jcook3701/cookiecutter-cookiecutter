@@ -110,6 +110,7 @@ BLACK := $(PYTHON) -m black
 # --------------------------------------------------
 # 🔍 Linting (ruff, yaml, jinja2)
 # --------------------------------------------------
+DJLINT := $(ACTIVATE) && djlint
 RUFF := $(PYTHON) -m ruff
 TOMLLINT := tomllint
 YAMLLINT := $(PYTHON) -m yamllint
@@ -289,6 +290,17 @@ render-cookiecutter:
 		--output-dir $(RENDERED_COOKIE_DIR) \
 		--overwrite-if-exists
 
+djlint-lint-check:
+	$(AT)echo "🔍 djlint lint..."
+	$(AT)$(DJLINT) . --lint --profile=jinja
+	$(AT)echo "✅ Finished linting check of jinja2 macro files with djlint!"
+
+djlint-lint-fix:
+	$(AT)echo "🔍 djlint reformat..."
+	$(AT)$(DJLINT) . --reformat
+	$(AT)echo "✅ Finished reformatting of jinja2 macro files with djlint!"
+
+# Deprecated for cookiecutter projects (USE: djlint-lint-check)
 jinja2-lint-check:
 	$(AT)echo "🔍 jinja2 lint..."
 	$(AT)jq '{cookiecutter: .}' cookiecutter.json > /tmp/_cc_wrapped.json
@@ -330,7 +342,7 @@ yaml-lint-check:
 	$(AT)$(YAMLLINT) $(RENDERED_COOKIE_DIR)
 	$(AT)echo "✅ Finished linting check of yaml files with yamllint!"
 
-lint-check: render-cookiecutter ruff-lint-check toml-lint-check yaml-lint-check
+lint-check: render-cookiecutter djlint-lint-check ruff-lint-check toml-lint-check yaml-lint-check
 lint-fix: ruff-lint-fix
 # --------------------------------------------------
 # 🎓 Spellchecker (codespell)

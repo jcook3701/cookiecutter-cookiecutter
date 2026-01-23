@@ -201,6 +201,7 @@ Feat 019 docs update (#42)
 - *(template)* Minor fixes removed my actual github username and replaced with cookiecutter.github_username.
 - *(linting)* Fixes moved off jinja2 linter and to djlint.
 - *(linting)* Fixes moved off jinja2 linter and to djlint.
+- *(linting)* All linting passes again.
 
 ### 🚀 Added
 
