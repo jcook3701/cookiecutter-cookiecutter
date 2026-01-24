@@ -23,7 +23,7 @@
 {% macro create(
     license,
     copyright
-) -%}
+) %}
   {#
     Generates a license based on the selected SPDX identifier.
 
@@ -37,22 +37,5 @@
     Returns:
         str: The formatted license text as Markdown.
   #}
-  {% if license == '0BSD' %}
-    {{- lics.zero_bsd.license -}}
-  {% elif license in lics.agpl_3_0.spdx %}
-    {{- lics.agpl_3_0.license -}}
-  {% elif license == 'Apache-2.0' %}
-    {{- lics.apache_2_0.license -}}
-  {% elif license == 'BSD-2-Clause' %}
-    {{- lics.bsd_2_clause.license -}}
-  {% elif license == 'BSD-3-Clause' %}
-    {{- lics.bsd_3_clause.license -}}
-  {% elif license in lics.gpl_3_0.spdx %}
-    {{- lics.gpl_3_0.license -}}
-  {% elif license == 'MIT' %}
-    {{- lics.mit.license -}}
-  {% elif license == 'Unlicense' %}
-    {{- lics.unlicense.license -}}
-  {% endif %}
-
-{%- endmacro -%}
+  {{- lics.get_license(license, copyright) -}}
+{% endmacro %}

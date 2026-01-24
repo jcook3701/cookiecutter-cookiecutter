@@ -20,6 +20,10 @@
     "MIT",
     "Unlicense"
   ],
+  "contribution_model": [
+    "CLA",
+    "DCO"
+  ],
   "__copyright": "Copyright (c) {% now 'utc', '%Y' %} {{ cookiecutter.author }}",
   "description": "Description of cookiecutter template project.",
   "python_version": [

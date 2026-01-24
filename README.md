@@ -6,23 +6,32 @@
 <h1 id="cookiecutter-cookiecutter">cookiecutter-cookiecutter</h1>
 
 <p><strong>Author:</strong> Jared Cook<br />
-<strong>Version:</strong> 0.1.0</p>
+<strong>Version:</strong> 0.1.0<br />
+<a href="LICENSE"><img src="https://img.shields.io/github/license/jcook3701/cookiecutter-cookiecutter" alt="License" /></a></p>
 
 <h2 id="overview">Overview</h2>
 
 <p>Cookiecutter cookiecutter template project to rule them all. Generates cookiecutter template projects and is able to be queried by generated projects for updates.</p>
 
-<p><a href="https://github.com/jcook3701/github-docs-cookiecutter">Github docs</a> template generation + <a href="https://github.com/jcook3701/sphinx-cookiecutter">Sphinx docs</a> template generation.</p>
+<p><strong>Utilizes:</strong>
+The cookiecutter-cookiecutter depends on the following repositories for its documentation and sub-features.</p>
+<ul>
+  <li><a href="https://github.com/jcook3701/github-docs-cookiecutter">Github docs</a> template generation.</li>
+  <li><a href="https://github.com/jcook3701/nutri-matic">Nutri-Matic</a> Cookiecutter utilities for streamlining development and utilization of Cookiecutter templates.
+<!-- * [Sphinx docs](https://github.com/jcook3701/sphinx-cookiecutter) template generation. --></li>
+</ul>
 
-<!--
-This project is used to maintain the build and ci/cd structure for the following projects:  
-[github-docs-cookiecutter](https://github.com/jcook3701/github-docs-cookiecutter)  
-[sphinx-cookiecutter](https://github.com/jcook3701/sphinx-cookiecutter)  
-[ansible-galaxy-cookiecutter](https://github.com/jcook3701/ansible-galaxy-cookiecutter)  
-[python-cookiecutter]()  
--->
+<p><strong>Maintains:</strong>
+The cookiecutter-cookiecutter is used to maintain the build and ci/cd structure for the following projects.<br />
+<a href="https://github.com/jcook3701/github-docs-cookiecutter">github-docs-cookiecutter</a><br />
+<a href="https://github.com/jcook3701/sphinx-cookiecutter">sphinx-cookiecutter</a><br />
+<a href="https://github.com/jcook3701/ansible-galaxy-cookiecutter">ansible-galaxy-cookiecutter</a><br />
+<a href="https://github.com/jcook3701/python3-cookiecutter">python3-cookiecutter</a></p>
 
-<p><img src="https://github.com/jcook3701/cookiecutter-cookiecutter/actions/workflows/dependency-check.yml/badge.svg" alt="dependency-check" />
+<hr />
+
+<p><strong>CI/CD:</strong>
+<img src="https://github.com/jcook3701/cookiecutter-cookiecutter/actions/workflows/dependency-check.yml/badge.svg" alt="dependency-check" />
 <img src="https://github.com/jcook3701/cookiecutter-cookiecutter/actions/workflows/format-check.yml/badge.svg" alt="format-check" />
 <img src="https://github.com/jcook3701/cookiecutter-cookiecutter/actions/workflows/lint-check.yml/badge.svg" alt="lint-check" />
 <img src="https://github.com/jcook3701/cookiecutter-cookiecutter/actions/workflows/security-audit.yml/badge.svg" alt="security-audit" />
@@ -30,9 +39,11 @@ This project is used to maintain the build and ci/cd structure for the following
 <img src="https://github.com/jcook3701/cookiecutter-cookiecutter/actions/workflows/tests.yml/badge.svg" alt="tests" />
 <img src="https://github.com/jcook3701/cookiecutter-cookiecutter/actions/workflows/typecheck.yml/badge.svg" alt="typecheck" /></p>
 
-<h2 id="usage-examples">Usage Examples:</h2>
+<hr />
 
-<p><strong>Example:</strong> Pull from main branch.<br />
+<h2 id="usage-examples">Usage Examples</h2>
+
+<p><strong>Example 1:</strong> Pull from main branch.<br />
 <strong>Note:</strong> <a href="https://github.com/jcook3701/nutri-matic">Nutri-Matic</a> is needed in active python environment.</p>
 
 <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>cookiecutter git@github.com:jcook3701/cookiecutter-cookiecutter.git <span class="se">\</span>
@@ -41,7 +52,7 @@ This project is used to maintain the build and ci/cd structure for the following
     <span class="nv">description</span><span class="o">=</span><span class="s2">"Cookiecutter test project."</span>
 </code></pre></div></div>
 
-<p><strong>Example:</strong> Pull from develop branch.</p>
+<p><strong>Example 2:</strong> Pull from develop branch.</p>
 
 <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>cookiecutter git@github.com:jcook3701/cookiecutter-cookiecutter.git <span class="se">\</span>
     <span class="nt">--checkout</span> develop <span class="se">\</span>
@@ -54,7 +65,7 @@ This project is used to maintain the build and ci/cd structure for the following
 
 <hr />
 
-<h2 id="development-strategy">Development Strategy:</h2>
+<h2 id="development-strategy">Development Strategy</h2>
 
 <p><strong>Note:</strong> All Makefile commands are used in ci/cd to ensure that if they pass locally they should also pass once pushed to github.</p>
 <h3 id="️-build-environment-venv">🐍️ Build environment (.venv)</h3>
@@ -113,7 +124,7 @@ This project is used to maintain the build and ci/cd structure for the following
 <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>make <span class="nb">help</span>
 </code></pre></div></div>
 
-<h2 id="commit-help">Commit Help:</h2>
+<h2 id="commit-help">Commit Help</h2>
 
 <p><strong>Note:</strong> Commits are required to be conventional git commit message.  This helps with the auto-generation of the changelog files and is enforced by pre-commit.<br />
 <strong>example:</strong></p>
@@ -135,7 +146,7 @@ This project is used to maintain the build and ci/cd structure for the following
 
 <hr />
 
-<h2 id="requirements">Requirements:</h2>
+<h2 id="requirements">Requirements</h2>
 
 <p><strong>Python 3.11</strong></p>
 
@@ -163,16 +174,9 @@ This project is used to maintain the build and ci/cd structure for the following
 
 <hr />
 
-<h3 id="authors-notes">Authors Notes:</h3>
+<h3 id="authors-notes">Authors Notes</h3>
 <ol>
   <li>This code currently works with cookiecutter 1.7 from Ubuntu’s apt repositories.</li>
-</ol>
-
-<h3 id="todos">TODO’s</h3>
-<ol>
-  <li>Update pyproject.toml to use latest version of cookiecutter to get latest features.</li>
-  <li>Update cookiecutter.json with:
- <code class="language-plaintext highlighter-rouge">"license": ["MIT", "GPLv3", "Apache 2.0"],</code></li>
 </ol>
 
 <!--

@@ -205,6 +205,7 @@ Feat 019 docs update (#42)
 - *(djlint)* Added djlint to template so doesn't get removed on next project upgrade.
 - *(license)* License header adjusted correctly to be REUSE Compliant.
 - *(license)* Fix for linting and updates to license-header.j2 function comments.
+- *(license)* License headers look correct without extra '#' at very end.
 
 ### 🚀 Added
 

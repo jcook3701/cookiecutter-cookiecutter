@@ -2,21 +2,28 @@
 
 __Author:__ {{ site.author }}  
 __Version:__ {{ site.version }}  
+[![License](https://img.shields.io/github/license/jcook3701/cookiecutter-cookiecutter)](LICENSE)
 
 ## Overview
 
 {{ site.description }}  
 
- [Github docs](https://github.com/jcook3701/github-docs-cookiecutter) template generation + [Sphinx docs](https://github.com/jcook3701/sphinx-cookiecutter) template generation.  
+__Utilizes:__
+The {{ site.title }} depends on the following repositories for its documentation and sub-features.
+* [Github docs](https://github.com/jcook3701/github-docs-cookiecutter) template generation.
+* [Nutri-Matic](https://github.com/jcook3701/nutri-matic) Cookiecutter utilities for streamlining development and utilization of Cookiecutter templates.
+<!-- * [Sphinx docs](https://github.com/jcook3701/sphinx-cookiecutter) template generation. -->
 
-<!--
-This project is used to maintain the build and ci/cd structure for the following projects:  
+__Maintains:__
+The {{ site.title }} is used to maintain the build and ci/cd structure for the following projects.  
 [github-docs-cookiecutter](https://github.com/jcook3701/github-docs-cookiecutter)  
 [sphinx-cookiecutter](https://github.com/jcook3701/sphinx-cookiecutter)  
 [ansible-galaxy-cookiecutter](https://github.com/jcook3701/ansible-galaxy-cookiecutter)  
-[python-cookiecutter]()  
--->
+[python3-cookiecutter](https://github.com/jcook3701/python3-cookiecutter)  
 
+***
+
+__CI/CD:__
 ![dependency-check](https://github.com/jcook3701/cookiecutter-cookiecutter/actions/workflows/dependency-check.yml/badge.svg)
 ![format-check](https://github.com/jcook3701/cookiecutter-cookiecutter/actions/workflows/format-check.yml/badge.svg)
 ![lint-check](https://github.com/jcook3701/cookiecutter-cookiecutter/actions/workflows/lint-check.yml/badge.svg)
@@ -25,9 +32,11 @@ This project is used to maintain the build and ci/cd structure for the following
 ![tests](https://github.com/jcook3701/cookiecutter-cookiecutter/actions/workflows/tests.yml/badge.svg)
 ![typecheck](https://github.com/jcook3701/cookiecutter-cookiecutter/actions/workflows/typecheck.yml/badge.svg)
 
-## Usage Examples:
+***
 
-__Example:__ Pull from main branch.  
+## Usage Examples
+
+__Example 1:__ Pull from main branch.  
 __Note:__ [Nutri-Matic](https://github.com/jcook3701/nutri-matic) is needed in active python environment.  
 
 ```shell
@@ -37,7 +46,7 @@ $ cookiecutter git@github.com:jcook3701/cookiecutter-cookiecutter.git \
     description="Cookiecutter test project."
 ```
 
-__Example:__ Pull from develop branch.  
+__Example 2:__ Pull from develop branch.  
 
 ```shell
 $ cookiecutter git@github.com:jcook3701/cookiecutter-cookiecutter.git \
@@ -51,7 +60,7 @@ __Note:__ replace ```test-project``` or any of the other variables with real con
 
 ***
 
-## Development Strategy:
+## Development Strategy
 
 __Note:__ All Makefile commands are used in ci/cd to ensure that if they pass locally they should also pass once pushed to github.  
 ### 🐍️ Build environment (.venv)
@@ -122,7 +131,7 @@ $ make release
 $ make help
 ```
 
-## Commit Help:
+## Commit Help
 
 __Note:__ Commits are required to be conventional git commit message.  This helps with the auto-generation of the changelog files and is enforced by pre-commit.  
 __example:__  
@@ -143,7 +152,7 @@ __example:__
 
 ***
 
-## Requirements:
+## Requirements
 
 __Python 3.11__  
 
@@ -175,13 +184,8 @@ $ cargo install git-cliff
 
 ***
 
-### Authors Notes:
+### Authors Notes
 1. This code currently works with cookiecutter 1.7 from Ubuntu's apt repositories.
-
-### TODO's
-1. Update pyproject.toml to use latest version of cookiecutter to get latest features.
-2. Update cookiecutter.json with:
-	```"license": ["MIT", "GPLv3", "Apache 2.0"],```
 
 <!--
 ### Helpful Emojis:
