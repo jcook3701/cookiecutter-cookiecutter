@@ -193,6 +193,7 @@ Feat 019 docs update (#42)
 - *(changelogs)* Removed changelogs make command from running during post hook generation scripts.
 - *(issues)* Fixes and updates to issue templates.  Added developer only template to avoid having to fill out user forms for each project task.
 - *(jekyll)* Jekyll ci/cd to include necessary environment variables.
+- *(docs)* Minor updates for contributing and security documentation.
 
 ### 🚀 Added
 
