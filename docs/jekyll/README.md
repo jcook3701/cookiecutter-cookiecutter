@@ -24,7 +24,7 @@ The __{{ site.title }}__ is used to maintain the build and ci/cd structure for t
 
 ***
 
-__CI/CD:__  
+__CI/CD Check List:__  
 * ![dependency-check](https://github.com/jcook3701/cookiecutter-cookiecutter/actions/workflows/dependency-check.yml/badge.svg)
 * ![format-check](https://github.com/jcook3701/cookiecutter-cookiecutter/actions/workflows/format-check.yml/badge.svg)
 * ![lint-check](https://github.com/jcook3701/cookiecutter-cookiecutter/actions/workflows/lint-check.yml/badge.svg)
@@ -60,77 +60,6 @@ $ cookiecutter git@github.com:jcook3701/cookiecutter-cookiecutter.git \
 __Note:__ replace ```test-project``` or any of the other variables with real context configuration variables.  
 
 ***
-
-## Development Strategy
-
-__Note:__ All Makefile commands are used in ci/cd to ensure that if they pass locally they should also pass once pushed to github.  
-### 🐍️ Build environment (.venv)
-
-``` shell
-$ make install
-```
-
-### 🧬 Dependency Management (deptry)
-
-```shell
-$ make dependency-check
-```
-
-### 🛡️ Security Audit (pip-audit)
-
-```shell
-$ make security
-```
-
-### 🎨 Formatting (black)
-
-```shell
-$ make format-check
-```
-
-```shell
-$ make format-fix
-```
-
-### 🔍 Linting (jinja2-cli, ruff, tomllint, & yaml-lint)
-
-``` shell
-$ make lint-check
-```
-
-``` shell
-$ make lint-fix
-```
-
-### 🎓 Spellchecking (codespell)
-
-```shell
-$ make spellcheck
-```
-
-### 🧠 Typechecking (mypy)
-
-``` shell
-$ make typecheck
-```
-
-### 🧪 Testing (pytest)
-
-``` shell
-$ make test
-```
-
-### 🚀 Release (git tag)
-
-```shell
-$ make release
-```
-
-### ❓ Build Help
-
-``` shell
-$ make help
-```
 
 ## Commit Help
 
@@ -193,50 +122,4 @@ $ cargo install git-cliff
 
 📡🐋🛢️🚢 🦊💼 👨🏼‍💻🚧 📌 🌱🌳 ⏳🔑 🔫⌚ 🧼🧽 🔌💉
 
-### Authors Hidden TODO's
-
-For Sphinx-cookiecutter -> Need to move from cookiecutter.project_name to cookiecutter.project_slug
-1.
-
-# Maybe upgrade to python 3.12 in future: "pyproject>=1!0.1.2",
-
-# TODO: Might add this to cookiecutter.json
-  "_settings": {
-    "changelog": {
-      "ansible": false,
-      "git_cliff": true
-    },
-    "extra": {
-      "cookiecutter_project_upgrader": true,
-      "deptry": true,
-      "pip-audit": true,
-      "pre-commit": true
-    },
-    "format": {
-      "black": true,
-      "ruff": false,
-      "prettier": false
-    },
-    "lint": {
-      "ansible": false,
-      "jinja2": true,
-      "ruff": true,
-      "toml": true,
-      "yaml": true
-    },
-    "spelling": {
-      "codespell": true,
-      "cspell": true
-    },
-    "typecheck": {
-      "mypy": true
-    },
-    "test": {
-      "pytest": true
-    }
-  },
-
-  Helpful Links:
-  1. https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/configuring-issue-templates-for-your-repository
-  2.
 --->

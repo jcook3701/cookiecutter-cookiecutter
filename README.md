@@ -33,7 +33,7 @@ The <strong>cookiecutter-cookiecutter</strong> is used to maintain the build and
 
 <hr />
 
-<p><strong>CI/CD:</strong></p>
+<p><strong>CI/CD Check List:</strong></p>
 <ul>
   <li><img src="https://github.com/jcook3701/cookiecutter-cookiecutter/actions/workflows/dependency-check.yml/badge.svg" alt="dependency-check" /></li>
   <li><img src="https://github.com/jcook3701/cookiecutter-cookiecutter/actions/workflows/format-check.yml/badge.svg" alt="format-check" /></li>
@@ -69,65 +69,6 @@ The <strong>cookiecutter-cookiecutter</strong> is used to maintain the build and
 <p><strong>Note:</strong> replace <code class="language-plaintext highlighter-rouge">test-project</code> or any of the other variables with real context configuration variables.</p>
 
 <hr />
-
-<h2 id="development-strategy">Development Strategy</h2>
-
-<p><strong>Note:</strong> All Makefile commands are used in ci/cd to ensure that if they pass locally they should also pass once pushed to github.</p>
-<h3 id="️-build-environment-venv">🐍️ Build environment (.venv)</h3>
-
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>make <span class="nb">install</span>
-</code></pre></div></div>
-
-<h3 id="-dependency-management-deptry">🧬 Dependency Management (deptry)</h3>
-
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>make dependency-check
-</code></pre></div></div>
-
-<h3 id="️-security-audit-pip-audit">🛡️ Security Audit (pip-audit)</h3>
-
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>make security
-</code></pre></div></div>
-
-<h3 id="-formatting-black">🎨 Formatting (black)</h3>
-
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>make format-check
-</code></pre></div></div>
-
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>make format-fix
-</code></pre></div></div>
-
-<h3 id="-linting-jinja2-cli-ruff-tomllint--yaml-lint">🔍 Linting (jinja2-cli, ruff, tomllint, &amp; yaml-lint)</h3>
-
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>make lint-check
-</code></pre></div></div>
-
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>make lint-fix
-</code></pre></div></div>
-
-<h3 id="-spellchecking-codespell">🎓 Spellchecking (codespell)</h3>
-
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>make spellcheck
-</code></pre></div></div>
-
-<h3 id="-typechecking-mypy">🧠 Typechecking (mypy)</h3>
-
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>make typecheck
-</code></pre></div></div>
-
-<h3 id="-testing-pytest">🧪 Testing (pytest)</h3>
-
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>make <span class="nb">test</span>
-</code></pre></div></div>
-
-<h3 id="-release-git-tag">🚀 Release (git tag)</h3>
-
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>make release
-</code></pre></div></div>
-
-<h3 id="-build-help">❓ Build Help</h3>
-
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>make <span class="nb">help</span>
-</code></pre></div></div>
 
 <h2 id="commit-help">Commit Help</h2>
 
@@ -189,50 +130,4 @@ The <strong>cookiecutter-cookiecutter</strong> is used to maintain the build and
 
 📡🐋🛢️🚢 🦊💼 👨🏼‍💻🚧 📌 🌱🌳 ⏳🔑 🔫⌚ 🧼🧽 🔌💉
 
-### Authors Hidden TODO's
-
-For Sphinx-cookiecutter -> Need to move from cookiecutter.project_name to cookiecutter.project_slug
-1.
-
-# Maybe upgrade to python 3.12 in future: "pyproject>=1!0.1.2",
-
-# TODO: Might add this to cookiecutter.json
-  "_settings": {
-    "changelog": {
-      "ansible": false,
-      "git_cliff": true
-    },
-    "extra": {
-      "cookiecutter_project_upgrader": true,
-      "deptry": true,
-      "pip-audit": true,
-      "pre-commit": true
-    },
-    "format": {
-      "black": true,
-      "ruff": false,
-      "prettier": false
-    },
-    "lint": {
-      "ansible": false,
-      "jinja2": true,
-      "ruff": true,
-      "toml": true,
-      "yaml": true
-    },
-    "spelling": {
-      "codespell": true,
-      "cspell": true
-    },
-    "typecheck": {
-      "mypy": true
-    },
-    "test": {
-      "pytest": true
-    }
-  },
-
-  Helpful Links:
-  1. https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/configuring-issue-templates-for-your-repository
-  2.
 --->
