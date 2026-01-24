@@ -77,7 +77,7 @@
           {{- "# " }}{{ content -}}{{- "\n" -}}
         {%- elif not loop.last and not loop.first -%}
           {# This handles intentional blank lines between text blocks #}
-          {{- "# " }}{{- "\n" -}}
+          {{- "#" }}{{- "\n" -}}
         {%- endif -%}
       {% endfor -%}
   {%- endif -%}
