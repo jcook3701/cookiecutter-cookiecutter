@@ -185,6 +185,51 @@ Feat 018 project upgrader cmd (#39)
 - Merge pull request #43 from jcook3701/develop
 
 Feat 019 docs update (#42)
+- Feat 14 CLA (#29)
+
+* feat(cla): prep for CLA.
+
+* fix(cla): CI/CD fix for item cla causing unit tests to fail.
+
+* fix(yaml): Yaml format fixes for cla ci/cd action.
+
+* fix(spelling): Added yaml to list of real words.
+
+* fix(contributing): Updates to the contributing file for use of CLA by default over DCO. Need to update template settings to swap between both.
+
+* feat(template): Added Pull request templates and codeowners to project to speed up pull requests.
+
+* fix(template): Minor fixes removed my actual github username and replaced with cookiecutter.github_username.
+
+* feat(license): Major license change. Moved everything to .cookiecutter_includes and build license file and headers from there.  Also setup Djlint in the main project and should keep testing along with moving that to the template as well once done.
+
+* fix(linting): Fixes moved off jinja2 linter and to djlint.
+
+* fix(linting): Fixes moved off jinja2 linter and to djlint.
+
+* fix(linting): All linting passes again.
+
+* fix(djlint): Added djlint to template so doesn't get removed on next project upgrade.
+
+* feat(license): License template clean up.  Still a little ways to go.
+
+* fix(license): License header adjusted correctly to be REUSE Compliant.
+
+* fix(license): Fix for linting and updates to license-header.j2 function comments.
+
+* fix(license): License headers look correct without extra '#' at very end.
+
+* feat(license): License headers and main LICENSE file generation working!
+
+* fix(docs): Readme fixes.
+
+* fix(license): License header fix to remove extra space after '#'.
+
+* fix(license): License headers now show range from when project was started to current year.
+- Merge pull request #46 from jcook3701/develop
+
+Feat 14 CLA (#29)
+- Merge branch 'develop' into feat-020
 
 ### 🐛 Fixed
 
