@@ -2,28 +2,28 @@
 
 __Author:__ {{ site.author }}  
 __Version:__ {{ site.version }}  
-[![License](https://img.shields.io/github/license/jcook3701/cookiecutter-cookiecutter)](LICENSE)
+[__License:__ ![License](https://img.shields.io/github/license/jcook3701/cookiecutter-cookiecutter)](LICENSE)
 
 ## Overview
 
 {{ site.description }}  
 
-__Utilizes:__
-The {{ site.title }} depends on the following repositories for its documentation and sub-features.
+__Utilizes:__  
+The __{{ site.title }}__ depends on the following repositories for its documentation and sub-features.  
 * [Github docs](https://github.com/jcook3701/github-docs-cookiecutter) template generation.
 * [Nutri-Matic](https://github.com/jcook3701/nutri-matic) Cookiecutter utilities for streamlining development and utilization of Cookiecutter templates.
 <!-- * [Sphinx docs](https://github.com/jcook3701/sphinx-cookiecutter) template generation. -->
 
-__Maintains:__
-The {{ site.title }} is used to maintain the build and ci/cd structure for the following projects.  
-[github-docs-cookiecutter](https://github.com/jcook3701/github-docs-cookiecutter)  
-[sphinx-cookiecutter](https://github.com/jcook3701/sphinx-cookiecutter)  
-[ansible-galaxy-cookiecutter](https://github.com/jcook3701/ansible-galaxy-cookiecutter)  
-[python3-cookiecutter](https://github.com/jcook3701/python3-cookiecutter)  
+__Maintains:__  
+The __{{ site.title }}__ is used to maintain the build and ci/cd structure for the following projects.  
+[github-docs-cookiecutter](https://github.com/jcook3701/github-docs-cookiecutter) Github docs cookiecutter template generation.  
+[sphinx-cookiecutter](https://github.com/jcook3701/sphinx-cookiecutter) sphinx cookiecutter template generation.  
+[ansible-galaxy-cookiecutter](https://github.com/jcook3701/ansible-galaxy-cookiecutter) Ansible Galaxy cookiecutter template + integration with (github-docs-cookiecutter) Github docs template generation.  
+[python3-cookiecutter](https://github.com/jcook3701/python3-cookiecutter) Python3 cookiecutter template project + Github docs template generation + Sphinx docs template generation.  
 
 ***
 
-__CI/CD:__
+__CI/CD:__  
 ![dependency-check](https://github.com/jcook3701/cookiecutter-cookiecutter/actions/workflows/dependency-check.yml/badge.svg)
 ![format-check](https://github.com/jcook3701/cookiecutter-cookiecutter/actions/workflows/format-check.yml/badge.svg)
 ![lint-check](https://github.com/jcook3701/cookiecutter-cookiecutter/actions/workflows/lint-check.yml/badge.svg)

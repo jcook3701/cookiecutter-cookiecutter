@@ -7,30 +7,30 @@
 
 <p><strong>Author:</strong> Jared Cook<br />
 <strong>Version:</strong> 0.1.0<br />
-<a href="LICENSE"><img src="https://img.shields.io/github/license/jcook3701/cookiecutter-cookiecutter" alt="License" /></a></p>
+<a href="LICENSE"><strong>License:</strong> <img src="https://img.shields.io/github/license/jcook3701/cookiecutter-cookiecutter" alt="License" /></a></p>
 
 <h2 id="overview">Overview</h2>
 
 <p>Cookiecutter cookiecutter template project to rule them all. Generates cookiecutter template projects and is able to be queried by generated projects for updates.</p>
 
-<p><strong>Utilizes:</strong>
-The cookiecutter-cookiecutter depends on the following repositories for its documentation and sub-features.</p>
+<p><strong>Utilizes:</strong><br />
+The <strong>cookiecutter-cookiecutter</strong> depends on the following repositories for its documentation and sub-features.</p>
 <ul>
   <li><a href="https://github.com/jcook3701/github-docs-cookiecutter">Github docs</a> template generation.</li>
   <li><a href="https://github.com/jcook3701/nutri-matic">Nutri-Matic</a> Cookiecutter utilities for streamlining development and utilization of Cookiecutter templates.
 <!-- * [Sphinx docs](https://github.com/jcook3701/sphinx-cookiecutter) template generation. --></li>
 </ul>
 
-<p><strong>Maintains:</strong>
-The cookiecutter-cookiecutter is used to maintain the build and ci/cd structure for the following projects.<br />
-<a href="https://github.com/jcook3701/github-docs-cookiecutter">github-docs-cookiecutter</a><br />
-<a href="https://github.com/jcook3701/sphinx-cookiecutter">sphinx-cookiecutter</a><br />
-<a href="https://github.com/jcook3701/ansible-galaxy-cookiecutter">ansible-galaxy-cookiecutter</a><br />
-<a href="https://github.com/jcook3701/python3-cookiecutter">python3-cookiecutter</a></p>
+<p><strong>Maintains:</strong><br />
+The <strong>cookiecutter-cookiecutter</strong> is used to maintain the build and ci/cd structure for the following projects.<br />
+<a href="https://github.com/jcook3701/github-docs-cookiecutter">github-docs-cookiecutter</a> Github docs cookiecutter template generation.<br />
+<a href="https://github.com/jcook3701/sphinx-cookiecutter">sphinx-cookiecutter</a> sphinx cookiecutter template generation.<br />
+<a href="https://github.com/jcook3701/ansible-galaxy-cookiecutter">ansible-galaxy-cookiecutter</a> Ansible Galaxy cookiecutter template + integration with (github-docs-cookiecutter) Github docs template generation.<br />
+<a href="https://github.com/jcook3701/python3-cookiecutter">python3-cookiecutter</a> Python3 cookiecutter template project + Github docs template generation + Sphinx docs template generation.</p>
 
 <hr />
 
-<p><strong>CI/CD:</strong>
+<p><strong>CI/CD:</strong><br />
 <img src="https://github.com/jcook3701/cookiecutter-cookiecutter/actions/workflows/dependency-check.yml/badge.svg" alt="dependency-check" />
 <img src="https://github.com/jcook3701/cookiecutter-cookiecutter/actions/workflows/format-check.yml/badge.svg" alt="format-check" />
 <img src="https://github.com/jcook3701/cookiecutter-cookiecutter/actions/workflows/lint-check.yml/badge.svg" alt="lint-check" />
