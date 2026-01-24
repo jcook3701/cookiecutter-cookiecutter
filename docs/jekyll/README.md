@@ -10,27 +10,28 @@ __License:__ [![License](https://img.shields.io/github/license/jcook3701/cookiec
 
 __Utilizes:__  
 The __{{ site.title }}__ depends on the following repositories for its documentation and sub-features.  
-* [Github docs](https://github.com/jcook3701/github-docs-cookiecutter) template generation.
-* [Nutri-Matic](https://github.com/jcook3701/nutri-matic) Cookiecutter utilities for streamlining development and utilization of Cookiecutter templates.
+* [Github docs](https://github.com/jcook3701/github-docs-cookiecutter) cookiecutter template generation.
+* [Nutri-Matic](https://github.com/jcook3701/nutri-matic) cookiecutter utilities for streamlining development and utilization of Cookiecutter templates.
 <!-- * [Sphinx docs](https://github.com/jcook3701/sphinx-cookiecutter) template generation. -->
 
 __Maintains:__  
 The __{{ site.title }}__ is used to maintain the build and ci/cd structure for the following projects.  
 * [github-docs-cookiecutter](https://github.com/jcook3701/github-docs-cookiecutter) Github docs cookiecutter template generation.  
 * [sphinx-cookiecutter](https://github.com/jcook3701/sphinx-cookiecutter) sphinx cookiecutter template generation.  
-* [ansible-galaxy-cookiecutter](https://github.com/jcook3701/ansible-galaxy-cookiecutter) Ansible Galaxy cookiecutter template + integration with * (github-docs-cookiecutter) Github docs template generation.  
-* [python3-cookiecutter](https://github.com/jcook3701/python3-cookiecutter) Python3 cookiecutter template project + Github docs template generation + Sphinx docs template generation.  
+* [ansible-galaxy-cookiecutter](https://github.com/jcook3701/ansible-galaxy-cookiecutter) Ansible Galaxy cookiecutter template + integration with Github docs cookiecutter template generation.  
+* [python3-cookiecutter](https://github.com/jcook3701/python3-cookiecutter) Python3 cookiecutter template project + Github docs cookiecutter template generation + Sphinx docs cookiecutter template generation.  
+<!-- * [typescript-cookiecutter](https://github.com/jcook3701/typescript-cookiecutter) Typescript cookiecutter template project + Github docs cookiecutter template generation.  -->
 
 ***
 
 __CI/CD:__  
-![dependency-check](https://github.com/jcook3701/cookiecutter-cookiecutter/actions/workflows/dependency-check.yml/badge.svg)
-![format-check](https://github.com/jcook3701/cookiecutter-cookiecutter/actions/workflows/format-check.yml/badge.svg)
-![lint-check](https://github.com/jcook3701/cookiecutter-cookiecutter/actions/workflows/lint-check.yml/badge.svg)
-![security-audit](https://github.com/jcook3701/cookiecutter-cookiecutter/actions/workflows/security-audit.yml/badge.svg)
-![spellcheck](https://github.com/jcook3701/cookiecutter-cookiecutter/actions/workflows/spellcheck.yml/badge.svg)
-![tests](https://github.com/jcook3701/cookiecutter-cookiecutter/actions/workflows/tests.yml/badge.svg)
-![typecheck](https://github.com/jcook3701/cookiecutter-cookiecutter/actions/workflows/typecheck.yml/badge.svg)
+* ![dependency-check](https://github.com/jcook3701/cookiecutter-cookiecutter/actions/workflows/dependency-check.yml/badge.svg)
+* ![format-check](https://github.com/jcook3701/cookiecutter-cookiecutter/actions/workflows/format-check.yml/badge.svg)
+* ![lint-check](https://github.com/jcook3701/cookiecutter-cookiecutter/actions/workflows/lint-check.yml/badge.svg)
+* ![security-audit](https://github.com/jcook3701/cookiecutter-cookiecutter/actions/workflows/security-audit.yml/badge.svg)
+* ![spellcheck](https://github.com/jcook3701/cookiecutter-cookiecutter/actions/workflows/spellcheck.yml/badge.svg)
+* ![tests](https://github.com/jcook3701/cookiecutter-cookiecutter/actions/workflows/tests.yml/badge.svg)
+* ![typecheck](https://github.com/jcook3701/cookiecutter-cookiecutter/actions/workflows/typecheck.yml/badge.svg)
 
 ***
 

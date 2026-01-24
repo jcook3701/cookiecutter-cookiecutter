@@ -16,8 +16,8 @@
 <p><strong>Utilizes:</strong><br />
 The <strong>cookiecutter-cookiecutter</strong> depends on the following repositories for its documentation and sub-features.</p>
 <ul>
-  <li><a href="https://github.com/jcook3701/github-docs-cookiecutter">Github docs</a> template generation.</li>
-  <li><a href="https://github.com/jcook3701/nutri-matic">Nutri-Matic</a> Cookiecutter utilities for streamlining development and utilization of Cookiecutter templates.
+  <li><a href="https://github.com/jcook3701/github-docs-cookiecutter">Github docs</a> cookiecutter template generation.</li>
+  <li><a href="https://github.com/jcook3701/nutri-matic">Nutri-Matic</a> cookiecutter utilities for streamlining development and utilization of Cookiecutter templates.
 <!-- * [Sphinx docs](https://github.com/jcook3701/sphinx-cookiecutter) template generation. --></li>
 </ul>
 
@@ -26,20 +26,23 @@ The <strong>cookiecutter-cookiecutter</strong> is used to maintain the build and
 <ul>
   <li><a href="https://github.com/jcook3701/github-docs-cookiecutter">github-docs-cookiecutter</a> Github docs cookiecutter template generation.</li>
   <li><a href="https://github.com/jcook3701/sphinx-cookiecutter">sphinx-cookiecutter</a> sphinx cookiecutter template generation.</li>
-  <li><a href="https://github.com/jcook3701/ansible-galaxy-cookiecutter">ansible-galaxy-cookiecutter</a> Ansible Galaxy cookiecutter template + integration with * (github-docs-cookiecutter) Github docs template generation.</li>
-  <li><a href="https://github.com/jcook3701/python3-cookiecutter">python3-cookiecutter</a> Python3 cookiecutter template project + Github docs template generation + Sphinx docs template generation.</li>
+  <li><a href="https://github.com/jcook3701/ansible-galaxy-cookiecutter">ansible-galaxy-cookiecutter</a> Ansible Galaxy cookiecutter template + integration with Github docs cookiecutter template generation.</li>
+  <li><a href="https://github.com/jcook3701/python3-cookiecutter">python3-cookiecutter</a> Python3 cookiecutter template project + Github docs cookiecutter template generation + Sphinx docs cookiecutter template generation.<br />
+<!-- * [typescript-cookiecutter](https://github.com/jcook3701/typescript-cookiecutter) Typescript cookiecutter template project + Github docs cookiecutter template generation.  --></li>
 </ul>
 
 <hr />
 
-<p><strong>CI/CD:</strong><br />
-<img src="https://github.com/jcook3701/cookiecutter-cookiecutter/actions/workflows/dependency-check.yml/badge.svg" alt="dependency-check" />
-<img src="https://github.com/jcook3701/cookiecutter-cookiecutter/actions/workflows/format-check.yml/badge.svg" alt="format-check" />
-<img src="https://github.com/jcook3701/cookiecutter-cookiecutter/actions/workflows/lint-check.yml/badge.svg" alt="lint-check" />
-<img src="https://github.com/jcook3701/cookiecutter-cookiecutter/actions/workflows/security-audit.yml/badge.svg" alt="security-audit" />
-<img src="https://github.com/jcook3701/cookiecutter-cookiecutter/actions/workflows/spellcheck.yml/badge.svg" alt="spellcheck" />
-<img src="https://github.com/jcook3701/cookiecutter-cookiecutter/actions/workflows/tests.yml/badge.svg" alt="tests" />
-<img src="https://github.com/jcook3701/cookiecutter-cookiecutter/actions/workflows/typecheck.yml/badge.svg" alt="typecheck" /></p>
+<p><strong>CI/CD:</strong></p>
+<ul>
+  <li><img src="https://github.com/jcook3701/cookiecutter-cookiecutter/actions/workflows/dependency-check.yml/badge.svg" alt="dependency-check" /></li>
+  <li><img src="https://github.com/jcook3701/cookiecutter-cookiecutter/actions/workflows/format-check.yml/badge.svg" alt="format-check" /></li>
+  <li><img src="https://github.com/jcook3701/cookiecutter-cookiecutter/actions/workflows/lint-check.yml/badge.svg" alt="lint-check" /></li>
+  <li><img src="https://github.com/jcook3701/cookiecutter-cookiecutter/actions/workflows/security-audit.yml/badge.svg" alt="security-audit" /></li>
+  <li><img src="https://github.com/jcook3701/cookiecutter-cookiecutter/actions/workflows/spellcheck.yml/badge.svg" alt="spellcheck" /></li>
+  <li><img src="https://github.com/jcook3701/cookiecutter-cookiecutter/actions/workflows/tests.yml/badge.svg" alt="tests" /></li>
+  <li><img src="https://github.com/jcook3701/cookiecutter-cookiecutter/actions/workflows/typecheck.yml/badge.svg" alt="typecheck" /></li>
+</ul>
 
 <hr />
 
