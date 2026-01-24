@@ -207,6 +207,7 @@ Feat 019 docs update (#42)
 - *(license)* Fix for linting and updates to license-header.j2 function comments.
 - *(license)* License headers look correct without extra '#' at very end.
 - *(docs)* Readme fixes.
+- *(docs)* Readme fixes.
 
 ### 🚀 Added
 

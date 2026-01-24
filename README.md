@@ -11,7 +11,7 @@
 
 <h2 id="overview">Overview</h2>
 
-<p>Cookiecutter cookiecutter template project to rule them all. Generates cookiecutter template projects and is able to be queried by generated projects for updates.</p>
+<p><strong>cookiecutter-cookiecutter</strong> is the cookiecutter template project to rule them all. Generates cookiecutter template projects and is able to be queried by generated projects for updates.</p>
 
 <p><strong>Utilizes:</strong><br />
 The <strong>cookiecutter-cookiecutter</strong> depends on the following repositories for its documentation and sub-features.</p>
