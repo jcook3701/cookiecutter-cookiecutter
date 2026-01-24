@@ -24,7 +24,10 @@
     "CLA",
     "DCO"
   ],
-  "__copyright": "Copyright (c) {% now 'utc', '%Y' %} {{ cookiecutter.author }}",
+  "publication_year": "2025",
+  "current_year": "{% now 'local', '%Y' %}",
+  "__year_range": "{% if cookiecutter.publication_year == cookiecutter.current_year %}{{ cookiecutter.current_year }}{% else %}{{ cookiecutter.publication_year }}-{{ cookiecutter.current_year }}{% endif %}",
+  "copyright": "Copyright (c) {{ cookiecutter.__year_range }}, {{ cookiecutter.author }}",
   "description": "Description of cookiecutter template project.",
   "python_version": [
     "3.11",

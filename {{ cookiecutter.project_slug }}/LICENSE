@@ -2,4 +2,4 @@
 
 {{- license_macros.license.create(
 	cookiecutter.license,
-  cookiecutter.__copyright) -}}
+  cookiecutter.copyright) -}}

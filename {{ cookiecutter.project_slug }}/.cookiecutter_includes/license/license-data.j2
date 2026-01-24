@@ -38,7 +38,7 @@
 
 {%- macro spdx(
     license,
-    author,
+    copyright,
     project_name
 ) -%}
     {#
@@ -46,14 +46,14 @@
 
     Args:
       license (str): The SPDX identifier (e.g., 'MIT', 'BSD-3-Clause').
-      author (str): The authors first and last name.
+      copyright (str): The copyright holder line (e.g., '2026 Jane Doe').
       project_name (str): Name of project for copyright.
 
     Returns:
       str: the formatted license SPDX text.
     #}
     {%- set year %}{% now "utc", "%Y" %}{% endset -%}
-    {%- set spdx_copyright = "SPDX-FileCopyrightText: Copyright (c) " ~ year ~ ", " ~ author -%}
+    {%- set spdx_copyright = "SPDX-FileCopyrightText: " ~ copyright -%}
     {%- set spdx_license = "SPDX-License-Identifier: " ~ license -%}
     {%- set sdpx_text -%}
         {{- spdx_copyright -}}{{- "\n" -}}
@@ -95,7 +95,7 @@
 
 {%- macro get_licence_header(
     license,
-    author,
+    copyright,
     project_name,
     file_name='none'
 ) -%}
@@ -104,13 +104,16 @@
 
     Args:
       license (str): The SPDX identifier (e.g., 'MIT', 'BSD-3-Clause').
+      copyright(str): The copyright holder line (e.g., '2026 Jane Doe').
+      project_name(str): project_name (str): Name of project for file header.
+      file_name(str): Name of file for license header.
 
     Returns:
       str: the license header text
     #}
     {{- file_name }} for {{ project_name -}}
     {{- "\n\n" -}}
-    {{- spdx(license, author, project_name) -}}
+    {{- spdx(license, copyright, project_name) -}}
     {%- set header_notice = get_licence_header_summery(license) -%}
     {%- if header_notice != "" -%}
         {{- "\n\n" -}}

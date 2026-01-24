@@ -67,6 +67,7 @@ dev = [
   "pytest>=9.0",
   "pytest-cookies>=0.7",
   "pytest-cov>=7.0",
+  "reuse>=6.2",
   "ruff>=0.14.0",
   "tomllint>=0.3",
   "yamllint>=1.0",

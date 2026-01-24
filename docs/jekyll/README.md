@@ -115,7 +115,7 @@ $ cargo install git-cliff
 ***
 
 ### Authors Notes
-1. This code currently works with cookiecutter 1.7 from Ubuntu's apt repositories.
+1. This code is currently intended to work with cookiecutter (v2.1+).
 
 <!--
 ### Helpful Emojis:

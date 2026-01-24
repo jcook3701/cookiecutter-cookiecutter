@@ -122,7 +122,7 @@ The <strong>cookiecutter-cookiecutter</strong> is used to maintain the build and
 
 <h3 id="authors-notes">Authors Notes</h3>
 <ol>
-  <li>This code currently works with cookiecutter 1.7 from Ubuntu’s apt repositories.</li>
+  <li>This code is currently intended to work with cookiecutter (v2.1+).</li>
 </ol>
 
 <!--
