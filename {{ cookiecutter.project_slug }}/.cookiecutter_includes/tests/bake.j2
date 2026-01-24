@@ -25,7 +25,7 @@
 {# returns the test_file name depending on the template type. #}
     {% if template_type in ["ansible", "c", "c++", "c/cc", "c/c++", "ros2"] -%}
         LICENSE
-    {%- elif template_type ==  "cookiecutter" -%}
+    {%- elif template_type == "cookiecutter" -%}
         Makefile
     {%- elif template_type == "python" -%}
         pyproject.toml

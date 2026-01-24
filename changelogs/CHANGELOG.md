@@ -163,6 +163,7 @@ feat-017 issue template bug fix
 - Merge pull request #37 from jcook3701/develop
 
 Develop
+- Merge branch 'develop' into feat-014-cla
 - Feat 018 project upgrader cmd (#39)
 
 * fix(update): I think this should fix the project upgrader and not break the rest of the use cases but a test is needed.
@@ -171,10 +172,21 @@ Develop
 - Merge pull request #40 from jcook3701/develop
 
 Feat 018 project upgrader cmd (#39)
-- Update template
-- Update template
-- Update template
-- Merge branch 'cookiecutter-template' into feat-019-docs-update
+- Feat 019 docs update (#42)
+
+* feat(docs): Added security and contributing files to .github folder.
+
+* chore(upgrade): Update template using cookiecutter_project_upgrader.
+
+* feat(jekyll): Project has been upgraded to work with Jekyll 4.4 and builds with a manual command so we can use newer version of just the docs template.
+
+* feat(ci/cd): Updates to spellcheck and markdown lint configuration file.
+
+* fix(ci/cd): Jekyll ci/cd fixes.
+- Merge pull request #43 from jcook3701/develop
+
+Feat 019 docs update (#42)
+- Merge branch 'develop' into feat-014-cla
 
 ### 🐛 Fixed
 
@@ -182,13 +194,35 @@ Feat 018 project upgrader cmd (#39)
 - *(template)* Fixed git auto remove to ignore all readme files on merge.
 - *(changelogs)* Removed changelogs make command from running during post hook generation scripts.
 - *(issues)* Fixes and updates to issue templates.  Added developer only template to avoid having to fill out user forms for each project task.
+- *(cla)* CI/CD fix for item cla causing unit tests to fail.
+- *(yaml)* Yaml format fixes for cla ci/cd action.
+- *(spelling)* Added yaml to list of real words.
+- *(contributing)* Updates to the contributing file for use of CLA by default over DCO. Need to update template settings to swap between both.
+- *(template)* Minor fixes removed my actual github username and replaced with cookiecutter.github_username.
+- *(linting)* Fixes moved off jinja2 linter and to djlint.
+- *(linting)* Fixes moved off jinja2 linter and to djlint.
+- *(linting)* All linting passes again.
+- *(djlint)* Added djlint to template so doesn't get removed on next project upgrade.
+- *(license)* License header adjusted correctly to be REUSE Compliant.
+- *(license)* Fix for linting and updates to license-header.j2 function comments.
+- *(license)* License headers look correct without extra '#' at very end.
+- *(docs)* Readme fixes.
+- *(docs)* Readme fixes.
+- *(docs)* Readme fixes.
+- *(docs)* Readme fixes.
+- *(docs)* Readme fixes.
+- *(docs)* Readme fixes.
+- *(license)* License header fix to remove extra space after '#'.
+- *(license)* License headers now are show range from when project was started to current year.
 
 ### 🚀 Added
 
 - *(build)* Build appears to be working now.
 - *(git)* Added git attributes file to hopefully ignore updating specific files after they have been created. (#9)
 - *(fix)* General fixes for template to ensure proper upgrade functionality. (#13)
+- *(cla)* Prep for CLA.
 - *(issues)* Setup issue templates. (#22)
-- *(docs)* Added security and contributing files to .github folder.
-- *(jekyll)* Project has been upgraded to work with Jekyll 4.4 and builds with a manual command so we can use newer version of just the docs template.
-- *(ci/cd)* Updates to spellcheck and markdown lint configuration file.
+- *(template)* Added Pull request templates and codeowners to project to speed up pull requests.
+- *(license)* Major license change. Moved everything to .cookiecutter_includes and build license file and headers from there.  Also setup Djlint in the main project and should keep testing along with moving that to the template as well once done.
+- *(license)* License template clean up.  Still a little ways to go.
+- *(license)* License headers and main LICENSE file generation working!

@@ -2,34 +2,42 @@
 
 __Author:__ {{ site.author }}  
 __Version:__ {{ site.version }}  
+__License:__ [![License](https://img.shields.io/github/license/jcook3701/cookiecutter-cookiecutter)](LICENSE)
 
 ## Overview
 
 {{ site.description }}  
 
-__Documentation Templates:__
-This project utilizes [Github docs](https://github.com/jcook3701/github-docs-cookiecutter) and [Sphinx docs](https://github.com/jcook3701/sphinx-cookiecutter) as sub-templates for template generation.  
+__Utilizes:__  
+The __{{ site.title }}__ depends on the following repositories for its documentation and sub-features.  
+* [Github docs](https://github.com/jcook3701/github-docs-cookiecutter) cookiecutter template generation.
+* [Nutri-Matic](https://github.com/jcook3701/nutri-matic) cookiecutter utilities for streamlining development and utilization of Cookiecutter templates.
+<!-- * [Sphinx docs](https://github.com/jcook3701/sphinx-cookiecutter) template generation. -->
 
-<!--
-This project is used to maintain the build and ci/cd structure for the following projects:  
-[github-docs-cookiecutter](https://github.com/jcook3701/github-docs-cookiecutter)  
-[sphinx-cookiecutter](https://github.com/jcook3701/sphinx-cookiecutter)  
-[ansible-galaxy-cookiecutter](https://github.com/jcook3701/ansible-galaxy-cookiecutter)  
-[python-cookiecutter]()  
--->
-[![License](https://img.shields.io/github/license/jcook3701/cookiecutter-cookiecutter)](LICENSE)
+__Maintains:__  
+The __{{ site.title }}__ is used to maintain the build and ci/cd structure for the following projects.  
+* [github-docs-cookiecutter](https://github.com/jcook3701/github-docs-cookiecutter) Github docs cookiecutter template generation.  
+* [sphinx-cookiecutter](https://github.com/jcook3701/sphinx-cookiecutter) sphinx cookiecutter template generation.  
+* [ansible-galaxy-cookiecutter](https://github.com/jcook3701/ansible-galaxy-cookiecutter) Ansible Galaxy cookiecutter template + integration with Github docs cookiecutter template generation.  
+* [python3-cookiecutter](https://github.com/jcook3701/python3-cookiecutter) Python3 cookiecutter template project + Github docs cookiecutter template generation + Sphinx docs cookiecutter template generation.  
+<!-- * [typescript-cookiecutter](https://github.com/jcook3701/typescript-cookiecutter) Typescript cookiecutter template project + Github docs cookiecutter template generation.  -->
 
-![dependency-check](https://github.com/jcook3701/cookiecutter-cookiecutter/actions/workflows/dependency-check.yml/badge.svg)
-![format-check](https://github.com/jcook3701/cookiecutter-cookiecutter/actions/workflows/format-check.yml/badge.svg)
-![lint-check](https://github.com/jcook3701/cookiecutter-cookiecutter/actions/workflows/lint-check.yml/badge.svg)
-![security-audit](https://github.com/jcook3701/cookiecutter-cookiecutter/actions/workflows/security-audit.yml/badge.svg)
-![spellcheck](https://github.com/jcook3701/cookiecutter-cookiecutter/actions/workflows/spellcheck.yml/badge.svg)
-![tests](https://github.com/jcook3701/cookiecutter-cookiecutter/actions/workflows/tests.yml/badge.svg)
-![typecheck](https://github.com/jcook3701/cookiecutter-cookiecutter/actions/workflows/typecheck.yml/badge.svg)
+***
 
-## Usage Examples:
+__CI/CD Check List:__  
+* ![dependency-check](https://github.com/jcook3701/cookiecutter-cookiecutter/actions/workflows/dependency-check.yml/badge.svg)
+* ![format-check](https://github.com/jcook3701/cookiecutter-cookiecutter/actions/workflows/format-check.yml/badge.svg)
+* ![lint-check](https://github.com/jcook3701/cookiecutter-cookiecutter/actions/workflows/lint-check.yml/badge.svg)
+* ![security-audit](https://github.com/jcook3701/cookiecutter-cookiecutter/actions/workflows/security-audit.yml/badge.svg)
+* ![spellcheck](https://github.com/jcook3701/cookiecutter-cookiecutter/actions/workflows/spellcheck.yml/badge.svg)
+* ![tests](https://github.com/jcook3701/cookiecutter-cookiecutter/actions/workflows/tests.yml/badge.svg)
+* ![typecheck](https://github.com/jcook3701/cookiecutter-cookiecutter/actions/workflows/typecheck.yml/badge.svg)
 
-__Example:__ Pull from main branch.  
+***
+
+## Usage Examples
+
+__Example 1:__ Pull from main branch.  
 __Note:__ [Nutri-Matic](https://github.com/jcook3701/nutri-matic) is needed in active python environment.  
 
 ```shell
@@ -39,7 +47,7 @@ $ cookiecutter git@github.com:jcook3701/cookiecutter-cookiecutter.git \
     description="Cookiecutter test project."
 ```
 
-__Example:__ Pull from develop branch.  
+__Example 2:__ Pull from develop branch.  
 
 ```shell
 $ cookiecutter git@github.com:jcook3701/cookiecutter-cookiecutter.git \
@@ -53,78 +61,7 @@ __Note:__ replace ```test-project``` or any of the other variables with real con
 
 ***
 
-## Development Strategy:
-
-__Note:__ All Makefile commands are used in ci/cd to ensure that if they pass locally they should also pass once pushed to github.  
-### 🐍️ Build environment (.venv)
-
-``` shell
-$ make install
-```
-
-### 🧬 Dependency Management (deptry)
-
-```shell
-$ make dependency-check
-```
-
-### 🛡️ Security Audit (pip-audit)
-
-```shell
-$ make security
-```
-
-### 🎨 Formatting (black)
-
-```shell
-$ make format-check
-```
-
-```shell
-$ make format-fix
-```
-
-### 🔍 Linting (jinja2-cli, ruff, tomllint, & yaml-lint)
-
-``` shell
-$ make lint-check
-```
-
-``` shell
-$ make lint-fix
-```
-
-### 🎓 Spellchecking (codespell)
-
-```shell
-$ make spellcheck
-```
-
-### 🧠 Typechecking (mypy)
-
-``` shell
-$ make typecheck
-```
-
-### 🧪 Testing (pytest)
-
-``` shell
-$ make test
-```
-
-### 🚀 Release (git tag)
-
-```shell
-$ make release
-```
-
-### ❓ Build Help
-
-``` shell
-$ make help
-```
-
-## Commit Help:
+## Commit Help
 
 __Note:__ Commits are required to be conventional git commit message.  This helps with the auto-generation of the changelog files and is enforced by pre-commit.  
 __example:__  
@@ -145,7 +82,7 @@ __example:__
 
 ***
 
-## Requirements:
+## Requirements
 
 __Python 3.11__  
 
@@ -177,59 +114,12 @@ $ cargo install git-cliff
 
 ***
 
-### Authors Notes:
-1. This code currently works with cookiecutter 1.7 from Ubuntu's apt repositories.
-
-### TODO's
-1. Update pyproject.toml to use latest version of cookiecutter to get latest features.
-2. Update cookiecutter.json with:
-	```"license": ["MIT", "GPLv3", "Apache 2.0"],```
+### Authors Notes
+1. This code is currently intended to work with cookiecutter (v2.1+).
 
 <!--
 ### Helpful Emojis:
 
 📡🐋🛢️🚢 🦊💼 👨🏼‍💻🚧 📌 🌱🌳 ⏳🔑 🔫⌚ 🧼🧽 🔌💉
 
-### Authors Hidden TODO's
-
-For Sphinx-cookiecutter -> Need to move from cookiecutter.project_name to cookiecutter.project_slug
-1.
-
-# Maybe upgrade to python 3.12 in future: "pyproject>=1!0.1.2",
-
-# TODO: Might add this to cookiecutter.json
-  "_settings": {
-    "changelog": {
-      "ansible": false,
-      "git_cliff": true
-    },
-    "extra": {
-      "cookiecutter_project_upgrader": true,
-      "deptry": true,
-      "pip-audit": true,
-      "pre-commit": true
-    },
-    "format": {
-      "black": true,
-      "ruff": false,
-      "prettier": false
-    },
-    "lint": {
-      "ansible": false,
-      "jinja2": true,
-      "ruff": true,
-      "toml": true,
-      "yaml": true
-    },
-    "spelling": {
-      "codespell": true,
-      "cspell": true
-    },
-    "typecheck": {
-      "mypy": true
-    },
-    "test": {
-      "pytest": true
-    }
-  },
 --->

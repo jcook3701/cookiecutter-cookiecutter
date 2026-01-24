@@ -1,10 +1,10 @@
-{% import '.cookiecutter_includes/license_header.j2' as license_macros with context %}
-{{- license_macros.license_header(
+{% import '.cookiecutter_includes/license/__init__.j2' as license_macros with context %}
+{{- license_macros.license_header.create(
   cookiecutter.license,
-  cookiecutter.author,
+  cookiecutter.copyright,
   cookiecutter.project_slug,
   file_name='cliff.toml',
-  comment_style='hash') }}
+  comment_style='hash') -}}
 # Git-Cliff config for hybrid changelog system
 [git]
 conventional_commits = true

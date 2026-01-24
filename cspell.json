@@ -4,14 +4,18 @@
     "useGitignore": true,
     "words": [
         "bumpversion",
+        "cla",
+        "ccla",
         "cli",
         "codespell",
         "cookiecutter",
         "cookiecutter_project_upgrader",
+        "dco",
         "deptry",
         "ehthumbs",
         "gitcliff",
         "githubusercontent",
+        "icla",
         "mkdirp",
         "nutrimatic",
         "nutri-matic",
@@ -20,13 +24,15 @@
         "pyproject",
         "pytest",
         "rpmnew",
+        "rustc",
         "streetsidesoftware",
         "tomllint",
         "tsmerge",
         "upgrader",
         "venv",
         "visualstudio",
-        "vsmarketplacebadge"
+        "vsmarketplacebadge",
+        "yaml"
     ],
     "flagWords": [
         "hte"
@@ -35,6 +41,7 @@
         "bash",
         "companies",
         "css",
+        "public-licenses",
         "docker",
         "django",
         "filetypes",
@@ -45,6 +52,7 @@
         "npm",
         "python",
         "python-common",
+        "rust",
         "softwareTerms",
         "typescript"
     ]
