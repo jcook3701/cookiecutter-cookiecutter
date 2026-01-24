@@ -16,10 +16,10 @@ The __{{ site.title }}__ depends on the following repositories for its documenta
 
 __Maintains:__  
 The __{{ site.title }}__ is used to maintain the build and ci/cd structure for the following projects.  
-[github-docs-cookiecutter](https://github.com/jcook3701/github-docs-cookiecutter) Github docs cookiecutter template generation.  
-[sphinx-cookiecutter](https://github.com/jcook3701/sphinx-cookiecutter) sphinx cookiecutter template generation.  
-[ansible-galaxy-cookiecutter](https://github.com/jcook3701/ansible-galaxy-cookiecutter) Ansible Galaxy cookiecutter template + integration with (github-docs-cookiecutter) Github docs template generation.  
-[python3-cookiecutter](https://github.com/jcook3701/python3-cookiecutter) Python3 cookiecutter template project + Github docs template generation + Sphinx docs template generation.  
+* [github-docs-cookiecutter](https://github.com/jcook3701/github-docs-cookiecutter) Github docs cookiecutter template generation.  
+* [sphinx-cookiecutter](https://github.com/jcook3701/sphinx-cookiecutter) sphinx cookiecutter template generation.  
+* [ansible-galaxy-cookiecutter](https://github.com/jcook3701/ansible-galaxy-cookiecutter) Ansible Galaxy cookiecutter template + integration with * (github-docs-cookiecutter) Github docs template generation.  
+* [python3-cookiecutter](https://github.com/jcook3701/python3-cookiecutter) Python3 cookiecutter template project + Github docs template generation + Sphinx docs template generation.  
 
 ***
 

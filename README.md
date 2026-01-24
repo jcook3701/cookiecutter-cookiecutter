@@ -22,11 +22,13 @@ The <strong>cookiecutter-cookiecutter</strong> depends on the following reposito
 </ul>
 
 <p><strong>Maintains:</strong><br />
-The <strong>cookiecutter-cookiecutter</strong> is used to maintain the build and ci/cd structure for the following projects.<br />
-<a href="https://github.com/jcook3701/github-docs-cookiecutter">github-docs-cookiecutter</a> Github docs cookiecutter template generation.<br />
-<a href="https://github.com/jcook3701/sphinx-cookiecutter">sphinx-cookiecutter</a> sphinx cookiecutter template generation.<br />
-<a href="https://github.com/jcook3701/ansible-galaxy-cookiecutter">ansible-galaxy-cookiecutter</a> Ansible Galaxy cookiecutter template + integration with (github-docs-cookiecutter) Github docs template generation.<br />
-<a href="https://github.com/jcook3701/python3-cookiecutter">python3-cookiecutter</a> Python3 cookiecutter template project + Github docs template generation + Sphinx docs template generation.</p>
+The <strong>cookiecutter-cookiecutter</strong> is used to maintain the build and ci/cd structure for the following projects.</p>
+<ul>
+  <li><a href="https://github.com/jcook3701/github-docs-cookiecutter">github-docs-cookiecutter</a> Github docs cookiecutter template generation.</li>
+  <li><a href="https://github.com/jcook3701/sphinx-cookiecutter">sphinx-cookiecutter</a> sphinx cookiecutter template generation.</li>
+  <li><a href="https://github.com/jcook3701/ansible-galaxy-cookiecutter">ansible-galaxy-cookiecutter</a> Ansible Galaxy cookiecutter template + integration with * (github-docs-cookiecutter) Github docs template generation.</li>
+  <li><a href="https://github.com/jcook3701/python3-cookiecutter">python3-cookiecutter</a> Python3 cookiecutter template project + Github docs template generation + Sphinx docs template generation.</li>
+</ul>
 
 <hr />
 
