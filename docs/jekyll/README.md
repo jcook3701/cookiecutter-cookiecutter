@@ -2,7 +2,7 @@
 
 __Author:__ {{ site.author }}  
 __Version:__ {{ site.version }}  
-[__License:__ ![License](https://img.shields.io/github/license/jcook3701/cookiecutter-cookiecutter)](LICENSE)
+__License:__ [![License](https://img.shields.io/github/license/jcook3701/cookiecutter-cookiecutter)](LICENSE)
 
 ## Overview
 

@@ -7,7 +7,7 @@
 
 <p><strong>Author:</strong> Jared Cook<br />
 <strong>Version:</strong> 0.1.0<br />
-<a href="LICENSE"><strong>License:</strong> <img src="https://img.shields.io/github/license/jcook3701/cookiecutter-cookiecutter" alt="License" /></a></p>
+<strong>License:</strong> <a href="LICENSE"><img src="https://img.shields.io/github/license/jcook3701/cookiecutter-cookiecutter" alt="License" /></a></p>
 
 <h2 id="overview">Overview</h2>
 
