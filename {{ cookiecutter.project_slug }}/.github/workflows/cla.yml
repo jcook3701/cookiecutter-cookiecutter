@@ -40,7 +40,7 @@ jobs:
         with:
           signed-commit-message: 'chore: $contributorName has signed the CLA'
           path-to-signatures: 'signatures/version1/cla.json'
-          path-to-document: 'https://github.com/{{ github.repository }}/blob/master/docs/jekyll/_manual/developer-resources/cla.md' # e.g. a CLA or a DCO document
+          path-to-document: 'https://github.com/{{ github.repository }}/blob/master/docs/jekyll/_site/manual/developer-resources/cla.html' # e.g. a CLA or a DCO document
           # branch should not be protected
           branch: 'main'
           allowlist: "{{ cookiecutter.github_username }},github-actions[bot],dependabot[bot],bot*"

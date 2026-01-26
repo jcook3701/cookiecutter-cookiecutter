@@ -239,6 +239,7 @@ Feat 14 CLA (#29)
 - *(issues)* Fixes and updates to issue templates.  Added developer only template to avoid having to fill out user forms for each project task.
 - *(jekyll)* Jekyll ci/cd to include necessary environment variables.
 - *(docs)* Minor updates for contributing and security documentation.
+- *(license)* Moved license to markdown extension.
 
 ### 🚀 Added
 
