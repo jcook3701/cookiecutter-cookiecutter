@@ -334,7 +334,8 @@ render-cookiecutter:
 	$(AT)rm -rf $(RENDERED_COOKIE_DIR)
 	$(AT)$(COOKIECUTTER) . --no-input \
 		--output-dir $(RENDERED_COOKIE_DIR) \
-		--overwrite-if-exists
+		--overwrite-if-exists \
+		--keep-project-on-failure
 
 test-root:
 	$(AT)echo "$(PROJECT_ROOT)"
