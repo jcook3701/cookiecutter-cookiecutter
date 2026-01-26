@@ -240,6 +240,7 @@ Feat 14 CLA (#29)
 - *(jekyll)* Jekyll ci/cd to include necessary environment variables.
 - *(docs)* Minor updates for contributing and security documentation.
 - *(license)* Moved license to markdown extension.
+- *(ci/cd)* Fixes for Jekyll and CLA ci/cd.
 
 ### 🚀 Added
 
