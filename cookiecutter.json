@@ -65,7 +65,7 @@
   ],
   "_hooks": {
     "post_gen_make_cmds": {
-      "install": true,
+      "python-install": true,
       "git-init": true,
       "pre-commit-init": true,
       "changelog": false,

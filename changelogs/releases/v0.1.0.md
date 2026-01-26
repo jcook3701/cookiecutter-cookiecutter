@@ -230,6 +230,17 @@ Feat 019 docs update (#42)
 
 Feat 14 CLA (#29)
 - Merge branch 'develop' into feat-020
+- Feat 020 (#47)
+
+* fix(jekyll): Jekyll ci/cd to include necessary environment variables.
+
+* fix(docs): Minor updates for contributing and security documentation.
+
+* fix(license): Moved license to markdown extension.
+- Merge pull request #48 from jcook3701/develop
+
+Feat 020 (#47)
+- Merge branch 'develop' into feat-020
 
 ### 🐛 Fixed
 
