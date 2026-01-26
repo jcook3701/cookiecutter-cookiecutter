@@ -25,7 +25,7 @@ jobs:
 
       - name: Install codespell
         run: |
-          make install
+          make python-install
 
       - name: Run Spellcheck
         run: |

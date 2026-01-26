@@ -229,7 +229,6 @@ Feat 019 docs update (#42)
 - Merge pull request #46 from jcook3701/develop
 
 Feat 14 CLA (#29)
-- Merge branch 'develop' into feat-020
 - Feat 020 (#47)
 
 * fix(jekyll): Jekyll ci/cd to include necessary environment variables.
@@ -240,7 +239,20 @@ Feat 14 CLA (#29)
 - Merge pull request #48 from jcook3701/develop
 
 Feat 020 (#47)
-- Merge branch 'develop' into feat-020
+- Feat 020 (#49)
+
+* fix(jekyll): Jekyll ci/cd to include necessary environment variables.
+
+* fix(docs): Minor updates for contributing and security documentation.
+
+* fix(license): Moved license to markdown extension.
+
+* fix(ci/cd): Fixes for Jekyll and CLA ci/cd.
+
+* fix(lint): Linting fixes.
+- Merge pull request #50 from jcook3701/develop
+
+Feat 020 (#49)
 
 ### 🐛 Fixed
 
@@ -248,11 +260,7 @@ Feat 020 (#47)
 - *(template)* Fixed git auto remove to ignore all readme files on merge.
 - *(changelogs)* Removed changelogs make command from running during post hook generation scripts.
 - *(issues)* Fixes and updates to issue templates.  Added developer only template to avoid having to fill out user forms for each project task.
-- *(jekyll)* Jekyll ci/cd to include necessary environment variables.
-- *(docs)* Minor updates for contributing and security documentation.
-- *(license)* Moved license to markdown extension.
-- *(ci/cd)* Fixes for Jekyll and CLA ci/cd.
-- *(lint)* Linting fixes.
+- *(ci/cd)* Fixes ci/cd python install commands.
 
 ### 🚀 Added
 
