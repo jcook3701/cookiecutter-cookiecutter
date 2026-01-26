@@ -29,7 +29,7 @@ permissions:
 concurrency:
   group: "pages"
   cancel-in-progress: false
-
+{% raw %}
 jobs:
   # Build job
   build:
@@ -48,12 +48,14 @@ jobs:
       - name: Build with Jekyll site in /docs/jekyll
         run: make build-docs
         env:
+          PAGES_REPO_NWO: ${{ github.repository }}
+          JEKYLL_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           JEKYLL_ENV: production
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./docs/jekyll/_site
-{% raw %}
+
   # Deployment job
   deploy:
     environment:

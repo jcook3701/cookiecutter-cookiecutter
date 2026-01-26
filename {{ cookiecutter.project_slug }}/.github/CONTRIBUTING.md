@@ -66,7 +66,7 @@ The labels can only be set and modified by committers.
 
 ### Issue Reporting Disclaimer
 
-We want to improve the quality of {{ cookiecutter.project_name }} and good bug reports are welcome! But our capacity is limited, thus we reserve the right to close or to not process insufficient bug reports in favor of those which are very cleanly documented and easy to reproduce. Even though we would like to solve each well-documented issue, there is always the chance that it will not happen - remember: {{ cookiecutter.project_name }} is Open Source and comes without warranty.
+We want to improve the quality of, {{ cookiecutter.project_name }}, and good bug reports are welcome! But our capacity is limited, thus we reserve the right to close or to not process insufficient bug reports in favor of those which are very cleanly documented and easy to reproduce. Even though we would like to solve each well-documented issue, there is always the chance that it will not happen - remember: {{ cookiecutter.project_name }} is Open Source and comes without warranty.
 
 Bug report analysis support is very welcome! (e.g. pre-analysis or proposing solutions)
 
@@ -117,7 +117,7 @@ These are some of the rules we try to follow:
     * ```Fixes #(issueNumber)```
     * Do NOT add a colon after "Fixes" - this prevents automatic closing.
 6. Create a Pull Request
-7. Follow the link posted by the {{ cookiecutter.project_name }} to your pull request and accept it, as described in detail above.
+7. Follow the link posted by the, {{ cookiecutter.project_name }}, project to your pull request and accept it, as described in detail above.
 8. Wait for our code review and approval, possibly enhancing your change on request
     * Note that the {{ cookiecutter.project_name }} developers also have their regular duties, so depending on the required effort for reviewing, testing and clarification this may take a while
 9. Once the change has been approved we will inform you in a comment
