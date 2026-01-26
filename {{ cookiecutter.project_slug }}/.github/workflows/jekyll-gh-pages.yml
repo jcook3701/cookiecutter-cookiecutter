@@ -43,7 +43,7 @@ jobs:
           python-version: "3.11"
       - name: Install Python Tools
         run: |
-          make install
+          make python-install
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:

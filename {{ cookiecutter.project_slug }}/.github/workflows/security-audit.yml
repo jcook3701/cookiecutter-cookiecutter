@@ -25,7 +25,7 @@ jobs:
 
       - name: Install pip-audit
         run: |
-          make install
+          make python-install
 
       - name: Run Security Check
         run: |

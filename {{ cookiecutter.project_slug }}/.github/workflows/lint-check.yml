@@ -25,7 +25,7 @@ jobs:
 
       - name: Install Linting Tools
         run: |
-          make install
+          make python-install
 
       - name: Render Cookiecutter Template
         run: |
