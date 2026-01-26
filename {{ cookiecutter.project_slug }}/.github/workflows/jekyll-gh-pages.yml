@@ -51,7 +51,7 @@ jobs:
           bundler-cache: true # Runs 'bundle install' and caches gems automatically
           working-directory: ./docs/jekyll
       - name: Install Ruby Packages
-        run |
+        run: |
           make ruby-install
       - name: Setup Pages
         uses: actions/configure-pages@v5

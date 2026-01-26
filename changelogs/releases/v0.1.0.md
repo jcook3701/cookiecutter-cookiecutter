@@ -252,6 +252,7 @@ Feat 020 (#47)
 - *(docs)* Minor updates for contributing and security documentation.
 - *(license)* Moved license to markdown extension.
 - *(ci/cd)* Fixes for Jekyll and CLA ci/cd.
+- *(lint)* Linting fixes.
 
 ### 🚀 Added
 
