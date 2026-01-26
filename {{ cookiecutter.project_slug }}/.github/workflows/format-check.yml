@@ -25,7 +25,7 @@ jobs:
 
       - name: Install Formatting Tools
         run: |
-          make install
+          make python-install
 
       - name: Black Format Check
         run: |
