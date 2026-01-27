@@ -261,6 +261,16 @@ Feat 020 (#49)
 - Merge pull request #52 from jcook3701/develop
 
 Feat 021 (#51)
+- Feat 022 (#53)
+
+* fix(ci/cd): Fixed jekyll and CLA.  Also fixes to actually get functionally out of the pull request templates that were setup.
+
+* fix(cla): added default branch setting to project for CLA to ensure default branch is always correct regardless of how old the project is.
+- Feat 022 (#53) (#54)
+
+* fix(ci/cd): Fixed jekyll and CLA.  Also fixes to actually get functionally out of the pull request templates that were setup.
+
+* fix(cla): added default branch setting to project for CLA to ensure default branch is always correct regardless of how old the project is.
 
 ### 🐛 Fixed
 
@@ -268,7 +278,6 @@ Feat 021 (#51)
 - *(template)* Fixed git auto remove to ignore all readme files on merge.
 - *(changelogs)* Removed changelogs make command from running during post hook generation scripts.
 - *(issues)* Fixes and updates to issue templates.  Added developer only template to avoid having to fill out user forms for each project task.
-- *(ci/cd)* Fixed jekyll and CLA.  Also fixes to actually get functionally out of the pull request templates that were setup.
 
 ### 🚀 Added
 
