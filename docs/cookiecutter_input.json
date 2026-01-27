@@ -18,7 +18,8 @@
     ],
     "_extensions": [
         "jinja2.ext.do",
-        "jinja2.ext.loopcontrols"
+        "jinja2.ext.loopcontrols",
+        "jinja2_time.TimeExtension"
     ],
     "_hooks": {
         "post_gen_make_cmds": {
