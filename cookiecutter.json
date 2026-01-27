@@ -72,6 +72,7 @@
       "build-docs": false
     }
   },
+  "_default_branch": "main",
   "_is_sub_template": false,
   "_copy_without_render": [
     "{{ '{{' }} cookiecutter.project_slug {{ '}}' }}/*",
