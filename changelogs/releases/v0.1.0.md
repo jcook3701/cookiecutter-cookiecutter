@@ -295,3 +295,4 @@ Feat 023 (#55)
 - *(fix)* General fixes for template to ensure proper upgrade functionality. (#13)
 - *(issues)* Setup issue templates. (#22)
 - *(upgrader)* Project upgrader preparation.
+- *(docs)* Added code of conduct to the template to fix documentation links.  I have a few changes I would like to make to it as well.

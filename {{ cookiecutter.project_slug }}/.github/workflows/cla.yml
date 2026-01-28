@@ -41,7 +41,7 @@ jobs:
           path-to-signatures: "cla/version1/signatures.json"
           path-to-document: "https://github.com/{% raw %}${{ github.repository }}{% endraw %}/blob/{{ cookiecutter._default_branch }}/docs/jekyll/_site/manual/developer-resources/cla.html" # e.g. a CLA or a DCO document
           # branch should not be protected
-          branch: "{{ cookiecutter._default_branch }}" # TODO: This needs to be the sub-repos default branch.  not main repos...
+          branch: "{{ cookiecutter._default_branch }}" # Should match the branch that github pages are hosted from.
           allowlist: "{{ cookiecutter.github_username }},github-actions[bot],dependabot[bot],bot*"
 
           # the followings are the optional inputs - If the optional inputs are not given, then default values will be taken
