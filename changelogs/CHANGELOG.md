@@ -294,3 +294,4 @@ Feat 023 (#55)
 - *(git)* Added git attributes file to hopefully ignore updating specific files after they have been created. (#9)
 - *(fix)* General fixes for template to ensure proper upgrade functionality. (#13)
 - *(issues)* Setup issue templates. (#22)
+- *(upgrader)* Project upgrader preparation.
