@@ -3,7 +3,7 @@
   cookiecutter.license,
   cookiecutter.copyright,
   cookiecutter.project_slug,
-  file_name='01-bug_report.yml',
+  file_name='01-bug-report.yml',
   comment_style='hash') -}}
 ---
 name: 🐞 Bug Report

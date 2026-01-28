@@ -48,13 +48,14 @@ Tensions can occur between community members even when they are trying their bes
 
 When an incident does occur, it is important to report it promptly.
 
-To report a possible violation, please email [{{ cookiecutter.github_username }}'s Email]({{ cookiecutter.email }}).
+To report a possible violation, please email [{{ cookiecutter.github_username }}'s Email](mailto:{{ cookiecutter.email }}?subject=Report:%20Community%20Code%20of%20Conduct).
 
 All reports will be handled with strict confidentiality. Your email should include:
-* __Date and time__ of the incident.
-* __A description__ of what occurred.
-* __Links or screenshots__ to any relevant public or private messages/logs.
-* __Witnesses__, if any were present.
+
+* **Date and time** of the incident.
+* **A description** of what occurred.
+* **Links or screenshots** to any relevant public or private messages/logs.
+* **Witnesses**, if any were present.
 
 <!-- TODO: Eventually add members to the team to make this possible.  Not currently feasible with only one developer.
 
@@ -94,7 +95,7 @@ This Code of Conduct applies within all community spaces, and also applies when 
 
 ## Attribution
 
-This Code of Conduct is adapted from the Contributor Covenant, version 3.0, permanently available at [https://www.contributor-covenant.org/version/3/0/](https://www.contributor-covenant.org/version/3/0/).  This version has been modified to replace "equity" with "equal."
+This Code of Conduct is adapted from the Contributor Covenant, version 3.0, permanently available at [https://www.contributor-covenant.org/version/3/0/](https://www.contributor-covenant.org/version/3/0/). This version has been modified to replace "equity" with "equal."
 
 Contributor Covenant is stewarded by the Organization for Ethical Source and licensed under CC BY-SA 4.0. To view a copy of this license, visit [https://creativecommons.org/licenses/by-sa/4.0/](https://creativecommons.org/licenses/by-sa/4.0/)
 

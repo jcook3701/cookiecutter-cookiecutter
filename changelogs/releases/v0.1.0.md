@@ -287,6 +287,7 @@ Feat 023 (#55)
 - *(changelogs)* Removed changelogs make command from running during post hook generation scripts.
 - *(issues)* Fixes and updates to issue templates.  Added developer only template to avoid having to fill out user forms for each project task.
 - *(styling)* Generally YAML fixes reducing warnings.  Also preparation for cookiecutter project upgrader.
+- *(docs)* Small customization to the code of conduct. Along with updates for Addressing and Repairing Harm.
 
 ### 🚀 Added
 

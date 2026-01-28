@@ -37,9 +37,10 @@ jobs:
           # This token is required only if you have configured to store the signatures in a remote repository/organization
           # PERSONAL_ACCESS_TOKEN: {% raw %}${{ secrets.PERSONAL_ACCESS_TOKEN }}{% endraw +%}
         with:
-          signed-commit-message: "chore: $contributorName has signed the CLA"
+          create-file-commit-message: "chore(CLA): Creating file for storing CLA Signatures."
+          signed-commit-message: "chore(CLA): $contributorName has signed the CLA."
           path-to-signatures: "cla/version1/signatures.json"
-          path-to-document: "https://github.com/{% raw %}${{ github.repository }}{% endraw %}/blob/{{ cookiecutter._default_branch }}/docs/jekyll/_site/manual/developer-resources/cla.html" # e.g. a CLA or a DCO document
+          path-to-document: "{{ cookiecutter.github_io }}/manual/developer-resources/cla" # e.g. a CLA or a DCO document
           # branch should not be protected
           branch: "{{ cookiecutter._default_branch }}" # Should match the branch that github pages are hosted from.
           allowlist: "{{ cookiecutter.github_username }},github-actions[bot],dependabot[bot],bot*"
