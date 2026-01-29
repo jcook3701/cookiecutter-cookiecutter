@@ -301,3 +301,4 @@ Feat 023 (#55)
 - *(docs)* Added new support file.  Along with updates to CLA ci/cd.  Along with general updates to other special configuration and community health files.
 - *(ci/cd)* Updated cla to be swapped to dco.  Need to update github-docs next.
 - *(docs)* Added updates to Community health files to handle cookiecutter.contribution_model variable.
+- *(support)* Added funding section to the support page.
