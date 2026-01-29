@@ -52,4 +52,4 @@ jobs:
           # custom-pr-sign-comment: "The signature to be committed in order to sign the {{ cookiecutter.contribution_model | upper }}"
           # custom-allsigned-prcomment: "pull request comment when all contributors has signed, defaults to **{{ cookiecutter.contribution_model | upper }} Assistant Lite bot** All Contributors have signed the {{ cookiecutter.contribution_model | upper }}."
           # lock-pullrequest-aftermerge: false - if you don"t want this bot to automatically lock the pull request after merging (default - true)
-          use-dco-flag: {{ true if cookiecutter.contribution_model == 'DCO' else false }} # If you are using DCO instead of CLA
+          use-dco-flag: {{ true if cookiecutter.contribution_model|lower == 'dco' else false }} # If you are using DCO instead of CLA

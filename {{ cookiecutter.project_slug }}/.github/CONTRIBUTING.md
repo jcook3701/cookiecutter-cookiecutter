@@ -74,24 +74,23 @@ Bug report analysis support is very welcome! (e.g. pre-analysis or proposing sol
 
 You are welcome to contribute code to {{ cookiecutter.project_name }} in order to fix bugs or to implement new features.
 
-<!-- TODO: [Developer Certificate of Origin](https://developercertificate.org/) -->
 There are three important things to know:
-1. You must be aware that you need to submit [CLA]({{ cookiecutter.github_io }}/manual/developer-resources/cla) in order for your contribution to be accepted. This is common practice in all major Open Source projects.
+1. You must be aware that you need to submit [{{ cookiecutter.contribution_model | upper }}]({{ cookiecutter.github_io }}/manual/developer-resources/{{ cookiecutter.contribution_model | lower }}) in order for your contribution to be accepted. This is common practice in all major Open Source projects.
 2. There are **several requirements regarding code style, quality, and product standards** which need to be met (we also have to follow them). The respective section below gives more details on the coding guidelines.
 3. **Not all proposed contributions can be accepted**. Some features may e.g. just fit a third-party add-on better. The code must fit the overall direction of {{ cookiecutter.project_name }} and really improve it. The more effort you invest, the better you should clarify in advance whether the contribution fits: the best way would be to just open an issue to discuss the feature you plan to implement (make it clear you intend to contribute).
 
-<!-- TODO: This should be a template option eventually
-## Developer Certificate of Origin (DCO)
-
-Due to legal reasons, contributors will be asked to accept a DCO before they submit the first pull request to this projects, this happens in an automated fashion during the submission process. We use [the standard DCO text of the Linux Foundation](https://developercertificate.org/).
--->
-
+{% if cookiecutter.contribution_model|lower == 'cla' %}
 ## Contributor License Agreement (CLA)
 
 Due to legal reasons, contributors will be asked to accept a [CLA]({{ cookiecutter.github_io }}/manual/developer-resources/cla) before they submit the first pull request to this project, this happens in an automated fashion during the submission process.  We use a derivative of the [ASF Contributor Agreements](https://www.apache.org/licenses/contributor-agreements.html) as can be found below.
 
 * [ICLA](https://www.apache.org/licenses/icla.pdf)
 * [CCLA](https://www.apache.org/licenses/cla-corporate.pdf).  
+{% elif cookiecutter.contribution_model|lower == 'dco' %}
+## Developer Certificate of Origin (DCO)
+
+Due to legal reasons, contributors will be asked to accept a DCO before they submit the first pull request to this projects, this happens in an automated fashion during the submission process. We use [the standard DCO text of the Linux Foundation](https://developercertificate.org/).
+{% endif %}
 
 ### Contribution Content Guidelines
 

@@ -298,3 +298,4 @@ Feat 023 (#55)
 - *(upgrader)* Project upgrader preparation.
 - *(docs)* Added code of conduct to the template to fix documentation links.  I have a few changes I would like to make to it as well.
 - *(docs)* Added new support file.  Along with updates to CLA ci/cd.  Along with general updates to other special configuration and community health files.
+- *(ci/cd)* Updated cla to be swapped to dco.  Need to update github-docs next.
