@@ -4,7 +4,7 @@ Thank you for using the {{ cookiecutter.project_name }} project! To help us main
 
 ## 🛠️ Getting Help
 *   **Documentation:** Start by reading our [Project Wiki]({{ cookiecutter.github_io }}).
-*   **FAQ:** Common questions are answered in our [Frequently Asked Questions]({{ cookiecutter.github_io }}/manual/troubleshooting/faq.md).
+*   **FAQ:** Common questions are answered in our [Frequently Asked Questions]({{ cookiecutter.github_io }}/manual/troubleshooting/faq).
 *   **Community Forums:** For general questions and "how-to" help, please use [GitHub Discussions]({{ cookiecutter.repo_url }}/discussions) instead of Issues.
 
 ## 🐛 Reporting Bugs
