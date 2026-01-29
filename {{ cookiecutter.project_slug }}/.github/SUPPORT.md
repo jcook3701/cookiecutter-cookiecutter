@@ -20,4 +20,6 @@ This is an open-source project maintained by volunteers. We try to respond withi
 
 <!-- TODO: Create funding section.
 ## Funding
+
+💰 · 💸 · 💵 · 🚀 · 🏦 · 💡 · 💲 · 🤝. 🎯. 🌱. 📈. 💶. 📌. 🏛️. 📊. ➡️. 📢. 🙌🏻. 📝. 🪙. 🚨. ✨. 🤑. ✓. 💷. 👉. 📣
 -->
