@@ -279,6 +279,30 @@ Feat 021 (#51)
 - Merge pull request #56 from jcook3701/develop
 
 Feat 023 (#55)
+- Feat 024 (#57)
+
+* fix(styling): Generally YAML fixes reducing warnings.  Also preparation for cookiecutter project upgrader.
+
+* feat(upgrader): Project upgrader preparation.
+
+* feat(docs): Added code of conduct to the template to fix documentation links.  I have a few changes I would like to make to it as well.
+
+* fix(docs): Small customization to the code of conduct. Along with updates for Addressing and Repairing Harm.
+
+* feat(docs): added new support file.  Along with updates to CLA ci/cd.  Along with general updates to other special configuration and community health files.
+
+* feat(ci/cd): Updated cla to be swapped to dco.  Need to update github-docs next.
+
+* feat(docs): Added updates to Community health files to handle cookiecutter.contribution_model variable.
+
+* fix(cspell): Added jinja2 end functions to spellchecker to remove all the spelling warnings on code pages.
+
+* feat(support): Added funding section to the support page.
+
+* fix(cla): minor tab to spaces fix.
+- Merge pull request #60 from jcook3701/develop
+
+Feat 024 (#57)
 
 ### 🐛 Fixed
 
@@ -286,9 +310,6 @@ Feat 023 (#55)
 - *(template)* Fixed git auto remove to ignore all readme files on merge.
 - *(changelogs)* Removed changelogs make command from running during post hook generation scripts.
 - *(issues)* Fixes and updates to issue templates.  Added developer only template to avoid having to fill out user forms for each project task.
-- *(styling)* Generally YAML fixes reducing warnings.  Also preparation for cookiecutter project upgrader.
-- *(docs)* Small customization to the code of conduct. Along with updates for Addressing and Repairing Harm.
-- *(cspell)* Added jinja2 end functions to spellchecker to remove all the spelling warnings on code pages.
 
 ### 🚀 Added
 
@@ -296,9 +317,3 @@ Feat 023 (#55)
 - *(git)* Added git attributes file to hopefully ignore updating specific files after they have been created. (#9)
 - *(fix)* General fixes for template to ensure proper upgrade functionality. (#13)
 - *(issues)* Setup issue templates. (#22)
-- *(upgrader)* Project upgrader preparation.
-- *(docs)* Added code of conduct to the template to fix documentation links.  I have a few changes I would like to make to it as well.
-- *(docs)* Added new support file.  Along with updates to CLA ci/cd.  Along with general updates to other special configuration and community health files.
-- *(ci/cd)* Updated cla to be swapped to dco.  Need to update github-docs next.
-- *(docs)* Added updates to Community health files to handle cookiecutter.contribution_model variable.
-- *(support)* Added funding section to the support page.

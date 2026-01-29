@@ -3,14 +3,14 @@
 Thank you for using the {{ cookiecutter.project_name }} project! To help us maintain it efficiently, please check these resources before opening an issue.
 
 ## 🛠️ Getting Help
-*   **Documentation:** Start by reading our [Project Wiki]({{ cookiecutter.github_io }}).
-*   **FAQ:** Common questions are answered in our [Frequently Asked Questions]({{ cookiecutter.github_io }}/manual/troubleshooting/faq).
-*   **Community Forums:** For general questions and "how-to" help, please use [GitHub Discussions]({{ cookiecutter.repo_url }}/discussions) instead of Issues.
+* **Documentation:** Start by reading our [Project Wiki]({{ cookiecutter.github_io }}).
+* **FAQ:** Common questions are answered in our [Frequently Asked Questions]({{ cookiecutter.github_io }}/manual/troubleshooting/faq).
+* **Community Forums:** For general questions and "how-to" help, please use [GitHub Discussions]({{ cookiecutter.repo_url }}/discussions) instead of Issues.
 
 ## 🐛 Reporting Bugs
 If you have found a bug, please:
-1.  Search existing [Issues]({{ cookiecutter.repo_url }}/issues?state=open) to see if it has already been reported.
-2.  Follow the [bug report template](ISSUE_TEMPLATE/01-bug-report.yml) to provide a reproducible example.
+1. Search existing [Issues]({{ cookiecutter.repo_url }}/issues?state=open) to see if it has already been reported.
+2. Follow the [bug report template](ISSUE_TEMPLATE/01-bug-report.yml) to provide a reproducible example.
 
 ## 🔒 Security Vulnerabilities
 Please **do not** report security vulnerabilities via public issues. Instead, follow our [Security Policy]({{ cookiecutter.repo_url }}/blob/{{ cookiecutter._default_branch }}/.github/SECURITY.md) to report them privately.
@@ -22,8 +22,8 @@ This is an open-source project maintained by volunteers. We try to respond withi
 
 {{ cookiecutter.project_name }} is an open-source project maintained by volunteers. Your financial support helps sustain the project by covering:
 
-*   **Infrastructure costs:** Domain names, hosting, and CI/CD services.
-*   **Time:** Allowing maintainers to dedicate more time to bug fixes and new features.
+* **Infrastructure costs:** Domain names, hosting, and CI/CD services.
+* **Time:** Allowing maintainers to dedicate more time to bug fixes and new features.
 
 If this project has helped you, please consider supporting us through one of the following methods:
 <!-- TODO:
@@ -31,6 +31,6 @@ Look into GitHub Sponsors:
 *   **[GitHub Sponsors](URL_HERE):** Ideal for recurring, direct support.
 *   **[Open Collective](URL_HERE):** Best for corporate sponsorship and transparent expense management.
 -->
-*   **[Buy Me a Coffee](https://buymeacoffee.com/{{ cookiecutter.buymeacoffee_username }}):** A simple way to provide a one-time donation.
+* **[Buy Me a Coffee](https://buymeacoffee.com/{{ cookiecutter.buymeacoffee_username }}):** A simple way to provide a one-time donation.
 
 We greatly appreciate your support!
