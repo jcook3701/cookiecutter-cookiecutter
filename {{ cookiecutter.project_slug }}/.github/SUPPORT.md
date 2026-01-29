@@ -18,8 +18,19 @@ Please **do not** report security vulnerabilities via public issues. Instead, fo
 ## ⏳ Response Times
 This is an open-source project maintained by volunteers. We try to respond within **48-72 hours**, but please be patient as we balance this with other commitments.
 
-<!-- TODO: Create funding section.
-## Funding
+## 🌱 Funding and Sponsorship
 
-💰 · 💸 · 💵 · 🚀 · 🏦 · 💡 · 💲 · 🤝. 🎯. 🌱. 📈. 💶. 📌. 🏛️. 📊. ➡️. 📢. 🙌🏻. 📝. 🪙. 🚨. ✨. 🤑. ✓. 💷. 👉. 📣
+{{ cookiecutter.project_name }} is an open-source project maintained by volunteers. Your financial support helps sustain the project by covering:
+
+*   **Infrastructure costs:** Domain names, hosting, and CI/CD services.
+*   **Time:** Allowing maintainers to dedicate more time to bug fixes and new features.
+
+If this project has helped you, please consider supporting us through one of the following methods:
+<!-- TODO:
+Look into GitHub Sponsors:  
+*   **[GitHub Sponsors](URL_HERE):** Ideal for recurring, direct support.
+*   **[Open Collective](URL_HERE):** Best for corporate sponsorship and transparent expense management.
 -->
+*   **[Buy Me a Coffee](https://buymeacoffee.com/{{ cookiecutter.buymeacoffee_username }}):** A simple way to provide a one-time donation.
+
+We greatly appreciate your support!
