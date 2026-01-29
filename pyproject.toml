@@ -1,7 +1,21 @@
-# pyproject.toml
-# =========================================
-# Project: cookiecutter-cookiecutter
-# =========================================
+# pyproject.toml for cookiecutter-cookiecutter
+#
+# SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
 
 [build-system]
 requires = ["setuptools>=80.0.0", "wheel"]
@@ -10,23 +24,18 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "cookiecutter-cookiecutter"
 version = "0.1.0"
-description = "cookiecutter-cookiecutter template generation. This is a base cookiecutter template that is used to generate other cookiecutter templates."
+description = "__cookiecutter-cookiecutter__ is the cookiecutter template project to rule them all. Generates cookiecutter template projects and is able to be queried by generated projects for updates."
 authors = [
     { name="Jared Cook", email="jcook3701+github@gmail.com" }
 ]
 readme = "README.md"
-license = "MIT"
+license = "AGPL-3.0-or-later"
 license-files = ["LICENSE"]
 requires-python = ">=3.11"
 dependencies = [
   "nutri-matic>=0.1",
 ]
-keywords = [
-  "python",
-  "python3",
-  "cookiecutter",
-  "automation"
-]
+keywords = ["python3", "cookiecutter", "template", "automation"]
 classifiers = [
   "Programming Language :: Python :: 3",
   "Operating System :: OS Independent",
@@ -43,10 +52,13 @@ dev = [
   "black>=25.11",
   "codespell>=2.4",
   "cookiecutter>=2.6",
+  "cookiecutter-project-upgrader>=1.3",
   "coverage>=7.12",
   "deptry>=0.24",
+  "djlint>=1.36",
   "json-lint-tools>=0.1",
   "jinja2-cli>=0.8",
+  "jinja2-time>=0.2",
   "mypy==1.9",
   "nameisok>=0.1",
   "pip-audit>=2.10",
@@ -56,7 +68,6 @@ dev = [
   "pytest-cov>=7.0",
   "ruff>=0.14.0",
   "tomllint>=0.3",
-  "typer>=0.20",
   "yamllint>=1.0",
 ]
 docs = [
@@ -65,6 +76,7 @@ docs = [
   "sphinx-markdown-builder>=0.6",
   "sphinx-autodoc-typehints>=3.5",
 ]
+
 # ====================================
 # Setuptools Configuration:
 # ====================================
@@ -73,13 +85,34 @@ where = [
   "hooks",
 ]
 include = [
-  "hooks*",
+  "*",
 ]
+# ====================================
+# Black Configuration: (Formatting)
+# ====================================
+[tool.black]
+line-length = 88          # Maximum line length (default is 88)
+target-version = ["py311"] # Target Python version(s)
+skip-string-normalization = false  # Whether to skip normalizing string quotes
+include = '\.pyi?$'       # Which files to include (regex)
+exclude = '''
+/(
+    \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+)/
+'''
 # ====================================
 # Version Bumping (bump-my-version):
 # ====================================
 [tool.bumpversion]
-current_version = "0.1.1"
+current_version = "0.1.0"
 parse = "(?P<major>\\d+)\\.(?P<minor>\\d+)\\.(?P<patch>\\d+)"
 serialize = ["{major}.{minor}.{patch}"]
 search = "{current_version}"
@@ -91,6 +124,8 @@ commit = false
 filename = "Makefile"
 [[tool.bumpversion.files]]
 filename = "README.md"
+[[tool.bumpversion.files]]
+filename = "docs/cookiecutter_input.json"
 # ====================================
 # Codespell Configuration:
 # ====================================
@@ -121,6 +156,18 @@ exclude = [
     "docs/*",
 ]
 # ====================================
+# Djlint Configuration:
+# ====================================
+[tool.djlint]
+profile = "jinja"
+ignore = "H025,H014"
+indent = 4
+max_blank_lines=2
+search_path = "."
+use_gitignore=true
+extension = "j2"
+exclude = "docs/jekyll/_site/.*"
+# ====================================
 # Ruff Configuration:
 # ====================================
 [tool.ruff]
@@ -130,8 +177,8 @@ target-version = "py311"
 src = [
   "hooks",
   "tests",
-  "{{ cookiecutter.project_slug }}/tests",
 ]
+
 # Exclude these paths
 exclude = [
   ".venv",
@@ -142,8 +189,9 @@ exclude = [
   "*.egg-info",
   ".git",
   ".github",
-  "{{ cookiecutter.project_slug }}/pyproject.toml",
+  "*{{*cookiecutter.project_slug*}}*",
 ]
+force-exclude = true
 # Maximum line length
 line-length = 120
 # ====================================
@@ -178,7 +226,10 @@ ignore = [
 # ====================================
 [tool.ruff.lint.isort]
 combine-as-imports = true
-known-first-party = ["cookiecutter_cookiecutter"]
+known-first-party = [
+  "cookiecutter-cookiecutter",
+  "hooks"
+]
 # ====================================
 # Formatter Configuration:
 # Ruff also formats YAML, TOML, and Markdown
@@ -213,7 +264,5 @@ testpaths = [
   "tests",
 ]
 pythonpath = [
-  ".",
-  "{{ cookiecutter.project_slug }}",
   "hooks",
 ]
