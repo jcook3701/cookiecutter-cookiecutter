@@ -10,4 +10,4 @@ This section of the documentation contains additional resources for developers a
 
 ## Contribute to cookiecutter-cookiecutter
 
-Refer to the [Contribute to cookiecutter-cookiecutter]() guide to learn the various ways you can contribute to cookiecutter-cookiecutter. Read the [cookiecutter-cookiecutter Software Grant and Contributor License Agreement]() before making any contribution.
+Refer to the [Contribute to cookiecutter-cookiecutter]({% link _manual/developer-resources/contribute.md %}) guide to learn the various ways you can contribute to cookiecutter-cookiecutter. Read the [cookiecutter-cookiecutter Contributor License Agreement]({% link _manual/developer-resources/cla.md %}) before making any contribution.

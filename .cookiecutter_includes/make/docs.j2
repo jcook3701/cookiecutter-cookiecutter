@@ -27,6 +27,9 @@ sphinx:
 
 {% macro jekyll_cmds() -%}
   {# formatted jekyll command string. #}
+ruby-install:
+	$(MAKE) -C $(JEKYLL_DIR) ruby-install;
+
 jekyll:
 	$(MAKE) -C $(JEKYLL_DIR) all;
 

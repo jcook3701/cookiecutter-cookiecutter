@@ -13,6 +13,6 @@ Every contribution to cookiecutter-cookiecutter's software begins with a [pull r
 
 We know you're excited to create your first pull request. Before we get started, read these resources first:
 
-- Get started [contributing to cookiecutter-cookiecutter](/CONTRIBUTING.md).
-- Make sure your code follows the relevant [style guides](style-guides).
-- It's recommended you [set up precommit hooks](developer-guide.md) to auto-format when you commit
+- Get started [contributing to cookiecutter-cookiecutter]({{ site.repo_blob }}/.github/CONTRIBUTING.md).
+- Make sure your code follows the relevant [style guides]({% link _manual/contribute/style-guides/index.md %}).
+- It's recommended you [set up precommit hooks]({% link _manual/contribute/developer-guide.md %}) to auto-format when you commit.
