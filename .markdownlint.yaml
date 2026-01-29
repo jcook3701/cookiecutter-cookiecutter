@@ -1,21 +1,20 @@
 # .markdownlint.yaml for cookiecutter-cookiecutter
 #
-# Copyright (c) 2026, Jared Cook
-# SPDX-License-Identifier: GPL-3.0-or-later
+# SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
+# SPDX-License-Identifier: AGPL-3.0-or-later
 #
 # This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
 #
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
+# GNU Affero General Public License for more details.
 #
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <www.gnu.org>.
-#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
 ---
 # Enable all built-in rules by default
 default: true
@@ -28,6 +27,11 @@ MD007:
 # Many developers disable this to allow long URLs or technical prose
 MD013: false
 
+# MD014/commands-show-output: Dollar signs used before commands without showing output
+# This prevents copy-paste errors by ensuring leading dollar signs are only used when
+# output is also present to distinguish them.
+MD014: false
+
 # MD022/blanks-around-headings: Headings should be surrounded by blank lines
 # Disabling this allows headings to be immediately preceded or followed by text
 MD022: false
@@ -39,6 +43,9 @@ MD024:
 # MD029/ol-prefix: Use 1. 2. 3. for ordered lists (default is "one" i.e., 1. 1. 1.)
 MD029:
   style: "ordered"
+
+# MD031/blanks-around-fences: Fenced code blocks should be surrounded by blank linesmarkdownlintMD031
+MD031: false
 
 # MD032/blanks-around-lists: Lists should be surrounded by blank lines
 # Setting this to false ignores the rule entirely
