@@ -25,6 +25,7 @@
     "DCO"
   ],
   "changelog": [
+    "none",
     "git-cliff",
     "antsibull"
   ],

@@ -37,7 +37,7 @@ def main() -> None:
     generate_docs_templates(context)
     {% if changelog ==  "antsibull" %}
     generate_ansible_dirs()
-    {% elif changelog != "git-cliff" %}
+    {% elif changelog == "git-cliff" %}
     generate_cliff_changelog_dirs()
     {% endif %}
 
