@@ -23,9 +23,9 @@
     template_type
 ) -%}
 {# returns the test_file name depending on the template type. #}
-    {% if template_type in ["ansible", "c", "c++", "c/cc", "c/c++", "ros2"] -%}
-        LICENSE
-    {%- elif template_type == "cookiecutter" -%}
+    {% if template_type in ["ansible", "c", "c++", "ros2"] -%}
+        LICENSE.md
+    {%- elif template_type in ["cookiecutter", "documentation"] -%}
         Makefile
     {%- elif template_type == "python" -%}
         pyproject.toml
@@ -67,7 +67,7 @@ def test_bake_with_defaults(cookies: Cookies) -> None:
 #}
     {%- set use_default_slug = [
         "c", "c++", "c/cc", "c/c++",
-        "cookiecutter", "python", "ros2",
+        "cookiecutter", "documentation" "python", "ros2",
         "typescript"] -%}
 
     {% if template_type == "ansible" -%}

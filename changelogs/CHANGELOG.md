@@ -305,6 +305,16 @@ Feat 023 (#55)
 Feat 024 (#57)
 - Update template
 - Merge branch 'cookiecutter-template' into feat-025
+- Feat 025 (#61)
+
+* fix(security): Fix for security.md file markdown format.
+
+* chore(upgrade): Update template from itself (cookiecutter-cookiecutter) using ```cookiecutter_project_upgrader```.
+- Merge branch 'develop' into feat-025
+- Merge pull request #62 from jcook3701/develop
+
+Feat 025 (#61)
+- Merge branch 'develop' into feat-025
 
 ### 🐛 Fixed
 

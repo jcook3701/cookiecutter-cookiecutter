@@ -60,6 +60,7 @@
     "ansible",
     "c/c++",
     "cookiecutter",
+    "documentation",
     "python",
     "ros2",
     "typescript"
