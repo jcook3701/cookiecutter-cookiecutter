@@ -303,18 +303,25 @@ Feat 023 (#55)
 - Merge pull request #60 from jcook3701/develop
 
 Feat 024 (#57)
-- Update template
-- Merge branch 'cookiecutter-template' into feat-025
 - Feat 025 (#61)
 
 * fix(security): Fix for security.md file markdown format.
 
 * chore(upgrade): Update template from itself (cookiecutter-cookiecutter) using ```cookiecutter_project_upgrader```.
-- Merge branch 'develop' into feat-025
 - Merge pull request #62 from jcook3701/develop
 
 Feat 025 (#61)
-- Merge branch 'develop' into feat-025
+- *(CLA)* Creating file for storing CLA Signatures.
+- Feat 025 (#63)
+
+* fix(security): Fix for security.md file markdown format.
+
+* fix(license): license fixes for the .cookiecutter_includes directory.
+
+* feat(template): Added 'documentation' to the template_type options.  This should fix the hooks issue.
+- Merge pull request #64 from jcook3701/develop
+
+Feat 025 (#63)
 
 ### 🐛 Fixed
 
@@ -322,8 +329,6 @@ Feat 025 (#61)
 - *(template)* Fixed git auto remove to ignore all readme files on merge.
 - *(changelogs)* Removed changelogs make command from running during post hook generation scripts.
 - *(issues)* Fixes and updates to issue templates.  Added developer only template to avoid having to fill out user forms for each project task.
-- *(security)* Fix for security.md file markdown format.
-- *(license)* License fixes for the .cookiecutter_includes directory.
 
 ### 🚀 Added
 
