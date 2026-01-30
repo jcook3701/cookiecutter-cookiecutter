@@ -351,6 +351,7 @@ Feat 027 (#67)
 - *(issues)* Fixes and updates to issue templates.  Added developer only template to avoid having to fill out user forms for each project task.
 - *(python)* Fixed python configuration file license name.
 - *(docs)* Minor fix for license image shield.
+- *(docs)* Readme license fix.
 
 ### 🚀 Added
 

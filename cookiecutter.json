@@ -24,6 +24,10 @@
     "CLA",
     "DCO"
   ],
+  "changelog": [
+    "git-cliff",
+    "antsibull"
+  ],
   "publication_year": "2025",
   "current_year": "{% now 'local', '%Y' %}",
   "__year_range": "{% if cookiecutter.publication_year == cookiecutter.current_year %}{{ cookiecutter.current_year }}{% else %}{{ cookiecutter.publication_year }}-{{ cookiecutter.current_year }}{% endif %}",
