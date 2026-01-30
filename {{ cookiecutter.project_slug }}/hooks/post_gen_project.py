@@ -5,16 +5,16 @@
 	cookiecutter.project_slug,
 	file_name='post_gen_project.py',
 	comment_style='hash') }}
-{%- set template_type = cookiecutter.template_type %}
+{%- set changelog = cookiecutter.changelog %}
 
 import json
 import os
 
 from nutrimatic.core import make
 from nutrimatic.hooks.post_gen_logic import (
-    {% if template_type ==  "ansible" %}
+    {% if changelog ==  "antsibull" %}
     generate_ansible_dirs,
-    {% elif template_type != "documentation" %}
+    {% elif changelog == "git-cliff" %}
     generate_cliff_changelog_dirs,
     {% endif %}
     generate_docs_templates,
@@ -35,9 +35,9 @@ def main() -> None:
     context = json.loads("""{{ cookiecutter | jsonify }}""")
     {% endraw %}
     generate_docs_templates(context)
-    {% if template_type ==  "ansible" %}
+    {% if changelog ==  "antsibull" %}
     generate_ansible_dirs()
-    {% elif template_type != "documentation" %}
+    {% elif changelog != "git-cliff" %}
     generate_cliff_changelog_dirs()
     {% endif %}
 

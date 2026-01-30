@@ -334,6 +334,14 @@ Feat 025 (#63)
 - Merge pull request #66 from jcook3701/develop
 
 Feat 026 (#65)
+- Feat 027 (#67)
+
+* fix(template): Fixed missing commas that are causing gitignore error.
+
+* chore(update) Update template using ```cookiecutter_project_upgrader```.
+- Merge pull request #68 from jcook3701/develop
+
+Feat 027 (#67)
 
 ### 🐛 Fixed
 
@@ -341,7 +349,9 @@ Feat 026 (#65)
 - *(template)* Fixed git auto remove to ignore all readme files on merge.
 - *(changelogs)* Removed changelogs make command from running during post hook generation scripts.
 - *(issues)* Fixes and updates to issue templates.  Added developer only template to avoid having to fill out user forms for each project task.
-- *(template)* Fixed missing commas that are causing gitignore error.
+- *(python)* Fixed python configuration file license name.
+- *(docs)* Minor fix for license image shield.
+- *(docs)* Readme license fix.
 
 ### 🚀 Added
 
@@ -349,3 +359,4 @@ Feat 026 (#65)
 - *(git)* Added git attributes file to hopefully ignore updating specific files after they have been created. (#9)
 - *(fix)* General fixes for template to ensure proper upgrade functionality. (#13)
 - *(issues)* Setup issue templates. (#22)
+- *(docs)* Readme updates that link to github_io documentation.
