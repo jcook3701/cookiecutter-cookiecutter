@@ -6,7 +6,6 @@
 	file_name='post_gen_project.py',
 	comment_style='hash') }}
 {%- set template_type = cookiecutter.template_type %}
-{%- set doc_templates = ["sphinx-cookiecutter", "github-docs-cookiecutter"] %}
 
 import json
 import os
@@ -38,7 +37,7 @@ def main() -> None:
     generate_docs_templates(context)
     {% if template_type ==  "ansible" %}
     generate_ansible_dirs()
-    {% elif sub_template == False  %}
+    {% elif template_type != "documentation"  %}
     generate_cliff_changelog_dirs()
     {% endif %}
 
