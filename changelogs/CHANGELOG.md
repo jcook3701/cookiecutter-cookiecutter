@@ -364,6 +364,7 @@ Feat 028 (#69)
 - *(changelogs)* Removed changelogs make command from running during post hook generation scripts.
 - *(issues)* Fixes and updates to issue templates.  Added developer only template to avoid having to fill out user forms for each project task.
 - *(template)* Added none option to changelog selection to allow user to turn of this feature if needed.
+- *(upgrader)* Added changelog setting to upgrader configuration files.
 
 ### 🚀 Added
 
