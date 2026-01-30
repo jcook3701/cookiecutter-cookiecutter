@@ -365,6 +365,7 @@ Feat 028 (#69)
 - *(issues)* Fixes and updates to issue templates.  Added developer only template to avoid having to fill out user forms for each project task.
 - *(template)* Added none option to changelog selection to allow user to turn of this feature if needed.
 - *(upgrader)* Added changelog setting to upgrader configuration files.
+- *(hooks)* Fixed hook template for changelog configuration settings.
 
 ### 🚀 Added
 
