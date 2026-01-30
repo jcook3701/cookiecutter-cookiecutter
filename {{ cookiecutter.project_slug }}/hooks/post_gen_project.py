@@ -6,7 +6,7 @@
 	file_name='post_gen_project.py',
 	comment_style='hash') }}
 {%- set template_type = cookiecutter.template_type %}
-{%- set sub_template = cookiecutter._is_sub_template %}
+{%- set doc_templates = ["sphinx-cookiecutter", "github-docs-cookiecutter"] %}
 
 import json
 import os
@@ -15,7 +15,7 @@ from nutrimatic.core import make
 from nutrimatic.hooks.post_gen_logic import (
     {% if template_type ==  "ansible" %}
     generate_ansible_dirs,
-    {% elif sub_template == False  %}
+    {% elif template_type != "documentation" %}
     generate_cliff_changelog_dirs,
     {% endif %}
     generate_docs_templates,
