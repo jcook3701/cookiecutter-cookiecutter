@@ -313,6 +313,7 @@ Feat 024 (#57)
 - *(changelogs)* Removed changelogs make command from running during post hook generation scripts.
 - *(issues)* Fixes and updates to issue templates.  Added developer only template to avoid having to fill out user forms for each project task.
 - *(security)* Fix for security.md file markdown format.
+- *(license)* License fixes for the .cookiecutter_includes directory.
 
 ### 🚀 Added
 
