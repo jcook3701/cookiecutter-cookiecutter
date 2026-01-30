@@ -357,3 +357,4 @@ Feat 027 (#67)
 - *(git)* Added git attributes file to hopefully ignore updating specific files after they have been created. (#9)
 - *(fix)* General fixes for template to ensure proper upgrade functionality. (#13)
 - *(issues)* Setup issue templates. (#22)
+- *(docs)* Readme updates that link to github_io documentation.
