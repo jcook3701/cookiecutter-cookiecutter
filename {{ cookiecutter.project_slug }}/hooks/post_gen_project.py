@@ -37,7 +37,7 @@ def main() -> None:
     generate_docs_templates(context)
     {% if template_type ==  "ansible" %}
     generate_ansible_dirs()
-    {% elif template_type != "documentation"  %}
+    {% elif template_type != "documentation" %}
     generate_cliff_changelog_dirs()
     {% endif %}
 
