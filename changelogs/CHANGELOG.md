@@ -341,6 +341,7 @@ Feat 026 (#65)
 - *(template)* Fixed git auto remove to ignore all readme files on merge.
 - *(changelogs)* Removed changelogs make command from running during post hook generation scripts.
 - *(issues)* Fixes and updates to issue templates.  Added developer only template to avoid having to fill out user forms for each project task.
+- *(template)* Fixed missing commas that are causing gitignore error.
 
 ### 🚀 Added
 
