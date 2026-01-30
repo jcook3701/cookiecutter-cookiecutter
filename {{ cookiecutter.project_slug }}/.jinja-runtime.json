@@ -3,7 +3,7 @@
         "search_paths": [
             ".",
             "./.cookiecutter_includes",
-            {% raw %}"./{{ cookiecutter.project_slug }}"{% endraw %}
+            "{% raw %}./{{ cookiecutter.project_slug }}{% endraw %}"
         ],
         "base_dir": "."
     },

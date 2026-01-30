@@ -41,10 +41,6 @@ jobs:
         run: |
           make render-cookiecutter
 
-      - name: Render Cookiecutter Template
-        run: |
-          make render-cookiecutter
-
       - name: Lint Jinja templates
         run: |
           make djlint-lint-check
