@@ -322,10 +322,18 @@ Feat 025 (#61)
 - Merge pull request #64 from jcook3701/develop
 
 Feat 025 (#63)
-- Update template
-- Update template
-- Update template
-- Merge branch 'cookiecutter-template' into feat-026
+- Feat 026 (#65)
+
+* fix(hooks): Fixed template hooks.
+
+* fix(jinja2): configuration file update.
+
+* fix(license): Forgot to fix one of the license headers and needed to remove file as well.
+
+* chore(upgrade): Upgraded project using ```cookiecutter_project_upgrader```.
+- Merge pull request #66 from jcook3701/develop
+
+Feat 026 (#65)
 
 ### 🐛 Fixed
 
@@ -333,8 +341,6 @@ Feat 025 (#63)
 - *(template)* Fixed git auto remove to ignore all readme files on merge.
 - *(changelogs)* Removed changelogs make command from running during post hook generation scripts.
 - *(issues)* Fixes and updates to issue templates.  Added developer only template to avoid having to fill out user forms for each project task.
-- *(hooks)* Fixed template hooks.
-- *(jinja2)* Configuration file update.
 
 ### 🚀 Added
 
