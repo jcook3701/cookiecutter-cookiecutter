@@ -3,7 +3,8 @@
         "search_paths": [
             ".",
             "./.cookiecutter_includes",
-"./{{ cookiecutter.project_slug }}"        ],
+            "./{{ cookiecutter.project_slug }}"
+        ],
         "base_dir": "."
     },
     "_jinja2_env_vars": {
