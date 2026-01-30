@@ -322,6 +322,10 @@ Feat 025 (#61)
 - Merge pull request #64 from jcook3701/develop
 
 Feat 025 (#63)
+- Update template
+- Update template
+- Update template
+- Merge branch 'cookiecutter-template' into feat-026
 
 ### 🐛 Fixed
 
