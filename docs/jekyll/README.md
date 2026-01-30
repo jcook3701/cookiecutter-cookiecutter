@@ -88,7 +88,7 @@ If you're interested in contributing to the {{ site.title }} project:
 
 {{ site.copyright }}  
 
-This project is licensed under the **{{ site.license }} License**.
+This project is licensed under the **{{ site.license }} License**.  
 See the [LICENSE]({{ site.repo_blob }}/LICENSE.md) file for the full license text.  
 
 SPDX-License-Identifier: {{ site.license }}
