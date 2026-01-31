@@ -1,11 +1,3 @@
-{% import '.cookiecutter_includes/license/__init__.j2' as license_macros with context %}
-{{- license_macros.license_header.create(
-  cookiecutter.license,
-  cookiecutter.copyright,
-  cookiecutter.project_slug,
-  file_name='FUNDING.yml',
-  comment_style='hash') -}}
----
+{% import '.cookiecutter_includes/community_health_files/__init__.j2' as community_health_files_macro with context %}
 
-# github: ["{{ cookiecutter.github_username }}"]
-buy_me_a_coffee: "{{ cookiecutter.buymeacoffee_username }}"
+{{- community_health_files_macro.funding.create() -}}

@@ -356,6 +356,18 @@ Feat 027 (#67)
 - Merge pull request #70 from jcook3701/develop
 
 Feat 028 (#69)
+- Feat 029 (#71)
+
+* fix(template): Added none option to changelog selection to allow user to turn of this feature if needed.
+
+* chore(update): Update template from ```cookiecutter-cookiecutter```.
+
+* fix(upgrader): Added changelog setting to upgrader configuration files.
+
+* fix(hooks): Fixed hook template for changelog configuration settings.
+- Merge pull request #72 from jcook3701/develop
+
+Feat 029 (#71)
 
 ### 🐛 Fixed
 
@@ -363,9 +375,7 @@ Feat 028 (#69)
 - *(template)* Fixed git auto remove to ignore all readme files on merge.
 - *(changelogs)* Removed changelogs make command from running during post hook generation scripts.
 - *(issues)* Fixes and updates to issue templates.  Added developer only template to avoid having to fill out user forms for each project task.
-- *(template)* Added none option to changelog selection to allow user to turn of this feature if needed.
-- *(upgrader)* Added changelog setting to upgrader configuration files.
-- *(hooks)* Fixed hook template for changelog configuration settings.
+- *(jinja2)* Fixed linting issues.  Next to workflows.
 
 ### 🚀 Added
 
@@ -373,3 +383,5 @@ Feat 028 (#69)
 - *(git)* Added git attributes file to hopefully ignore updating specific files after they have been created. (#9)
 - *(fix)* General fixes for template to ensure proper upgrade functionality. (#13)
 - *(issues)* Setup issue templates. (#22)
+- *(template)* Moved all community health files to the .cookiecutter_includes so they can be used on meta templates (secondary templates).
+- *(ci/cd)* Added a few of the workflows files to the  template engine.
