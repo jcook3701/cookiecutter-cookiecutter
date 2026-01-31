@@ -380,6 +380,15 @@ Feat 029 (#71)
 - Merge pull request #76 from jcook3701/develop
 
 Feat 030 (#75)
+- Update template
+- Update template
+- Update template
+- Update template
+- Update template
+- Update template
+- Update template
+- Update template
+- Merge branch 'cookiecutter-template' into feat-031
 
 ### 🐛 Fixed
 
