@@ -16,7 +16,7 @@
         ".cookiecutter_includes/*",
         ".cookiecutter_includes/**/*"
     ],
-    "_default_branch": "master",
+    "_default_branch": "main",
     "_extensions": [
         "jinja2.ext.do",
         "jinja2.ext.loopcontrols",
