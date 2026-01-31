@@ -10,7 +10,7 @@
         "target_version": "py311"
     },
     "__year_range": "2025-2026",
-    "_checkout": "main",
+    "_checkout": "feat-031",
     "_copy_without_render": [
         "{{ '{{' }} cookiecutter.project_slug {{ '}}' }}/*",
         ".cookiecutter_includes/*",

@@ -27,7 +27,7 @@ cookiecutter-cookiecutter is an open-source project maintained by volunteers. Yo
 
 If this project has helped you, please consider supporting us through one of the following methods:
 <!-- TODO:
-Look into GitHub Sponsors:  
+Look into GitHub Sponsors:
 *   **[GitHub Sponsors](URL_HERE):** Ideal for recurring, direct support.
 *   **[Open Collective](URL_HERE):** Best for corporate sponsorship and transparent expense management.
 -->
