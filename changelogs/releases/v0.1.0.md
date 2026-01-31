@@ -382,3 +382,4 @@ Feat 029 (#71)
 - *(git)* Added git attributes file to hopefully ignore updating specific files after they have been created. (#9)
 - *(fix)* General fixes for template to ensure proper upgrade functionality. (#13)
 - *(issues)* Setup issue templates. (#22)
+- *(template)* Moved all community health files to the .cookiecutter_includes so they can be used on meta templates (secondary templates).
