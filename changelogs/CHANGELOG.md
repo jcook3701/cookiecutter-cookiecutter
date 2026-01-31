@@ -368,6 +368,18 @@ Feat 028 (#69)
 - Merge pull request #72 from jcook3701/develop
 
 Feat 029 (#71)
+- Feat 030 (#75)
+
+* feat(template): Moved all community health files to the .cookiecutter_includes so they can be used on meta templates (secondary templates).
+
+* fix(jinja2): Fixed linting issues.  Next to workflows.
+
+* feat(ci/cd): added a few of the workflows files to the  template engine.
+
+* feat(ci/cd): all ci/cd has been moved to jinja2 templating.
+- Merge pull request #76 from jcook3701/develop
+
+Feat 030 (#75)
 
 ### 🐛 Fixed
 
@@ -375,7 +387,6 @@ Feat 029 (#71)
 - *(template)* Fixed git auto remove to ignore all readme files on merge.
 - *(changelogs)* Removed changelogs make command from running during post hook generation scripts.
 - *(issues)* Fixes and updates to issue templates.  Added developer only template to avoid having to fill out user forms for each project task.
-- *(jinja2)* Fixed linting issues.  Next to workflows.
 
 ### 🚀 Added
 
@@ -383,5 +394,3 @@ Feat 029 (#71)
 - *(git)* Added git attributes file to hopefully ignore updating specific files after they have been created. (#9)
 - *(fix)* General fixes for template to ensure proper upgrade functionality. (#13)
 - *(issues)* Setup issue templates. (#22)
-- *(template)* Moved all community health files to the .cookiecutter_includes so they can be used on meta templates (secondary templates).
-- *(ci/cd)* Added a few of the workflows files to the  template engine.
