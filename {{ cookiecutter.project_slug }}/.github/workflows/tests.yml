@@ -1,32 +1,3 @@
-{% import '.cookiecutter_includes/license/__init__.j2' as license_macros with context %}
-{{- license_macros.license_header.create(
-	cookiecutter.license,
-	cookiecutter.copyright,
-	cookiecutter.project_slug,
-	file_name='tests.yml',
-	comment_style='hash') -}}
----
-name: Cookiecutter Template Tests
+{% import '.cookiecutter_includes/workflows/__init__.j2' as workflows_macro with context %}
 
-on: [push, pull_request]
-
-jobs:
-  tests:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-
-      - name: Install pytest
-        run: |
-          make python-install
-
-      - name: Run tests
-        run: |
-            make test
+{{- workflows_macro.tests.create() -}}
