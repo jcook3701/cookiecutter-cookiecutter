@@ -67,11 +67,13 @@ def test_bake_with_defaults(cookies: Cookies) -> None:
 #}
     {%- set use_default_slug = [
         "c", "c++", "c/cc", "c/c++",
-        "cookiecutter", "documentation", "python", "ros2",
+        "cookiecutter", "documentation", "ros2",
         "typescript"] -%}
 
     {% if template_type == "ansible" -%}
         jcook3701.test_project
+    {% if template_type == "python" -%}
+        test_project
     {%- elif template_type in use_default_slug -%}
         test-project
     {%- endif %}

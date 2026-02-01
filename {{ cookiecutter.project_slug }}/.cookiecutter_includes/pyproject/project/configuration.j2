@@ -1,0 +1,81 @@
+{#
+# pyproject/project/configuration.j2 for cookiecutter-cookiecutter
+#
+# SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#}
+
+{% set template %}
+[project]
+name = "{{ cookiecutter.__python.project_name }}"
+version = "{{ cookiecutter.version }}"
+description = "{{ cookiecutter.description }}"
+authors = [
+    { name="{{ cookiecutter.author }}", email="{{ cookiecutter.email }}" }
+]
+readme = "README.md"
+license = "{{ cookiecutter.license }}"
+license-files = ["LICENSE.md"]
+requires-python = ">={{ cookiecutter.python_version }}"
+dependencies = [
+  "nutri-matic>=0.1",
+]
+keywords = {{ cookiecutter.__python.keywords | tojson }}
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "{{ cookiecutter.repo_url }}"
+Repository = "{{ cookiecutter.repo_url }}"
+Documentation = "{{ cookiecutter.repo_url }}/docs/jekyll"
+
+[project.optional-dependencies]
+dev = [
+  "bump-my-version>=1.2",
+  "black>=25.11",
+  "codespell>=2.4",
+  "cookiecutter>=2.6",
+  "cookiecutter-project-upgrader>=1.3",
+  "coverage>=7.12",
+  "deptry>=0.24",
+  "djlint>=1.36",
+  "json-lint-tools>=0.1",
+  "jinja2-cli>=0.8",
+  "jinja2-time>=0.2",
+  "mypy==1.9",
+  "nameisok>=0.1",
+  "pip-audit>=2.10",
+  "pre-commit>=4.5",
+  "pytest>=9.0",
+  "pytest-cookies>=0.7",
+  "pytest-cov>=7.0",
+  "ruff>=0.14.0",
+  "tomllint>=0.3",
+  "yamllint>=1.0",
+]
+docs = [
+  "sphinx>=8.0",
+  "sphinx-rtd-theme>=3.0",
+  "sphinx-markdown-builder>=0.6",
+  "sphinx-autodoc-typehints>=3.5",
+]
+{% endset %}
+
+
+{% set cli %}
+{% endset %}

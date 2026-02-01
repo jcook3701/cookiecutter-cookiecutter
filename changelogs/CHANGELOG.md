@@ -396,6 +396,7 @@ Feat 031 (#77)
 - *(changelogs)* Removed changelogs make command from running during post hook generation scripts.
 - *(issues)* Fixes and updates to issue templates.  Added developer only template to avoid having to fill out user forms for each project task.
 - *(template)* Fixed default branch for project upgrader.
+- *(template)* Fixed default branch for project upgrader.
 
 ### 🚀 Added
 

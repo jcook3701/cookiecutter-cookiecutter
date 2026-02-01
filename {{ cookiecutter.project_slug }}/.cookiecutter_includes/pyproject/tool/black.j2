@@ -1,5 +1,5 @@
 {#
-# pyproject/__init__.j2 for cookiecutter-cookiecutter
+# black.j2 for cookiecutter-cookiecutter
 #
 # SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
 # SPDX-License-Identifier: AGPL-3.0-or-later
@@ -18,10 +18,26 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
-{% import '.cookiecutter_includes/pyproject/build-system/__init__.j2' as _build_system with context %}
-{% import '.cookiecutter_includes/pyproject/project/__init__.j2' as _project with context %}
-{% import '.cookiecutter_includes/pyproject/tool/__init__.j2' as _tool with context %}
-
-{% set build_system = _build_system %}
-{% set project = _project %}
-{% set tool = _tool %}
+{% set config %}
+# ====================================
+# Black Configuration: (Formatting)
+# ====================================
+[tool.black]
+line-length = 88          # Maximum line length (default is 88)
+target-version = ["{{ cookiecutter.__python.target_version }}"] # Target Python version(s)
+skip-string-normalization = false  # Whether to skip normalizing string quotes
+include = '\.pyi?$'       # Which files to include (regex)
+exclude = '''
+/(
+    \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+)/
+'''
+{% endset %}

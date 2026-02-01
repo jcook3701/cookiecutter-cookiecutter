@@ -1,5 +1,5 @@
 {#
-# pyproject/__init__.j2 for cookiecutter-cookiecutter
+# pyproject.j2 for cookiecutter-cookiecutter
 #
 # SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
 # SPDX-License-Identifier: AGPL-3.0-or-later
@@ -18,10 +18,11 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
-{% import '.cookiecutter_includes/pyproject/build-system/__init__.j2' as _build_system with context %}
-{% import '.cookiecutter_includes/pyproject/project/__init__.j2' as _project with context %}
-{% import '.cookiecutter_includes/pyproject/tool/__init__.j2' as _tool with context %}
+{% import '.cookiecutter_includes/pyproject/__init__.j2' as pyproject with context %}
 
-{% set build_system = _build_system %}
-{% set project = _project %}
-{% set tool = _tool %}
+{% macro create() %}
+{{ pyproject.build_system.configuration.setuptools }}
+
+
+
+{% endmacro %}
