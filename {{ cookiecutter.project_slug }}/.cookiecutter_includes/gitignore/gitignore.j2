@@ -18,27 +18,25 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
-{% import '.cookiecutter_includes/license/__init__.j2' as license_macros with context %}
 
-{% import '.cookiecutter_includes/gitignore/gitignore-data.j2' as gitignore %}
+{% import '.cookiecutter_includes/gitignore/gitignore-data.j2' as gitignore_macros %}
 {% import '.cookiecutter_includes/gitignore/default.j2' as default %}
 
-{% macro create(
-    template_type,
-) %}
+{% set license %}
+{% import '.cookiecutter_includes/license/__init__.j2' as license_macros with context %}
 {{- license_macros.license_header.create(
   cookiecutter.license,
   cookiecutter.copyright,
   cookiecutter.project_slug,
   file_name='.gitignore',
   comment_style='hash') -}}
-# =========================================
-# text editor ignores #
-# =========================================
-.vscode/
-{{ gitignore_macros.gitignore(
-    cookiecutter.template_type
-) -}}
+{% endset %}
 
-{{ }}
+{% macro create(
+    template_type
+) %}
+{{ license }}
+{{ default.header }}
+{{ gitignore_macros.template_selector(template_type) -}}
+{{ default.ignores }}
 {% endmacro %}
