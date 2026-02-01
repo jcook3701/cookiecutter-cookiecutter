@@ -1,0 +1,39 @@
+{#
+# config.j2 for cookiecutter-cookiecutter
+#
+# SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#}
+
+
+{% import '.cookiecutter_includes/pyproject/tool/black.j2' as _black with context %}
+{% import '.cookiecutter_includes/pyproject/tool/bump-my-version.j2' as _bump_my_version with context %}
+{% import '.cookiecutter_includes/pyproject/tool/codespell.j2' as _codespell with context %}
+{% import '.cookiecutter_includes/pyproject/tool/deptry.j2' as _deptry with context %}
+{% import '.cookiecutter_includes/pyproject/tool/djlint.j2' as _djlint with context %}
+{% import '.cookiecutter_includes/pyproject/tool/mypy.j2.j2' as _mypy with context %}
+{% import '.cookiecutter_includes/pyproject/tool/pytest.j2' as _pytest with context %}
+{% import '.cookiecutter_includes/pyproject/tool/ruff.j2' as _ruff with context %}
+
+
+{% set black = _black %}
+{% set bump_my_version = _bump_my_version %}
+{% set codespell = _codespell %}
+{% set deptry = _deptry %}
+{% set djlint = _djlint %}
+{% set mypy = _mypy %}
+{% set pytest = _pytest %}
+{% set ruff = _ruff %}

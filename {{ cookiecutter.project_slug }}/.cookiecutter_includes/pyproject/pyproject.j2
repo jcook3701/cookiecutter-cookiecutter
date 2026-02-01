@@ -20,9 +20,12 @@
 
 {% import '.cookiecutter_includes/pyproject/__init__.j2' as pyproject with context %}
 
-{% macro create() %}
+{% macro create(
+
+) %}
 {{ pyproject.build_system.configuration.setuptools }}
-
-
+{{ pyproject.project.configuration.template }}
+{{ pyproject.project.optional_dependencies.default }}
+{# {{ pyproject.tool.configuration }} #}
 
 {% endmacro %}

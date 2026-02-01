@@ -18,8 +18,8 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
-{% import '.cookiecutter_includes/pyproject/project/configuration.j2' as _configuration with context %}
-{% import '.cookiecutter_includes/pyproject/project/optional-dependencies.j2' as _optional_dependencies with context %}
+{% import '.cookiecutter_includes/pyproject/project/config.j2' as _config with context %}
+{% import '.cookiecutter_includes/pyproject/project/optional-dependencies.j2' as _optional_deps with context %}
 
-{% set configuration = _configuration %}
-{% set optional_dependencies = _optional_dependencies %}
+{% set config = _config %}
+{% set optional_deps = _optional_deps %}
