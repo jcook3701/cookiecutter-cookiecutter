@@ -19,6 +19,7 @@
 #}
 
 
+{% import '.cookiecutter_includes/pyproject/tool/setuptools.j2' as _setuptools with context %}
 {% import '.cookiecutter_includes/pyproject/tool/black.j2' as _black with context %}
 {% import '.cookiecutter_includes/pyproject/tool/bump-my-version.j2' as _bump_my_version with context %}
 {% import '.cookiecutter_includes/pyproject/tool/codespell.j2' as _codespell with context %}
@@ -29,6 +30,7 @@
 {% import '.cookiecutter_includes/pyproject/tool/ruff.j2' as _ruff with context %}
 
 
+{% set setuptools = _setuptools %}
 {% set black = _black %}
 {% set bump_my_version = _bump_my_version %}
 {% set codespell = _codespell %}
@@ -37,3 +39,41 @@
 {% set mypy = _mypy %}
 {% set pytest = _pytest %}
 {% set ruff = _ruff %}
+
+
+{%- macro create(
+    config
+) -%}
+    {#
+        Generates pyproject tool configuration based on... TODO:
+
+        This macro maps a python tool configuration strings to their corresponding full
+        text stored in a template TODO: data object.
+
+        Args:
+        (str): .
+        (str): .
+
+        Returns:
+            str: pyproject tool section.
+    #}
+    {{- setuptools.config -}}
+
+    {% if config.black == true -%}
+        {{- black.config -}}
+    {%- elif config.bump_my_version == true -%}
+        {{- bump_my_version.config -}}
+    {%- elif config.codespell == true -%}
+        {{- codespell.config -}}
+    {%- elif config.deptry == true -%}
+        {{- deptry.config -}}
+    {%- elif config.djlint == true -%}
+        {{- djlint.config -}}
+    {%- elif config.mypy == true -%}
+        {{- mypy.config -}}
+    {%- elif config.pytest == true -%}
+        {{- pytest.config -}}
+    {%- elif config.ruff == true -%}
+        {{- ruff.config -}}
+    {%- endif -%}
+{%- endmacro -%}

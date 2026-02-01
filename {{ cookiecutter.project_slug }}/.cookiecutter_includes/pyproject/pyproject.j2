@@ -23,9 +23,9 @@
 {% macro create(
 
 ) %}
-{{ pyproject.build_system.configuration.setuptools }}
-{{ pyproject.project.configuration.template }}
-{{ pyproject.project.optional_dependencies.default }}
-{# {{ pyproject.tool.configuration }} #}
+{{ pyproject.build_system.config.setuptools }}
+{{ pyproject.project.config.template }}
+{{ pyproject.project.optional_deps.default }}
+{# {{ pyproject.tool.config }} #}
 
 {% endmacro %}

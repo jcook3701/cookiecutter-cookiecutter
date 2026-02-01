@@ -398,6 +398,7 @@ Feat 031 (#77)
 - *(template)* Fixed default branch for project upgrader.
 - *(template)* Fixed default branch for project upgrader.
 - *(jinja)* Fixed gitignore and pytest templates.
+- *(jinja)* Fixed gitignore and pytest templates.
 
 ### 🚀 Added
 

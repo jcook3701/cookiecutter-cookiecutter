@@ -46,7 +46,15 @@
       "cookiecutter",
       "template",
       "automation"
-    ]
+    ],
+    "black": true,
+    "bump_my_version": true,
+    "codespell": true,
+    "deptry": true,
+    "djlint": true,
+    "mypy": true,
+    "pytest": true,
+    "ruff": true
   },
   "ga_tracking": "G-C7PWLWSHB9",
   "github_org": null,

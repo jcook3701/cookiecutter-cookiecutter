@@ -1,5 +1,5 @@
 {#
-# pyproject/build-system/configuration.j2 for cookiecutter-cookiecutter
+# pyproject/build-system/config.j2 for cookiecutter-cookiecutter
 #
 # SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
 # SPDX-License-Identifier: AGPL-3.0-or-later
@@ -18,8 +18,26 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
-{% set setuptools %}
-[build-system]
-requires = ["setuptools>=80.0.0", "wheel"]
-build-backend = "setuptools.build_meta"
-{% endset %}
+{% import '.cookiecutter_includes/pyproject/build-system/setuptools.j2' as _setuptools with context %}
+
+{% set setuptools = _setuptools %}
+
+{%- macro create(
+    tool
+) -%}
+  {#
+    Generates pyproject tool configuration based on... TODO:
+
+    This macro maps a python tool configuration strings to their corresponding full
+    text stored in a template TODO: data object.
+
+    Args:
+      (str): .
+      (str): .
+
+    Returns:
+        str: pyproject tool section.
+  #}
+    {{- setuptools.build_config -}}
+
+{%- endmacro -%}

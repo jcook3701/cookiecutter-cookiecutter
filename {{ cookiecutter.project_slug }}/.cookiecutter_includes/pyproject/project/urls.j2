@@ -1,5 +1,5 @@
 {#
-# header.j2 for cookiecutter-cookiecutter
+# pyproject/project/urls.j2 for cookiecutter-cookiecutter
 #
 # SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
 # SPDX-License-Identifier: AGPL-3.0-or-later
@@ -18,11 +18,9 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
-{# description #}
-{% macro create(
-    tool
-) %}
-# ====================================
-# {{ tool }} Configuration:
-# ====================================
+{% set default %}
+[project.urls]
+Homepage = "{{ cookiecutter.repo_url }}"
+Repository = "{{ cookiecutter.repo_url }}"
+Documentation = "{{ cookiecutter.repo_url }}/docs/jekyll"
 {% endset %}

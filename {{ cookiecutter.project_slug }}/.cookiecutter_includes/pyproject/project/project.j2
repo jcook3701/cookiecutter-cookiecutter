@@ -1,5 +1,5 @@
 {#
-# header.j2 for cookiecutter-cookiecutter
+# pyproject/project/project.j2 for cookiecutter-cookiecutter
 #
 # SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
 # SPDX-License-Identifier: AGPL-3.0-or-later
@@ -18,11 +18,24 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
-{# description #}
-{% macro create(
-    tool
-) %}
-# ====================================
-# {{ tool }} Configuration:
-# ====================================
+{% set template %}
+[project]
+name = "{{ cookiecutter.__python.project_name }}"
+version = "{{ cookiecutter.version }}"
+description = "{{ cookiecutter.description }}"
+authors = [
+    { name="{{ cookiecutter.author }}", email="{{ cookiecutter.email }}" }
+]
+readme = "README.md"
+license = "{{ cookiecutter.license }}"
+license-files = ["LICENSE.md"]
+requires-python = ">={{ cookiecutter.python_version }}"
+dependencies = [
+  "nutri-matic>=0.1",
+]
+keywords = {{ cookiecutter.__python.keywords | tojson }}
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Operating System :: OS Independent",
+]
 {% endset %}
