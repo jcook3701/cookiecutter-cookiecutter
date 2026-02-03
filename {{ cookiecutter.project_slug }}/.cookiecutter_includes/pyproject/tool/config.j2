@@ -58,7 +58,10 @@
     Returns:
         str: The tool section for a pyproject configuration file.
   #}
-    {{- setuptools.config -}}
+    {# NOTE: This should always be used unless other build tools are added in the future. #}
+    {{- setuptools.config(
+            config=config
+    ) -}}
 
     {% if config.black == true -%}
         {{- black.config(

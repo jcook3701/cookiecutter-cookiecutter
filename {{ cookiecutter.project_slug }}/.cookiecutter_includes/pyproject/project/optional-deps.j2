@@ -77,9 +77,9 @@
     {% endif %}
 [project.optional-dependencies]
 dev = [
-  {{ dev_deps | join(',\n') }}
+  {{ dev_deps | join(',\n') | indent(2) }}
 ]
 docs = [
-  {{ doc_deps | join(',\n') }}
+  {{ doc_deps | join(',\n') | indent(2) }}
 ]
 {% endmacro %}

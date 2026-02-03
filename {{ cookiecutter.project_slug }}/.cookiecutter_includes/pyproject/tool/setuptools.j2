@@ -18,10 +18,25 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
-{% set config %}
+{% macro config(
+  config
+) %}
 # ====================================
 # Setuptools Configuration:
 # ====================================
+{% if config.ansible %}
+where = [
+  "plugins",
+]
+include = [
+  "action*",
+  "filter*",
+  "inventory*",
+  "lookup*",
+  "module_utils*",
+  "modules*",
+]
+{% else %}
 [tool.setuptools.packages.find]
 where = [
   "hooks",
@@ -29,4 +44,5 @@ where = [
 include = [
   "*",
 ]
-{% endset %}
+{% endif %}
+{% endmacro %}
