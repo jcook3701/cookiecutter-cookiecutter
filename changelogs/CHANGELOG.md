@@ -412,3 +412,4 @@ Feat 031 (#77)
 - *(jinja2)* Updates to python pyproject configuration files.
 - *(jinja2)* Updates to pyproject template.
 - *(jinja2)* Fixed .gitignore template formatting.
+- *(jinja2)* .gitignore template file clean up.
