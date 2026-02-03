@@ -62,8 +62,8 @@
         {% do dev_deps.append('"pytest-cov>=7.0"') %}
         {% do dev_deps.append('"pytest-custom-exit-code>=0.3.0"') %}
     {% endif %}
-    {% if config.ruff %}{% do dev_deps.append('"ruff>=0.14.0"') %}{% endif %}
     {% do dev_deps.append('"reuse>=6.2"') %}
+    {% if config.ruff %}{% do dev_deps.append('"ruff>=0.14.0"') %}{% endif %}
     {% if config.tomllint %}{% do dev_deps.append('"tomllint>=0.3"') %}{% endif %}
     {% if config.yamllint %}{% do dev_deps.append('"yamllint>=1.0"') %}{% endif %}
     {# Document Dependencies #}
