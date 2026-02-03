@@ -1,5 +1,5 @@
 {#
-# pyproject/__init__.j2 for cookiecutter-cookiecutter
+# pyproject/build-system/setuptools.j2 for cookiecutter-cookiecutter
 #
 # SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
 # SPDX-License-Identifier: AGPL-3.0-or-later
@@ -18,6 +18,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
-{% import '.cookiecutter_includes/pyproject/pyproject.j2' as _pyproject with context %}
-
-{% set pyproject = _pyproject %}
+{% set package = "setuptools" %}
+{% set version = "80.0.0" %}
+{% set requires = "wheel" %}
+{% set backend = "setuptools.build_meta" %}
