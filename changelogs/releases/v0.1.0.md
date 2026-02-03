@@ -411,3 +411,4 @@ Feat 031 (#77)
 - *(pyproject)* Pyproject template is now working.  Needs some clean up. But MVP is good to go.
 - *(jinja2)* Updates to python pyproject configuration files.
 - *(jinja2)* Updates to pyproject template.
+- *(jinja2)* Fixed .gitignore template formatting.

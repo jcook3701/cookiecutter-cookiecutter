@@ -80,13 +80,13 @@ dist/
     template_type
 ) %}
     {#
-        Generates .gitignore configuration file.
+        Generates .gitignore template_type specific configuration section.
 
         Args:
             template_type (str): .
 
         Returns:
-            str: .gitignore configuration file.
+            str: variable .gitignore configuration section file.
     #}
     {%- if template_type == "ansible" -%}
         {{- ansible }}
