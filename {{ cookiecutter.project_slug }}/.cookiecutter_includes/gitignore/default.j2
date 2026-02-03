@@ -1,4 +1,5 @@
-# .gitignore for cookiecutter-cookiecutter
+{#
+# gitignore/default.j2 for cookiecutter-cookiecutter
 #
 # SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
 # SPDX-License-Identifier: AGPL-3.0-or-later
@@ -15,16 +16,9 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
-# =========================================
-# Python project ignores #
-# =========================================
-__pycache__/
-*.egg-info/
-.mypy_cache/
-.pytest_cache/
-.ruff_cache/
-.venv/
-dist/
+#}
+
+{% set ignores %}
 # =========================================
 ## Default Ignores #
 # =========================================
@@ -84,3 +78,4 @@ dist/
 .Trashes
 ehthumbs.db
 Thumbs.db
+{% endset %}

@@ -1,8 +1,8 @@
 ---
 layout: default
-title: cookiecutter-cookiecutter
+title: "cookiecutter-cookiecutter"
 nav_order: 1
-description: __cookiecutter-cookiecutter__ is the cookiecutter template project to rule them all. Generates cookiecutter template projects and is able to be queried by generated projects for updates.
+description: "__cookiecutter-cookiecutter__ is the cookiecutter template project to rule them all. Generates cookiecutter template projects and is able to be queried by generated projects for updates."
 ---
 {% include snippet_loader.html %}
 

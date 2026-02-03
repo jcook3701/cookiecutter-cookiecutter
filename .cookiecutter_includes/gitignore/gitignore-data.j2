@@ -18,11 +18,8 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
-{% macro gitignore(
-    template_type
-) -%}
 
-{%- set ansible -%}
+{% set ansible %}
 # =========================================
 # Ansible Galaxy Ignores #
 # =========================================
@@ -32,9 +29,20 @@ inventory.yml
 **/vault.yml
 /group_vars
 /host_vars
-{%- endset -%}
+{% endset %}
 
-{%- set python -%}
+
+{% set gcc %}
+# =========================================
+# C/C++ Ignores #
+# =========================================
+*.o
+*.a
+*.out
+{% endset %}
+
+
+{% set python %}
 # =========================================
 # Python project ignores #
 # =========================================
@@ -45,34 +53,51 @@ __pycache__/
 .ruff_cache/
 .venv/
 dist/
-{%- endset -%}
+{% endset %}
 
-{%- set ansible_cookiecutter = ansible ~ '\n' ~ python -%}
 
-{% if template_type == "ansible" %}
-{{ ansible_cookiecutter }}
-{% elif template_type in ["c", "c++", "c/cc", "c/c++"] %}
-# =========================================
-# C/C++ Ignores #
-# =========================================
-*.o
-*.a
-*.out
-{% elif template_type in ["cookiecutter", "documentation", "python"] %}
-{{ python }}
-{% elif template_type == "ros2" %}
+{%- set ros %}
 # =========================================
 # ROS2 Ignores #
 # =========================================
 install/
 build/
 log/
-{% elif template_type == "typescript" %}
+{% endset %}
+
+
+{% set typescript %}
 # =========================================
 # Typescript Ignores #
 # =========================================
 node_modules/
 dist/
 *.tsbuildinfo
-{% endif %}
-{%- endmacro -%}
+{% endset %}
+
+
+{% macro template_selector(
+    template_type
+) %}
+    {#
+        Generates .gitignore template_type specific configuration section.
+
+        Args:
+            template_type (str): .
+
+        Returns:
+            str: variable .gitignore configuration section file.
+    #}
+    {%- if template_type == "ansible" -%}
+        {{- ansible }}
+        {{- python }}
+    {%- elif template_type in ["gcc"] -%}
+        {{- gcc }}
+    {%- elif template_type in ["cookiecutter", "documentation", "python"] -%}
+        {{- python }}
+    {%- elif template_type == "ros2" -%}
+        {{- ros }}
+    {%- elif template_type == "typescript" -%}
+        {{- typescript }}
+    {%- endif -%}
+{% endmacro %}
