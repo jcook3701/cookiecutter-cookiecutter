@@ -1,4 +1,3 @@
-
 # .gitignore for cookiecutter-cookiecutter
 #
 # SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
@@ -16,11 +15,6 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
-# =========================================
-# text editor ignores #
-# =========================================
-
 # =========================================
 # Python project ignores #
 # =========================================
@@ -34,13 +28,11 @@ dist/
 # =========================================
 ## Default Ignores #
 # =========================================
+#
+# =========================================
+# text editor ignores #
+# =========================================
 .vscode/
-# =========================================
-# Backup Extensions #
-# =========================================
-*.bak
-*.old
-*.save
 # =========================================
 # Emacs Tmp Extensions #
 # =========================================
@@ -48,6 +40,12 @@ dist/
 *.tmp.*
 *.rpmnew
 .#*
+# =========================================
+# Backup Extensions #
+# =========================================
+*.bak
+*.old
+*.save
 # =========================================
 # Compiled source Extensions #
 # =========================================
@@ -86,4 +84,3 @@ dist/
 .Trashes
 ehthumbs.db
 Thumbs.db
-

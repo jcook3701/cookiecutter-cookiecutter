@@ -69,6 +69,7 @@ dev = [
   "pytest-cov>=7.0",
   "pytest-custom-exit-code>=0.3.0",
   "ruff>=0.14.0",
+  "reuse>=6.2",
   "tomllint>=0.3",
   "yamllint>=1.0"
 ]
