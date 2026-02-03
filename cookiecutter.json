@@ -34,6 +34,9 @@
   "__year_range": "{% if cookiecutter.publication_year == cookiecutter.current_year %}{{ cookiecutter.current_year }}{% else %}{{ cookiecutter.publication_year }}-{{ cookiecutter.current_year }}{% endif %}",
   "copyright": "Copyright (c) {{ cookiecutter.__year_range }}, {{ cookiecutter.author }}",
   "description": "Description of cookiecutter template project.",
+  "add_github_docs": true,
+  "add_sphinx_docs": false,
+  "add_community_health_files": true,
   "python_version": [
     "3.11",
     "3.10"
@@ -47,14 +50,22 @@
       "template",
       "automation"
     ],
+    "ansible": false,
     "black": true,
     "bump_my_version": true,
     "codespell": true,
     "deptry": true,
     "djlint": true,
+    "jinja2_cli": false,
     "mypy": true,
+    "nameisok": true,
+    "pip_audit": true,
+    "pre_commit": true,
     "pytest": true,
-    "ruff": true
+    "ruff": true,
+    "sphinx": "{{ cookiecutter.add_sphinx_docs }}",
+    "tomllint": true,
+    "yamllint": true
   },
   "ga_tracking": "G-C7PWLWSHB9",
   "github_org": null,
@@ -102,7 +113,5 @@
   "_jinja2_env_vars": {
     "lstrip_blocks": true,
     "trim_blocks": true
-  },
-  "add_github_docs": true,
-  "add_sphinx_docs": false
+  }
 }

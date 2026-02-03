@@ -25,7 +25,8 @@
     author,
     email,
     license,
-    python_version
+    python_version,
+    config
 ) %}
     {#
         Generates project, section of pyproject configuration file.
@@ -46,7 +47,7 @@
 # Project Configuration:
 # ====================================
 [project]
-name = "{{ cookiecutter.__python.project_name }}"
+name = "{{ config.project_name }}"
 version = "{{ version }}"
 description = "{{ description }}"
 authors = [
@@ -59,7 +60,7 @@ requires-python = ">={{ python_version }}"
 dependencies = [
   "nutri-matic>=0.1",
 ]
-keywords = {{ cookiecutter.__python.keywords | tojson }}
+keywords = {{ config.keywords | tojson }}
 classifiers = [
   "Programming Language :: Python :: 3",
   "Operating System :: OS Independent",

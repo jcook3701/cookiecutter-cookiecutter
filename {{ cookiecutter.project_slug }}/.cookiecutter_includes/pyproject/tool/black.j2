@@ -18,13 +18,15 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
-{% set config %}
+{% macro config(
+  config
+) %}
 # ====================================
 # Black Configuration: (Formatting)
 # ====================================
 [tool.black]
 line-length = 88          # Maximum line length (default is 88)
-target-version = ["{{ cookiecutter.__python.target_version }}"] # Target Python version(s)
+target-version = ["{{ config.target_version }}"] # Target Python version(s)
 skip-string-normalization = false  # Whether to skip normalizing string quotes
 include = '\.pyi?$'       # Which files to include (regex)
 exclude = '''
@@ -40,4 +42,4 @@ exclude = '''
   | dist
 )/
 '''
-{% endset %}
+{% endmacro %}

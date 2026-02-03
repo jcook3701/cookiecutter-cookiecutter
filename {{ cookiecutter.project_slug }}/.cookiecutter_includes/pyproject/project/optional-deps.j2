@@ -19,7 +19,7 @@
 #}
 
 {% macro create(
-
+    config
 ) %}
     {#
         Generates project.optional-dependencies, section of pyproject configuration file.
@@ -30,34 +30,56 @@
         Returns:
             str: project.optional-dependencies, section of pyproject configuration file.
     #}
+    {# Development Dependencies #}
+    {% set dev_deps = [] %}
+    {% if config.ansible %}
+        {% do dev_deps.append('"ansible>=12.0"') %}
+        {% do dev_deps.append('"ansible-core>=2.0"') %}
+        {% do dev_deps.append('"ansible-runner>=2.4"') %}
+        {% do dev_deps.append('"galaxy-importer>=0.4"') %}
+        {% do dev_deps.append('"antsibull-changelog>=0.34"') %}
+        {% do dev_deps.append('"antsichaut>=0.4"') %}
+    {% endif %}
+    {% if config.black %}{% do dev_deps.append('"black>=25.11"') %}{% endif %}
+    {% if config.bump_my_version %}{% do dev_deps.append('"bump-my-version>=1.2"') %}{% endif %}
+    {% if config.codespell %}{% do dev_deps.append('"codespell>=2.4"') %}{% endif %}
+    {% do dev_deps.append('"cookiecutter>=2.6"') %}
+    {% do dev_deps.append('"cookiecutter-project-upgrader>=1.3"') %}
+    {% do dev_deps.append('"coverage>=7.12"') %}
+    {% if config.deptry %}{% do dev_deps.append('"deptry>=0.24"') %}{% endif %}
+    {% if config.djlint %}{% do dev_deps.append('"djlint>=1.36"') %}{% endif %}
+    {% do dev_deps.append('"json-lint-tools>=0.1"') %}
+    {% if config.jinja2_cli %}{% do dev_deps.append('"jinja2-cli>=0.8"') %}{% endif %}
+    {% do dev_deps.append('"jinja2-time>=0.2"') %}
+    {% if config.mypy %}{% do dev_deps.append('"mypy==1.9"') %}{% endif %}
+    {% if config.nameisok %}{% do dev_deps.append('"nameisok>=0.1"') %}{% endif %}
+    {% if config.pip_audit %}{% do dev_deps.append('"pip-audit>=2.10"') %}{% endif %}
+    {% if config.pre_commit %}{% do dev_deps.append('"pre-commit>=4.5"') %}{% endif %}
+    {% if config.pytest %}
+        {% do dev_deps.append('"pytest>=9.0"') %}
+        {% if config.ansible %}{% do dev_deps.append('"pytest-ansible>=1.3"') %}{% endif %}
+        {% do dev_deps.append('"pytest-cookies>=0.7"') %}
+        {% do dev_deps.append('"pytest-cov>=7.0"') %}
+        {% do dev_deps.append('"pytest-custom-exit-code>=0.3.0"') %}
+    {% endif %}
+    {% if config.ruff %}{% do dev_deps.append('"ruff>=0.14.0"') %}{% endif %}
+    {% if config.tomllint %}{% do dev_deps.append('"tomllint>=0.3"') %}{% endif %}
+    {% if config.yamllint %}{% do dev_deps.append('"yamllint>=1.0"') %}{% endif %}
+    {# Document Dependencies #}
+    {% set doc_deps = [] %}
+    {% if config.ansible %}{% do doc_deps.append('"ansible-autodoc>=0.5"') %}{% endif %}
+    {% if config.sphinx %}
+        {% do doc_deps.append('"sphinx>=8.0"') %}
+        {% do doc_deps.append('"sphinx-rtd-theme>=3.0"') %}
+        {% do doc_deps.append('"sphinx-markdown-builder>=0.6"') %}
+        {% do doc_deps.append('"sphinx-autodoc-typehints>=3.5"') %}
+        {% do doc_deps.append('"myst-parser>=0.18"') %}
+    {% endif %}
 [project.optional-dependencies]
 dev = [
-  "bump-my-version>=1.2",
-  "black>=25.11",
-  "codespell>=2.4",
-  "cookiecutter>=2.6",
-  "cookiecutter-project-upgrader>=1.3",
-  "coverage>=7.12",
-  "deptry>=0.24",
-  "djlint>=1.36",
-  "json-lint-tools>=0.1",
-  "jinja2-cli>=0.8",
-  "jinja2-time>=0.2",
-  "mypy==1.9",
-  "nameisok>=0.1",
-  "pip-audit>=2.10",
-  "pre-commit>=4.5",
-  "pytest>=9.0",
-  "pytest-cookies>=0.7",
-  "pytest-cov>=7.0",
-  "ruff>=0.14.0",
-  "tomllint>=0.3",
-  "yamllint>=1.0",
+  {{ dev_deps | join(',\n') }}
 ]
 docs = [
-  "sphinx>=8.0",
-  "sphinx-rtd-theme>=3.0",
-  "sphinx-markdown-builder>=0.6",
-  "sphinx-autodoc-typehints>=3.5",
+  {{ doc_deps | join(',\n') }}
 ]
 {% endmacro %}

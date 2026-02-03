@@ -18,9 +18,8 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
-{% import '.cookiecutter_includes/pyproject/build-system/setuptools.j2' as _setuptools with context %}
 
-{% set setuptools = _setuptools %}
+{% import '.cookiecutter_includes/pyproject/build-system/setuptools.j2' as setuptools with context %}
 
 
 {% macro template(
@@ -52,12 +51,10 @@ build-backend = "{{ backend }}"
             str: The build-system section for a pyproject configuration file.
     #}
     {# TODO: Hatchling, Poetry-core, Flit-core, and PDM-backend are potential future build options that could be added. #}
-
     {{- template(
             package=setuptools.package,
             version=setuptools.version,
             requires=setuptools.requires,
             backend=setuptools.backend)
     }}
-
 {% endmacro %}

@@ -69,18 +69,21 @@
     {{- build_system.config.create() }}
 
     {{- project.config.create(
-            project_name,
-            version,
-            description,
-            author,
-            email,
-            license,
-            python_version,
-            github_io_url,
-            repo_url
+            project_name=project_name,
+            version=version,
+            description=description,
+            author=author,
+            email=email,
+            license=license,
+            python_version=python_version,
+            python_config=python_config,
+            github_io_url=github_io_url,
+            repo_url=repo_url
     ) }}
 
     {{- tool.config.create(
-        config=python_config
+            version=version,
+            python_version=python_version,
+            config=python_config
     ) }}
 {%- endmacro -%}

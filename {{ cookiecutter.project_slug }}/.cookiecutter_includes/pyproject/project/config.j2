@@ -18,6 +18,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
+
 {% import '.cookiecutter_includes/pyproject/project/project.j2' as project with context %}
 {% import '.cookiecutter_includes/pyproject/project/optional-deps.j2' as optional_deps with context %}
 {% import '.cookiecutter_includes/pyproject/project/urls.j2' as urls with context %}
@@ -31,6 +32,7 @@
     email,
     license,
     python_version,
+    python_config,
     github_io_url,
     repo_url
 ) %}
@@ -55,17 +57,20 @@
             str: The project section for a pyproject configuration file.
     #}
     {{- project.create(
-          project_name,
-          version,
-          description,
-          author,
-          email,
-          license,
-          python_version
+          project_name=project_name,
+          version=version,
+          description=description,
+          author=author,
+          email=email,
+          license=license,
+          python_version=python_version,
+          config=python_config
     ) }}
     {{- urls.create(
-          github_io_url,
-          repo_url
+          github_io_url=github_io_url,
+          repo_url=repo_url
     ) }}
-    {{- optional_deps.create() }}
+    {{- optional_deps.create(
+          config=python_config
+    ) }}
 {% endmacro %}

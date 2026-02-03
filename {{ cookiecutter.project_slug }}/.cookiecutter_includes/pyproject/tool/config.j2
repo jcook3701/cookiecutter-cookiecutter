@@ -42,6 +42,8 @@
 
 
 {%- macro create(
+    version,
+    python_version,
     config
 ) -%}
   {#
@@ -59,11 +61,16 @@
     {{- setuptools.config -}}
 
     {% if config.black == true -%}
-        {{- black.config -}}
+        {{- black.config(
+                config=config
+        ) -}}
     {%- endif -%}
 
     {%- if config.bump_my_version == true -%}
-        {{- bump_my_version.config -}}
+        {{- bump_my_version.config(
+                version=version,
+                config=config
+        ) -}}
     {%- endif -%}
 
     {%- if config.codespell == true -%}
@@ -79,15 +86,21 @@
     {%- endif -%}
 
     {%- if config.mypy == true -%}
-        {{- mypy.config -}}
+        {{- mypy.config(
+                python_version=python_version,
+                config=config) -}}
     {%- endif -%}
 
     {%- if config.pytest == true -%}
-        {{- pytest.config -}}
+        {{- pytest.config(
+            config
+        ) -}}
     {%- endif -%}
 
     {%- if config.ruff == true -%}
-        {{- ruff.config -}}
+        {{- ruff.config(
+            config=config
+        ) -}}
     {%- endif -%}
 
 {%- endmacro -%}

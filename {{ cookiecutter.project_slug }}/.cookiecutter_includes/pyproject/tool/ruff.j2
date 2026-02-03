@@ -19,13 +19,15 @@
 #}
 
 
-{% set config %}
+{% macro config(
+  config
+) %}
 # ====================================
 # Ruff Configuration:
 # ====================================
 [tool.ruff]
 # Target Python version
-target-version = "{{ cookiecutter.__python.target_version }}"
+target-version = "{{ config.target_version }}"
 # Directories to lint and format
 src = [
   "hooks",
@@ -80,10 +82,14 @@ ignore = [
 # ====================================
 [tool.ruff.lint.isort]
 combine-as-imports = true
+{% if config.ansible %}
+known-first-party = ["plugins"]
+{% else %}
 known-first-party = [
   "{{ cookiecutter.project_slug }}",
   "hooks"
 ]
+{% endif %}
 # ====================================
 # Formatter Configuration:
 # Ruff also formats YAML, TOML, and Markdown
@@ -94,4 +100,4 @@ indent-style = "space"
 line-ending = "lf"
 skip-magic-trailing-comma = false
 docstring-code-format = true
-{% endset %}
+{% endmacro %}

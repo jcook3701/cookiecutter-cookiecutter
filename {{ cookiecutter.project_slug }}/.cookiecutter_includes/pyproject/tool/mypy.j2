@@ -18,19 +18,28 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
-{% set config %}
+{% macro config(
+  python_version,
+  config
+) %}
 # ====================================
 # Mypy (type-checker) Configuration:
 # ====================================
 [tool.mypy]
-python_version = "{{ cookiecutter.python_version }}"
+python_version = "{{ python_version }}"
+{% if config.ansible %}
+mypy_path = [
+  "plugins",
+]
+{% else %}
 mypy_path = [
   "hooks",
   "tests",
 ]
+{% endif %}
 strict = true
 warn_unused_ignores = true
 warn_unused_configs = true
 disallow_untyped_defs = true
 ignore_missing_imports = true
-{% endset %}
+{% endmacro %}

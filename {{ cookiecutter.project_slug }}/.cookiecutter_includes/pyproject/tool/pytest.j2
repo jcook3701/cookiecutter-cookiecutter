@@ -18,17 +18,20 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
-{% set config %}
+{% macro config(
+  config
+) %}
 # ====================================
 # Pytest Configuration:
 # ====================================
 [tool.pytest.ini_options]
 minversion = "7.0"
 addopts = ["-v", "--maxfail=1", "-W always", "-rw", "--strict-markers"]
-testpaths = [
-  "tests",
-]
-pythonpath = [
-  "hooks",
-]
-{% endset %}
+{% if config.ansible %}
+testpaths = ["tests"]
+pythonpath = ["plugins"]
+{% else %}
+testpaths = ["tests"]
+pythonpath = ["hooks"]
+{% endif %}
+{% endmacro %}
