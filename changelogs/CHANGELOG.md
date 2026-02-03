@@ -388,6 +388,36 @@ Feat 030 (#75)
 - Merge pull request #78 from jcook3701/develop
 
 Feat 031 (#77)
+- Feat 032 (#81)
+
+* fix(template): fixed default branch for project upgrader.
+
+* fix(template): fixed default branch for project upgrader.
+
+* feat(jinja): Creating gitignore and pyproject templates. Next to do is the Makefile and then templates should be done for a bit.
+
+* fix(jinja): Fixed gitignore and pytest templates.
+
+* fix(jinja): Fixed gitignore and pytest templates.
+
+* feat(jinja2): un-finished templates updates for pyproject configuration file.
+
+* feat(pyproject): Pyproject template is now working.  Needs some clean up. But MVP is good to go.
+
+* feat(jinja2): Updates to python pyproject configuration files.
+
+* feat(jinja2): Updates to pyproject template.
+
+* Update template
+
+* feat(jinja2): Fixed .gitignore template formatting.
+
+* feat(jinja2): .gitignore template file clean up.
+
+* feat(jinja2): Very minor fix for optional-deps pyproject template.
+- Merge pull request #82 from jcook3701/develop
+
+Feat 032 (#81)
 
 ### 🐛 Fixed
 
@@ -395,10 +425,6 @@ Feat 031 (#77)
 - *(template)* Fixed git auto remove to ignore all readme files on merge.
 - *(changelogs)* Removed changelogs make command from running during post hook generation scripts.
 - *(issues)* Fixes and updates to issue templates.  Added developer only template to avoid having to fill out user forms for each project task.
-- *(template)* Fixed default branch for project upgrader.
-- *(template)* Fixed default branch for project upgrader.
-- *(jinja)* Fixed gitignore and pytest templates.
-- *(jinja)* Fixed gitignore and pytest templates.
 
 ### 🚀 Added
 
@@ -406,11 +432,3 @@ Feat 031 (#77)
 - *(git)* Added git attributes file to hopefully ignore updating specific files after they have been created. (#9)
 - *(fix)* General fixes for template to ensure proper upgrade functionality. (#13)
 - *(issues)* Setup issue templates. (#22)
-- *(jinja)* Creating gitignore and pyproject templates. Next to do is the Makefile and then templates should be done for a bit.
-- *(jinja2)* Un-finished templates updates for pyproject configuration file.
-- *(pyproject)* Pyproject template is now working.  Needs some clean up. But MVP is good to go.
-- *(jinja2)* Updates to python pyproject configuration files.
-- *(jinja2)* Updates to pyproject template.
-- *(jinja2)* Fixed .gitignore template formatting.
-- *(jinja2)* .gitignore template file clean up.
-- *(jinja2)* Very minor fix for optional-deps pyproject template.
