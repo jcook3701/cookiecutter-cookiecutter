@@ -407,3 +407,4 @@ Feat 031 (#77)
 - *(fix)* General fixes for template to ensure proper upgrade functionality. (#13)
 - *(issues)* Setup issue templates. (#22)
 - *(jinja)* Creating gitignore and pyproject templates. Next to do is the Makefile and then templates should be done for a bit.
+- *(jinja2)* Un-finished templates updates for pyproject configuration file.

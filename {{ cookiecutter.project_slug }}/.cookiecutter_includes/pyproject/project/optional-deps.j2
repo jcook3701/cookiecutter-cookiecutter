@@ -18,7 +18,18 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
-{% set default %}
+{% macro create(
+
+) %}
+    {#
+        Generates project.optional-dependencies, section of pyproject configuration file.
+
+        Args:
+            (str): .
+
+        Returns:
+            str: project.optional-dependencies, section of pyproject configuration file.
+    #}
 [project.optional-dependencies]
 dev = [
   "bump-my-version>=1.2",
@@ -49,4 +60,4 @@ docs = [
   "sphinx-markdown-builder>=0.6",
   "sphinx-autodoc-typehints>=3.5",
 ]
-{% endset %}
+{% endmacro %}

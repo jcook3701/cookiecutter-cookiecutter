@@ -25,7 +25,7 @@
 {% import '.cookiecutter_includes/pyproject/tool/codespell.j2' as _codespell with context %}
 {% import '.cookiecutter_includes/pyproject/tool/deptry.j2' as _deptry with context %}
 {% import '.cookiecutter_includes/pyproject/tool/djlint.j2' as _djlint with context %}
-{% import '.cookiecutter_includes/pyproject/tool/mypy.j2.j2' as _mypy with context %}
+{% import '.cookiecutter_includes/pyproject/tool/mypy.j2' as _mypy with context %}
 {% import '.cookiecutter_includes/pyproject/tool/pytest.j2' as _pytest with context %}
 {% import '.cookiecutter_includes/pyproject/tool/ruff.j2' as _ruff with context %}
 
@@ -44,36 +44,50 @@
 {%- macro create(
     config
 ) -%}
-    {#
-        Generates pyproject tool configuration based on... TODO:
+  {#
+    Generates pyproject tool configuration based on... TODO:
 
-        This macro maps a python tool configuration strings to their corresponding full
-        text stored in a template TODO: data object.
+    This macro maps a python tool configuration strings to their corresponding full
+    text stored in a template TODO: data object.
 
-        Args:
-        (str): .
-        (str): .
+    Args:
+      config (json): .
 
-        Returns:
-            str: pyproject tool section.
-    #}
+    Returns:
+        str: The tool section for a pyproject configuration file.
+  #}
     {{- setuptools.config -}}
 
     {% if config.black == true -%}
         {{- black.config -}}
-    {%- elif config.bump_my_version == true -%}
+    {%- endif -%}
+
+    {%- if config.bump_my_version == true -%}
         {{- bump_my_version.config -}}
-    {%- elif config.codespell == true -%}
+    {%- endif -%}
+
+    {%- if config.codespell == true -%}
         {{- codespell.config -}}
-    {%- elif config.deptry == true -%}
+    {%- endif -%}
+
+    {%- if config.deptry == true -%}
         {{- deptry.config -}}
-    {%- elif config.djlint == true -%}
+    {%- endif -%}
+
+    {%- if config.djlint == true -%}
         {{- djlint.config -}}
-    {%- elif config.mypy == true -%}
+    {%- endif -%}
+
+    {%- if config.mypy == true -%}
         {{- mypy.config -}}
-    {%- elif config.pytest == true -%}
+    {%- endif -%}
+
+    {%- if config.pytest == true -%}
         {{- pytest.config -}}
-    {%- elif config.ruff == true -%}
+    {%- endif -%}
+
+    {%- if config.ruff == true -%}
         {{- ruff.config -}}
     {%- endif -%}
+
 {%- endmacro -%}

@@ -18,14 +18,54 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
-{% import '.cookiecutter_includes/pyproject/project/optional-deps.j2' as _optional_deps with context %}
-{% import '.cookiecutter_includes/pyproject/project/urls.j2' as _urls with context %}
+{% import '.cookiecutter_includes/pyproject/project/project.j2' as project with context %}
+{% import '.cookiecutter_includes/pyproject/project/optional-deps.j2' as optional_deps with context %}
+{% import '.cookiecutter_includes/pyproject/project/urls.j2' as urls with context %}
 
-{% set optional_deps = _optional_deps %}
-{% set urls = _urls %}
 
-{%- macro create(
-    tool
-) -%}
+{% macro create(
+    project_name,
+    version,
+    description,
+    author,
+    email,
+    license,
+    python_version,
+    github_io_url,
+    repo_url
+) %}
+    {#
+        Generates pyproject project configuration based on... TODO:
 
-{%- endmacro -%}
+        This macro maps a python project configuration strings to their corresponding full
+        text stored in a template TODO: data object.
+
+        Args:
+            project_name (str): Project name.
+            version (str): Project version.
+            description (str): Project description.
+            author (str): Project author.
+            email (str): Project author email.
+            license (str): Project SPDX license identifier.
+            python_version (str): Project python version.
+            github_io_url (str): Project name.
+            repo_url (str): Project version.
+
+        Returns:
+            str: The project section for a pyproject configuration file.
+    #}
+    {{- project.create(
+          project_name,
+          version,
+          description,
+          author,
+          email,
+          license,
+          python_version
+    ) }}
+    {{- urls.create(
+          github_io_url,
+          repo_url
+    ) }}
+    {{- optional_deps.create() }}
+{% endmacro %}

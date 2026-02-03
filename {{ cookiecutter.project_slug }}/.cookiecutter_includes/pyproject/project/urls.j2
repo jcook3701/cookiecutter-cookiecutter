@@ -18,9 +18,22 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
-{% set default %}
+{% macro create(
+    github_io_url,
+    repo_url
+) %}
+    {#
+        Generates project.url, section of pyproject configuration file.
+
+        Args:
+            github_io_url (str): Project name.
+            repo_url (str): Project version.
+
+        Returns:
+            str: project.url, section of pyproject configuration file.
+    #}
 [project.urls]
-Homepage = "{{ cookiecutter.repo_url }}"
-Repository = "{{ cookiecutter.repo_url }}"
-Documentation = "{{ cookiecutter.repo_url }}/docs/jekyll"
-{% endset %}
+Homepage = "{{ github_io_url }}"
+Repository = "{{ repo_url }}"
+Documentation = "{{ github_io_url }}"
+{% endmacro %}

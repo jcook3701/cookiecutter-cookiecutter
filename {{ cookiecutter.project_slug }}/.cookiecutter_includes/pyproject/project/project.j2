@@ -18,18 +18,44 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
-{% set template %}
+{% macro create(
+    project_name,
+    version,
+    description,
+    author,
+    email,
+    license,
+    python_version
+) %}
+    {#
+        Generates project, section of pyproject configuration file.
+
+        Args:
+            project_name (str): Project name.
+            version (str): Project version.
+            description (str): Project description.
+            author (str): Project author.
+            email (str): Project author email.
+            license (str): Project SPDX license identifier.
+            python_version (str): Project python version.
+
+        Returns:
+            str: project, section of pyproject configuration file.
+    #}
+# ====================================
+# Project Configuration:
+# ====================================
 [project]
 name = "{{ cookiecutter.__python.project_name }}"
-version = "{{ cookiecutter.version }}"
-description = "{{ cookiecutter.description }}"
+version = "{{ version }}"
+description = "{{ description }}"
 authors = [
-    { name="{{ cookiecutter.author }}", email="{{ cookiecutter.email }}" }
+    { name="{{ author }}", email="{{ email }}" }
 ]
 readme = "README.md"
-license = "{{ cookiecutter.license }}"
+license = "{{ license }}"
 license-files = ["LICENSE.md"]
-requires-python = ">={{ cookiecutter.python_version }}"
+requires-python = ">={{ python_version }}"
 dependencies = [
   "nutri-matic>=0.1",
 ]
@@ -38,4 +64,4 @@ classifiers = [
   "Programming Language :: Python :: 3",
   "Operating System :: OS Independent",
 ]
-{% endset %}
+{% endmacro %}

@@ -22,22 +22,42 @@
 
 {% set setuptools = _setuptools %}
 
-{%- macro create(
-    tool
-) -%}
-  {#
-    Generates pyproject tool configuration based on... TODO:
 
-    This macro maps a python tool configuration strings to their corresponding full
-    text stored in a template TODO: data object.
+{% macro template(
+    package,
+    version,
+    requires,
+    backend
+) %}
+# ====================================
+# Build Configuration:
+# ====================================
+[build-system]
+requires = ["{{ package }}>={{ version }}", "{{ requires }}"]
+build-backend = "{{ backend }}"
+{% endmacro %}
 
-    Args:
-      (str): .
-      (str): .
 
-    Returns:
-        str: pyproject tool section.
-  #}
-    {{- setuptools.build_config -}}
+{% macro create() %}
+    {#
+        Generates pyproject build-system configuration based on
 
-{%- endmacro -%}
+        This macro maps python build-system configuration strings to their corresponding
+        variables stored under tool name within build-system directory.
+
+        Args:
+            TODO: Should take the python configuration string eventually. (str): .
+
+        Returns:
+            str: The build-system section for a pyproject configuration file.
+    #}
+    {# TODO: Hatchling, Poetry-core, Flit-core, and PDM-backend are potential future build options that could be added. #}
+
+    {{- template(
+            package=setuptools.package,
+            version=setuptools.version,
+            requires=setuptools.requires,
+            backend=setuptools.backend)
+    }}
+
+{% endmacro %}

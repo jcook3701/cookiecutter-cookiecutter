@@ -18,14 +18,69 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
-{% import '.cookiecutter_includes/pyproject/__init__.j2' as pyproject with context %}
+{% import '.cookiecutter_includes/pyproject/build-system/__init__.j2' as build_system with context %}
+{% import '.cookiecutter_includes/pyproject/project/__init__.j2' as project with context %}
+{% import '.cookiecutter_includes/pyproject/tool/__init__.j2' as tool with context %}
 
-{% macro create(
 
-) %}
-{{ pyproject.build_system.config.setuptools }}
-{{ pyproject.project.config.template }}
-{{ pyproject.project.optional_deps.default }}
-{# {{ pyproject.tool.config }} #}
+{%- macro create(
+    project_name,
+    version,
+    description,
+    author,
+    email,
+    license,
+    copyright,
+    python_version,
+    github_io_url,
+    repo_url,
+    python_config
+) -%}
+    {#
+        Generates pyproject configuration file. TODO:
 
-{% endmacro %}
+        This macro maps python tool configuration strings to their corresponding full
+        text stored in a template TODO: data object.
+
+        Args:
+            project_name (str): Project name.
+            version (str): Project version.
+            description (str): Project description.
+            author (str): Project author.
+            email (str): Project author email.
+            license (str): Project SPDX license identifier.
+            copyright (str): Project SPDX file copyright text.
+            python_version (str): Project python version.
+            github_io_url (str): Project name.
+            repo_url (str): Project version.
+            python_config (): .
+
+        Returns:
+            str: pyproject configuration file.
+    #}
+    {% import '.cookiecutter_includes/license/__init__.j2' as license_macros with context %}
+    {{- license_macros.license_header.create(
+            license=license,
+            copyright=copyright,
+            project_name=project_name,
+            file_name='pyproject.toml',
+            comment_style='hash') }}
+
+    {{- build_system.config.create() }}
+
+    {{- project.config.create(
+            project_name,
+            version,
+            description,
+            author,
+            email,
+            license,
+            python_version,
+            github_io_url,
+            repo_url
+    ) }}
+
+    {{- tool.config.create(
+        config=python_config
+    ) }}
+{%- endmacro -%}

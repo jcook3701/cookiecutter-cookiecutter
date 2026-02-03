@@ -18,8 +18,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
-{% set build_config %}
-[build-system]
-requires = ["setuptools>=80.0.0", "wheel"]
-build-backend = "setuptools.build_meta"
-{% endset %}
+{% set package = "setuptools" %}
+{% set version = "80.0.0" %}
+{% set requires = "wheel" %}
+{% set backend = "setuptools.build_meta" %}
