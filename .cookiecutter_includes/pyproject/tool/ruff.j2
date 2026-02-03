@@ -1,0 +1,103 @@
+{#
+# ruff.j2 for cookiecutter-cookiecutter
+#
+# SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#}
+
+
+{% macro config(
+  config
+) %}
+# ====================================
+# Ruff Configuration:
+# ====================================
+[tool.ruff]
+# Target Python version
+target-version = "{{ config.target_version }}"
+# Directories to lint and format
+src = [
+  "hooks",
+  "tests",
+]
+{% raw %}
+# Exclude these paths
+exclude = [
+  ".venv",
+  "build",
+  "dist",
+  "__pycache__",
+  "docs",
+  "*.egg-info",
+  ".git",
+  ".github",
+  "*{{*cookiecutter.project_slug*}}*",
+]
+{% endraw %}
+force-exclude = true
+# Maximum line length
+line-length = 120
+# ====================================
+# Ruff Lint Configuration:
+# ====================================
+[tool.ruff.lint]
+# Enable linting rules
+select = [
+  "W",  # PyCodeStyle warnings
+  "E",  # pycodestyle errors
+  "F",  # pyflakes
+  "I",  # isort (import sorting)
+  "N",  # pep8-naming
+  "UP", # pyupgrade
+  "B",  # flake8-bugbear
+  "A",  # flake8-builtins
+  "C4", # comprehensions
+  "TID", # tidy imports
+  "FA", # future annotations
+  "PL", # pylint-style checks
+  "RUF", # ruff-specific
+]
+# Ignore specific rules
+ignore = [
+  "E501",  # line too long (handled by formatter)
+  "PLR2004",  # magic value comparison
+  "B008",  # function call in default argument
+  "RUF200", # invalid pyproject.toml file that does not conform to the relevant specifications (PEPs)
+]
+# ====================================
+# Import Sorting Configuration: (Python helper scripts)
+# ====================================
+[tool.ruff.lint.isort]
+combine-as-imports = true
+{% if config.ansible %}
+known-first-party = ["plugins"]
+{% else %}
+known-first-party = [
+  "{{ cookiecutter.project_slug }}",
+  "hooks"
+]
+{% endif %}
+# ====================================
+# Formatter Configuration:
+# Ruff also formats YAML, TOML, and Markdown
+# ====================================
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "lf"
+skip-magic-trailing-comma = false
+docstring-code-format = true
+{% endmacro %}
