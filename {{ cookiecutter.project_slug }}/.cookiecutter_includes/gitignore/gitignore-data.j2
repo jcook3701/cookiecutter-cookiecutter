@@ -19,7 +19,7 @@
 #}
 
 
-{%- set ansible -%}
+{% set ansible %}
 # =========================================
 # Ansible Galaxy Ignores #
 # =========================================
@@ -29,7 +29,7 @@ inventory.yml
 **/vault.yml
 /group_vars
 /host_vars
-{%- endset -%}
+{% endset %}
 
 
 {% set gcc %}
@@ -42,7 +42,7 @@ inventory.yml
 {% endset %}
 
 
-{%- set python -%}
+{% set python %}
 # =========================================
 # Python project ignores #
 # =========================================
@@ -53,7 +53,7 @@ __pycache__/
 .ruff_cache/
 .venv/
 dist/
-{%- endset -%}
+{% endset %}
 
 
 {%- set ros %}
@@ -78,17 +78,26 @@ dist/
 
 {% macro template_selector(
     template_type
-) -%}
-{% if template_type == "ansible" %}
-{{ ansible }}
-{{ python }}
-{% elif template_type in ["gcc"] %}
-{{ gcc }}
-{% elif template_type in ["cookiecutter", "documentation", "python"] %}
-{{ python }}
-{% elif template_type == "ros2" %}
-{{ ros }}
-{% elif template_type == "typescript" %}
-{{ typescript }}
-{% endif %}
-{%- endmacro -%}
+) %}
+    {#
+        Generates .gitignore configuration file.
+
+        Args:
+            template_type (str): .
+
+        Returns:
+            str: .gitignore configuration file.
+    #}
+    {%- if template_type == "ansible" -%}
+        {{- ansible }}
+        {{- python }}
+    {%- elif template_type in ["gcc"] -%}
+        {{- gcc }}
+    {%- elif template_type in ["cookiecutter", "documentation", "python"] -%}
+        {{- python }}
+    {%- elif template_type == "ros2" -%}
+        {{- ros }}
+    {%- elif template_type == "typescript" -%}
+        {{- typescript }}
+    {%- endif -%}
+{% endmacro %}

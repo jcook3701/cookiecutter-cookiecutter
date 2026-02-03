@@ -410,3 +410,4 @@ Feat 031 (#77)
 - *(jinja2)* Un-finished templates updates for pyproject configuration file.
 - *(pyproject)* Pyproject template is now working.  Needs some clean up. But MVP is good to go.
 - *(jinja2)* Updates to python pyproject configuration files.
+- *(jinja2)* Updates to pyproject template.
