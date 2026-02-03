@@ -1,5 +1,5 @@
 {#
-# pyproject/__init__.j2 for cookiecutter-cookiecutter
+# gitignore/gitignore.j2 for cookiecutter-cookiecutter
 #
 # SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
 # SPDX-License-Identifier: AGPL-3.0-or-later
@@ -18,6 +18,25 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
-{% import '.cookiecutter_includes/pyproject/pyproject.j2' as _pyproject with context %}
 
-{% set pyproject = _pyproject %}
+{% import '.cookiecutter_includes/gitignore/gitignore-data.j2' as gitignore_macros %}
+{% import '.cookiecutter_includes/gitignore/default.j2' as default %}
+
+{% set license %}
+{% import '.cookiecutter_includes/license/__init__.j2' as license_macros with context %}
+{{- license_macros.license_header.create(
+  cookiecutter.license,
+  cookiecutter.copyright,
+  cookiecutter.project_slug,
+  file_name='.gitignore',
+  comment_style='hash') -}}
+{% endset %}
+
+{% macro create(
+    template_type
+) %}
+{{ license }}
+{{ default.header }}
+{{ gitignore_macros.template_selector(template_type) -}}
+{{ default.ignores }}
+{% endmacro %}

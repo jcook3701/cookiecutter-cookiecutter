@@ -1,0 +1,53 @@
+{#
+# bump-my-version.j2 for cookiecutter-cookiecutter
+#
+# SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#}
+
+{% macro config(
+    version,
+    config
+) %}
+# ====================================
+# Version Bumping (bump-my-version):
+# ====================================
+[tool.bumpversion]
+current_version = "{{ version }}"
+parse = "(?P<major>\\d+)\\.(?P<minor>\\d+)\\.(?P<patch>\\d+)"
+serialize = ["{major}.{minor}.{patch}"]
+search = "{current_version}"
+replace = "{new_version}"
+tag = false
+commit = false
+
+{% if config.ansible %}
+[[tool.bumpversion.files]]
+filename = "galaxy.yml"
+{% endif %}
+[[tool.bumpversion.files]]
+filename = "Makefile"
+[[tool.bumpversion.files]]
+filename = "./docs/cookiecutter_input.json"
+[[tool.bumpversion.files]]
+filename = "./docs/jekyll/Makefile"
+[[tool.bumpversion.files]]
+filename = "./docs/jekyll/_config.yml"
+{% if config.sphinx %}
+[[tool.bumpversion.files]]
+filename = "./docs/sphinx/conf.py"
+{% endif %}
+{% endmacro %}

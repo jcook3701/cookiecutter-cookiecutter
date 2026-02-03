@@ -1,5 +1,5 @@
 {#
-# pyproject/__init__.j2 for cookiecutter-cookiecutter
+# pytest.j2 for cookiecutter-cookiecutter
 #
 # SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
 # SPDX-License-Identifier: AGPL-3.0-or-later
@@ -18,6 +18,20 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
-{% import '.cookiecutter_includes/pyproject/pyproject.j2' as _pyproject with context %}
-
-{% set pyproject = _pyproject %}
+{% macro config(
+  config
+) %}
+# ====================================
+# Pytest Configuration:
+# ====================================
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = ["-v", "--maxfail=1", "-W always", "-rw", "--strict-markers"]
+{% if config.ansible %}
+testpaths = ["tests"]
+pythonpath = ["plugins"]
+{% else %}
+testpaths = ["tests"]
+pythonpath = ["hooks"]
+{% endif %}
+{% endmacro %}

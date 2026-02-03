@@ -18,9 +18,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
-{% macro gitignore(
-    template_type
-) -%}
 
 {%- set ansible -%}
 # =========================================
@@ -33,6 +30,17 @@ inventory.yml
 /group_vars
 /host_vars
 {%- endset -%}
+
+
+{% set gcc %}
+# =========================================
+# C/C++ Ignores #
+# =========================================
+*.o
+*.a
+*.out
+{% endset %}
+
 
 {%- set python -%}
 # =========================================
@@ -47,32 +55,40 @@ __pycache__/
 dist/
 {%- endset -%}
 
-{%- set ansible_cookiecutter = ansible ~ '\n' ~ python -%}
 
-{% if template_type == "ansible" %}
-{{ ansible_cookiecutter }}
-{% elif template_type in ["c", "c++", "c/cc", "c/c++"] %}
-# =========================================
-# C/C++ Ignores #
-# =========================================
-*.o
-*.a
-*.out
-{% elif template_type in ["cookiecutter", "documentation", "python"] %}
-{{ python }}
-{% elif template_type == "ros2" %}
+{%- set ros %}
 # =========================================
 # ROS2 Ignores #
 # =========================================
 install/
 build/
 log/
-{% elif template_type == "typescript" %}
+{% endset %}
+
+
+{% set typescript %}
 # =========================================
 # Typescript Ignores #
 # =========================================
 node_modules/
 dist/
 *.tsbuildinfo
+{% endset %}
+
+
+{% macro template_selector(
+    template_type
+) -%}
+{% if template_type == "ansible" %}
+{{ ansible }}
+{{ python }}
+{% elif template_type in ["gcc"] %}
+{{ gcc }}
+{% elif template_type in ["cookiecutter", "documentation", "python"] %}
+{{ python }}
+{% elif template_type == "ros2" %}
+{{ ros }}
+{% elif template_type == "typescript" %}
+{{ typescript }}
 {% endif %}
 {%- endmacro -%}

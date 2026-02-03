@@ -1,16 +1,32 @@
 {
     "__python": {
+        "ansible": false,
+        "black": true,
+        "bump_my_version": true,
+        "codespell": true,
+        "deptry": true,
+        "djlint": true,
+        "jinja2_cli": false,
         "keywords": [
             "python3",
             "cookiecutter",
             "template",
             "automation"
         ],
+        "mypy": true,
+        "nameisok": true,
+        "pip_audit": true,
+        "pre_commit": true,
         "project_name": "cookiecutter-cookiecutter",
-        "target_version": "py311"
+        "pytest": true,
+        "ruff": true,
+        "sphinx": "False",
+        "target_version": "py311",
+        "tomllint": true,
+        "yamllint": true
     },
     "__year_range": "2025-2026",
-    "_checkout": "feat-031",
+    "_checkout": "feat-032",
     "_copy_without_render": [
         "{{ '{{' }} cookiecutter.project_slug {{ '}}' }}/*",
         ".cookiecutter_includes/*",
@@ -39,6 +55,7 @@
     "_output_dir": "/home/jcook/Documents/git_repo/cookiecutter-cookiecutter/.git/cookiecutter",
     "_repo_dir": "/home/jcook/.cookiecutters/cookiecutter-cookiecutter",
     "_template": "git@github.com:jcook3701/cookiecutter-cookiecutter.git",
+    "add_community_health_files": true,
     "add_github_docs": true,
     "add_sphinx_docs": false,
     "author": "Jared Cook",

@@ -15,12 +15,16 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
-
+# ====================================
+# Build Configuration:
+# ====================================
 [build-system]
 requires = ["setuptools>=80.0.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
+# ====================================
+# Project Configuration:
+# ====================================
 [project]
 name = "cookiecutter-cookiecutter"
 version = "0.1.0"
@@ -40,16 +44,14 @@ classifiers = [
   "Programming Language :: Python :: 3",
   "Operating System :: OS Independent",
 ]
-
 [project.urls]
-Homepage = "https://github.com/jcook3701/cookiecutter-cookiecutter"
+Homepage = "https://jcook3701.github.io/cookiecutter-cookiecutter"
 Repository = "https://github.com/jcook3701/cookiecutter-cookiecutter"
-Documentation = "https://github.com/jcook3701/cookiecutter-cookiecutter/docs/jekyll"
-
+Documentation = "https://jcook3701.github.io/cookiecutter-cookiecutter"
 [project.optional-dependencies]
 dev = [
-  "bump-my-version>=1.2",
   "black>=25.11",
+  "bump-my-version>=1.2",
   "codespell>=2.4",
   "cookiecutter>=2.6",
   "cookiecutter-project-upgrader>=1.3",
@@ -57,7 +59,6 @@ dev = [
   "deptry>=0.24",
   "djlint>=1.36",
   "json-lint-tools>=0.1",
-  "jinja2-cli>=0.8",
   "jinja2-time>=0.2",
   "mypy==1.9",
   "nameisok>=0.1",
@@ -66,15 +67,17 @@ dev = [
   "pytest>=9.0",
   "pytest-cookies>=0.7",
   "pytest-cov>=7.0",
+  "pytest-custom-exit-code>=0.3.0",
   "ruff>=0.14.0",
   "tomllint>=0.3",
-  "yamllint>=1.0",
+  "yamllint>=1.0"
 ]
 docs = [
   "sphinx>=8.0",
   "sphinx-rtd-theme>=3.0",
   "sphinx-markdown-builder>=0.6",
   "sphinx-autodoc-typehints>=3.5",
+  "myst-parser>=0.18"
 ]
 
 # ====================================
@@ -123,9 +126,13 @@ commit = false
 [[tool.bumpversion.files]]
 filename = "Makefile"
 [[tool.bumpversion.files]]
-filename = "README.md"
+filename = "./docs/cookiecutter_input.json"
 [[tool.bumpversion.files]]
-filename = "docs/cookiecutter_input.json"
+filename = "./docs/jekyll/Makefile"
+[[tool.bumpversion.files]]
+filename = "./docs/jekyll/_config.yml"
+[[tool.bumpversion.files]]
+filename = "./docs/sphinx/conf.py"
 # ====================================
 # Codespell Configuration:
 # ====================================
@@ -167,6 +174,28 @@ search_path = "."
 use_gitignore=true
 extension = "j2"
 exclude = "docs/jekyll/_site/.*"
+# ====================================
+# Mypy (type-checker) Configuration:
+# ====================================
+[tool.mypy]
+python_version = "3.11"
+mypy_path = [
+  "hooks",
+  "tests",
+]
+strict = true
+warn_unused_ignores = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+ignore_missing_imports = true
+# ====================================
+# Pytest Configuration:
+# ====================================
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = ["-v", "--maxfail=1", "-W always", "-rw", "--strict-markers"]
+testpaths = ["tests"]
+pythonpath = ["hooks"]
 # ====================================
 # Ruff Configuration:
 # ====================================
@@ -240,29 +269,3 @@ indent-style = "space"
 line-ending = "lf"
 skip-magic-trailing-comma = false
 docstring-code-format = true
-# ====================================
-# Mypy (type-checker) Configuration:
-# ====================================
-[tool.mypy]
-python_version = "3.11"
-mypy_path = [
-  "hooks",
-  "tests",
-]
-strict = true
-warn_unused_ignores = true
-warn_unused_configs = true
-disallow_untyped_defs = true
-ignore_missing_imports = true
-# ====================================
-# Pytest Configuration:
-# ====================================
-[tool.pytest.ini_options]
-minversion = "7.0"
-addopts = ["-v", "--maxfail=1", "-W always", "-rw", "--strict-markers"]
-testpaths = [
-  "tests",
-]
-pythonpath = [
-  "hooks",
-]
