@@ -49,15 +49,12 @@
 		file_name='Makefile',
 		comment_style='hash') -}}
 
-{%- set sphinx = cookiecutter.add_sphinx_docs -%}
-{%- set github = cookiecutter.add_github_docs -%}
-
 {# Settings Section (environment, ci/cd, & build) #}
 {{ settings.create(
-	jekyll_enabled=cookiecutter.add_github_docs,
-	sphinx_enabled=cookiecutter.add_sphinx_docs) }}
+	jekyll_enabled=jekyll_enabled,
+	sphinx_enabled=sphinx_enabled) }}
 
-{{ python.commands(
+{{ build.commands(
 
 ) }}
 
@@ -89,23 +86,23 @@ TOML_FILE_LIST := 	( \
 # --------------------------------------------------
 {# .PHONY Section #}
 {{ phony.phony(
-	jekyll_enabled=cookiecutter.add_github_docs,
-	sphinx_enabled=cookiecutter.add_sphinx_docs) }}
+	jekyll_enabled=jekyll_enabled,
+	sphinx_enabled=sphinx_enabled) }}
 
-{# TODO: #}
-{{ build }}
+{# TODO: Project Build Section #}
+{{ build.make_actions() }}
 
-{# TODO: #}
-{{ release }}
+{# TODO: Project Release Section #}
+{{ release.make_actions() }}
 
 {# Clean Section #}
 {{ clean.clean(
-	jekyll_enabled=cookiecutter.add_github_docs,
-	sphinx_enabled=cookiecutter.add_sphinx_docs) }}
+	jekyll_enabled=jekyll_enabled,
+	sphinx_enabled=sphinx_enabled) }}
 {# Version Section #}
 {{ version.version() }}
 {# Help Section #}
 {{ help.help(
-	jekyll_enabled=cookiecutter.add_github_docs,
-	sphinx_enabled=cookiecutter.add_sphinx_docs) }}
+	jekyll_enabled=jekyll_enabled,
+	sphinx_enabled=sphinx_enabled) }}
 {%- endmacro -%}

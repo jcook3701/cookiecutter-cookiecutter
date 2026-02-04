@@ -433,3 +433,4 @@ Feat 032 (#81)
 - *(git)* Added git attributes file to hopefully ignore updating specific files after they have been created. (#9)
 - *(fix)* General fixes for template to ensure proper upgrade functionality. (#13)
 - *(issues)* Setup issue templates. (#22)
+- *(makefile)* Huge makefile update.  This won't build at the moment.
