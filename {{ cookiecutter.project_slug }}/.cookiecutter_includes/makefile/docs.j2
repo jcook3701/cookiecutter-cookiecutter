@@ -1,5 +1,5 @@
 {#
-# make/docs.j2 for cookiecutter-cookiecutter
+# makefile/docs.j2 for cookiecutter-cookiecutter
 #
 # SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
 # SPDX-License-Identifier: AGPL-3.0-or-later
@@ -19,14 +19,30 @@
 #}
 
 {% macro sphinx_cmds() -%}
-  {# formatted sphinx command string. #}
+    {#
+        Formatted sphinx command string.
+
+        Args:
+            (str): .
+
+        Returns:
+            str: Makefile build settings section.
+    #}
 sphinx:
 	$(ACTIVATE) && $(MAKE) -C $(SPHINX_DIR) all PUBLISHDIR=$(JEKYLL_SPHINX_DIR)
 {%- endmacro -%}
 
 
 {% macro jekyll_cmds() -%}
-  {# formatted jekyll command string. #}
+    {#
+        Formatted jekyll command string.
+
+        Args:
+            (str): .
+
+        Returns:
+            str: Makefile build settings section.
+    #}
 ruby-install:
 	$(MAKE) -C $(JEKYLL_DIR) ruby-install;
 
@@ -42,17 +58,20 @@ readme:
 {%- endmacro -%}
 
 
-{% macro generate_doc_title(jekyll_enabled, sphinx_enabled) -%}
-  {#
-    Generates a formatted documentation title string based on active tools.
+{% macro generate_doc_title(
+  jekyll_enabled,
+  sphinx_enabled
+) -%}
+    {#
+      Generates a formatted 📚 documentation title string based on active tools.
 
-    Args:
-      jekyll_enabled (bool): Whether GitHub/Jekyll is being used.
-      sphinx_enabled (bool): Whether Sphinx is being used.
+      Args:
+        jekyll_enabled (bool): Whether GitHub/Jekyll is being used.
+        sphinx_enabled (bool): Whether Sphinx is being used.
 
-    Returns:
-      String: A combined title like "Sphinx + Jekyll + nutrimatic".
-  #}
+      Returns:
+        String: A combined title like "Sphinx + Jekyll + nutrimatic".
+    #}
     {%- set title -%}
         {% if sphinx_enabled -%}Sphinx{%- endif -%}
         {% if sphinx_enabled and jekyll_enabled %} + {% endif -%}
@@ -64,17 +83,20 @@ readme:
 {%- endmacro -%}
 
 
-{% macro docs_cmds(jekyll_enabled, sphinx_enabled) -%}
-  {#
-    Generates a formatted documentation command string based on active tools.
+{% macro docs_cmds(
+  jekyll_enabled,
+  sphinx_enabled
+) -%}
+    {#
+      Generates a formatted 📚 documentation command string based on active tools.
 
-    Args:
-      jekyll_enabled (bool): Whether GitHub/Jekyll is being used.
-      sphinx_enabled (bool): Whether Sphinx is being used.
+      Args:
+        jekyll_enabled (bool): Whether GitHub/Jekyll is being used.
+        sphinx_enabled (bool): Whether Sphinx is being used.
 
-    Returns:
-      String: A combined command string for both build-docs and run-docs".
-  #}
+      Returns:
+        String: A combined command string for both build-docs and run-docs".
+    #}
     {%- set sphinx_cmds = sphinx_cmds() -%}
     {%- set jekyll_cmds = jekyll_cmds() -%}
 
@@ -109,6 +131,16 @@ run-docs: jekyll-serve
     sphinx_enabled,
     macro
 ) %}
+    {#
+        TODO:.
+
+        Args:
+            jekyll_enabled (str): .
+            sphinx_enabled (str): .
+
+        Returns:
+            TODO: str: TODO:.
+    #}
     {% if not sphinx_enabled and not jekyll_enabled %}
     {% else %}
 {{ macro }}
@@ -120,16 +152,16 @@ run-docs: jekyll-serve
     jekyll_enabled,
     sphinx_enabled
 ) -%}
-  {#
-    Generates a formatted Makefile documentation command section based on active tools.
+    {#
+      Generates a formatted Makefile 📚 documentation command section based on active tools.
 
-    Args:
-      jekyll_enabled (bool): Whether GitHub/Jekyll is being used.
-      sphinx_enabled (bool): Whether Sphinx is being used.
+      Args:
+        jekyll_enabled (bool): Whether GitHub/Jekyll is being used.
+        sphinx_enabled (bool): Whether Sphinx is being used.
 
-    Returns:
-      String: Makefile documentation command section.
-  #}
+      Returns:
+        String: Makefile documentation command section.
+    #}
     {%- set title = generate_doc_title(jekyll_enabled, sphinx_enabled) -%}
 
     {%- set python_commands_section -%}
@@ -155,7 +187,7 @@ JEKYLL_SERVE := bundle exec jekyll serve
     sphinx_enabled
 ) -%}
   {#
-    Generates a formatted Makefile documentation command section based on active tools.
+    Generates a formatted Makefile 📚 documentation command section based on active tools.
 
     Args:
       jekyll_enabled (bool): Whether GitHub/Jekyll is being used.

@@ -1,0 +1,111 @@
+{#
+# makefile/makefile.j2 for cookiecutter-cookiecutter
+#
+# SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#}
+
+
+{% import '.cookiecutter_includes/makefile/clean.j2' as clean with context %}
+{% import '.cookiecutter_includes/makefile/docs.j2' as docs with context %}
+{% import '.cookiecutter_includes/makefile/help.j2' as help with context %}
+{% import '.cookiecutter_includes/makefile/phony.j2' as phony with context %}
+{% import '.cookiecutter_includes/makefile/python/__init__.j2' as python with context %}
+{% import '.cookiecutter_includes/makefile/settings.j2' as settings with context %}
+{% import '.cookiecutter_includes/makefile/version.j2' as version with context %}
+
+{%- macro create(
+	template_type,
+	jekyll_enabled,
+	sphinx_enabled
+) -%}
+    {#
+        Generates project Makefile file.
+
+        Args:
+            template_type (str): .
+
+        Returns:
+            str: project Makefile.
+    #}
+{% import '.cookiecutter_includes/license/__init__.j2' as license_macros with context %}
+{{- license_macros.license_header.create(
+		cookiecutter.license,
+		cookiecutter.copyright,
+		cookiecutter.project_slug,
+		file_name='Makefile',
+		comment_style='hash') -}}
+
+{%- set sphinx = cookiecutter.add_sphinx_docs -%}
+{%- set github = cookiecutter.add_github_docs -%}
+
+{# Settings Section (environment, ci/cd, & build) #}
+{{ settings.create(
+	jekyll_enabled=cookiecutter.add_github_docs,
+	sphinx_enabled=cookiecutter.add_sphinx_docs) }}
+
+{{ python.commands(
+
+) }}
+
+# --------------------------------------------------
+# Functions
+# --------------------------------------------------
+{%- raw %}
+# Finds files of a given extension or "*" (all files) under a directory,
+# skipping VENV_DIR and template markers like {{ }}.
+define get_files_by_extension
+	find $(1) -name "$(2)" \
+		! -path "$(VENV_DIR)/*" \
+		! -path "$(RENDERED_VENV_DIR)/*" \
+		! -path "*{{*" \
+		! -path "*}}*" \
+		! -name "__init__.j2" \
+		-print0
+endef
+{% endraw %}
+
+JINJA_FILE_LIST := ( \
+		$(call get_files_by_extension,$(PROJECT_ROOT),*.j2); \
+		$(call get_files_by_extension,$(RENDERED_COOKIE_DIR),*.j2) \
+	)
+TOML_FILE_LIST := 	( \
+		$(call get_files_by_extension,$(PROJECT_ROOT),*.toml); \
+		$(call get_files_by_extension,$(RENDERED_COOKIE_DIR),*.toml) \
+	)
+# --------------------------------------------------
+{# .PHONY Section #}
+{{ phony.phony(
+	jekyll_enabled=cookiecutter.add_github_docs,
+	sphinx_enabled=cookiecutter.add_sphinx_docs) }}
+
+{# TODO: #}
+{{ build }}
+
+{# TODO: #}
+{{ release }}
+
+{# Clean Section #}
+{{ clean.clean(
+	jekyll_enabled=cookiecutter.add_github_docs,
+	sphinx_enabled=cookiecutter.add_sphinx_docs) }}
+{# Version Section #}
+{{ version.version() }}
+{# Help Section #}
+{{ help.help(
+	jekyll_enabled=cookiecutter.add_github_docs,
+	sphinx_enabled=cookiecutter.add_sphinx_docs) }}
+{%- endmacro -%}

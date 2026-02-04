@@ -1,0 +1,53 @@
+{#
+# makefile/python/cookiecutter.j2 for cookiecutter-cookiecutter
+#
+# SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#}
+
+
+{% set python_cmd %}
+# --------------------------------------------------
+# 🍪 Render template (cookiecutter, cookiecutter_project_upgrader)
+# --------------------------------------------------
+COOKIECUTTER := $(ACTIVATE) && cookiecutter
+PROJECT_UPGRADE := $(ACTIVATE) && cookiecutter_project_upgrader
+{% endset %}
+
+
+{% set shell_cmd %}
+# --------------------------------------------------
+# 🍪 Project Updater (cookiecutter_project_upgrader)
+# --------------------------------------------------
+project-upgrade:
+	$(AT)echo "🍪 Upgrading project from initial cookiecutter template..."
+	$(AT)$(PROJECT_UPGRADE) --context-file ./docs/cookiecutter_input.json \
+		--upgrade-branch main \
+		-e "cookiecutter.json" \
+		-e "$(COOKIE_DIR)"
+	$(AT)echo "✅ Finished project upgrade!"
+# --------------------------------------------------
+# 🍪 Cookiecutter Test Render (cookiecutter)
+# --------------------------------------------------
+render-cookiecutter:
+	$(AT)echo "🍪 Rendering project from initial cookiecutter template..."
+	$(AT)rm -rf $(RENDERED_COOKIE_DIR)
+	$(AT)$(COOKIECUTTER) . --no-input \
+		--output-dir $(RENDERED_COOKIE_DIR) \
+		--overwrite-if-exists \
+		--keep-project-on-failure
+	$(AT)echo "✅ Finished project render!"
+{% endset %}

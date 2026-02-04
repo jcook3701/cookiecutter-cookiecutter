@@ -1,0 +1,193 @@
+{#
+# makefile/settings.j2 for cookiecutter-cookiecutter
+#
+# SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#}
+
+{% macro environment(
+
+)%}
+    {#
+        Generates ⚙️ Makefile  environment settings section.
+
+        Args:
+            template_type (str): .
+
+        Returns:
+            str: Makefile environment settings section.
+    #}
+# --------------------------------------------------
+# ⚙️ Environment Settings
+# --------------------------------------------------
+SHELL := /bin/bash
+.SHELLFLAGS := -O globstar -c
+# If V is set to '1' or 'y' on the command line,
+# AT will be empty (verbose).  Otherwise, AT will
+# contain '@' (quiet by default).  The '?' is a
+# conditional assignment operator: it only sets V
+# if it hasn't been set externally.
+V ?= 0
+ifeq ($(V),0)
+    AT = @
+else
+    AT =
+endif
+# Detect if we are running inside GitHub Actions CI.
+# GitHub sets the environment variable GITHUB_ACTIONS=true in workflows.
+# We set CI=1 if running in GitHub Actions, otherwise CI=0 for local runs.
+ifeq ($(GITHUB_ACTIONS),true)
+CI := 1
+else
+CI := 0
+endif
+# Detect if we are running inside Cookiecutter (pre/post) hooks.
+# Cookiecutter hooks are used to set the environment variable COOKIECUTTER_HOOKS=true.
+# We set CC=1 if running in Cookiecutter hooks, otherwise CC=0 for standard runs.
+COOKIECUTTER_RENDER_DIR := /tmp/rendered
+ifeq ($(COOKIECUTTER_HOOKS),true)
+CC := 1
+else
+CC := 0
+endif
+{% endmacro %}
+
+
+{% macro ci_cd(
+
+) %}
+    {#
+        ⚙️ Generates Makefile ci/cd settings section.
+
+        Args:
+            template_type (str): .
+
+        Returns:
+            str: Makefile cd/cd settings section.
+    #}
+# --------------------------------------------------
+# 🏗️ CI/CD Functions
+# --------------------------------------------------
+# Returns true when CI is off and gracefully moves through failed checks.
+define run_ci_safe =
+( $1 || \
+	if [ "$(CI)" != "1" ]; then \
+		echo "❌ process finished with error; continuing..."; \
+		true; \
+	else \
+		echo "❌ process finished with error"; \
+		exit 1; \
+	fi \
+)
+endef
+# cc_or_std:
+#   Selects between Cookiecutter hook context and standard execution context.
+#
+#   If COOKIECUTTER_HOOKS=true, expands to the first argument (Cookiecutter render).
+#   Otherwise, expands to the second argument (normal project execution).
+#
+#   Usage:
+#     PROJECT_ROOT := $(call cc_or_std,$(COOKIECUTTER_RENDER_DIR),$(PWD))
+cc_or_std = $(if $(filter true,$(COOKIECUTTER_HOOKS)),$(1),$(2))
+{% endmacro %}
+
+
+{%- macro build(
+    jekyll_enabled,
+    sphinx_enabled
+) -%}
+    {#
+        ⚙️ Generates Makefile build settings section.
+
+        Args:
+            template_type (str): .
+
+        Returns:
+            str: Makefile build settings section.
+    #}
+# --------------------------------------------------
+# ⚙️ Build Settings
+# --------------------------------------------------
+PROJECT_NAME := "{{ cookiecutter.__python.project_name }}"
+AUTHOR := "{{ cookiecutter.author }}"
+VERSION := {{ cookiecutter.version }}
+RELEASE := v$(VERSION)
+# --------------------------------------------------
+# 🐙 Github Build Settings
+# --------------------------------------------------
+GITHUB_USER := "{{ cookiecutter.github_username }}"
+GITHUB_REPO := $(GITHUB_USER)/$(PROJECT_NAME)
+# --------------------------------------------------
+# 📁 Build Directories
+# --------------------------------------------------
+PROJECT_ROOT := $(call cc_or_std,$(CURDIR),$(PWD))
+HOOKS_DIR := $(PROJECT_ROOT)/hooks
+SRC_DIR := $(HOOKS_DIR)
+TEST_DIR := $(PROJECT_ROOT)/tests
+TESTS_DIR := $(TEST_DIR)
+DOCS_DIR := $(PROJECT_ROOT)/docs
+{% if jekyll_enabled %}
+JEKYLL_DIR := $(DOCS_DIR)/jekyll
+{% endif %}
+{% if sphinx_enabled %}
+SPHINX_DIR := $(DOCS_DIR)/sphinx
+JEKYLL_SPHINX_DIR := $(JEKYLL_DIR)/sphinx
+{% endif %}
+{% if jekyll_enabled %}
+README_GEN_DIR := $(JEKYLL_DIR)/tmp_readme
+{% endif %}
+CHANGELOG_DIR := $(PROJECT_ROOT)/changelogs
+CHANGELOG_RELEASE_DIR := $(CHANGELOG_DIR)/releases
+# --------------------------------------------------
+# 📄 Build Files
+# --------------------------------------------------
+{% if jekyll_enabled %}
+README_FILE := $(PROJECT_ROOT)/README.md
+{% endif %}
+CHANGELOG_FILE := $(CHANGELOG_DIR)/CHANGELOG.md
+CHANGELOG_RELEASE_FILE := $(CHANGELOG_RELEASE_DIR)/$(RELEASE).md
+# --------------------------------------------------
+# 🍪 Template Directories (cookiecutter)
+# --------------------------------------------------
+{%- raw %}
+COOKIE_DIR := {{ cookiecutter.project_slug }}
+{% endraw %}
+COOKIE_MACRO_DIR := $(COOKIE_DIR)/.cookiecutter_includes
+RENDERED_COOKIE_DIR := /tmp/rendered
+RENDERED_VENV_DIR := $(RENDERED_COOKIE_DIR)/**/.venv
+{%- endmacro -%}
+
+
+{%- macro create(
+    jekyll_enabled,
+    sphinx_enabled
+) -%}
+    {#
+        ⚙️ Generates Makefile settings section (environment, ci/cd, & build).
+
+        Args:
+            template_type (str): .
+
+        Returns:
+            str: Makefile settings section (environment, ci/cd, & build).
+    #}
+    {{- environment() }}
+    {{- ci_cd() }}
+    {{- build(
+        jekyll_enabled,
+        sphinx_enabled
+    ) }}
+{% endmacro %}

@@ -1,5 +1,5 @@
 {#
-# make/help.j2 for cookiecutter-cookiecutter
+# makefile/help.j2 for cookiecutter-cookiecutter
 #
 # SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
 # SPDX-License-Identifier: AGPL-3.0-or-later
@@ -24,7 +24,18 @@
 {% macro help(
     jekyll_enabled,
     sphinx_enabled
-) -%}
+) %}
+    {#
+        Generates Makefile ❓ help section.
+
+        Args:
+            template_type (str): .
+			jekyll_enabled (str): .
+			sphinx_enabled (str): .
+
+        Returns:
+            str: Makefile ❓ help section.
+    #}
 # --------------------------------------------------
 # ❓ Help
 # --------------------------------------------------
@@ -68,4 +79,4 @@ help:
 	$(AT)echo "Options:"
 	$(AT)echo "  V=1             Enable verbose output (show all commands being executed)"
 	$(AT)echo "  make -s         Run completely silently (suppress make's own output AND command echo)"
-{%- endmacro -%}
+{% endmacro %}

@@ -1,0 +1,236 @@
+{#
+# makefile/python.j2 for cookiecutter-cookiecutter
+#
+# SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#}
+
+{% import '.cookiecutter_includes/makefile/python/setuptools.j2' as setuptools with context %}
+{% import '.cookiecutter_includes/makefile/python/black.j2' as black with context %}
+{% import '.cookiecutter_includes/makefile/python/built-in.j2' as built_in with context %}
+{% import '.cookiecutter_includes/makefile/python/bump-my-version.j2' as bump_my_version with context %}
+{% import '.cookiecutter_includes/makefile/python/codespell.j2' as codespell with context %}
+{% import '.cookiecutter_includes/makefile/python/cookiecutter.j2' as cookie with context %}
+{% import '.cookiecutter_includes/makefile/python/deptry.j2' as deptry with context %}
+{% import '.cookiecutter_includes/makefile/python/djlint.j2' as djlint with context %}
+{% import '.cookiecutter_includes/makefile/python/git.j2' as git with context %}
+{% import '.cookiecutter_includes/makefile/python/git-cliff.j2' as git_cliff with context %}
+{% import '.cookiecutter_includes/makefile/python/jinja-cli.j2' as jinja_cli with context %}
+{% import '.cookiecutter_includes/makefile/python/mypy.j2' as mypy with context %}
+{% import '.cookiecutter_includes/makefile/python/pip-audit.j2' as pip_audit with context %}
+{% import '.cookiecutter_includes/makefile/python/pre-commit.j2' as pre_commit with context %}
+{% import '.cookiecutter_includes/makefile/python/pytest.j2' as pytest with context %}
+{% import '.cookiecutter_includes/makefile/python/ruff.j2' as ruff with context %}
+{% import '.cookiecutter_includes/makefile/python/tomllint.j2' as tomllint with context %}
+{% import '.cookiecutter_includes/makefile/python/yamllint.j2' as yamllint with context %}
+
+
+{% set settings %}
+# --------------------------------------------------
+# 🐍 Python / Virtual Environment
+# --------------------------------------------------
+PYTHON_CMD := python3.11
+VENV_DIR := $(PROJECT_ROOT)/.venv
+# --------------------------------------------------
+# 🐍 Python Dependencies
+# --------------------------------------------------
+DEPS := .
+DEV_DEPS := .[dev]
+DEV_DOCS := .[docs]
+{% endset %}
+
+
+{% set nutrimatic %}
+# --------------------------------------------------
+# 🏃‍♂️ Nutri-Matic command
+# --------------------------------------------------
+NUTRIMATIC := $(PYTHON) -m nutrimatic
+{% endset %}
+
+
+{% macro commands(
+	jekyll_enabled,
+	sphinx_enabled
+) %}
+    {#
+        Generates Makefile phony section.
+
+        Args:
+            template_type (str): .
+			jekyll_enabled (str): .
+			sphinx_enabled (str): .
+
+        Returns:
+            str: Makefile phony section.
+    #}
+{{ settings }}
+{{ built_in.python_cmd }}
+{{ cookie.python_cmd }}
+# --------------------------------------------------
+# 🧬 Dependency Management (deptry)
+# --------------------------------------------------
+{{ deptry.python_cmd }}
+# --------------------------------------------------
+# 🛡️ Security Audit (pip-audit)
+# --------------------------------------------------
+{{ pip_audit.python_cmd }}
+# --------------------------------------------------
+# 🎨 Formatting (black)
+# --------------------------------------------------
+{{ black.python_cmd }}
+# --------------------------------------------------
+# 🔍 Linting (ruff, yaml, jinja2)
+# --------------------------------------------------
+{{ djlint.python_cmd }}
+{{ ruff.python_cmd }}
+{{ tomllint.python_cmd }}
+{{ yamllint.python_cmd }}
+{{ jinja_cli.python_cmd }}
+# --------------------------------------------------
+# 🎓 Spellchecker (codespell)
+# --------------------------------------------------
+{{ codespell.python_cmd }}
+# --------------------------------------------------
+# 🧠 Typing (mypy)
+# --------------------------------------------------
+{{ mypy.python_cmd }}
+# --------------------------------------------------
+# 🧪 Testing (pytest)
+# --------------------------------------------------
+{{ pytest.python_cmd }}
+{# Documentation Command Settings #}
+{{ docs.doc_commands_section(
+	jekyll_enabled=cookiecutter.add_github_docs,
+	sphinx_enabled=cookiecutter.add_sphinx_docs) }}
+# --------------------------------------------------
+# 🔖 Version Bumping (bumpy-my-version)
+# --------------------------------------------------
+{{ bump_my_version.python_cmd }}
+# --------------------------------------------------
+# 📜 Changelog generation (git-cliff)
+# --------------------------------------------------
+{{ git_cliff.python_cmd }}
+{{ git.python_cmd }}
+{{ pre_commit.python_cmd }}
+{{ nutrimatic }}
+{% endmacro %}
+
+
+{% macro test(
+
+) %}
+    {#
+        Generates Makefile phony section.
+
+        Args:
+            template_type (str): .
+			jekyll_enabled (str): .
+			sphinx_enabled (str): .
+
+        Returns:
+            str: Makefile phony section.
+    #}
+# --------------------------------------------------
+# Default: run lint, typecheck, spellcheck, tests, & docs
+# --------------------------------------------------
+all: python-install lint-check typecheck spellcheck test build-docs
+# --------------------------------------------------
+# Make Internal Utilities
+# --------------------------------------------------
+list-folders:
+	$(AT)printf "\
+	🐍 src: $(SRC_DIR)\n\
+	🧪 Test: $(TESTS_DIR)\n"
+# --------------------------------------------------
+# Dependency Checks
+# --------------------------------------------------
+git-dependency-check:
+	$(AT)which $(GIT) >/dev/null || \
+		{ echo "Git is required: sudo apt install git"; exit 1; }
+
+gh-dependency-check:
+	$(AT)which $(GITHUB) >/dev/null || \
+		{ echo "GitHub is required: sudo apt install gh"; exit 1; }
+
+
+{{ built_in.shell_cmd }}
+
+{{ pre_commit.shell_cmd }}
+
+{{ cookie.shell_cmd }}
+# --------------------------------------------------
+# 🛡️ Security (pip-audit)
+# --------------------------------------------------
+{{ pip_audit.shell_cmd }}
+# --------------------------------------------------
+# 🧬 Dependency Management (deptry)
+# --------------------------------------------------
+{{ deptry.shell_cmd }}
+# --------------------------------------------------
+# 🎨 Formatting (black)
+# --------------------------------------------------
+{{ black.shell_cmd }}
+
+format-check: black-formatter-check
+format-fix: black-formatter-fix
+# --------------------------------------------------
+# 🔍 Linting (jinja2, ruff, toml, & yaml)
+# --------------------------------------------------
+{{ djlint.shell_cmd }}
+
+{{ jinja_cli.shell_cmd }}
+
+{{ ruff.lint_shell_cmd }}
+
+{{ tomllint.shell_cmd }}
+
+{{ yamllint.shell_cmd }}
+
+lint-check: render-cookiecutter djlint-lint-check ruff-lint-check toml-lint-check yaml-lint-check
+lint-fix: ruff-lint-fix
+# --------------------------------------------------
+# 🎓 Spellchecker (codespell)
+# --------------------------------------------------
+{{ codespell.shell_cmd }}
+# --------------------------------------------------
+# 🧠 Typechecking (MyPy)
+# --------------------------------------------------
+{{ mypy.shell_cmd }}
+# --------------------------------------------------
+# 🧪 Testing (pytest)
+# --------------------------------------------------
+{{ pytest.shell_cmd }}
+{# Documentation Section #}
+{{ docs.doc_actions(
+	jekyll_enabled=cookiecutter.add_github_docs,
+	sphinx_enabled=cookiecutter.add_sphinx_docs) }}
+# --------------------------------------------------
+# 🔖 Version Bumping (bumpy-my-version)
+# --------------------------------------------------
+{{ bump_my_version.shell_cmd }}
+# --------------------------------------------------
+# 📜 Changelog generation (git-cliff)
+# --------------------------------------------------
+{{ git_cliff.shell_cmd }}
+
+{{ git.shell_cmd }}
+# --------------------------------------------------
+# 📢 Release
+# --------------------------------------------------
+pre-commit: test security dependency-check format-fix lint-check spellcheck typecheck
+pre-release: clean python-install pre-commit build-docs changelog build
+release: git-release bump-version-patch
+{% endmacro %}
