@@ -1,5 +1,5 @@
 {#
-# makefile/python/__init__.j2 for cookiecutter-cookiecutter
+# makefile/build/python/__init__.j2 for cookiecutter-cookiecutter
 #
 # SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
 # SPDX-License-Identifier: AGPL-3.0-or-later
@@ -18,6 +18,38 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
-{% import '.cookiecutter_includes/makefile/python/python.j2' as _python with context %}
+{% import '.cookiecutter_includes/makefile/build/python/setuptools.j2' as _setuptools with context %}
+{% import '.cookiecutter_includes/makefile/build/python/black.j2' as _black with context %}
+{% import '.cookiecutter_includes/makefile/build/python/built-in.j2' as _built_in with context %}
+{% import '.cookiecutter_includes/makefile/build/python/bump-my-version.j2' as _bump_my_version with context %}
+{% import '.cookiecutter_includes/makefile/build/python/codespell.j2' as _codespell with context %}
+{% import '.cookiecutter_includes/makefile/build/python/cookiecutter.j2' as _cookie with context %}
+{% import '.cookiecutter_includes/makefile/build/python/deptry.j2' as _deptry with context %}
+{% import '.cookiecutter_includes/makefile/build/python/djlint.j2' as _djlint with context %}
+{% import '.cookiecutter_includes/makefile/build/python/jinja-cli.j2' as _jinja_cli with context %}
+{% import '.cookiecutter_includes/makefile/build/python/mypy.j2' as _mypy with context %}
+{% import '.cookiecutter_includes/makefile/build/python/nutrimatic.j2' as _nutrimatic with context %}
+{% import '.cookiecutter_includes/makefile/build/python/pip-audit.j2' as _pip_audit with context %}
+{% import '.cookiecutter_includes/makefile/build/python/pre-commit.j2' as _pre_commit with context %}
+{% import '.cookiecutter_includes/makefile/build/python/pytest.j2' as _pytest with context %}
+{% import '.cookiecutter_includes/makefile/build/python/ruff.j2' as _ruff with context %}
+{% import '.cookiecutter_includes/makefile/build/python/tomllint.j2' as _tomllint with context %}
+{% import '.cookiecutter_includes/makefile/build/python/yamllint.j2' as _yamllint with context %}
 
-{% set python_cmds = _python %}
+{% set setuptools = _setuptools %}
+{% set black = _black %}
+{% set built_in = _built_in %}
+{% set bump_my_version = _bump_my_version %}
+{% set codespell = _codespell %}
+{% set cookie = _cookie %}
+{% set deptry = _deptry %}
+{% set djlint = _djlint %}
+{% set jinja_cli = _jinja_cli %}
+{% set mypy = _mypy %}
+{% set nutrimatic = _nutrimatic %}
+{% set pip_audit = _pip_audit %}
+{% set pre_commit = _pre_commit %}
+{% set pytest = _pytest %}
+{% set ruff = _ruff %}
+{% set tomllint = _tomllint %}
+{% set yamllint = _yamllint %}

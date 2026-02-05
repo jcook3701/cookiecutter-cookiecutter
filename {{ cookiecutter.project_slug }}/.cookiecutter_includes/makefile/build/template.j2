@@ -1,0 +1,155 @@
+{#
+# makefile/build/TODO: (come up with name for this file).j2 for cookiecutter-cookiecutter
+#
+# SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#}
+
+{% import '.cookiecutter_includes/makefile/docs.j2' as docs with context %}
+
+{% import '.cookiecutter_includes/makefile/build/changelogs.j2' as changelogs with context %}
+{% import '.cookiecutter_includes/makefile/build/deps.j2' as deps with context %}
+{% import '.cookiecutter_includes/makefile/build/format.j2' as format with context %}
+{% import '.cookiecutter_includes/makefile/build/lint.j2' as lint with context %}
+{% import '.cookiecutter_includes/makefile/build/release.j2' as release with context %}
+{% import '.cookiecutter_includes/makefile/build/security.j2' as security with context %}
+{% import '.cookiecutter_includes/makefile/build/spelling.j2' as spelling with context %}
+{% import '.cookiecutter_includes/makefile/build/testing.j2' as testing with context %}
+{% import '.cookiecutter_includes/makefile/build/typing.j2' as typing with context %}
+{% import '.cookiecutter_includes/makefile/build/version-bumping.j2' as version_bumping with context %}
+
+
+{% macro commands(
+	jekyll_enabled,
+	sphinx_enabled
+) %}
+    {#
+        Generates Makefile phony section.
+
+        Args:
+            template_type (str): .
+			jekyll_enabled (str): .
+			sphinx_enabled (str): .
+
+        Returns:
+            str: Makefile phony section.
+    #}
+    {# TODO: fix #}
+    {{- python.built_in.settings }}
+    {# TODO: Language Specific Command Settings Section #}
+    {{- python.built_in.python_cmd }}
+    {# TODO: Cookiecutter Templating Section (upgrader) #}
+    {{- python.cookie.python_cmd }}
+    {# Dependency Management Section #}
+    {{- deps.cmds() }}
+    {# Security Audit Section #}
+    {{- security.cmds() }}
+    {# Formatting Section #}
+    {{- format.cmds() }}
+    {# Linting Section #}
+    {{- lint.cmds() }}
+    {# Spellchecker Section #}
+    {{- spelling.cmds() }}
+    {# Typing Section #}
+    {{- typing.cmds() }}
+    {# Testing Section #}
+    {{- testing.cmds() }}
+    {# Documentation Command Settings #}
+    {{- docs.doc_commands_section(
+        jekyll_enabled=jekyll_enabled,
+        sphinx_enabled=sphinx_enabled) }}
+    {# Version Bumping Section #}
+    {{- version_bumping.cmds() }}
+    {# Changelogs Section #}
+    {{- changelogs.cmds() }}
+    {# Github Section #}
+    {{- github.cmds() }}
+    {# TODO: Pre-Commit Section #}
+    {{- python.pre_commit.python_cmd }}
+    {# TODO: Nutri-Matic Section #}
+    {{- python.nutrimatic.python_cmd }}
+{% endmacro %}
+
+
+{% macro actions(
+        jekyll_enabled,
+        sphinx_enabled
+) %}
+    {#
+        Generates Makefile phony section.
+
+        Args:
+            template_type (str): .
+			jekyll_enabled (str): .
+			sphinx_enabled (str): .
+
+        Returns:
+            str: Makefile phony section.
+    #}
+# --------------------------------------------------
+# Default: run lint, typecheck, spellcheck, tests, & docs
+# --------------------------------------------------
+all: python-install lint-check typecheck spellcheck test build-docs
+# --------------------------------------------------
+# Make Internal Utilities
+# --------------------------------------------------
+list-folders:
+	$(AT)printf "\
+	🐍 src: $(SRC_DIR)\n\
+	🧪 Test: $(TESTS_DIR)\n"
+# --------------------------------------------------
+# Dependency Checks
+# --------------------------------------------------
+git-dependency-check:
+	$(AT)which $(GIT) >/dev/null || \
+		{ echo "Git is required: sudo apt install git"; exit 1; }
+
+gh-dependency-check:
+	$(AT)which $(GITHUB) >/dev/null || \
+		{ echo "GitHub is required: sudo apt install gh"; exit 1; }
+    {# TODO: Language Specific Command Settings Section #}{# TODO: fix #}
+    {{- python.built_in.shell_cmd }}
+    {# TODO: Pre-Commit Section #}{# TODO: fix #}
+    {{- python.pre_commit.shell_cmd }}
+    {# TODO: Cookiecutter Templating Section (upgrader) #}{# TODO: fix #}
+    {{- python.cookie.shell_cmd }}
+    {# Security Section #}
+    {{- security.actions() }}
+    {# Dependency Management Section #}
+    {{- deps.actions() }}
+    {# Formatting Section #}
+    {{- format.actions() }}
+    {# Linting Section #}
+    {{- lint.actions() }}
+    {# Spellchecker Section #}
+    {{- spelling.actions() }}
+    {# Typechecking Section #}
+    {{- typing.actions() }}
+    {# Testing Section #}
+    {{- testing.actions() }}
+    {# Documentation Section #}
+    {{- docs.doc_actions(
+        jekyll_enabled=jekyll_enabled,
+        sphinx_enabled=sphinx_enabled) }}
+    {# Version Bumping Section #}
+    {{- version_bumping.actions() }}
+    {# Changelog Bumping Section #}
+    {{- changelog.actions() }}
+    {# Github Section #}
+    {{- github.actions() }}
+    {# Release Section #}
+    {{- release.actions() }}
+{% endmacro %}

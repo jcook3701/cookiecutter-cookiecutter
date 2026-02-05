@@ -1,5 +1,5 @@
 {#
-# makefile/build/python/codespell.j2 for cookiecutter-cookiecutter
+# makefile/build/python/nutrimatic.j2 for cookiecutter-cookiecutter
 #
 # SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
 # SPDX-License-Identifier: AGPL-3.0-or-later
@@ -20,13 +20,13 @@
 
 
 {% set python_cmd %}
-CODESPELL := $(ACTIVATE) && codespell
+# --------------------------------------------------
+# 🏃‍♂️ Nutri-Matic command
+# --------------------------------------------------
+NUTRIMATIC := $(PYTHON) -m nutrimatic
 {% endset %}
 
 
 {% set shell_cmd %}
-spellcheck:
-	$(AT)echo "🎓 Checking Spelling (codespell)..."
-	$(AT)$(call run_ci_safe, $(CODESPELL))
-	$(AT)echo "✅ Finished spellcheck!"
+
 {% endset %}

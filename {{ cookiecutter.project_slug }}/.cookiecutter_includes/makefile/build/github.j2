@@ -1,5 +1,5 @@
 {#
-# makefile/build/changelog.j2 for cookiecutter-cookiecutter
+# makefile/build/github.j2 for cookiecutter-cookiecutter
 #
 # SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
 # SPDX-License-Identifier: AGPL-3.0-or-later
@@ -18,48 +18,23 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
-{% import '.cookiecutter_includes/makefile/build/rust/__init__.j2' as rust with context %}
-{% import '.cookiecutter_includes/makefile/build/python/__init__.j2' as python with context %}
-
-
-{% macro header(
-    title,
-    packages,
-    emoji=""
-) %}
-    {#
-        Generates file section header.
-
-        Args:
-            title (str): header title.
-			packages (list[str]): list of packages.
-			sphinx_enabled (optional(str)): related title emoji.
-
-        Returns:
-            str: File section header.
-    #}
-# --------------------------------------------------
-# {{ emoji }} {{ title }}
-# --------------------------------------------------
-{% endmacro %}
-
 
 {% macro cmds(
 
 ) %}
     {#
-        Generates Makefile changelog commands section.
+        Generates Makefile github commands section.
 
         Args:
             TODO: (str): .
 
         Returns:
-            str: Makefile changelog commands section.
+            str: Makefile github commands section.
     #}
 # --------------------------------------------------
-# 📜 Changelog generation (git-cliff)
+# 🐙 Github Tools (git)
 # --------------------------------------------------
-{{ rust.git_cliff.python_cmd }}
+{{ shell.git.python_cmd }}
 {% endmacro %}
 
 
@@ -67,16 +42,16 @@
 
 ) %}
     {#
-        Generates Makefile actions using changelog commands.
+        Generates Makefile actions using github commands.
 
         Args:
             TODO: (str): .
 
         Returns:
-            str: Makefile changelog actions section.
+            str: Makefile github actions section.
     #}
 # --------------------------------------------------
-# 📜 Changelog generation (git-cliff)
+# 🐙 Github Commands (git)
 # --------------------------------------------------
-{{ rust.git_cliff.shell_cmd }}
+{{ shell.git.shell_cmd }}
 {% endmacro %}

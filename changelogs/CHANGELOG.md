@@ -426,6 +426,7 @@ Feat 032 (#81)
 - *(changelogs)* Removed changelogs make command from running during post hook generation scripts.
 - *(issues)* Fixes and updates to issue templates.  Added developer only template to avoid having to fill out user forms for each project task.
 - *(upgrader)* Minor fix for project description within the upgrader file.
+- *(makefile)* File restructure. This should allow for future language updates.
 
 ### 🚀 Added
 

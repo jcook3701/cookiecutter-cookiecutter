@@ -1,5 +1,5 @@
 {#
-# makefile/python/built-in.j2 for cookiecutter-cookiecutter
+# makefile/build/python/built-in.j2 for cookiecutter-cookiecutter
 #
 # SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
 # SPDX-License-Identifier: AGPL-3.0-or-later
@@ -17,6 +17,22 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
+
+
+{% set settings %}
+# --------------------------------------------------
+# 🐍 Python / Virtual Environment
+# --------------------------------------------------
+PYTHON_CMD := python3.11
+VENV_DIR := $(PROJECT_ROOT)/.venv
+# --------------------------------------------------
+# 🐍 Python Dependencies
+# --------------------------------------------------
+DEPS := .
+DEV_DEPS := .[dev]
+DEV_DOCS := .[docs]
+{% endset %}
+
 
 {% set python_cmd %}
 # --------------------------------------------------

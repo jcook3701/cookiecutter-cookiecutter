@@ -1,5 +1,5 @@
 {#
-# makefile/lint.j2 for cookiecutter-cookiecutter
+# makefile/build/lint.j2 for cookiecutter-cookiecutter
 #
 # SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
 # SPDX-License-Identifier: AGPL-3.0-or-later
@@ -17,6 +17,64 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
+
+{% import '.cookiecutter_includes/makefile/build/python/__init__.j2' as python with context %}
+
+
+{% macro cmds(
+
+) %}
+    {#
+        Generates Makefile linting commands section.
+
+        Args:
+            TODO: (str): .
+
+        Returns:
+            str: Makefile linting commands section.
+    #}
+# --------------------------------------------------
+# 🔍 Linting (ruff, yaml, jinja2)
+# --------------------------------------------------
+{{ python.djlint.python_cmd }}
+{{ python.ruff.python_cmd }}
+{{ python.tomllint.python_cmd }}
+{{ python.yamllint.python_cmd }}
+{{ python.jinja_cli.python_cmd }}
+{%- endmacro -%}
+
+
+{% macro actions(
+
+) %}
+    {#
+        Generates Makefile actions using linting commands.
+
+        Args:
+            TODO: (str): .
+
+        Returns:
+            str: Makefile linting actions section.
+    #}
+# --------------------------------------------------
+# 🔍 Linting (jinja2, ruff, toml, & yaml)
+# --------------------------------------------------
+{{ python.djlint.shell_cmd }}
+{{ python.jinja_cli.shell_cmd }}
+{{ python.ruff.lint_shell_cmd }}
+{{ python.tomllint.shell_cmd }}
+{{ python.yamllint.shell_cmd }}
+
+lint-check: render-cookiecutter djlint-lint-check ruff-lint-check toml-lint-check yaml-lint-check
+lint-fix: ruff-lint-fix
+{% endmacro %}
+
+
+
+
+
+{# Deprecated beyond this point... TODO: Delete after makefile template is done. #}
+
 
 {%- macro header(
     ansible,

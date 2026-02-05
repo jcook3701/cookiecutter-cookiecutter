@@ -18,4 +18,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
-{% import '.cookiecutter_includes/makefile/python/git.j2' as git with context %}
+{% import '.cookiecutter_includes/makefile/build/shell/git.j2' as _git with context %}
+
+{% set git = _git %}

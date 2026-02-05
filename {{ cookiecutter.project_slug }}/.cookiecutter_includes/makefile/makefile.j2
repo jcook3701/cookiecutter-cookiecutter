@@ -23,7 +23,7 @@
 {% import '.cookiecutter_includes/makefile/docs.j2' as docs with context %}
 {% import '.cookiecutter_includes/makefile/help.j2' as help with context %}
 {% import '.cookiecutter_includes/makefile/phony.j2' as phony with context %}
-{% import '.cookiecutter_includes/makefile/python/__init__.j2' as python with context %}
+{% import '.cookiecutter_includes/makefile/build/__init__.j2' as build with context %}
 {% import '.cookiecutter_includes/makefile/settings.j2' as settings with context %}
 {% import '.cookiecutter_includes/makefile/version.j2' as version with context %}
 
@@ -54,9 +54,10 @@
 	jekyll_enabled=jekyll_enabled,
 	sphinx_enabled=sphinx_enabled) }}
 
+{# TODO: Build Commands Section #}
 {{ build.commands(
-
-) }}
+	jekyll_enabled=jekyll_enabled,
+	sphinx_enabled=sphinx_enabled) }}
 
 # --------------------------------------------------
 # Functions
@@ -90,10 +91,9 @@ TOML_FILE_LIST := 	( \
 	sphinx_enabled=sphinx_enabled) }}
 
 {# TODO: Project Build Section #}
-{{ build.make_actions() }}
-
-{# TODO: Project Release Section #}
-{{ release.make_actions() }}
+{{ build.actions(
+	jekyll_enabled=jekyll_enabled,
+	sphinx_enabled=sphinx_enabled) }}
 
 {# Clean Section #}
 {{ clean.clean(

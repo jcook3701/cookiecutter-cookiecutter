@@ -18,4 +18,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
-{% import '.cookiecutter_includes/makefile/python/git-cliff.j2' as git_cliff with context %}
+{% import '.cookiecutter_includes/makefile/build/rust/git-cliff.j2' as _git_cliff with context %}
+
+{% set git_cliff = _git_cliff %}

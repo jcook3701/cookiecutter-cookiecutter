@@ -1,5 +1,5 @@
 {#
-# makefile/build/python/codespell.j2 for cookiecutter-cookiecutter
+# makefile/build/ros2/__init__.j2 for cookiecutter-cookiecutter
 #
 # SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
 # SPDX-License-Identifier: AGPL-3.0-or-later
@@ -17,16 +17,3 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
-
-
-{% set python_cmd %}
-CODESPELL := $(ACTIVATE) && codespell
-{% endset %}
-
-
-{% set shell_cmd %}
-spellcheck:
-	$(AT)echo "🎓 Checking Spelling (codespell)..."
-	$(AT)$(call run_ci_safe, $(CODESPELL))
-	$(AT)echo "✅ Finished spellcheck!"
-{% endset %}
