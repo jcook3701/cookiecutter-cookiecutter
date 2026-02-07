@@ -21,6 +21,11 @@
 {% import '.cookiecutter_includes/makefile/build/python/__init__.j2' as python with context %}
 
 
+{#
+# --------------------------------------------------
+# 🔖 Version Bumping (bumpy-my-version)
+# --------------------------------------------------
+#}
 {% macro cmds(
 
 ) %}
@@ -33,13 +38,15 @@
         Returns:
             str: Makefile version bumping commands section.
     #}
-# --------------------------------------------------
-# 🔖 Version Bumping (bumpy-my-version)
-# --------------------------------------------------
-{{ python.bump_my_version.python_cmd }}
+    {{- python.bump_my_version.python_cmd }}
 {% endmacro %}
 
 
+{#
+# --------------------------------------------------
+# 🔖 Version Bumping (bumpy-my-version)
+# --------------------------------------------------
+#}
 {% macro actions(
 
 ) %}
@@ -52,8 +59,5 @@
         Returns:
             str: Makefile version bumping actions section.
     #}
-# --------------------------------------------------
-# 🔖 Version Bumping (bumpy-my-version)
-# --------------------------------------------------
-{{ python.bump_my_version.shell_cmd }}
+    {{- python.bump_my_version.shell_cmd }}
 {% endmacro %}

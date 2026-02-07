@@ -21,6 +21,11 @@
 {% import '.cookiecutter_includes/makefile/build/python/__init__.j2' as python with context %}
 
 
+{#
+# --------------------------------------------------
+# 🧬 Dependency Management (deptry)
+# --------------------------------------------------
+#}
 {% macro cmds(
 
 ) %}
@@ -33,13 +38,15 @@
         Returns:
             str: Makefile dependency management commands section.
     #}
-# --------------------------------------------------
-# 🧬 Dependency Management (deptry)
-# --------------------------------------------------
-{{ python.deptry.python_cmd }}
+    {{- python.deptry.python_cmd }}
 {% endmacro %}
 
 
+{#
+# --------------------------------------------------
+# 🧬 Dependency Management (deptry)
+# --------------------------------------------------
+#}
 {% macro actions(
 
 ) %}
@@ -62,8 +69,6 @@ git-dependency-check:
 gh-dependency-check:
 	$(AT)which $(GITHUB) >/dev/null || \
 		{ echo "GitHub is required: sudo apt install gh"; exit 1; }
-# --------------------------------------------------
-# 🧬 Dependency Management (deptry)
-# --------------------------------------------------
-{{ python.deptry.shell_cmd }}
+
+    {{- python.deptry.shell_cmd }}
 {% endmacro %}

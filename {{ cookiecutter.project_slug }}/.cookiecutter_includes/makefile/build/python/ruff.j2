@@ -55,7 +55,9 @@
 {%- endmacro %}
 
 
-{#
+
+
+{# TODO: Deprecated #}
 {% set python_cmd %}
 RUFF := $(PYTHON) -m ruff
 {% endset %}
@@ -76,4 +78,3 @@ ruff-lint-fix:
 		--force-exclude '$(COOKIE_DIR)/pyproject.toml'
 	$(AT)echo "✅ Finished linting Python code with Ruff!"
 {% endset %}
-#}

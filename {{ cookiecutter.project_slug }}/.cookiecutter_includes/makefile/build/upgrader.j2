@@ -21,6 +21,11 @@
 {% import '.cookiecutter_includes/makefile/build/python/__init__.j2' as python with context %}
 
 
+{#
+# --------------------------------------------------
+# 🍪 Project Updater (cookiecutter_project_upgrader)
+# --------------------------------------------------
+#}
 {% macro cmds(
 
 ) %}
@@ -33,13 +38,15 @@
         Returns:
             str: Makefile upgrader commands section.
     #}
-# --------------------------------------------------
-# 🍪 Project Updater (cookiecutter_project_upgrader)
-# --------------------------------------------------
     {{- python.cookie_upgrader.python_cmd }}
 {% endmacro %}
 
 
+{#
+# --------------------------------------------------
+# 🍪 Project Updater (cookiecutter_project_upgrader)
+# --------------------------------------------------
+#}
 {% macro actions(
 
 ) %}
@@ -52,8 +59,5 @@
         Returns:
             str: Makefile upgrader actions section.
     #}
-# --------------------------------------------------
-# 🍪 Project Updater (cookiecutter_project_upgrader)
-# --------------------------------------------------
     {{- python.cookie_upgrader.shell_cmd }}
 {% endmacro %}

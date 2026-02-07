@@ -44,6 +44,11 @@
 {% endmacro %}
 
 
+{#
+# --------------------------------------------------
+# 📜 Changelog generation (git-cliff)
+# --------------------------------------------------
+#}
 {% macro cmds(
 
 ) %}
@@ -56,13 +61,15 @@
         Returns:
             str: Makefile changelog commands section.
     #}
-# --------------------------------------------------
-# 📜 Changelog generation (git-cliff)
-# --------------------------------------------------
-{{ rust.git_cliff.python_cmd }}
+    {{- rust.git_cliff.python_cmd }}
 {% endmacro %}
 
 
+{#
+# --------------------------------------------------
+# 📜 Changelog generation (git-cliff)
+# --------------------------------------------------
+#}
 {% macro actions(
 
 ) %}
@@ -75,8 +82,5 @@
         Returns:
             str: Makefile changelog actions section.
     #}
-# --------------------------------------------------
-# 📜 Changelog generation (git-cliff)
-# --------------------------------------------------
-{{ rust.git_cliff.shell_cmd }}
+    {{- rust.git_cliff.shell_cmd }}
 {% endmacro %}

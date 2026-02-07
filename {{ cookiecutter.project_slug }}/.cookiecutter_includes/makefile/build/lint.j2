@@ -21,6 +21,11 @@
 {% import '.cookiecutter_includes/makefile/build/python/__init__.j2' as python with context %}
 
 
+{#
+# --------------------------------------------------
+# 🔍 Linting (ruff, yaml, jinja2)
+# --------------------------------------------------
+#}
 {% macro cmds(
 
 ) %}
@@ -33,17 +38,19 @@
         Returns:
             str: Makefile linting commands section.
     #}
-# --------------------------------------------------
-# 🔍 Linting (ruff, yaml, jinja2)
-# --------------------------------------------------
-{{ python.djlint.python_cmd }}
-{{ python.ruff.python_cmd }}
-{{ python.tomllint.python_cmd }}
-{{ python.yamllint.python_cmd }}
-{{ python.jinja_cli.python_cmd }}
+    {{- python.djlint.python_cmd }}
+    {{- python.ruff.python_cmd }}
+    {{- python.tomllint.python_cmd }}
+    {{- python.yamllint.python_cmd }}
+    {{- python.jinja_cli.python_cmd }}
 {%- endmacro -%}
 
 
+{#
+# --------------------------------------------------
+# 🔍 Linting (jinja2, ruff, toml, & yaml)
+# --------------------------------------------------
+#}
 {% macro actions(
 
 ) %}
@@ -56,14 +63,11 @@
         Returns:
             str: Makefile linting actions section.
     #}
-# --------------------------------------------------
-# 🔍 Linting (jinja2, ruff, toml, & yaml)
-# --------------------------------------------------
-{{ python.djlint.shell_cmd }}
-{{ python.jinja_cli.shell_cmd }}
-{{ python.ruff.lint_shell_cmd }}
-{{ python.tomllint.shell_cmd }}
-{{ python.yamllint.shell_cmd }}
+    {{- python.djlint.shell_cmd }}
+    {{- python.jinja_cli.shell_cmd }}
+    {{- python.ruff.lint_shell_cmd }}
+    {{- python.tomllint.shell_cmd }}
+    {{- python.yamllint.shell_cmd }}
 
 lint-check: render-cookiecutter djlint-lint-check ruff-lint-check toml-lint-check yaml-lint-check
 lint-fix: ruff-lint-fix

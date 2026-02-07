@@ -1,5 +1,5 @@
 {#
-# makefile/build/python/venv.j2 for cookiecutter-cookiecutter
+# makefile/utils.j2 for cookiecutter-cookiecutter
 #
 # SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
 # SPDX-License-Identifier: AGPL-3.0-or-later
@@ -18,32 +18,9 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
-{#
+
+{% macro section_header(title, icon="⚙️") -%}
 # --------------------------------------------------
-# 🐍 Python / Virtual Environment
+# {{ icon }} {{ title }}
 # --------------------------------------------------
-#}
-{% set settings %}
-VENV_DIR := $(PROJECT_ROOT)/.venv
-{% endset %}
-
-
-{% set python_cmd %}
-CREATE_VENV := $(PYTHON_CMD) -m venv $(VENV_DIR)
-ACTIVATE := source $(VENV_DIR)/bin/activate
-PYTHON := $(ACTIVATE) && $(PYTHON_CMD)
-{% endset %}
-
-
-
-{#
-# --------------------------------------------------
-# 🐍 Virtual Environment Setup
-# --------------------------------------------------
-#}
-{% set shell_cmd %}
-venv:
-	$(AT)echo "🐍 Creating virtual environment..."
-	$(AT)$(CREATE_VENV)
-	$(AT)echo "✅ Virtual environment created."
-{% endset %}
+{%- endmacro %}

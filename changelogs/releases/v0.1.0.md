@@ -436,3 +436,4 @@ Feat 032 (#81)
 - *(issues)* Setup issue templates. (#22)
 - *(makefile)* Huge makefile update.  This won't build at the moment.
 - *(makefile)* Makefile template updates.  won't build just yet but very close.
+- *(jinja)* Makefile template renders now! Still needs work.

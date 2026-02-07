@@ -34,7 +34,10 @@
             str: Makefile built-in commands section.
     #}
     {{- python.built_in.settings }}
+    {{- python.venv.settings }}
     {{- python.built_in.python_cmd }}
+    {{- python.venv.python_cmd }}
+    {{- python.pip.python_cmd }}
 {% endmacro %}
 
 
@@ -50,6 +53,6 @@
         Returns:
             str: Makefile built-in actions section.
     #}
-
-
+    {{- python.venv.shell_cmd }}
+    {{- python.pip.shell_cmd }}
 {% endmacro %}

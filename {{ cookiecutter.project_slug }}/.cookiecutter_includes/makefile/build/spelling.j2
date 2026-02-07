@@ -21,6 +21,11 @@
 {% import '.cookiecutter_includes/makefile/build/python/__init__.j2' as python with context %}
 
 
+{#
+# --------------------------------------------------
+# 🎓 Spellchecker (codespell)
+# --------------------------------------------------
+#}
 {% macro cmds(
 
 ) %}
@@ -33,13 +38,15 @@
         Returns:
             str: Makefile spelling commands section.
     #}
-# --------------------------------------------------
-# 🎓 Spellchecker (codespell)
-# --------------------------------------------------
-{{ python.codespell.python_cmd }}
+    {{- python.codespell.python_cmd }}
 {% endmacro %}
 
 
+{#
+# --------------------------------------------------
+# 🎓 Spellchecker (codespell)
+# --------------------------------------------------
+#}
 {% macro actions(
 
 ) %}
@@ -52,8 +59,5 @@
         Returns:
             str: Makefile spelling actions section.
     #}
-# --------------------------------------------------
-# 🎓 Spellchecker (codespell)
-# --------------------------------------------------
-{{ python.codespell.shell_cmd }}
+    {{- python.codespell.shell_cmd }}
 {% endmacro %}

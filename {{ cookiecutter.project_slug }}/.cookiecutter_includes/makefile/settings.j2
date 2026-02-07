@@ -104,8 +104,27 @@ endef
 cc_or_std = $(if $(filter true,$(COOKIECUTTER_HOOKS)),$(1),$(2))
 {% endmacro %}
 
-
+{% import '.cookiecutter_includes/makefile/utils.j2' as utils with context %}
+{% import '.cookiecutter_includes/makefile/_vars.j2' as v with context %}
 {%- macro build(
+    jekyll_enabled,
+    sphinx_enabled
+) -%}
+    {% for group_id, group_data in v.ns.settings.items() %}
+        {# 1. Generate Header using the metadata keys #}
+        {{- utils.section_header(group_data._title, group_data._icon) }}
+        {# 2. Generate Variables (skipping metadata keys) #}
+        {% for var_name, info in group_data.items() if not var_name.startswith('_') %}
+            {% if info.quote | default(false) %}
+                {{- var_name }} := "{{ info.val }}"
+            {% else %}
+                {{- var_name }} := {{ info.val }}
+            {% endif %}
+        {% endfor -%}
+    {% endfor %}
+{% endmacro %}
+
+{%- macro _build(
     jekyll_enabled,
     sphinx_enabled
 ) -%}

@@ -20,7 +20,11 @@
 
 {% import '.cookiecutter_includes/makefile/build/python/__init__.j2' as python with context %}
 
-
+{#
+# --------------------------------------------------
+# 🧠 Typing (mypy)
+# --------------------------------------------------
+#}
 {% macro cmds(
 
 ) %}
@@ -33,13 +37,15 @@
         Returns:
             str: Makefile typing commands section.
     #}
-# --------------------------------------------------
-# 🧠 Typing (mypy)
-# --------------------------------------------------
-{{ python.mypy.python_cmd }}
+    {{- python.mypy.python_cmd }}
 {% endmacro %}
 
 
+{#
+# --------------------------------------------------
+# 🧠 Typechecking (MyPy)
+# --------------------------------------------------
+#}
 {% macro actions(
 
 ) %}
@@ -52,8 +58,5 @@
         Returns:
             str: Makefile typing actions section.
     #}
-# --------------------------------------------------
-# 🧠 Typechecking (MyPy)
-# --------------------------------------------------
-{{ python.mypy.shell_cmd }}
+    {{- python.mypy.shell_cmd }}
 {% endmacro %}

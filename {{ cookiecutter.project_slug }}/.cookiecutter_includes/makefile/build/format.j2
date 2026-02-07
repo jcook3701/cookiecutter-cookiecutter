@@ -21,6 +21,11 @@
 {% import '.cookiecutter_includes/makefile/build/python/__init__.j2' as python with context %}
 
 
+{#
+# --------------------------------------------------
+# 🎨 Formatting (black)
+# --------------------------------------------------
+#}
 {% macro cmds(
 
 ) %}
@@ -33,13 +38,15 @@
         Returns:
             str: Makefile formatting commands section.
     #}
-# --------------------------------------------------
-# 🎨 Formatting (black)
-# --------------------------------------------------
-{{ python.black.python_cmd }}
+    {{- python.black.python_cmd }}
 {% endmacro %}
 
 
+{#
+# --------------------------------------------------
+# 🎨 Formatting (black)
+# --------------------------------------------------
+#}
 {% macro actions(
 
 ) %}
@@ -52,10 +59,7 @@
         Returns:
             str: Makefile formatting actions section.
     #}
-# --------------------------------------------------
-# 🎨 Formatting (black)
-# --------------------------------------------------
-{{ python.black.shell_cmd }}
+    {{- python.black.shell_cmd }}
 
 format-check: black-formatter-check
 format-fix: black-formatter-fix

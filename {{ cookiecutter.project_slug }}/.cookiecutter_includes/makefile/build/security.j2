@@ -21,6 +21,11 @@
 {% import '.cookiecutter_includes/makefile/build/python/__init__.j2' as python with context %}
 
 
+{#
+# --------------------------------------------------
+# 🛡️ Security Audit (pip-audit)
+# --------------------------------------------------
+#}
 {% macro cmds(
 
 ) %}
@@ -33,13 +38,15 @@
         Returns:
             str: Makefile security commands section.
     #}
-# --------------------------------------------------
-# 🛡️ Security Audit (pip-audit)
-# --------------------------------------------------
-{{ python.pip_audit.python_cmd }}
+    {{- python.pip_audit.python_cmd }}
 {% endmacro %}
 
 
+{#
+# --------------------------------------------------
+# 🛡️ Security (pip-audit)
+# --------------------------------------------------
+#}
 {% macro actions(
 
 ) %}
@@ -52,8 +59,5 @@
         Returns:
             str: Makefile security actions section.
     #}
-# --------------------------------------------------
-# 🛡️ Security (pip-audit)
-# --------------------------------------------------
-{{ python.pip_audit.shell_cmd }}
+    {{- python.pip_audit.shell_cmd }}
 {% endmacro %}
