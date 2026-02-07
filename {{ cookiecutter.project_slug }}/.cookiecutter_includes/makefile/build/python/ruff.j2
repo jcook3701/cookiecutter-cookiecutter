@@ -18,7 +18,44 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
+{% set config = {
+    "id": "ruff",
+    "name": "Ruff",
+    "icon": "🦀",
+    "group": "lint",
+    "command": "$(PYTHON) -m ruff",
+    "description": "Fast Python linter and formatter.",
+    "modes": {
+        "lint": "check --config pyproject.toml",
+        "lint-fix": "check --config pyproject.toml --fix",
+        "format": "format --config pyproject.toml",
+        "format-check": "format --config pyproject.toml --check"
+    },
+    "exclude": "--force-exclude '$(COOKIE_DIR)/pyproject.toml'"
+} %}
 
+{% macro actions(cfg=config) -%}
+# --- {{ cfg.name }} (Linter & Formatter) ---
+
+{{ cfg.id }}-lint: ## {{ cfg.icon }} Run {{ cfg.name }} linter
+	$(AT)echo "🔍 {{ cfg.name }}: Checking linting..."
+	$(AT){{ cfg.command }} {{ cfg.modes.lint }} $(SRC_DIR) $(TESTS_DIR) {{ cfg.exclude }}
+
+{{ cfg.id }}-lint-fix: ## {{ cfg.icon }} Run {{ cfg.name }} linter and fix errors
+	$(AT)echo "🎨 {{ cfg.name }}: Fixing linting issues..."
+	$(AT){{ cfg.command }} {{ cfg.modes['lint-fix'] }} $(SRC_DIR) $(TESTS_DIR) {{ cfg.exclude }}
+
+{{ cfg.id }}-format: ## ✨ Run {{ cfg.name }} code formatter
+	$(AT)echo "🪄 {{ cfg.name }}: Formatting code..."
+	$(AT){{ cfg.command }} {{ cfg.modes.format }} $(SRC_DIR) $(TESTS_DIR) {{ cfg.exclude }}
+
+{{ cfg.id }}-format-check: ## 🕵️ Run {{ cfg.name }} format check (CI mode)
+	$(AT)echo "📏 {{ cfg.name }}: Checking code formatting..."
+	$(AT){{ cfg.command }} {{ cfg.modes['format-check'] }} $(SRC_DIR) $(TESTS_DIR) {{ cfg.exclude }}
+{%- endmacro %}
+
+
+{#
 {% set python_cmd %}
 RUFF := $(PYTHON) -m ruff
 {% endset %}
@@ -39,8 +76,4 @@ ruff-lint-fix:
 		--force-exclude '$(COOKIE_DIR)/pyproject.toml'
 	$(AT)echo "✅ Finished linting Python code with Ruff!"
 {% endset %}
-
-
-{% set format_shell_cmd %}
-
-{% endset %}
+#}

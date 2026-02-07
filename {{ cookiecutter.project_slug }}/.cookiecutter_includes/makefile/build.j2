@@ -1,0 +1,128 @@
+{#
+# makefile/build.j2 for cookiecutter-cookiecutter
+#
+# SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#}
+
+{% import '.cookiecutter_includes/makefile/build/__init__.j2' as build with context %}
+{% import '.cookiecutter_includes/makefile/docs.j2' as docs with context %}
+
+{% macro commands(
+	jekyll_enabled,
+	sphinx_enabled
+) %}
+    {#
+        Generates Makefile phony section.
+
+        Args:
+            template_type (str): .
+			jekyll_enabled (str): .
+			sphinx_enabled (str): .
+
+        Returns:
+            str: Makefile phony section.
+    #}
+    {# Language Specific Command Settings Section #}
+    {{- build.built_in.cmds() if build.built_in.cmds is defined }}
+    {# Cookiecutter Templating Section (upgrader) #}
+    {# {{- cookie.cmds() if cookie.cmds is defined }} #}
+    {# Dependency Management Section #}
+    {{- build.deps.cmds() if build.deps.cmds is defined }}
+    {# Security Audit Section #}
+    {{- build.security.cmds() if build.security.cmds is defined }}
+    {# Formatting Section #}
+    {{- build.format.cmds() if build.format.cmds is defined }}
+    {# Linting Section #}
+    {{- build.lint.cmds() if build.lint.cmds is defined }}
+    {# Spellchecker Section #}
+    {{- build.spelling.cmds() if build.spelling.cmds is defined }}
+    {# Typing Section #}
+    {{- build.typing.cmds() if build.typing.cmds is defined }}
+    {# Testing Section #}
+    {{- build.testing.cmds() if build.testing.cmds is defined }}
+    {# Documentation Command Settings #}
+    {{- docs.doc_commands_section(
+            jekyll_enabled=jekyll_enabled,
+            sphinx_enabled=sphinx_enabled) }}
+    {# Version Bumping Section #}
+    {{- build.version_bumping.cmds() if build.version_bumping.cmds is defined }}
+    {# Changelogs Section #}
+    {{- build.changelogs.cmds() if build.changelogs.cmds is defined }}
+    {# Github Section #}
+    {{- build.github.cmds() if build.github.cmds is defined }}
+    {# TODO: Pre-Commit Section #}
+    {# TODO: Nutri-Matic Section #}
+{% endmacro %}
+
+
+{% macro actions(
+    jekyll_enabled,
+    sphinx_enabled
+) %}
+    {#
+        Generates Makefile phony section.
+
+        Args:
+            template_type (str): .
+			jekyll_enabled (str): .
+			sphinx_enabled (str): .
+
+        Returns:
+            str: Makefile phony section.
+    #}
+# --------------------------------------------------
+# Default: run lint, typecheck, spellcheck, tests, & docs
+# --------------------------------------------------
+all: python-install lint-check typecheck spellcheck test build-docs
+# --------------------------------------------------
+# Make Internal Utilities
+# --------------------------------------------------
+list-folders:
+	$(AT)printf "\
+	🐍 src: $(SRC_DIR)\n\
+	🧪 Test: $(TESTS_DIR)\n"
+
+    {# TODO: Language Specific Command Settings Section #}{# TODO: fix #}
+    {# TODO: Pre-Commit Section #}{# TODO: fix #}
+    {# TODO: Cookiecutter Templating Section (upgrader) #}{# TODO: fix #}
+    {# Security Section #}
+    {{- build.security.actions() if build.security.actions is defined }}
+    {# Dependency Management Section #}
+    {{- build.deps.actions() if build.deps.actions is defined }}
+    {# Formatting Section #}
+    {{- build.format.actions() if build.format.actions is defined }}
+    {# Linting Section #}
+    {{- build.lint.actions() if build.lint.actions is defined }}
+    {# Spellchecker Section #}
+    {{- build.spelling.actions() if build.spelling.actions is defined }}
+    {# Typechecking Section #}
+    {{- build.typing.actions() if build.typing.actions is defined }}
+    {# Testing Section #}
+    {{- build.testing.actions() if build.testing.actions is defined }}
+    {# Documentation Section #}
+    {{- docs.doc_actions(
+            jekyll_enabled=jekyll_enabled,
+            sphinx_enabled=sphinx_enabled) }}
+    {# Version Bumping Section #}
+    {{- build.version_bumping.actions() if build.version_bumping.actions is defined }}
+    {# Changelog Bumping Section #}
+    {{- build.changelogs.actions() if build.changelogs.actions is defined }}
+    {# Github Section #}
+    {{- build.github.actions() if build.github.actions is defined }}
+    {# Release Section #}
+    {{- build.release.actions() if build.release.actions is defined }}
+{% endmacro %}

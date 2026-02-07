@@ -1,0 +1,96 @@
+{#
+# makefile/build/typescript/_vars.j2 for cookiecutter-cookiecutter
+#
+# SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#}
+
+{% set typescript_dev_stack = [
+    {
+        "id": "npm-install",
+        "name": "NPM Install",
+        "icon": "📦",
+        "group": "deps",
+        "command": "npm install",
+        "args": "",
+        "description": "Install project dependencies from package.json."
+    },
+    {
+        "id": "tsc-build",
+        "name": "TSC Build",
+        "icon": "🏗️",
+        "group": "build",
+        "command": "npx tsc",
+        "args": "--project tsconfig.json",
+        "description": "Compile TypeScript to JavaScript."
+    },
+    {
+        "id": "eslint",
+        "name": "ESLint",
+        "icon": "🛡️",
+        "group": "lint",
+        "command": "npx eslint",
+        "args": "src/**/*.ts --fix",
+        "description": "Statically analyze code to find problems."
+    },
+    {
+        "id": "prettier",
+        "name": "Prettier",
+        "icon": "✨",
+        "group": "format",
+        "command": "npx prettier",
+        "args": "--write src/**/*.ts",
+        "description": "Opinionated code formatter."
+    },
+    {
+        "id": "vitest",
+        "name": "Vitest",
+        "icon": "🧪",
+        "group": "test",
+        "command": "npx vitest",
+        "args": "run",
+        "description": "A Vite-native unit test framework."
+    },
+    {
+        "id": "typedoc",
+        "name": "TypeDoc",
+        "icon": "📚",
+        "group": "docs",
+        "command": "npx typedoc",
+        "args": "--out docs/api src/index.ts",
+        "description": "Documentation generator for TypeScript."
+    },
+    {
+        "id": "npm-publish",
+        "name": "NPM Publish",
+        "icon": "🚢",
+        "group": "publish",
+        "command": "npm publish",
+        "args": "--access public",
+        "description": "Publish the package to the npm registry."
+    }
+] %}
+
+{#
+# Only run npm install if package.json has changed
+node_modules: package.json
+	$(AT)npm install
+	$(AT)touch node_modules
+
+tsc-build: node_modules ## 🏗️ Compile TS
+	$(AT)npx tsc $(ARGS)
+
+#}

@@ -1,5 +1,5 @@
 {#
-# makefile/build/github.j2 for cookiecutter-cookiecutter
+# makefile/build/python/venv.j2 for cookiecutter-cookiecutter
 #
 # SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
 # SPDX-License-Identifier: AGPL-3.0-or-later
@@ -18,42 +18,35 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
-
-{% import '.cookiecutter_includes/makefile/build/vcs/__init__.j2' as vcs with context %}
-
-{% macro cmds(
-
-) %}
-    {#
-        Generates Makefile github commands section.
-
-        Args:
-            TODO: (str): .
-
-        Returns:
-            str: Makefile github commands section.
-    #}
+{% set settings %}
 # --------------------------------------------------
-# 🐙 Github Tools (git)
+# 🐍 Python / Virtual Environment
 # --------------------------------------------------
-{{ vcs.git.python_cmd }}
-{% endmacro %}
+VENV_DIR := $(PROJECT_ROOT)/.venv
+{% endset %}
 
 
-{% macro actions(
+{% set python_cmd %}
+CREATE_VENV := $(PYTHON_CMD) -m venv $(VENV_DIR)
+ACTIVATE := source $(VENV_DIR)/bin/activate
+PYTHON := $(ACTIVATE) && $(PYTHON_CMD)
+{% endset %}
 
-) %}
-    {#
-        Generates Makefile actions using github commands.
 
-        Args:
-            TODO: (str): .
-
-        Returns:
-            str: Makefile github actions section.
-    #}
+{% set shell_cmd %}
 # --------------------------------------------------
-# 🐙 Github Commands (git)
+# 🐍 Virtual Environment Setup
 # --------------------------------------------------
-{{ vcs.git.shell_cmd }}
-{% endmacro %}
+venv:
+	$(AT)echo "🐍 Creating virtual environment..."
+	$(AT)$(CREATE_VENV)
+	$(AT)echo "✅ Virtual environment created."
+
+python-install: venv
+	$(AT)echo "📦 Installing project dependencies..."
+	$(AT)$(PIP) install --upgrade pip setuptools wheel
+	# $(AT)$(PIP) install -e $(DEPS)
+	$(AT)$(PIP) install -e $(DEV_DEPS)
+	$(AT)$(PIP) install -e $(DEV_DOCS)
+	$(AT)echo "✅ Dependencies installed."
+{% endset %}

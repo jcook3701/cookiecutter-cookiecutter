@@ -18,7 +18,11 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
-{% macro version() -%}
+{% import '.cookiecutter_includes/makefile/_vars.j2' as vars with context %}
+{# project_settings=vars.settings.project #}
+
+
+{% macro actions() -%}
     {#
         Generates Makefile version section.
 

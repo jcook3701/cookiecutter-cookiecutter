@@ -26,6 +26,14 @@ GIT_INIT_STATUS := git rev-parse --is-inside-work-tree > /dev/null 2>&1
 {% endset %}
 
 
+{#
+git-init: ## {{ shell_dev_stack[0].icon }} Initialize git
+	@if [ ! -d .git ]; then \
+		{{ shell_dev_stack[0].command }} {{ shell_dev_stack[0].args }}; \
+	else \
+		echo "Repository already initialized."; \
+	fi
+#}
 {% set shell_cmd %}
 # --------------------------------------------------
 # 🐙 Github Commands (git)
@@ -54,3 +62,9 @@ git-release:
 		echo "❌ Git is not yet initialized.  Skipping version release." \
 	fi
 {% endset %}
+
+{#
+pre-publish: ## Ensure repo is clean before release
+	$(AT)$(MAKE) git-status
+	$(AT)git diff-index --quiet HEAD -- || (echo "❌ Error: Uncommitted changes!" && exit 1)
+#}

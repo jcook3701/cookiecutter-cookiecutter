@@ -1,5 +1,5 @@
 {#
-# makefile/build/testing.j2 for cookiecutter-cookiecutter
+# makefile/build/cookiecutter.j2 for cookiecutter-cookiecutter
 #
 # SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
 # SPDX-License-Identifier: AGPL-3.0-or-later
@@ -25,22 +25,18 @@
 
 ) %}
     {#
-        Generates Makefile testing commands section.
+        Generates Makefile upgrader commands section.
 
         Args:
             TODO: (str): .
 
         Returns:
-            str: Makefile testing commands section.
+            str: Makefile upgrader commands section.
     #}
 # --------------------------------------------------
-# 🧪 Testing (pytest)
+# 🍪 Project Updater (cookiecutter_project_upgrader)
 # --------------------------------------------------
-    {{- python.pytest.python_cmd }}
-# --------------------------------------------------
-# 🍪 Template Test (cookiecutter)
-# --------------------------------------------------
-    {{- python.cookie.python_cmd }}
+    {{- python.cookie_upgrader.python_cmd }}
 {% endmacro %}
 
 
@@ -48,20 +44,16 @@
 
 ) %}
     {#
-        Generates Makefile actions using testing commands.
+        Generates Makefile actions using upgrader commands.
 
         Args:
             TODO: (str): .
 
         Returns:
-            str: Makefile testing actions section.
+            str: Makefile upgrader actions section.
     #}
 # --------------------------------------------------
-# 🧪 Testing (pytest)
+# 🍪 Project Updater (cookiecutter_project_upgrader)
 # --------------------------------------------------
-    {{- python.pytest.shell_cmd }}
-# --------------------------------------------------
-# 🍪 Template Test (cookiecutter)
-# --------------------------------------------------
-    {{- python.cookie.shell_cmd }}
+    {{- python.cookie_upgrader.shell_cmd }}
 {% endmacro %}

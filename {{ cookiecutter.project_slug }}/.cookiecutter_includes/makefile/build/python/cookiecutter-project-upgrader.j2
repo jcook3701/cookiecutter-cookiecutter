@@ -1,5 +1,5 @@
 {#
-# makefile/build/shell/__init__.j2 for cookiecutter-cookiecutter
+# makefile/build/python/cookiecutter-project-upgrader.j2 for cookiecutter-cookiecutter
 #
 # SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
 # SPDX-License-Identifier: AGPL-3.0-or-later
@@ -18,6 +18,18 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
-{% import '.cookiecutter_includes/makefile/build/shell/git.j2' as _git with context %}
 
-{% set git = _git %}
+{% set python_cmd %}
+PROJECT_UPGRADE := $(ACTIVATE) && cookiecutter_project_upgrader
+{% endset %}
+
+
+{% set shell_cmd %}
+project-upgrade:
+	$(AT)echo "🍪 Upgrading project from initial cookiecutter template..."
+	$(AT)$(PROJECT_UPGRADE) --context-file ./docs/cookiecutter_input.json \
+		--upgrade-branch main \
+		-e "cookiecutter.json" \
+		-e "$(COOKIE_DIR)"
+	$(AT)echo "✅ Finished project upgrade!"
+{% endset %}

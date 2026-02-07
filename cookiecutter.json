@@ -89,6 +89,11 @@
     "ros2",
     "typescript"
   ],
+  "__meta": {
+    "is_python": "{{ 'python' in cookiecutter.template_type }}",
+    "is_ansible": "{{ 'ansible' in cookiecutter.template_type }}",
+    "needs_pypi": "{{ 'python' in cookiecutter.template_type and cookiecutter.license != 'none' }}"
+  },
   "_hooks": {
     "post_gen_make_cmds": {
       "python-install": true,
@@ -108,7 +113,8 @@
   "_extensions": [
     "jinja2.ext.do",
     "jinja2.ext.loopcontrols",
-    "jinja2_time.TimeExtension"
+    "jinja2_time.TimeExtension",
+    "jinja2.ext.debug"
   ],
   "_jinja2_env_vars": {
     "lstrip_blocks": true,

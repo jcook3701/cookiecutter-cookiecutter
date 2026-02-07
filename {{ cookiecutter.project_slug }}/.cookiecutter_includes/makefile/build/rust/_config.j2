@@ -1,5 +1,5 @@
 {#
-# makefile/build/python/cookiecutter.j2 for cookiecutter-cookiecutter
+# makefile/build/rust/_config.j2 for cookiecutter-cookiecutter
 #
 # SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
 # SPDX-License-Identifier: AGPL-3.0-or-later
@@ -17,20 +17,3 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
-
-
-{% set python_cmd %}
-COOKIECUTTER := $(ACTIVATE) && cookiecutter
-{% endset %}
-
-
-{% set shell_cmd %}
-render-cookiecutter:
-	$(AT)echo "🍪 Rendering project from initial cookiecutter template..."
-	$(AT)rm -rf $(RENDERED_COOKIE_DIR)
-	$(AT)$(COOKIECUTTER) . --no-input \
-		--output-dir $(RENDERED_COOKIE_DIR) \
-		--overwrite-if-exists \
-		--keep-project-on-failure
-	$(AT)echo "✅ Finished project render!"
-{% endset %}

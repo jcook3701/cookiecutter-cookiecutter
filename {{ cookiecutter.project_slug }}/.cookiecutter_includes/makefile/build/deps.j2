@@ -53,6 +53,16 @@
             str: Makefile dependency management actions section.
     #}
 # --------------------------------------------------
+# 🧬 Dependency Checks
+# --------------------------------------------------
+git-dependency-check:
+	$(AT)which $(GIT) >/dev/null || \
+		{ echo "Git is required: sudo apt install git"; exit 1; }
+
+gh-dependency-check:
+	$(AT)which $(GITHUB) >/dev/null || \
+		{ echo "GitHub is required: sudo apt install gh"; exit 1; }
+# --------------------------------------------------
 # 🧬 Dependency Management (deptry)
 # --------------------------------------------------
 {{ python.deptry.shell_cmd }}

@@ -1,0 +1,76 @@
+{#
+# makefile/build/shell/_vars.j2 for cookiecutter-cookiecutter
+#
+# SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#}
+
+{% set vcs_dev_stack = [
+    {
+        "id": "git-init",
+        "name": "Git Init",
+        "icon": "🌱",
+        "group": "vcs",
+        "command": "git init",
+        "args": "-b {{ cookiecutter._default_branch }}",
+        "description": "Initialize the local repository."
+    },
+    {
+        "id": "git-remote",
+        "name": "Git Remote",
+        "icon": "🌐",
+        "group": "vcs",
+        "command": "git remote add origin",
+        "args": "{{ cookiecutter.repo_url }}.git",
+        "description": "Link to the GitHub remote."
+    },
+    {
+        "id": "git-status",
+        "name": "Git Status",
+        "icon": "📊",
+        "group": "vcs",
+        "command": "git status",
+        "args": "",
+        "description": "Show status of working tree."
+    },
+    {
+        "id": "git-stage",
+        "name": "Git Add",
+        "icon": "➕",
+        "group": "vcs",
+        "command": "git add",
+        "args": "-A",
+        "description": "Stage all current changes."
+    },
+    {
+        "id": "git-commit",
+        "name": "Git Commit",
+        "icon": "💾",
+        "group": "vcs",
+        "command": "git commit",
+        "args": "-m 'feat: initial commit'",
+        "description": "Create an initial commit."
+    },
+    {
+        "id": "git-clean",
+        "name": "Git Clean",
+        "icon": "🧹",
+        "group": "vcs",
+        "command": "git clean",
+        "args": "-fdx",
+        "description": "Remove all untracked/ignored files."
+    }
+] %}

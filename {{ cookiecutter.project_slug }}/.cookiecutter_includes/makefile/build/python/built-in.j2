@@ -21,11 +21,6 @@
 
 {% set settings %}
 # --------------------------------------------------
-# 🐍 Python / Virtual Environment
-# --------------------------------------------------
-PYTHON_CMD := python3.11
-VENV_DIR := $(PROJECT_ROOT)/.venv
-# --------------------------------------------------
 # 🐍 Python Dependencies
 # --------------------------------------------------
 DEPS := .
@@ -38,27 +33,29 @@ DEV_DOCS := .[docs]
 # --------------------------------------------------
 # 🐍 Python Commands
 # --------------------------------------------------
-CREATE_VENV := $(PYTHON_CMD) -m venv $(VENV_DIR)
-ACTIVATE := source $(VENV_DIR)/bin/activate
-PYTHON := $(ACTIVATE) && $(PYTHON_CMD)
-PIP := $(PYTHON) -m pip
+PYTHON_CMD := python3.11
 {% endset %}
 
 
 {% set shell_cmd %}
-# --------------------------------------------------
-# 🐍 Virtual Environment Setup
-# --------------------------------------------------
-venv:
-	$(AT)echo "🐍 Creating virtual environment..."
-	$(AT)$(CREATE_VENV)
-	$(AT)echo "✅ Virtual environment created."
 
-python-install: venv
-	$(AT)echo "📦 Installing project dependencies..."
-	$(AT)$(PIP) install --upgrade pip setuptools wheel
-	# $(AT)$(PIP) install -e $(DEPS)
-	$(AT)$(PIP) install -e $(DEV_DEPS)
-	$(AT)$(PIP) install -e $(DEV_DOCS)
-	$(AT)echo "✅ Dependencies installed."
+{% endset %}
+
+
+{% set python_build_cmd %}
+# --------------------------------------------------
+# 📦 Build (build)
+# --------------------------------------------------
+BUILD := $(PYTHON) -m build
+{% endset %}
+
+
+{% set shell_build_cmd %}
+# --------------------------------------------------
+# 📦 Build program (build)
+# --------------------------------------------------
+build:
+	$(AT)echo "📦 Packing $(PACKAGE_NAME)..."
+	$(AT)$(BUILD)
+	$(AT)echo "✅ $(PACKAGE_NAME) packaging complete!"
 {% endset %}

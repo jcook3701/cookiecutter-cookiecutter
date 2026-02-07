@@ -18,6 +18,46 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
-{% import '.cookiecutter_includes/makefile/build/template.j2' as _template with context %}
+{% import '.cookiecutter_includes/makefile/build/built-in.j2' as built_in with context %}
+{% import '.cookiecutter_includes/makefile/build/changelogs.j2' as _changelogs with context %}
+{% import '.cookiecutter_includes/makefile/build/deps.j2' as _deps with context %}
+{% import '.cookiecutter_includes/makefile/build/format.j2' as _format with context %}
+{% import '.cookiecutter_includes/makefile/build/github.j2' as _github with context %}
+{% import '.cookiecutter_includes/makefile/build/lint.j2' as _lint with context %}
+{% import '.cookiecutter_includes/makefile/build/release.j2' as _release with context %}
+{% import '.cookiecutter_includes/makefile/build/security.j2' as _security with context %}
+{% import '.cookiecutter_includes/makefile/build/spelling.j2' as _spelling with context %}
+{% import '.cookiecutter_includes/makefile/build/testing.j2' as _testing with context %}
+{% import '.cookiecutter_includes/makefile/build/typing.j2' as _typing with context %}
+{% import '.cookiecutter_includes/makefile/build/upgrader.j2' as _upgrader with context %}
+{% import '.cookiecutter_includes/makefile/build/version-bumping.j2' as _version_bumping with context %}
 
-{% set template = _template %}
+{% set built_in = _built_in %}
+{% set changelogs = _changelogs %}
+{% set deps = _deps %}
+{% set format = _format %}
+{% set github = _github %}
+{% set lint = _lint %}
+{% set release = _release %}
+{% set security = _security %}
+{% set spelling = _spelling %}
+{% set testing = _testing %}
+{% set typing = _typing %}
+{% set upgrader = _upgrader %}
+{% set version_bumping = _version_bumping %}
+
+{% set modules = [
+    built_in,
+    changelogs,
+    deps,
+    format,
+    github,
+    lint,
+    release,
+    security,
+    spelling,
+    testing,
+    typing,
+    upgrader,
+    version_bumping
+] %}

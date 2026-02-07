@@ -23,7 +23,7 @@
 {% import '.cookiecutter_includes/makefile/docs.j2' as docs with context %}
 {% import '.cookiecutter_includes/makefile/help.j2' as help with context %}
 {% import '.cookiecutter_includes/makefile/phony.j2' as phony with context %}
-{% import '.cookiecutter_includes/makefile/build/__init__.j2' as build with context %}
+{% import '.cookiecutter_includes/makefile/build.j2' as build with context %}
 {% import '.cookiecutter_includes/makefile/settings.j2' as settings with context %}
 {% import '.cookiecutter_includes/makefile/version.j2' as version with context %}
 
@@ -55,9 +55,9 @@
 	sphinx_enabled=sphinx_enabled) }}
 
 {# TODO: Build Commands Section #}
-{{ build.commands(
+{# {{ build.commands(
 	jekyll_enabled=jekyll_enabled,
-	sphinx_enabled=sphinx_enabled) }}
+	sphinx_enabled=sphinx_enabled) }} #}
 
 # --------------------------------------------------
 # Functions
@@ -86,7 +86,7 @@ TOML_FILE_LIST := 	( \
 	)
 # --------------------------------------------------
 {# .PHONY Section #}
-{{ phony.phony(
+{{ phony.selection(
 	jekyll_enabled=jekyll_enabled,
 	sphinx_enabled=sphinx_enabled) }}
 
@@ -96,13 +96,13 @@ TOML_FILE_LIST := 	( \
 	sphinx_enabled=sphinx_enabled) }}
 
 {# Clean Section #}
-{{ clean.clean(
+{{ clean.actions(
 	jekyll_enabled=jekyll_enabled,
 	sphinx_enabled=sphinx_enabled) }}
 {# Version Section #}
-{{ version.version() }}
+{{ version.actions() }}
 {# Help Section #}
-{{ help.help(
+{{ help.actions(
 	jekyll_enabled=jekyll_enabled,
 	sphinx_enabled=sphinx_enabled) }}
 {%- endmacro -%}
