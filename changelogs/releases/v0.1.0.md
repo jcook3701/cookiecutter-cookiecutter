@@ -428,6 +428,7 @@ Feat 032 (#81)
 - *(upgrader)* Minor fix for project description within the upgrader file.
 - *(makefile)* File restructure. This should allow for future language updates.
 - *(lint)* Fixed djlint errors.
+- *(jinja2)* Removed _reg.j2 files.  Not needed anymore.
 
 ### 🚀 Added
 

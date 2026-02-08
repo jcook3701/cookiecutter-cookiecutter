@@ -26,7 +26,6 @@
 
 {%- do ns.active_sections.build.update(build_data.features) -%}
 
-
 {# --- LANGUAGE BOOTLOADERS --- #}
 {# This pulls in Python/TS/VCS features into ns.features #}
 {%- import '.cookiecutter_includes/makefile/build/python/_config.j2' as py_data with context -%}
@@ -37,6 +36,12 @@
 {%- do ns.features.python.update(py_data.features) -%}
 {# {%- do ns.features.typescript.update(ts_data.features) -%} #}
 {# {%- do ns.features.typescript.update(vcs_data.features) -%} #}
+
+{# --- LANGUAGE PARTS --- #}
+{%- import '.cookiecutter_includes/makefile/build/python/__init__.j2' as python with context -%}
+
+{# 3. TRIGGER: This fills the 'Count: 0' gap #}
+{%- set _ = python.get_active_tools(ns) -%}
 
 
 {%- do ns.settings.update({

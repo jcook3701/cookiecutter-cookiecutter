@@ -18,16 +18,15 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
-{%- from '.cookiecutter_includes/makefile/build/_reg.j2' import active_tools with context -%}
-
+{%- from '.cookiecutter_includes/makefile/_config.j2' import ns with context -%}
 {%- import '.cookiecutter_includes/makefile/utils.j2' as utils with context -%}
 
 {%- macro cmds() -%}
     {# Use the namespaced version which is guaranteed to be in scope #}
-    {%- set lint_tools = active_tools | selectattr("config.group", "equalto", "lint") | list -%}
+    {# {%- set lint_tools = active_tools | selectattr("config.group", "equalto", "lint") | list -%}
 
     {%- for tool in lint_tools -%}
         {{- utils.section_header("#### HELLO WORLD", tool.icons) }}
         {{- utils.tool_cmds(tool.config) }}
-    {%- endfor %}
+    {%- endfor %} #}
 {%- endmacro -%}

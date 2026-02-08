@@ -40,6 +40,8 @@
     npm, eslint, prettier, vitest, storybook, tsc, typedoc
 ] -%}
 
+
+{# #TODO: Deprecated:  Solved with _config files. #}
 {%- set active_tools = [] -%}
 {%- for tool in _all_tools -%}
     {% if tool.config is defined %}

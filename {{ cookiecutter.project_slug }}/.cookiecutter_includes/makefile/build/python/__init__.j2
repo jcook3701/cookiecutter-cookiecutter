@@ -18,8 +18,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
-{%- from '.cookiecutter_includes/makefile/_config.j2' import ns with context -%}
-
 {% import '.cookiecutter_includes/makefile/build/python/bandit.j2' as _bandit with context %}
 {% import '.cookiecutter_includes/makefile/build/python/black.j2' as _black with context %}
 {% import '.cookiecutter_includes/makefile/build/python/build.j2' as _build with context %}
@@ -77,6 +75,8 @@
     ruff, tomllint, tox, twine, venv, yamllint
 ] %}
 
+
+{# #TODO: Deprecated:  Solved with _config files. #}
 {%- macro get_active_tools(ns) -%}
     {% set active_tools = [] %}
     {% for tool in _all_tools %}

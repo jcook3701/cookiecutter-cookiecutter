@@ -21,3 +21,7 @@
 {% import '.cookiecutter_includes/makefile/build/rust/git-cliff.j2' as _git_cliff with context %}
 
 {% set git_cliff = _git_cliff %}
+
+{%- set _all_tools = [
+    git_cliff,
+] -%}

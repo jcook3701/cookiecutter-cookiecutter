@@ -47,8 +47,13 @@
 
 # === 2. FEATURES (Booleans) ===
 {% for lang, features in ns.features.items() -%}
-# {{ "%-12s" | format(lang.upper() ~ ":") }} {% for key, val in features.items() %}{{ key }}={{ val }}{{ ", " if not loop.last }}{% endfor %}
+{% if features %}
+# [{{ "%-10s" | format(lang | upper) }}]
+{% for key, val in features.items() %}
+#   - {{ "%-15s" | format(key) }} = {{ val }}
 {% endfor %}
+{% endif %}
+{%- endfor %}
 
 # === 3. ACTIVE TOOLS (The Registry) ===
 # Count: {{ ns.active_tools | length }}
