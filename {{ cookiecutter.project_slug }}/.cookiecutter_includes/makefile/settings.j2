@@ -124,6 +124,30 @@ cc_or_std = $(if $(filter true,$(COOKIECUTTER_HOOKS)),$(1),$(2))
     {% endfor %}
 {% endmacro %}
 
+{%- macro create(
+    jekyll_enabled,
+    sphinx_enabled
+) -%}
+    {#
+        ⚙️ Generates Makefile settings section (environment, ci/cd, & build).
+
+        Args:
+            template_type (str): .
+
+        Returns:
+            str: Makefile settings section (environment, ci/cd, & build).
+    #}
+    {{- environment() }}
+    {{- ci_cd() }}
+    {{- build(
+        jekyll_enabled,
+        sphinx_enabled
+    ) }}
+{% endmacro %}
+
+
+
+{# Deprecated Delete Later #}
 {%- macro _build(
     jekyll_enabled,
     sphinx_enabled
@@ -188,25 +212,3 @@ COOKIE_MACRO_DIR := $(COOKIE_DIR)/.cookiecutter_includes
 RENDERED_COOKIE_DIR := /tmp/rendered
 RENDERED_VENV_DIR := $(RENDERED_COOKIE_DIR)/**/.venv
 {%- endmacro -%}
-
-
-{%- macro create(
-    jekyll_enabled,
-    sphinx_enabled
-) -%}
-    {#
-        ⚙️ Generates Makefile settings section (environment, ci/cd, & build).
-
-        Args:
-            template_type (str): .
-
-        Returns:
-            str: Makefile settings section (environment, ci/cd, & build).
-    #}
-    {{- environment() }}
-    {{- ci_cd() }}
-    {{- build(
-        jekyll_enabled,
-        sphinx_enabled
-    ) }}
-{% endmacro %}

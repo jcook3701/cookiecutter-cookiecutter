@@ -24,16 +24,21 @@
     "icon": "🦀",
     "group": "lint",
     "command": "$(PYTHON) -m ruff",
-    "description": "Fast Python linter and formatter.",
+    "start_msg": "Running ruff",
+    "end_msg": "Finished ruff check of Python code!",
+    "pre_cmd": "$(MAKE) list-folders",
     "modes": {
-        "lint": "check --config pyproject.toml",
-        "lint-fix": "check --config pyproject.toml --fix",
-        "format": "format --config pyproject.toml",
-        "format-check": "format --config pyproject.toml --check"
+        "lint-check": "check --config pyproject.toml $(SRC_DIR) $(TESTS_DIR)",
+        "lint-fix": "check --config pyproject.toml --fix $(SRC_DIR) $(TESTS_DIR)",
+        "format": "format --config pyproject.toml $(SRC_DIR) $(TESTS_DIR)",
+        "format-check": "format --config pyproject.toml --check $(SRC_DIR) $(TESTS_DIR)"
     },
     "exclude": "--force-exclude '$(COOKIE_DIR)/pyproject.toml'"
 } %}
 
+
+
+{# #TODO: Deprecated beyond this point!!!! #}
 {% macro actions(cfg=config) -%}
 # --- {{ cfg.name }} (Linter & Formatter) ---
 

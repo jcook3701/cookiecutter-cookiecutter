@@ -19,6 +19,22 @@
 #}
 
 
+{% set config = {
+    "id": "twine",
+    "name": "Twine",
+    "icon": "🚀",
+    "group": "publish",
+    "command": "$(PYTHON) -m twine",
+    "start_msg": "Publishing $(PROJECT_NAME) to",
+    "end_msg": "$(PROJECT_NAME) upload complete!",
+    "modes": {
+        "test": "upload --repository testpypi --verbose dist/*",
+        "publish": "upload dist/*"
+    }
+} %}
+
+
+{# #TODO: Deprecated beyond this point!!!! #}
 {#
 # --------------------------------------------------
 # 🚀 Publishing (twine)

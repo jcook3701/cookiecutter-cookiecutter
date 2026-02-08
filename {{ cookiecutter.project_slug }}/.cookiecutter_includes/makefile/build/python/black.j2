@@ -19,6 +19,22 @@
 #}
 
 
+{% set config = {
+    "id": "black",
+    "name": "Black",
+    "icon": "⬛",
+    "group": "format",
+    "command": "$(PYTHON) -m black",
+    "start_msg": "Running black formatter style check...",
+    "end_msg": "Finished formatting check of Python code with Black!",
+    "modes": {
+        "check": "--check --diff",
+        "fix": ""
+    }
+} %}
+
+
+{# #TODO: Deprecated beyond this point!!!! #}
 {% set python_cmd %}
 BLACK := $(PYTHON) -m black
 {% endset %}

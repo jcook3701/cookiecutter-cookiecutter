@@ -19,6 +19,23 @@
 #}
 
 
+{%- set config = {
+    "id": "pip",
+    "name": "pip",
+    "icon": "📦",
+    "group": "pkg",
+    "command": "$(PYTHON) -m pip",
+    "start_msg": "Installing project dependencies...",
+    "end_msg": "Dependencies installed.",
+    "modes": {
+        "install": "install --upgrade pip setuptools wheel && \
+                  $(PIP) install -e $(DEV_DEPS) && \
+                  $(PIP) install -e $(DEV_DOCS)"
+    }
+} -%}
+
+
+{# #TODO: Deprecated beyond this point!!!! #}
 {% set python_cmd %}
 PIP := $(PYTHON) -m pip
 {% endset %}

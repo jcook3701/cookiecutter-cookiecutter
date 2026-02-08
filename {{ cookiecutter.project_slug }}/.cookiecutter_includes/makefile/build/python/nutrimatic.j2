@@ -18,7 +18,20 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
+{% set config = {
+    "id": "nutrimatic",
+    "name": "Nutri-Matic",
+    "icon": "☕",
+    "group": "docs",
+    "command": "$(PYTHON) -m nutrimatic",
+    "start_msg": "Running Nutri-Matic...",
+    "end_msg": "Nutri-Matic complete!",
+    "modes": {
+        "run": ""
+    }
+} %}
 
+{# #TODO: Deprecated beyond this point!!!! #}
 {% set python_cmd %}
 # --------------------------------------------------
 # 🏃‍♂️ Nutri-Matic command

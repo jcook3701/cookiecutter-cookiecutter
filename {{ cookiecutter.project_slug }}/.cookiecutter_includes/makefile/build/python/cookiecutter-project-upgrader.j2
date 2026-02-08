@@ -18,7 +18,23 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
+{% set config = {
+    "id": "project_upgrade",
+    "name": "Project Upgrader",
+    "icon": "🍪",
+    "group": "upgrader",
+    "command": "$(ACTIVATE) && cookiecutter_project_upgrader",
+    "start_msg": "Upgrading project from initial cookiecutter template...",
+    "end_msg": "Finished project upgrade!",
+    "modes": {
+        "run": "--context-file ./docs/cookiecutter_input.json \
+                --upgrade-branch main \
+                -e 'cookiecutter.json' \
+                -e '$(COOKIE_DIR)'"
+    }
+} %}
 
+{# #TODO: Deprecated beyond this point!!!! #}
 {% set python_cmd %}
 PROJECT_UPGRADE := $(ACTIVATE) && cookiecutter_project_upgrader
 {% endset %}

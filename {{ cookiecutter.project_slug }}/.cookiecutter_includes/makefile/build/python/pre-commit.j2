@@ -19,6 +19,22 @@
 #}
 
 
+{%- set config = {
+    "id": "precommit",
+    "name": "pre-commit",
+    "icon": "⚓",
+    "group": "vcs",
+    "command": "$(ACTIVATE) && pre-commit",
+    "start_msg": "Installing pre-commit hooks and hook-types...",
+    "end_msg": "pre-commit dependencies installed!",
+    "modes": {
+        "init": "install --install-hooks && \
+                $(PRECOMMIT) install --hook-type pre-commit --hook-type commit-msg"
+    }
+} -%}
+
+
+{# #TODO: Deprecated beyond this point!!!! #}
 {% set python_cmd %}
 # --------------------------------------------------
 # 🚨 Pre-Commit (pre-commit)

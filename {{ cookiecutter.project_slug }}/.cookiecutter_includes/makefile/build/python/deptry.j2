@@ -18,7 +18,20 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
+{% set config = {
+    "id": "deptry",
+    "name": "Deptry",
+    "icon": "🧬",
+    "group": "deps",
+    "command": "$(ACTIVATE) && deptry",
+    "start_msg": "Checking dependency issues...",
+    "end_msg": "Finished checking for dependency issues!",
+    "modes": {
+        "check": "--pep621-dev-dependency-groups dev,docs $(SRC_DIR)"
+    }
+} %}
 
+{# #TODO: Deprecated beyond this point!!!! #}
 {% set python_cmd %}
 DEPTRY := $(ACTIVATE) && deptry
 {% endset %}

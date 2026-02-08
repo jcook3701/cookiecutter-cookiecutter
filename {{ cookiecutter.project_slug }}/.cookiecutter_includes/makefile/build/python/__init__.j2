@@ -18,8 +18,11 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
-{% import '.cookiecutter_includes/makefile/build/python/setuptools.j2' as _setuptools with context %}
+{%- from '.cookiecutter_includes/makefile/_config.j2' import ns with context -%}
+
+{% import '.cookiecutter_includes/makefile/build/python/bandit.j2' as _bandit with context %}
 {% import '.cookiecutter_includes/makefile/build/python/black.j2' as _black with context %}
+{% import '.cookiecutter_includes/makefile/build/python/build.j2' as _build with context %}
 {% import '.cookiecutter_includes/makefile/build/python/built-in.j2' as _built_in with context %}
 {% import '.cookiecutter_includes/makefile/build/python/bump-my-version.j2' as _bump_my_version with context %}
 {% import '.cookiecutter_includes/makefile/build/python/codespell.j2' as _codespell with context %}
@@ -31,17 +34,20 @@
 {% import '.cookiecutter_includes/makefile/build/python/mypy.j2' as _mypy with context %}
 {% import '.cookiecutter_includes/makefile/build/python/nutrimatic.j2' as _nutrimatic with context %}
 {% import '.cookiecutter_includes/makefile/build/python/pip-audit.j2' as _pip_audit with context %}
+{% import '.cookiecutter_includes/makefile/build/python/pip-deptree.j2' as _pip_deptree with context %}
 {% import '.cookiecutter_includes/makefile/build/python/pip.j2' as _pip with context %}
 {% import '.cookiecutter_includes/makefile/build/python/pre-commit.j2' as _pre_commit with context %}
 {% import '.cookiecutter_includes/makefile/build/python/pytest.j2' as _pytest with context %}
 {% import '.cookiecutter_includes/makefile/build/python/ruff.j2' as _ruff with context %}
 {% import '.cookiecutter_includes/makefile/build/python/tomllint.j2' as _tomllint with context %}
+{% import '.cookiecutter_includes/makefile/build/python/tox.j2' as _tox with context %}
 {% import '.cookiecutter_includes/makefile/build/python/twine.j2' as _twine with context %}
 {% import '.cookiecutter_includes/makefile/build/python/venv.j2' as _venv with context %}
 {% import '.cookiecutter_includes/makefile/build/python/yamllint.j2' as _yamllint with context %}
 
-{% set setuptools = _setuptools %}
+{% set bandit = _bandit %}
 {% set black = _black %}
+{% set build = _build %}
 {% set built_in = _built_in %}
 {% set bump_my_version = _bump_my_version %}
 {% set codespell = _codespell %}
@@ -53,11 +59,40 @@
 {% set mypy = _mypy %}
 {% set nutrimatic = _nutrimatic %}
 {% set pip_audit = _pip_audit %}
+{% set pip_deptree = _pip_deptree %}
 {% set pip = _pip %}
 {% set pre_commit = _pre_commit %}
 {% set pytest = _pytest %}
 {% set ruff = _ruff %}
 {% set tomllint = _tomllint %}
 {% set venv = _venv %}
+{% set tox = _tox %}
 {% set twine = _twine %}
 {% set yamllint = _yamllint %}
+
+{% set _all_tools = [
+    bandit, black, build, built_in, bump_my_version, codespell,
+    cookie_upgrader, cookie, deptry, djlint, jinja_cli,
+    mypy, nutrimatic, pip_audit, pip_deptree, pip, pre_commit, pytest,
+    ruff, tomllint, tox, twine, venv, yamllint
+] %}
+
+{%- macro get_active_tools(ns) -%}
+    {% set active_tools = [] %}
+    {% for tool in _all_tools %}
+        {# GUARD: Only process if the imported file actually has a 'config' dict #}
+        {% if tool.config is defined %}
+            {% set tool_id = tool.config.id %}
+            {% set feature_id = tool_id | upper %}
+
+            {% set is_core = tool_id in ['venv', 'pip'] %}
+            {% set is_enabled = ns.features.python.get(feature_id) | default(false) %}
+
+            {% if is_core or is_enabled %}
+                {% do active_tools.append(tool) %}
+                {% do ns.active_tools.append(tool) %}
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+    {{- active_tools -}}
+{%- endmacro -%}

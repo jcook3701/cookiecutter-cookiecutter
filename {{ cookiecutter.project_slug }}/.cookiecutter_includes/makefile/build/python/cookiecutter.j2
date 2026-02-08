@@ -18,7 +18,21 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
+{% set config = {
+    "id": "cookiecutter",
+    "name": "Cookiecutter",
+    "icon": "🍪",
+    "group": "template",
+    "command": "$(ACTIVATE) && cookiecutter",
+    "start_msg": "Rendering project from initial cookiecutter template...",
+    "end_msg": "Finished project render!",
+    "pre_cmd": "rm -rf $(RENDERED_COOKIE_DIR)",
+    "modes": {
+        "render": ". --no-input --output-dir $(RENDERED_COOKIE_DIR) --overwrite-if-exists --keep-project-on-failure"
+    }
+} %}
 
+{# #TODO: Deprecated beyond this point!!!! #}
 {% set python_cmd %}
 COOKIECUTTER := $(ACTIVATE) && cookiecutter
 {% endset %}

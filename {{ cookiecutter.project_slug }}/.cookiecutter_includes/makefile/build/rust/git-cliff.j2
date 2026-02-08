@@ -19,6 +19,26 @@
 #}
 
 
+{% set config = {
+    "id": "git-cliff",
+    "name": "Git-cliff",
+    "icon": "⛰️",
+    "group": "release",
+    "command": "git-cliff",
+    "start_msg": "Generating changelog from git history...",
+    "end_msg": "Changelog generation complete!",
+    "pre_cmd": "git fetch --tags",
+    "modes": {
+        "full": "--output CHANGELOG.md",
+        "unreleased": "--unreleased --tag v1.0.0 --output CHANGELOG.md",
+        "preview": "--unreleased --stdout",
+        "init": "--init"
+    },
+    "exclude": "--exclude-path 'tests/*'"
+} %}
+
+
+{# #TODO: Deprecated beyond this point!!!! #}
 {% set python_cmd %}
 GITCLIFF := git cliff
 GITCLIFF_CHANGELOG := $(GITCLIFF) --output $(CHANGELOG_FILE)

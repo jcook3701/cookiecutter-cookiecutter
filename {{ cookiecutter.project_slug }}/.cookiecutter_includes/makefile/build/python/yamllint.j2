@@ -18,7 +18,21 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
+{% set config = {
+    "id": "yamllint",
+    "name": "Yamllint",
+    "icon": "📄",
+    "group": "lint",
+    "command": "$(PYTHON) -m yamllint",
+    "start_msg": "Running yamllint...",
+    "end_msg": "Finished linting check of yaml files with yamllint!",
+    "modes": {
+        "check": "$(PROJECT_ROOT) $(RENDERED_COOKIE_DIR)"
+    }
+} %}
 
+
+{# #TODO: Deprecated beyond this point!!!! #}
 {% set python_cmd %}
 YAMLLINT := $(PYTHON) -m yamllint
 {% endset %}

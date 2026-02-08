@@ -18,7 +18,21 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
+{% set config = {
+    "id": "djlint",
+    "name": "djLint",
+    "icon": "✨",
+    "group": "lint",
+    "command": "$(ACTIVATE) && djlint",
+    "start_msg": "djlint lint...",
+    "end_msg": "Finished linting check of jinja2 macro files with djlint!",
+    "modes": {
+        "lint-check": ". --lint --profile=jinja",
+        "lint-fix": ". --reformat"
+    }
+} %}
 
+{# #TODO: Deprecated beyond this point!!!! #}
 {% set python_cmd %}
 DJLINT := $(ACTIVATE) && djlint
 {% endset %}

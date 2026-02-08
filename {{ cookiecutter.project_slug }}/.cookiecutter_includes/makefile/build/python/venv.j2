@@ -18,6 +18,28 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
+{% set config = {
+    "id": "venv",
+    "name": "Virtual Environment",
+    "icon": "🐍",
+    "group": "setup",
+    "command": "$(PYTHON_CMD) -m venv",
+    "start_msg": "Creating virtual environment...",
+    "end_msg": "Virtual environment created.",
+    "modes": {
+        "create": "$(VENV_DIR)"
+    }
+} %}
+
+{# We define the ACTIVATE and PYTHON strings here as they are helpers, not just tools #}
+{% macro helpers() %}
+CREATE_VENV := $(PYTHON_CMD) -m venv $(VENV_DIR)
+ACTIVATE := source $(VENV_DIR)/bin/activate
+PYTHON := $(ACTIVATE) && $(PYTHON_CMD)
+{% endmacro %}
+
+
+{# #TODO: Deprecated beyond this point!!!! #}
 {#
 # --------------------------------------------------
 # 🐍 Python / Virtual Environment

@@ -18,7 +18,22 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
+{% set config = {
+    "id": "mypy",
+    "name": "MyPy",
+    "icon": "🧠",
+    "group": "typing",
+    "command": "$(PYTHON) -m mypy",
+    "start_msg": "Checking types (MyPy)...",
+    "end_msg": "Python typecheck complete!",
+    "ci_safe": true,
+    "pre_cmd": "$(MAKE) list-folders",
+    "modes": {
+        "run": "$(SRC_DIR) $(TESTS_DIR)"
+    }
+} %}
 
+{# #TODO: Deprecated beyond this point!!!! #}
 {% set python_cmd %}
 MYPY := $(PYTHON) -m mypy
 {% endset %}

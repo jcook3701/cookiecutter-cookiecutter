@@ -19,6 +19,30 @@
 #}
 
 
+{% set config = {
+    "id": "bumpversion",
+    "name": "Bump-My-Version",
+    "icon": "🔖",
+    "group": "version",
+    "command": "$(ACTIVATE) && bump-my-version bump --verbose",
+    "start_msg": "Updating $(PROJECT_NAME) version from $(VERSION)...",
+    "end_msg": "$(PROJECT_NAME) version update complete!",
+    "modes": {
+        "patch": "$(PATCH)",
+        "minor": "$(MINOR)",
+        "major": "$(MAJOR)"
+    }
+} %}
+
+{% macro helpers() %}
+# Patch types:
+MAJOR := major
+MINOR := minor
+PATCH := patch
+{% endmacro %}
+
+
+{# #TODO: Deprecated beyond this point!!!! #}
 {% set python_cmd %}
 BUMPVERSION := $(ACTIVATE) && bump-my-version bump --verbose
 # Patch types:

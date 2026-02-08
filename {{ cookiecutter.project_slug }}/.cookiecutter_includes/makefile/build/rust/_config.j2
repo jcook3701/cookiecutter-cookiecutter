@@ -17,3 +17,12 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
+
+
+{%- import '.cookiecutter_includes/makefile/utils.j2' as utils with context -%}
+
+{%- set rust_map ={
+    "GITCLIFF":        cookiecutter.__rust.gitcliff | default(true),
+} -%}
+
+{%- set features = utils.validate_features(rust_map, "rust/_config.j2") -%}

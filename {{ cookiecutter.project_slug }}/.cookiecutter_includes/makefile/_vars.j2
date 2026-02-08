@@ -19,63 +19,16 @@
 #}
 
 
-{%- set ns = namespace(settings={}) -%}
-
-{%- do ns.settings.update({
-    "project": {
-        "_title": "Build Settings",
-        "_icon": "⚙️",
-        "PROJECT_NAME": {"val": cookiecutter.__python.project_name, "quote": true, "label": "Project"},
-        "AUTHOR":       {"val": cookiecutter.author,                "quote": true, "label": "Author"},
-        "VERSION":      {"val": cookiecutter.version,               "label": "Version"},
-        "RELEASE":      {"val": "v$(VERSION)",                      "label": "Release"}
+{%- set ns = namespace(
+    settings={},
+    features={
+        "python": {},
+        "typescript": {},
+        "vcs": {},
+        "sub": {}
     },
-    "github": {
-        "_title": "Github Build Settings",
-        "_icon": "🐙",
-        "GITHUB_USER": {"val": cookiecutter.github_username,        "quote": true, "label": "GitHub User"},
-        "GITHUB_REPO": {"val": "$(GITHUB_USER)/$(PROJECT_NAME)",    "label": "Repository"}
-    },
-    "dirs": {
-        "_title": "Build Directories",
-        "_icon": "📁",
-        "PROJECT_ROOT":  {"val": "$(call cc_or_std,$(CURDIR),$(PWD))", "label": "Root"},
-        "SRC_DIR":       {"val": "$(HOOKS_DIR)",                       "label": "Source"},
-        "TEST_DIR":      {"val": "$(PROJECT_ROOT)/tests",              "label": "Tests"},
-        "CHANGELOG_DIR": {"val": "$(PROJECT_ROOT)/changelogs",         "label": "Changelog"},
-        "DOCS_DIR":      {"val": "$(PROJECT_ROOT)/docs",               "label": "Docs"}
-    },
-    "cookie": {
-       "_title": "Template Directories",
-        "_icon": "🍪",
-        "COOKIE_DIR":          {"val": "{{ cookiecutter.project_slug }}", "label": "Template Dir"},
-        "COOKIE_MACRO_DIR":    {"val": "$(COOKIE_DIR)/.cookiecutter_includes",           "label": "Macro Dir"},
-        "RENDERED_COOKIE_DIR": {"val": "/tmp/rendered",                                  "label": "Render Path"},
-        "RENDERED_VENV_DIR":   {"val": "$(RENDERED_COOKIE_DIR)/**/.venv",                "label": "Render Venv"}
-    },
-    "files": {
-       "_title": "Build Files",
-        "_icon": "📄",
-        "CHANGELOG_FILE":         {"val": "$(CHANGELOG_DIR)/CHANGELOG.md",           "label": "Changelog File"},
-        "CHANGELOG_RELEASE_FILE": {"val": "$(CHANGELOG_DIR)/releases/$(RELEASE).md", "label": "Changelog File"},
-        "README_FILE":            {"val": "$(PROJECT_ROOT)/README.md",               "label": "Readme File"}
-
+    active_tools=[],
+    active_sections={
+        "build": {}
     }
- }) %}
-
-{# Dynamically add optional paths based on user choices #}
-{% if cookiecutter.add_sphinx_docs %}
-    {% do ns.settings.dirs.update({"SPHINX_DIR": {"val": "$(DOCS_DIR)/sphinx", "label": "Sphinx" }}) %}
-{% endif %}
-{% if cookiecutter.add_github_docs %}
-    {% do ns.settings.dirs.update({"JEKYLL_DIR": {"val": "$(DOCS_DIR)/jekyll", "label": "Jekyll" }}) %}
-    {% do ns.settings.dirs.update({"README_GEN_DIR": {"val": "$(JEKYLL_DIR)/tmp_readme", "label": "Readme Generation" }}) %}
-{% endif %}
-{% if cookiecutter.add_community_health_files %}
-    {% do ns.settings.dirs.update({"HEALTH_DIR": {"val": "$(PROJECT_ROOT)/.github", "label": "Health" }}) %}
-{% endif %}
-
-{# Only should happen when cookiecutter-cookiecutter generates a template. Not in projects generated from those projects. #}
-{# For example cookiecutter-cookiecutter generates python3-cookiecutter which generates python3 projects. #}
-{# TODO: This is an error!!!!! #}
-{% do ns.settings.dirs.update({"HOOKS_DIR": {"val": "$(PROJECT_ROOT)/hooks", "label": "Hooks" },}) %}
+) -%}

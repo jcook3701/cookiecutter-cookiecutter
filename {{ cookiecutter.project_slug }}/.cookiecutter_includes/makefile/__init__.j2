@@ -19,5 +19,7 @@
 #}
 
 {% import '.cookiecutter_includes/makefile/makefile.j2' as _makefile with context %}
+{% import '.cookiecutter_includes/makefile/debug.j2' as _debug with context %}
 
 {% set makefile = _makefile %}
+{% set debug = _debug %}

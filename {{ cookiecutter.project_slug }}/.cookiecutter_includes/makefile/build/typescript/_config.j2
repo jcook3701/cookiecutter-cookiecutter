@@ -17,3 +17,16 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
+
+{%- import '.cookiecutter_includes/makefile/utils.j2' as utils with context -%}
+
+{%- typescript_map = {
+    "ESLINT":    cookiecutter.__typescript.eslint,
+    "PRETTIER":  cookiecutter.__typescript.prettier,
+    "VITEST":    cookiecutter.__typescript.vitest,
+    "STORYBOOK": cookiecutter.__typescript.storybook,
+    "TSC":       cookiecutter.__typescript.tsc,
+    "TYPEDOCS":  cookiecutter.__typescript.typedocs
+} -%}
+
+{%- set features = utils.validate_features(typescript_map, "typescript/_config.j2") -%}

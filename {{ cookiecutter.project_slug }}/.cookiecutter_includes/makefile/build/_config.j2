@@ -1,12 +1,51 @@
-{% set dev_stack = [
-    { "id": "python",    "name": "Python",         "icon": "🐍", "class": "devicon-python-plain" },
-    { "id": "js",        "name": "JavaScript",     "icon": "📜", "class": "devicon-javascript-plain" },
-    { "id": "ros",       "name": "ROS",            "icon": "🤖", "class": "devicon-ros-plain" },
-    { "id": "galaxy",    "name": "Ansible Galaxy", "icon": "🌌", "class": "devicon-ansible-plain" },
-    { "id": "ansible",   "name": "Ansible",        "icon": "⚙️",  "class": "devicon-ansible-plain" },
-    { "id": "terraform", "name": "Terraform",      "icon": "🏗️",  "class": "devicon-terraform-plain" },
-    { "id": "bash",      "name": "Bash",           "icon": "🐚", "class": "devicon-bash-plain" },
-    { "id": "go",        "name": "Go",             "icon": "🐹", "class": "devicon-go-plain" },
-    { "id": "rust",      "name": "Rust",           "icon": "🦀", "class": "devicon-rust-plain" },
-    { "id": "docker",    "name": "Docker",         "icon": "🐳", "class": "devicon-docker-plain" }
-] %}
+{#
+# makefile/build/_config.j2 for cookiecutter-cookiecutter
+#
+# SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#}
+
+{%- set features = {
+    "lang": {
+        "ANSIBLE":    cookiecutter.add_ansible | default(false),
+        "DOCKER":     cookiecutter.add_docker | default(false),
+        "GCC":        cookiecutter.add_gcc | default(false),
+        "ROS2":       cookiecutter.add_ros2 | default(false),
+        "RUST":       cookiecutter.add_rust | default(false),
+    },
+    "tools": {
+        "GITHUB":     cookiecutter.add_github_actions | default(false),
+    },
+    "core": {
+        "BUILT_IN":   true,
+        "CHANGELOGS": true,
+        "DEPS":       true,
+        "FORMAT":     true,
+        "LINT":       true,
+        "PRE_COMMIT": cookiecutter.add_pre_commit | default(false),
+        "RELEASE":    true,
+        "SECURITY":   true,
+        "SPELLING":   true,
+        "TEMPLATE":   true,
+        "TESTING":    true,
+        "TYPING":     true,
+        "UPGRADER":   cookiecutter.add_upgrader | default(false),
+        "VERSIONING": true
+    },
+    "pipeline": {
+
+    },
+} -%}

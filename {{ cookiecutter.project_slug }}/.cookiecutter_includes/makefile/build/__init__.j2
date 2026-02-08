@@ -18,6 +18,9 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
+{% from '.cookiecutter_includes/makefile/_vars.j2' import ns with context %}
+
+{# --- 2. THE SECTION REGISTRY (The "When/How") --- #}
 {% import '.cookiecutter_includes/makefile/build/built-in.j2' as _built_in with context %}
 {% import '.cookiecutter_includes/makefile/build/changelogs.j2' as _changelogs with context %}
 {% import '.cookiecutter_includes/makefile/build/deps.j2' as _deps with context %}
@@ -45,19 +48,3 @@
 {% set typing = _typing %}
 {% set upgrader = _upgrader %}
 {% set version_bumping = _version_bumping %}
-
-{% set modules = [
-    built_in,
-    changelogs,
-    deps,
-    format,
-    github,
-    lint,
-    release,
-    security,
-    spelling,
-    testing,
-    typing,
-    upgrader,
-    version_bumping
-] %}

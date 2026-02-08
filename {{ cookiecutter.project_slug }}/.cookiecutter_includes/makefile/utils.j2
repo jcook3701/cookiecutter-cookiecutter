@@ -18,9 +18,35 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
-
+{# Styling macros below #}
 {% macro section_header(title, icon="⚙️") -%}
 # --------------------------------------------------
 # {{ icon }} {{ title }}
 # --------------------------------------------------
+{%- endmacro %}
+
+
+{% macro tool_cmds(config) -%}
+{# This is the engine that actually writes the Makefile target #}
+.PHONY: {{ config.id }}
+{{ config.id }}: ## {{ config.description | default("Run " ~ config.id) }}
+	@echo "Running {{ config.id }}..."
+	{{ config.command }} {{ config.args | join(' ') if config.args is defined else '' }}
+
+{%- endmacro %}
+
+
+{# Debugging macros below #}
+{% macro validate_features(mapping, file_path="UNKNOWN_FILE") -%}
+    {%- set result = {} -%}
+    {%- for key, value in mapping.items() -%}
+        {%- if value is not undefined -%}
+            {%- do result.update({key: value}) -%}
+        {%- else -%}
+            {# Forces the error to show both the key and the file path #}
+            {%- set error_bucket = {} -%}
+            {{ error_bucket[' >>> MISSING_VARIABLE: [' ~ key | lower ~ '] >>> FOUND_IN: [' ~ file_path ~ '] <<< '] }}
+        {%- endif -%}
+    {%- endfor -%}
+    {{- "PASS" -}}
 {%- endmacro %}

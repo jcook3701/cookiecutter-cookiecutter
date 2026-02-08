@@ -19,6 +19,22 @@
 #}
 
 
+{% set config = {
+    "id": "pipaudit",
+    "name": "pip-audit",
+    "icon": "🛡️",
+    "group": "security",
+    "command": "$(ACTIVATE) && pip-audit",
+    "start_msg": "Running security audit...",
+    "end_msg": "Finished security audit!",
+    "ci_safe": true,
+    "modes": {
+        "run": ""
+    }
+} %}
+
+
+{# #TODO: Deprecated beyond this point!!!! #}
 {% set python_cmd %}
 PIPAUDIT := $(ACTIVATE) && pip-audit
 {% endset %}

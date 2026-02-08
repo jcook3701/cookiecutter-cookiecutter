@@ -1,0 +1,65 @@
+{#
+# makefile/debug.j2 for cookiecutter-cookiecutter
+#
+# SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#}
+
+
+{%- from '.cookiecutter_includes/makefile/_config.j2' import ns with context -%}
+{%- import '.cookiecutter_includes/makefile/utils.j2' as utils with context -%}
+
+{% macro render_config() -%}
+    {{ utils.section_header("Configuration Settings", "⚙️") }}
+
+    {% for section_id, section_data in ns.settings.items() %}
+    {{- '# ---' }} ~ {{ section_data._icon | default('🔹') }} {{ section_data._title | default(section_id | capitalize) }}
+        {% for key, meta in section_data.items() if not key.startswith('_') %}
+            {%- set value = meta.val -%}
+            {# Apply quotes if the meta-dict says so #}
+            {%- if meta.quote | default(false) -%}{%- set value = '"' ~ value ~ '"' -%}{%- endif -%}
+                {{- "%-30s" | format(key.upper()) }} ?= {{ value }} # {{ meta.label | default(key) }}
+        {% endfor %}
+    {% endfor %}
+{%- endmacro %}
+
+
+{% macro debug_all() -%}
+{{ utils.section_header("NAMESPACE DEBUG DUMP", "🪲") }}
+
+# === 1. SETTINGS (Variables) ===
+{% for section_id, data in ns.settings.items() -%}
+# [{{ "%-10s" | format(section_id | upper) }}]: {{ data.keys() | list | join(', ') }}
+{% endfor %}
+
+# === 2. FEATURES (Booleans) ===
+{% for lang, features in ns.features.items() -%}
+# {{ "%-12s" | format(lang.upper() ~ ":") }} {% for key, val in features.items() %}{{ key }}={{ val }}{{ ", " if not loop.last }}{% endfor %}
+{% endfor %}
+
+# === 3. ACTIVE TOOLS (The Registry) ===
+# Count: {{ ns.active_tools | length }}
+{% for tool in ns.active_tools %}
+# -> ID: {{ "%-15s" | format(tool.config.id) }} | Group: {{ tool.config.group }}
+{% else %}
+# !!! WARNING: No tools found in ns.active_tools !!!
+{%- endfor %}
+
+# === 4. ACTIVE SECTIONS ===
+{% for group_id, tools in ns.active_sections.build.items() -%}
+# [{{ "%-10s" | format(group_id | upper) }}]: {{ tools.keys() | join(', ') }}
+{% endfor %}
+{% endmacro %}

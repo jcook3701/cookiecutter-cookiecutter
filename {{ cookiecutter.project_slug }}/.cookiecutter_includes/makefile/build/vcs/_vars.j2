@@ -1,5 +1,5 @@
 {#
-# makefile/build/shell/_vars.j2 for cookiecutter-cookiecutter
+# makefile/build/vcs/_vars.j2 for cookiecutter-cookiecutter
 #
 # SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
 # SPDX-License-Identifier: AGPL-3.0-or-later
@@ -17,6 +17,19 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
+
+{% set dev_stack = [
+    { "id": "python",    "name": "Python",         "icon": "🐍", "class": "devicon-python-plain" },
+    { "id": "js",        "name": "JavaScript",     "icon": "📜", "class": "devicon-javascript-plain" },
+    { "id": "ros",       "name": "ROS",            "icon": "🤖", "class": "devicon-ros-plain" },
+    { "id": "galaxy",    "name": "Ansible Galaxy", "icon": "🌌", "class": "devicon-ansible-plain" },
+    { "id": "ansible",   "name": "Ansible",        "icon": "⚙️",  "class": "devicon-ansible-plain" },
+    { "id": "terraform", "name": "Terraform",      "icon": "🏗️",  "class": "devicon-terraform-plain" },
+    { "id": "bash",      "name": "Bash",           "icon": "🐚", "class": "devicon-bash-plain" },
+    { "id": "go",        "name": "Go",             "icon": "🐹", "class": "devicon-go-plain" },
+    { "id": "rust",      "name": "Rust",           "icon": "🦀", "class": "devicon-rust-plain" },
+    { "id": "docker",    "name": "Docker",         "icon": "🐳", "class": "devicon-docker-plain" }
+] %}
 
 {% set vcs_dev_stack = [
     {

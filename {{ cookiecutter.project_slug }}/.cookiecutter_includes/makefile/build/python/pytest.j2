@@ -1,5 +1,5 @@
 {#
-# makefile//build/python/pytest.j2 for cookiecutter-cookiecutter
+# makefile/build/python/pytest.j2 for cookiecutter-cookiecutter
 #
 # SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
 # SPDX-License-Identifier: AGPL-3.0-or-later
@@ -18,7 +18,21 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
+{% set config = {
+    "id": "pytest",
+    "name": "Pytest",
+    "icon": "🧪",
+    "group": "test",
+    "command": "$(PYTHON) -m pytest",
+    "start_msg": "Running tests with pytest...",
+    "end_msg": "Python tests complete!",
+    "ci_safe": true,
+    "modes": {
+        "run": ""
+    }
+} %}
 
+{# #TODO: Deprecated beyond this point!!!! #}
 {% set python_cmd %}
 PYTEST := $(PYTHON) -m pytest
 {% endset %}

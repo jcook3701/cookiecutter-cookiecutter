@@ -18,7 +18,21 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
+{% set config = {
+    "id": "codespell",
+    "name": "Codespell",
+    "icon": "🎓",
+    "group": "spelling",
+    "command": "$(ACTIVATE) && codespell",
+    "start_msg": "Checking Spelling (codespell)...",
+    "end_msg": "Finished spellcheck!",
+    "ci_safe": true,
+    "modes": {
+        "run": ""
+    }
+} %}
 
+{# #TODO: Deprecated beyond this point!!!! #}
 {% set python_cmd %}
 CODESPELL := $(ACTIVATE) && codespell
 {% endset %}

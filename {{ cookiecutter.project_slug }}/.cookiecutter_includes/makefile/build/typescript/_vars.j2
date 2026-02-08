@@ -18,6 +18,18 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
+
+{%- do v.ns.settings.update({
+    "typescript_infra": {
+        "_title": "JS/TS Environment Setup",
+        "_icon": "📦",
+        "NODE": {"val": "node"},
+        "NPM":  {"val": "npm"},
+        "NPX":  {"val": "npx"}
+    }
+}) -%}
+
+
 {% set typescript_dev_stack = [
     {
         "id": "npm-install",

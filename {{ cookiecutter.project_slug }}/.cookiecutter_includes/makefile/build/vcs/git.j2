@@ -1,5 +1,5 @@
 {#
-# makefile/shell/git.j2 for cookiecutter-cookiecutter
+# makefile/vcs/git.j2 for cookiecutter-cookiecutter
 #
 # SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
 # SPDX-License-Identifier: AGPL-3.0-or-later
@@ -18,6 +18,28 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
+{% set config = {
+    "id": "git",
+    "name": "Git",
+    "icon": "🐙",
+    "group": "vcs",
+    "command": "git",
+    "start_msg": "Executing Git",
+    "end_msg": "Git operation complete!",
+    "modes": {
+        "check": "--version",
+        "status": "status",
+        "init": "init -b {{ cookiecutter._default_branch }}",
+        "remote": "remote add origin {{ cookiecutter.repo_url }}.git",
+        "stage": "add -A",
+        "commit": "commit -m 'chore(init): initial commit'",
+        "tag": "tag -a $(RELEASE) -m 'Release $(RELEASE)'",
+        "push": "push origin $(RELEASE)",
+        "branch": "rev-parse --abbrev-ref HEAD"
+    }
+} %}
+
+{# TODO: Deprecated.  Remove in the future... #}
 {% set python_cmd %}
 GIT := git
 GITHUB := gh

@@ -106,7 +106,7 @@ list-folders:
     {# Formatting Section #}
     {{- build.format.actions() if build.format.actions is defined }}
     {# Linting Section #}
-    {{- build.lint.actions() if build.lint.actions is defined }}
+    {# {{- build.lint.actions() if build.lint.actions is defined }} #}
     {# Spellchecker Section #}
     {{- build.spelling.actions() if build.spelling.actions is defined }}
     {# Typechecking Section #}

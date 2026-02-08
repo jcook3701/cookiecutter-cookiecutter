@@ -18,7 +18,35 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
+{% set config = {
+    "id": "jinja",
+    "name": "Jinja2 CLI",
+    "icon": "🔍",
+    "group": "lint",
+    "command": "$(ACTIVATE) && jinja2",
+    "start_msg": "jinja2 lint (Deprecated - use djlint)...",
+    "end_msg": "Finished linting check of jinja2 macro files with jinja2!",
+    "modes": {
+        "lint-check": "--strict \
+            --extension=cookiecutter.extensions.JsonifyExtension \
+            --extension=cookiecutter.extensions.RandomStringExtension \
+            --extension=cookiecutter.extensions.SlugifyExtension \
+            --extension=cookiecutter.extensions.TimeExtension \
+            --extension=cookiecutter.extensions.UUIDExtension"
+    },
+    "custom_shell": "jq '{cookiecutter: .}' cookiecutter.json > /tmp/_cc_wrapped.json; \
+        $(JINJA_FILE_LIST) | tr '\\0' '\\n'; \
+        $(ACTIVATE) && $(JINJA_FILE_LIST) | \
+        while IFS= read -r -d '' f; do \
+            if file \"$$f\" | grep -q text; then \
+                echo \"Checking $$f\"; \
+                $(JINJA) \"$$f\" /tmp/_cc_wrapped.json || exit 1; \
+            fi; \
+        done"
+} %}
 
+
+{# #TODO: Deprecated beyond this point!!!! #}
 {% set python_cmd %}
 {# Deprecated for cookiecutter projects (USE: djlint) #}
 JINJA := $(ACTIVATE) && jinja2 --strict \

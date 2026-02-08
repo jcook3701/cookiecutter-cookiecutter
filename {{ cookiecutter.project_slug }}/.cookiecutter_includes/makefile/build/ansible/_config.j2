@@ -17,3 +17,11 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
+
+{%- import '.cookiecutter_includes/makefile/utils.j2' as utils with context -%}
+
+{%- set ansible_map ={
+    "GALAXY":    false,
+} -%}
+
+{%- set features = utils.validate_features(ansible_map, "ansible/_config.j2") -%}
