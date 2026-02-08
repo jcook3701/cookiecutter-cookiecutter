@@ -427,6 +427,7 @@ Feat 032 (#81)
 - *(issues)* Fixes and updates to issue templates.  Added developer only template to avoid having to fill out user forms for each project task.
 - *(upgrader)* Minor fix for project description within the upgrader file.
 - *(makefile)* File restructure. This should allow for future language updates.
+- *(lint)* Fixed djlint errors.
 
 ### 🚀 Added
 
