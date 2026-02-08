@@ -438,3 +438,4 @@ Feat 032 (#81)
 - *(makefile)* Makefile template updates.  won't build just yet but very close.
 - *(jinja)* Makefile template renders now! Still needs work.
 - *(jinja2)* Building and looks like passing lint checks.
+- *(jinja)* This builds and the jinja config files are working!
