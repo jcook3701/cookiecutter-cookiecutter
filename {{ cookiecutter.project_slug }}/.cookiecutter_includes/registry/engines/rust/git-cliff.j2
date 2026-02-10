@@ -1,0 +1,58 @@
+{#
+# registry/lang/rust/git-cliff.j2 for cookiecutter-cookiecutter
+#
+# SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#}
+
+
+{% set config = {
+    "id": "git-cliff",
+    "name": "Git-cliff",
+    "icons": "⛰️",
+    "group": "release",
+    "command": "git-cliff",
+    "start_msg": "Generating changelog from git history...",
+    "end_msg": "Changelog generation complete!",
+    "pre_cmd": "git fetch --tags",
+    "modes": {
+        "full": "--output CHANGELOG.md",
+        "unreleased": "--unreleased --tag v1.0.0 --output CHANGELOG.md",
+        "preview": "--unreleased --stdout",
+        "init": "--init"
+    },
+    "exclude": "--exclude-path 'tests/*'"
+} %}
+
+
+{# #TODO: Deprecated beyond this point!!!! #}
+{% set python_cmd %}
+GITCLIFF := git cliff
+GITCLIFF_CHANGELOG := $(GITCLIFF) --output $(CHANGELOG_FILE)
+GITCLIFF_CHANGELOG_RELEASE := $(GITCLIFF) --unreleased --tag $(RELEASE) --output $(CHANGELOG_RELEASE_FILE)
+{% endset %}
+
+
+{% set shell_cmd %}
+# Note: Run as part of pre-commit.  No manual run needed.
+changelog:
+	$(AT)echo "📜 $(PROJECT_NAME) Changelog Generation..."
+	$(AT)$(GITCLIFF_CHANGELOG)
+	$(AT)$(GITCLIFF_CHANGELOG_RELEASE)
+	$(AT)$(GIT) add $(CHANGELOG_FILE)
+	$(AT)$(GIT) add $(CHANGELOG_RELEASE_FILE)
+	$(AT)echo "✅ Finished Changelog Update!"
+{% endset %}

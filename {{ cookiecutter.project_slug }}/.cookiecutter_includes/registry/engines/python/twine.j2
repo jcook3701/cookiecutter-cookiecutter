@@ -1,0 +1,65 @@
+{#
+# registry/lang/python/twine.j2 for cookiecutter-cookiecutter
+#
+# SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#}
+
+
+{% set config = {
+    "id": "twine",
+    "name": "Twine",
+    "icon": "🚀",
+    "group": "publish",
+    "command": "$(PYTHON) -m twine",
+    "start_msg": "Publishing $(PROJECT_NAME) to",
+    "end_msg": "$(PROJECT_NAME) upload complete!",
+    "modes": {
+        "test": "upload --repository testpypi --verbose dist/*",
+        "publish": "upload dist/*"
+    }
+} %}
+
+
+{# #TODO: Deprecated beyond this point!!!! #}
+{#
+# --------------------------------------------------
+# 🚀 Publishing (twine)
+# --------------------------------------------------
+#}
+
+{% set python_cmd %}
+TWINE := $(PYTHON) -m twine
+# Repos:
+PYPI := upload dist/*
+TESTPYPI := upload --repository testpypi --verbose dist/*
+{% endset %}
+
+
+{% set shell_cmd %}
+# --------------------------------------------------
+# 🚀 Publish program (twine) (Repos: Testpypi, & Pypi)
+# --------------------------------------------------
+publish-test:
+	$(AT)echo "🚀 Publishing $(PACKAGE_NAME) to testpypi..."
+	$(AT)$(TWINE) $(TESTPYPI)
+	$(AT)echo "✅ $(PACKAGE_NAME) upload complete!"
+
+publish:
+	$(AT)echo "🚀 Publishing $(PACKAGE_NAME) to pypi..."
+	$(AT)$(TWINE) $(PYPI)
+	$(AT)echo "✅ $(PACKAGE_NAME) upload complete!"
+{% endset %}

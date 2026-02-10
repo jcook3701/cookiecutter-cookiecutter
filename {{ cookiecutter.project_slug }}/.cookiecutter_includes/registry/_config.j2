@@ -1,0 +1,76 @@
+{#
+# registry/_config.j2 for cookiecutter-cookiecutter
+#
+# SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#}
+
+{% from '.cookiecutter_includes/registry/_vars.j2' import ns with context %}
+{# EXPLICIT EXPORT: This makes ns available to debug.j2 and others #}
+{% set ns = ns %}
+
+{%- import '.cookiecutter_includes/registry/settings.j2' as settings_data with context -%}
+{# {%- import '.cookiecutter_includes/registry/features.j2' as features with context -%} #}
+
+{%- import '.cookiecutter_includes/registry/features.j2' as build_data with context -%}
+
+{%- do ns.active_sections.build.update(build_data.features) -%}
+
+{# --- LANGUAGE BOOTLOADERS --- #}
+{# This pulls in Python/TS/VCS features into ns.features #}
+{%- import '.cookiecutter_includes/registry/engines/python/_config.j2' as py_data with context -%}
+{# {%- import '.cookiecutter_includes/registry/build/typescript/_config.j2' as ts_data with context -%} #}
+{# --- TOOLS BOOTLOADERS --- #}
+{%- import '.cookiecutter_includes/registry/tools/vcs/_config.j2' as vcs_data with context -%}
+
+{# 2. Join them into the Namespace #}
+{%- do ns.features.python.update(py_data.features) -%}
+{# {%- do ns.features.typescript.update(ts_data.features) -%} #}
+{%- do ns.features.typescript.update(vcs_data.features) -%}
+
+{# --- LANGUAGE PARTS --- #}
+{%- import '.cookiecutter_includes/registry/engines/python/__init__.j2' as python with context -%}
+{%- import '.cookiecutter_includes/registry/tools/vcs/__init__.j2' as vcs with context -%}
+
+{# 3. TRIGGER: This fills the 'Count: 0' gap #}
+{%- set _ = python.get_active_tools(ns) -%}
+
+
+{%- do ns.settings.update(settings_data.settings) %}
+
+{# Dynamically add optional paths based on user choices #}
+{% if cookiecutter.add_sphinx_docs %}
+    {% do ns.settings.dirs.update({"SPHINX_DIR": {"val": "$(DOCS_DIR)/sphinx", "label": "Sphinx" }}) %}
+{% endif %}
+{% if cookiecutter.add_github_docs %}
+    {% do ns.settings.dirs.update({"JEKYLL_DIR": {"val": "$(DOCS_DIR)/jekyll", "label": "Jekyll" }}) %}
+    {% do ns.settings.dirs.update({"README_GEN_DIR": {"val": "$(JEKYLL_DIR)/tmp_readme", "label": "Readme Generation" }}) %}
+{% endif %}
+{% if cookiecutter.add_community_health_files %}
+    {% do ns.settings.dirs.update({"HEALTH_DIR": {"val": "$(PROJECT_ROOT)/.github", "label": "Health" }}) %}
+{% endif %}
+
+{# Only should happen when cookiecutter-cookiecutter generates a template. Not in projects generated from those projects. #}
+{# For example cookiecutter-cookiecutter generates python3-cookiecutter which generates python3 projects. #}
+{# TODO: This is an error!!!!! #}
+{% do ns.settings.dirs.update({"HOOKS_DIR": {"val": "$(PROJECT_ROOT)/hooks", "label": "Hooks" },}) %}
+
+
+{%- do ns.features.sub.update({
+    "SPHINX": cookiecutter.add_sphinx_docs,
+    "JEKYLL": cookiecutter.add_github_docs,
+    "HEALTH": cookiecutter.add_community_health_files
+}) -%}

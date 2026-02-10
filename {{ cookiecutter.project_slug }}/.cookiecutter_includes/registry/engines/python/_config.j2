@@ -1,0 +1,59 @@
+{#
+# registry/lang/python/vars.j2 for cookiecutter-cookiecutter
+#
+# SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#}
+
+{%- import '.cookiecutter_includes/makefile/utils.j2' as utils with context -%}
+
+{%- set python_settings_map = {
+    "python_settings": {
+        "_title": "Python Settings",
+        "_icon": "🐍",
+        "DEPS":     {"val": "."},
+        "DEV_DEPS": {"val": ".[dev]"},
+        "DEV_DOCS": {"val": ".[docs]"}
+    },
+    "python_infra": {
+        "_title": "Python Commands (venv, activate, pip)",
+        "_icon": "🐍",
+        "PYTHON_CMD": {"val": "python" ~ cookiecutter.python_version}
+    }
+} -%}
+
+{%- set python_cmd_map = {
+    "BLACK":        cookiecutter.__python.black,
+    "BUILD":        cookiecutter.__python.build | default(false),
+    "BUMPVERSION":  cookiecutter.__python.bump_my_version,
+    "CODESPELL":    cookiecutter.__python.codespell,
+    "DEPTRY":       cookiecutter.__python.deptry,
+    "DJLINT":       cookiecutter.__python.djlint,
+    "JINJA":        cookiecutter.__python.jinja_cli | default(false),
+    "MYPY":         cookiecutter.__python.mypy,
+    "PIPAUDIT":     cookiecutter.__python.pip_audit,
+    "PRECOMMIT":    cookiecutter.__python.pre_commit,
+    "PYTEST":       cookiecutter.__python.pytest,
+    "RUFF":         cookiecutter.__python.ruff,
+    "TOMLLINT":     cookiecutter.__python.tomllint,
+    "TWINE":        cookiecutter.__python.twine | default(false),
+    "YAMLLINT":     cookiecutter.__python.yamllint
+} -%}
+
+{%- set validate = utils.validate_features(python_cmd_map, "python/_config.j2") -%}
+{% if validate == "PASS" %}
+    {% set features = python_cmd_map %}
+{% endif %}

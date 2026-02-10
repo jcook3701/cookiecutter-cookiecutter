@@ -19,22 +19,27 @@
 #}
 
 {# Styling macros below #}
-{% macro section_header(title, icon="⚙️") -%}
+{% macro section_header(title, icon="⚙️") %}
 # --------------------------------------------------
 # {{ icon }} {{ title }}
 # --------------------------------------------------
-{%- endmacro %}
+{% endmacro %}
 
 
-{% macro tool_cmds(config) -%}
-{# This is the engine that actually writes the Makefile target #}
-.PHONY: {{ config.id }}
+{% macro tool_cmds(
+    config
+) %}
+    {# This is the engine that actually writes the Makefile target #}
+    {{- config.id | upper }} := {{ config.command }}
+{% endmacro %}
+
+
+{% macro tool_action(config) %}
 {{ config.id }}: ## {{ config.description | default("Run " ~ config.id) }}
-	@echo "Running {{ config.id }}..."
+	$(AT)echo "Running {{ config.start_msg }}..."
 	{{ config.command }} {{ config.args | join(' ') if config.args is defined else '' }}
-
-{%- endmacro %}
-
+	$(AT)echo "{{ config.end_msg }}"
+{% endmacro %}
 
 {# Debugging macros below #}
 {% macro validate_features(mapping, file_path="UNKNOWN_FILE") -%}

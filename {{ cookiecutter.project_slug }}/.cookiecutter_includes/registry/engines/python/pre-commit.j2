@@ -1,0 +1,57 @@
+{#
+# registry/lang/python/pre-commit.j2 for cookiecutter-cookiecutter
+#
+# SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#}
+
+
+{%- set config = {
+    "id": "precommit",
+    "name": "pre-commit",
+    "icon": "⚓",
+    "group": "vcs",
+    "command": "$(ACTIVATE) && pre-commit",
+    "start_msg": "Installing pre-commit hooks and hook-types...",
+    "end_msg": "pre-commit dependencies installed!",
+    "modes": {
+        "init": "install --install-hooks && \
+                $(PRECOMMIT) install --hook-type pre-commit --hook-type commit-msg"
+    }
+} -%}
+
+
+{# #TODO: Deprecated beyond this point!!!! #}
+{% set python_cmd %}
+# --------------------------------------------------
+# 🚨 Pre-Commit (pre-commit)
+# --------------------------------------------------
+PRECOMMIT := $(ACTIVATE) && pre-commit
+{% endset %}
+
+
+{% set shell_cmd %}
+# --------------------------------------------------
+# 🚨 Pre-Commit (pre-commit)
+# --------------------------------------------------
+# Note: Run as part of project initialization.  No manual run needed.
+pre-commit-init:
+	$(AT)echo "📦 Installing pre-commit hooks and hook-types..."
+	$(AT)which $(GIT) >/dev/null || { echo "Git is required"; exit 1; }
+	$(AT)$(PRECOMMIT) install --install-hooks
+	$(AT)$(PRECOMMIT) install --hook-type pre-commit --hook-type commit-msg
+	$(AT)echo "✅ pre-commit dependencies installed!"
+{% endset %}

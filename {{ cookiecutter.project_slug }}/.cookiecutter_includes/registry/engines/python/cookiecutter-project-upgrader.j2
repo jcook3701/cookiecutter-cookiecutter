@@ -1,0 +1,51 @@
+{#
+# registry/lang/python/cookiecutter-project-upgrader.j2 for cookiecutter-cookiecutter
+#
+# SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#}
+
+{% set config = {
+    "id": "project_upgrade",
+    "name": "Project Upgrader",
+    "icon": "🍪",
+    "group": "upgrader",
+    "command": "$(ACTIVATE) && cookiecutter_project_upgrader",
+    "start_msg": "Upgrading project from initial cookiecutter template...",
+    "end_msg": "Finished project upgrade!",
+    "modes": {
+        "run": "--context-file ./docs/cookiecutter_input.json \
+                --upgrade-branch main \
+                -e 'cookiecutter.json' \
+                -e '$(COOKIE_DIR)'"
+    }
+} %}
+
+{# #TODO: Deprecated beyond this point!!!! #}
+{% set python_cmd %}
+PROJECT_UPGRADE := $(ACTIVATE) && cookiecutter_project_upgrader
+{% endset %}
+
+
+{% set shell_cmd %}
+project-upgrade:
+	$(AT)echo "🍪 Upgrading project from initial cookiecutter template..."
+	$(AT)$(PROJECT_UPGRADE) --context-file ./docs/cookiecutter_input.json \
+		--upgrade-branch main \
+		-e "cookiecutter.json" \
+		-e "$(COOKIE_DIR)"
+	$(AT)echo "✅ Finished project upgrade!"
+{% endset %}

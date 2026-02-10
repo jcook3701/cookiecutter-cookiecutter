@@ -18,9 +18,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
-{% import '.cookiecutter_includes/makefile/_vars.j2' as vars with context %}
-{# project_settings=vars.settings.project #}
-
+{% from '.cookiecutter_includes/registry/_config.j2' import ns with context %}
 
 {% macro actions() -%}
     {#

@@ -1,0 +1,47 @@
+{#
+# makefile/build/vcs/__init__.j2 for cookiecutter-cookiecutter
+#
+# SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#}
+
+{% from '.cookiecutter_includes/registry/_vars.j2' import ns with context %}
+
+{%- import '.cookiecutter_includes/registry/tools/vcs/git.j2' as _git with context -%}
+{%- import '.cookiecutter_includes/registry/tools/vcs/gh.j2' as _gh with context -%}
+
+{%- set git = _git -%}
+{%- set github = _gh -%}
+
+{%- set _all_tools = [
+    git,
+    github
+] -%}
+
+{%- set active_tools = [] -%}
+{%- for tool in _all_tools -%}
+    {% if tool.config is defined %}
+        {%- set tool_id = tool.config.id -%}
+        {%- set feature_id = tool_id | upper -%}
+
+        {%- set is_core = tool_id == 'git' -%}
+
+        {%- if is_core or ns.features.vcs.get(feature_id) | default(false) -%}
+            {%- do active_tools.append(tool) -%}
+            {%- do ns.active_tools.append(tool) -%}
+        {%- endif -%}
+    {% endif %}
+{%- endfor -%}

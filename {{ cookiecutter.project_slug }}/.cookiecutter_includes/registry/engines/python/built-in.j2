@@ -1,0 +1,63 @@
+{#
+# registry/lang/python/built-in.j2 for cookiecutter-cookiecutter
+#
+# SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#}
+
+
+
+{# #TODO: Deprecated beyond this point!!!! #}
+{% set settings %}
+# --------------------------------------------------
+# 🐍 Python Settings
+# --------------------------------------------------
+DEPS := .
+DEV_DEPS := .[dev]
+DEV_DOCS := .[docs]
+{% endset %}
+
+
+{% set python_cmd %}
+# --------------------------------------------------
+# 🐍 Python Commands (venv, activate, pip)
+# --------------------------------------------------
+PYTHON_CMD := python3.11
+{% endset %}
+
+
+{% set shell_cmd %}
+
+{% endset %}
+
+
+{% set python_build_cmd %}
+# --------------------------------------------------
+# 📦 Build (build)
+# --------------------------------------------------
+BUILD := $(PYTHON) -m build
+{% endset %}
+
+
+{% set shell_build_cmd %}
+# --------------------------------------------------
+# 📦 Build program (build)
+# --------------------------------------------------
+build:
+	$(AT)echo "📦 Packing $(PACKAGE_NAME)..."
+	$(AT)$(BUILD)
+	$(AT)echo "✅ $(PACKAGE_NAME) packaging complete!"
+{% endset %}

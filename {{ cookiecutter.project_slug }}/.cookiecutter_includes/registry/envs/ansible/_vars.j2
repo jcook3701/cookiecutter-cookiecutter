@@ -1,0 +1,83 @@
+{#
+# makefile/envs/ansible/_vars.j2 for cookiecutter-cookiecutter
+#
+# SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#}
+
+
+{% set ansible_dev_stack = [
+    {
+        "id": "galaxy-init",
+        "name": "Galaxy Init",
+        "icon": "🌌",
+        "group": "vcs",
+        "command": "ansible-galaxy collection init",
+        "args": "{{ cookiecutter.github_username }}.{{ cookiecutter.project_slug }}",
+        "description": "Initialize a new Ansible collection structure."
+    },
+    {
+        "id": "ansible-lint",
+        "name": "Ansible Lint",
+        "icon": "🛡️",
+        "group": "lint",
+        "command": "ansible-lint",
+        "args": ".",
+        "description": "Best practices linter for Ansible playbooks and roles."
+    },
+    {
+        "id": "molecule-test",
+        "name": "Molecule",
+        "icon": "🧪",
+        "group": "test",
+        "command": "molecule test",
+        "args": "--all",
+        "description": "Test-driven development for Ansible roles (runs lint, create, converge, verify)."
+    },
+    {
+        "id": "galaxy-install",
+        "name": "Galaxy Deps",
+        "icon": "📦",
+        "group": "deps",
+        "command": "ansible-galaxy install",
+        "args": "-r requirements.yml",
+        "description": "Install dependent roles and collections."
+    },
+    {
+        "id": "galaxy-build",
+        "name": "Galaxy Build",
+        "icon": "🏗️",
+        "group": "build",
+        "command": "ansible-galaxy collection build",
+        "args": "--force",
+        "description": "Build the collection artifact (tarball) for publishing."
+    },
+    {
+        "id": "galaxy-publish",
+        "name": "Galaxy Publish",
+        "icon": "🚢",
+        "group": "publish",
+        "command": "ansible-galaxy collection publish",
+        "args": "*.tar.gz --api-key $(GALAXY_API_KEY)",
+        "description": "Upload the collection to Ansible Galaxy."
+    }
+] %}
+
+{#
+{% if cookiecutter.__python.ansible %}
+    {% set active_tools = active_tools + ansible.ansible_dev_stack %}
+{% endif %}
+#}

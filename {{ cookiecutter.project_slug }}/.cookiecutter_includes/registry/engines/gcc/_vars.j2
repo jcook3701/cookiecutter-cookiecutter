@@ -1,0 +1,90 @@
+{#
+# registry/engines/gcc/_vars.j2 for cookiecutter-cookiecutter
+#
+# SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#}
+
+{% set gcc_dev_stack = [
+    {
+        "id": "cmake-configure",
+        "name": "CMake Config",
+        "icon": "⚙️",
+        "group": "build",
+        "command": "cmake",
+        "args": "-S . -B build -DCMAKE_BUILD_TYPE=Release",
+        "description": "Configure the project and generate build files."
+    },
+    {
+        "id": "cmake-build",
+        "name": "CMake Build",
+        "icon": "🏗️",
+        "group": "build",
+        "command": "cmake --build build",
+        "args": "-j $(nproc)",
+        "description": "Compile the project using all available cores."
+    },
+    {
+        "id": "cppcheck",
+        "name": "Cppcheck",
+        "icon": "🛡️",
+        "group": "lint",
+        "command": "cppcheck",
+        "args": "--enable=all --suppress=missingIncludeSystem .",
+        "description": "Static analysis for C/C++ code."
+    },
+    {
+        "id": "clang-format",
+        "name": "Clang Format",
+        "icon": "✨",
+        "group": "format",
+        "command": "clang-format",
+        "args": "-i --style=file src/*.cpp include/*.hpp",
+        "description": "Format code according to .clang-format file."
+    },
+    {
+        "id": "ctest",
+        "name": "CTest",
+        "icon": "🧪",
+        "group": "test",
+        "command": "cd build && ctest",
+        "args": "--output-on-failure",
+        "description": "Run the test suite via CMake's test runner."
+    },
+    {
+        "id": "gdb",
+        "name": "GDB",
+        "icon": "🐛",
+        "group": "debug",
+        "command": "gdb",
+        "args": "./build/$(PROJECT_NAME)",
+        "description": "Debug the compiled binary."
+    },
+    {
+        "id": "cpack",
+        "name": "CPack",
+        "icon": "📦",
+        "group": "release",
+        "command": "cd build && cpack",
+        "args": "-G DEB",
+        "description": "Generate distribution packages (DEB, RPM, or TGZ)."
+    }
+] %}
+
+{#
+cmake-build: cmake-configure ## 🏗️ Build the binary
+	$(AT){{ tool.command }} {{ tool.args }}
+#}
