@@ -22,10 +22,21 @@
 {%- set ns = namespace(
     settings={},
     features={
-        "python": {},
-        "typescript": {},
-        "vcs": {},
-        "sub": {}
+        "sub": {},
+        "engines": {
+            "gcc": {},
+            "python": {},
+            "rust": {},
+            "typescript": {},
+        },
+        "envs": {
+            "ansible": {},
+            "docker": {},
+            "ros2": {},
+        },
+        "tools": {
+            "vcs": {},
+        },
     },
     active_tools=[],
     active_sections={

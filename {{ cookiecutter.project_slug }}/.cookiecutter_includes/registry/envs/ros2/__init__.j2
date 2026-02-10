@@ -17,3 +17,39 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
+
+
+{% from '.cookiecutter_includes/registry/_vars.j2' import ns with context %}
+
+{%- import '.cookiecutter_includes/registry/envs/ros2/ament_lint_common.j2' as _ament_lint_common with context -%}
+{%- import '.cookiecutter_includes/registry/envs/ros2/bloom-release.j2' as _bloom_release with context -%}
+{%- import '.cookiecutter_includes/registry/envs/ros2/colcon.j2' as _colcon with context -%}
+{%- import '.cookiecutter_includes/registry/envs/ros2/rosdep.j2' as _rosdep with context -%}
+
+{%- set ament_lint_common = _ament_lint_common -%}
+{%- set bloom_release = _bloom_release -%}
+{%- set colcon = _colcon -%}
+{%- set rosdep = _rosdep -%}
+
+{%- set _all_tools = [
+    ament_lint_common, bloom_release, colcon, rosdep
+] -%}
+
+{%- macro get_active_tools(ns) -%}
+    {%- set active_tools = [] -%}
+    {%- for tool in _all_tools -%}
+        {% if tool.config is defined %}
+            {%- set tool_id = tool.config.id -%}
+            {%- set feature_id = tool_id | upper -%}
+
+            {%- set is_core = tool_id in [''] -%}
+            {%- set is_enabled = ns.features.envs.ros2.get(feature_id) | default(false) %}
+
+            {%- if is_core or is_enabled -%}
+                {%- do active_tools.append(tool) -%}
+                {%- do ns.active_tools.append(tool) -%}
+            {%- endif -%}
+        {% endif %}
+    {%- endfor -%}
+    {{- active_tools -}}
+{% endmacro %}

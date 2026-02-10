@@ -18,12 +18,16 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
-{#
-{%- import '.cookiecutter_includes/makefile/utils.j2' as utils with context -%}
+
+{%- import '.cookiecutter_includes/registry/debug.j2' as debug with context -%}
+
+{%- set docker_settings = cookiecutter.__docker | default({}) -%}
 
 {%- set docker_map ={
-    "DOCKER":    false,
+    "DOCKER":    docker_settings.enabled | default(false),
 } -%}
 
-{%- set features = utils.validate_features(docker_map, "docker/_config.j2") -%}
-#}
+{%- set validate = debug.validate_features(docker_map, "docker/_config.j2") -%}
+{% if validate == "PASS" %}
+    {% set features = docker_map %}
+{% endif %}

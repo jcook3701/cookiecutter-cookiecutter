@@ -22,6 +22,7 @@
 {% import '.cookiecutter_includes/makefile/docs.j2' as docs with context %}
 
 {% macro commands(
+    ns,
 	jekyll_enabled,
 	sphinx_enabled
 ) %}
@@ -29,6 +30,7 @@
         Generates Makefile phony section.
 
         Args:
+            ns,
             template_type (str): .
 			jekyll_enabled (str): .
 			sphinx_enabled (str): .
@@ -37,33 +39,33 @@
             str: Makefile phony section.
     #}
     {# Language Specific Command Settings Section #}
-    {{- build.built_in.cmds() if build.built_in.cmds is defined }}
+    {{- build.built_in.cmds(ns) if build.built_in.cmds is defined }}
     {# Cookiecutter Templating Section (upgrader) #}
     {# {{- cookie.cmds() if cookie.cmds is defined }} #}
     {# Dependency Management Section #}
-    {{- build.deps.cmds() if build.deps.cmds is defined }}
+    {{- build.deps.cmds(ns) if build.deps.cmds is defined }}
     {# Security Audit Section #}
-    {{- build.security.cmds() if build.security.cmds is defined }}
+    {{- build.security.cmds(ns) if build.security.cmds is defined }}
     {# Formatting Section #}
-    {{- build.format.cmds() if build.format.cmds is defined }}
+    {{- build.format.cmds(ns) if build.format.cmds is defined }}
     {# Linting Section #}
-    {{- build.lint.cmds() if build.lint.cmds is defined }}
+    {{- build.lint.cmds(ns) if build.lint.cmds is defined }}
     {# Spellchecker Section #}
-    {{- build.spelling.cmds() if build.spelling.cmds is defined }}
+    {{- build.spelling.cmds(ns) if build.spelling.cmds is defined }}
     {# Typing Section #}
-    {{- build.typing.cmds() if build.typing.cmds is defined }}
+    {{- build.typing.cmds(ns) if build.typing.cmds is defined }}
     {# Testing Section #}
-    {{- build.testing.cmds() if build.testing.cmds is defined }}
+    {{- build.testing.cmds(ns) if build.testing.cmds is defined }}
     {# Documentation Command Settings #}
     {{- docs.doc_commands_section(
             jekyll_enabled=jekyll_enabled,
             sphinx_enabled=sphinx_enabled) }}
     {# Version Bumping Section #}
-    {{- build.version_bumping.cmds() if build.version_bumping.cmds is defined }}
+    {{- build.version_bumping.cmds(ns) if build.version_bumping.cmds is defined }}
     {# Changelogs Section #}
-    {{- build.changelogs.cmds() if build.changelogs.cmds is defined }}
+    {{- build.changelogs.cmds(ns) if build.changelogs.cmds is defined }}
     {# Github Section #}
-    {{- build.github.cmds() if build.github.cmds is defined }}
+    {{- build.github.cmds(ns) if build.github.cmds is defined }}
     {# TODO: Pre-Commit Section #}
     {# TODO: Nutri-Matic Section #}
 {% endmacro %}
@@ -100,29 +102,29 @@ list-folders:
     {# TODO: Pre-Commit Section #}{# TODO: fix #}
     {# TODO: Cookiecutter Templating Section (upgrader) #}{# TODO: fix #}
     {# Security Section #}
-    {{- build.security.actions() if build.security.actions is defined }}
+    {{- build.security.actions(ns) if build.security.actions is defined }}
     {# Dependency Management Section #}
-    {{- build.deps.actions() if build.deps.actions is defined }}
+    {{- build.deps.actions(ns) if build.deps.actions is defined }}
     {# Formatting Section #}
-    {{- build.format.actions() if build.format.actions is defined }}
+    {{- build.format.actions(ns) if build.format.actions is defined }}
     {# Linting Section #}
     {# {{- build.lint.actions() if build.lint.actions is defined }} #}
     {# Spellchecker Section #}
-    {{- build.spelling.actions() if build.spelling.actions is defined }}
+    {{- build.spelling.actions(ns) if build.spelling.actions is defined }}
     {# Typechecking Section #}
-    {{- build.typing.actions() if build.typing.actions is defined }}
+    {{- build.typing.actions(ns) if build.typing.actions is defined }}
     {# Testing Section #}
-    {{- build.testing.actions() if build.testing.actions is defined }}
+    {{- build.testing.actions(ns) if build.testing.actions is defined }}
     {# Documentation Section #}
     {{- docs.doc_actions(
             jekyll_enabled=jekyll_enabled,
             sphinx_enabled=sphinx_enabled) }}
     {# Version Bumping Section #}
-    {{- build.version_bumping.actions() if build.version_bumping.actions is defined }}
+    {{- build.version_bumping.actions(ns) if build.version_bumping.actions is defined }}
     {# Changelog Bumping Section #}
-    {{- build.changelogs.actions() if build.changelogs.actions is defined }}
+    {{- build.changelogs.actions(ns) if build.changelogs.actions is defined }}
     {# Github Section #}
-    {{- build.github.actions() if build.github.actions is defined }}
+    {{- build.github.actions(ns) if build.github.actions is defined }}
     {# Release Section #}
-    {{- build.release.actions() if build.release.actions is defined }}
+    {{- build.release.actions(ns) if build.release.actions is defined }}
 {% endmacro %}

@@ -17,3 +17,36 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
+
+{% from '.cookiecutter_includes/registry/_vars.j2' import ns with context %}
+
+{%- import '.cookiecutter_includes/registry/envs/ansible/ansible-galaxy.j2' as _ansible_galaxy with context -%}
+{%- import '.cookiecutter_includes/registry/envs/ansible/ansible-lint.j2' as _ansible_lint with context -%}
+{%- import '.cookiecutter_includes/registry/envs/ansible/molecule.j2' as _molecule with context -%}
+
+{%- set ansible_galaxy = _ansible_galaxy -%}
+{%- set ansible_lint = _ansible_lint -%}
+{%- set molecule = _molecule -%}
+
+{%- set _all_tools = [
+    ansible_galaxy, ansible_lint, molecule,
+] -%}
+
+{%- macro get_active_tools(ns) -%}
+    {%- set active_tools = [] -%}
+    {%- for tool in _all_tools -%}
+        {% if tool.config is defined %}
+            {%- set tool_id = tool.config.id -%}
+            {%- set feature_id = tool_id | upper -%}
+
+            {%- set is_core = tool_id in [''] -%}
+            {%- set is_enabled = ns.features.envs.ansible.get(feature_id) | default(false) %}
+
+            {%- if is_core or is_enabled -%}
+                {%- do active_tools.append(tool) -%}
+                {%- do ns.active_tools.append(tool) -%}
+            {%- endif -%}
+        {% endif %}
+    {%- endfor -%}
+    {{- active_tools -}}
+{% endmacro %}

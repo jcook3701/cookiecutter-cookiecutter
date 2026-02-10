@@ -18,6 +18,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
+{%- from '.cookiecutter_includes/registry/_config.j2' import ns with context -%}
 
 {% import '.cookiecutter_includes/makefile/clean.j2' as clean with context %}
 {% import '.cookiecutter_includes/makefile/docs.j2' as docs with context %}
@@ -56,6 +57,7 @@
 
 {# TODO: Build Commands Section #}
 {{ build.commands(
+	ns=ns,
 	jekyll_enabled=jekyll_enabled,
 	sphinx_enabled=sphinx_enabled) }}
 

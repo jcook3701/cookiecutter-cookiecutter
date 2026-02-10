@@ -1,5 +1,5 @@
 {#
-# registry/lang/typescript/_config.j2 for cookiecutter-cookiecutter
+# registry/engines/typescript/_config.j2 for cookiecutter-cookiecutter
 #
 # SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
 # SPDX-License-Identifier: AGPL-3.0-or-later
@@ -18,15 +18,18 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
-{%- import '.cookiecutter_includes/makefile/utils.j2' as utils with context -%}
+{%- import '.cookiecutter_includes/registry/debug.j2' as debug with context -%}
 
-{%- typescript_map = {
-    "ESLINT":    cookiecutter.__typescript.eslint,
-    "PRETTIER":  cookiecutter.__typescript.prettier,
-    "VITEST":    cookiecutter.__typescript.vitest,
-    "STORYBOOK": cookiecutter.__typescript.storybook,
-    "TSC":       cookiecutter.__typescript.tsc,
-    "TYPEDOCS":  cookiecutter.__typescript.typedocs
+{%- set typescript_map = {
+    "ESLINT":    cookiecutter.__typescript.eslint | default(false),
+    "PRETTIER":  cookiecutter.__typescript.prettier | default(false),
+    "VITEST":    cookiecutter.__typescript.vitest | default(false),
+    "STORYBOOK": cookiecutter.__typescript.storybook | default(false),
+    "TSC":       cookiecutter.__typescript.tsc | default(false),
+    "TYPEDOCS":  cookiecutter.__typescript.typedocs | default(false)
 } -%}
 
-{%- set features = utils.validate_features(typescript_map, "typescript/_config.j2") -%}
+{%- set validate = debug.validate_features(typescript_map, "typescript/_config.j2") -%}
+{% if validate == "PASS" %}
+    {% set features = typescript_map %}
+{% endif %}

@@ -18,12 +18,18 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
-{#
-{%- import '.cookiecutter_includes/makefile/utils.j2' as utils with context -%}
+{%- import '.cookiecutter_includes/registry/debug.j2' as debug with context -%}
 
-{%- set ros2_map ={
+{%- set ros_settings = cookiecutter._ros2 | default({}) -%}
 
+{%- set ros2_map = {
+    "AMENT_LINT": ros_settings.ament_lint_common | default(true),
+    "BLOOM": ros_settings.bloom | default(true),
+    "COLCON": ros_settings.colcon | default(false),
+    "ROSDEP": ros_settings.rosdep | default(false)
 } -%}
 
-{%- set features = utils.validate_features(ros2_map, "ros2/_config.j2") -%}
-#}
+{%- set validate = debug.validate_features(ros2_map, "ros2/_config.j2") -%}
+{% if validate == "PASS" %}
+    {% set features = ros2_map %}
+{% endif %}

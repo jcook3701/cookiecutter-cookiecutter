@@ -1,5 +1,5 @@
 {#
-# registry/lang/python/vars.j2 for cookiecutter-cookiecutter
+# registry/engines/python/vars.j2 for cookiecutter-cookiecutter
 #
 # SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
 # SPDX-License-Identifier: AGPL-3.0-or-later
@@ -18,7 +18,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
-{%- import '.cookiecutter_includes/makefile/utils.j2' as utils with context -%}
+{%- import '.cookiecutter_includes/registry/debug.j2' as debug with context -%}
 
 {%- set python_settings_map = {
     "python_settings": {
@@ -53,7 +53,7 @@
     "YAMLLINT":     cookiecutter.__python.yamllint
 } -%}
 
-{%- set validate = utils.validate_features(python_cmd_map, "python/_config.j2") -%}
+{%- set validate = debug.validate_features(python_cmd_map, "python/_config.j2") -%}
 {% if validate == "PASS" %}
     {% set features = python_cmd_map %}
 {% endif %}

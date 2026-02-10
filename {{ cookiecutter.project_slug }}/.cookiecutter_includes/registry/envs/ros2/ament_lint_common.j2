@@ -1,5 +1,5 @@
 {#
-# makefile/build/TODO: (come up with name for this file).j2 for cookiecutter-cookiecutter
+# makefile/envs/ros2/ament_lint_common.j2 for cookiecutter-cookiecutter
 #
 # SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
 # SPDX-License-Identifier: AGPL-3.0-or-later
@@ -18,30 +18,12 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
-{% macro cmds(
-    ns
-) %}
-    {#
-        Generates Makefile cookiecutter template commands section.
-
-        Args:
-            TODO: (str): .
-
-        Returns:
-            str: Makefile cookiecutter commands section.
-    #}
-{% endmacro %}
-
-{% macro actions(
-    ns
-) %}
-    {#
-        Generates Makefile cookiecutter commands section.
-
-        Args:
-            TODO: (str): .
-
-        Returns:
-            str: Makefile cookiecutter commands section.
-    #}
-{% endmacro %}
+{% set config = {
+    "id": "ament-lint",
+    "name": "Ament Lint",
+    "icon": "🛡️",
+    "group": "lint",
+    "command": "ament_lint_common",
+    "args": "src/{{ cookiecutter.project_slug }}",
+    "description": "Run standard ROS 2 linters (cppcheck, flake8, pep257, etc)."
+} %}

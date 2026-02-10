@@ -67,6 +67,15 @@
     "tomllint": true,
     "yamllint": true
   },
+  "__rust": {
+
+  },
+  "__typescript": {
+
+  },
+  "__tools": {
+
+  },
   "ga_tracking": "G-C7PWLWSHB9",
   "github_org": null,
   "github_username": "jcook3701",

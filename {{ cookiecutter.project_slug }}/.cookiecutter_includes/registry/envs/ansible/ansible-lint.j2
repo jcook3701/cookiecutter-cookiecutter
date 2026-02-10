@@ -1,5 +1,5 @@
 {#
-# makefile/build/TODO: (come up with name for this file).j2 for cookiecutter-cookiecutter
+# makefile/envs/ansible/ansible-lint.j2 for cookiecutter-cookiecutter
 #
 # SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
 # SPDX-License-Identifier: AGPL-3.0-or-later
@@ -18,30 +18,12 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
-{% macro cmds(
-    ns
-) %}
-    {#
-        Generates Makefile cookiecutter template commands section.
-
-        Args:
-            TODO: (str): .
-
-        Returns:
-            str: Makefile cookiecutter commands section.
-    #}
-{% endmacro %}
-
-{% macro actions(
-    ns
-) %}
-    {#
-        Generates Makefile cookiecutter commands section.
-
-        Args:
-            TODO: (str): .
-
-        Returns:
-            str: Makefile cookiecutter commands section.
-    #}
-{% endmacro %}
+{% set config = {
+    "id": "ansible-lint",
+    "name": "Ansible Lint",
+    "icon": "🛡️",
+    "group": "lint",
+    "command": "ansible-lint",
+    "args": ".",
+    "description": "Best practices linter for Ansible playbooks and roles."
+} %}

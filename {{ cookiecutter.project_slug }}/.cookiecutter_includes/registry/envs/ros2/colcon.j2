@@ -1,0 +1,52 @@
+{#
+# makefile/envs/ros2/colcon.j2 for cookiecutter-cookiecutter
+#
+# SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#}
+
+{% set config = {
+    "id": "colcon",
+    "name": "Colcon",
+    "icon": "🌌",
+    "command": "colcon",
+    "models": [
+        {
+            "id": "colcon-test",
+            "name": "Colcon Test",
+            "icon": "🧪",
+            "group": "test",
+            "command": "test",
+            "args": "--event-handlers console_direct+ --return-code-on-test-failure",
+            "description": "Run tests for all packages in the workspace."
+        },
+        {
+            "id": "colcon-build",
+            "name": "Colcon Build",
+            "icon": "🏗️",
+            "group": "build",
+            "command": "build",
+            "args": "--symlink-install --cmake-args -DCMAKE_BUILD_TYPE=Release",
+            "description": "Build the workspace using symlink-install for fast development."
+        },
+    ],
+    "description": "Colcon is an iteration on the ROS build tools catkin_make, catkin_make_isolated, catkin_tools and ament_tools."
+} %}
+
+{#
+colcon-build: ## 🏗️ Build ROS 2 workspace
+	$(AT)bash -c "source /opt/ros/$(ROS_DISTRO)/setup.bash && colcon build $(ARGS)"
+#}

@@ -84,7 +84,7 @@
             {% set feature_id = tool_id | upper %}
 
             {% set is_core = tool_id in ['venv', 'pip'] %}
-            {% set is_enabled = ns.features.python.get(feature_id) | default(false) %}
+            {% set is_enabled = ns.features.engines.python.get(feature_id) | default(false) %}
 
             {% if is_core or is_enabled %}
                 {% do active_tools.append(tool) %}

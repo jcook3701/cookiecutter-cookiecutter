@@ -17,3 +17,34 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
+
+
+{% from '.cookiecutter_includes/registry/_vars.j2' import ns with context %}
+
+{%- import '.cookiecutter_includes/registry/envs/docker/built-in.j2' as _docker  with context -%}
+
+{%- set docker = _docker -%}
+
+
+{%- set _all_tools = [
+    docker,
+] -%}
+
+{%- macro get_active_tools(ns) -%}
+    {%- set active_tools = [] -%}
+    {%- for tool in _all_tools -%}
+        {% if tool.config is defined %}
+            {%- set tool_id = tool.config.id -%}
+            {%- set feature_id = tool_id | upper -%}
+
+            {%- set is_core = tool_id in [''] -%}
+            {%- set is_enabled = ns.features.envs.docker.get(feature_id) | default(false) %}
+
+            {%- if is_core or is_enabled -%}
+                {%- do active_tools.append(tool) -%}
+                {%- do ns.active_tools.append(tool) -%}
+            {%- endif -%}
+        {% endif %}
+    {%- endfor -%}
+    {{- active_tools -}}
+{% endmacro %}

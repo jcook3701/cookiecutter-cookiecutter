@@ -19,12 +19,13 @@
 #}
 
 
-{#
-{%- import '.cookiecutter_includes/makefile/utils.j2' as utils with context -%}
+{%- import '.cookiecutter_includes/registry/debug.j2' as debug with context -%}
 
 {%- set gcc_map ={
 
 } -%}
 
-{%- set features = utils.validate_features(gcc_map, "gcc/_config.j2") -%}
-#}
+{%- set features = debug.validate_features(gcc_map, "gcc/_config.j2") -%}
+{% if validate == "PASS" %}
+    {% set features = gcc_map %}
+{% endif %}

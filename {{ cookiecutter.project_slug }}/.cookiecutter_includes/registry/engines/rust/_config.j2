@@ -1,5 +1,5 @@
 {#
-# registry/lang/rust/_config.j2 for cookiecutter-cookiecutter
+# registry/engines/rust/_config.j2 for cookiecutter-cookiecutter
 #
 # SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
 # SPDX-License-Identifier: AGPL-3.0-or-later
@@ -19,10 +19,13 @@
 #}
 
 
-{%- import '.cookiecutter_includes/makefile/utils.j2' as utils with context -%}
+{%- import '.cookiecutter_includes/registry/debug.j2' as debug with context -%}
 
 {%- set rust_map ={
     "GITCLIFF":        cookiecutter.__rust.gitcliff | default(true),
 } -%}
 
-{%- set features = utils.validate_features(rust_map, "rust/_config.j2") -%}
+{%- set validate = debug.validate_features(rust_map, "rust/_config.j2") -%}
+{% if validate == "PASS" %}
+    {% set features = rust_map %}
+{% endif %}
