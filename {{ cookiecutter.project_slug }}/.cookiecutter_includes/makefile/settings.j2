@@ -105,16 +105,16 @@ cc_or_std = $(if $(filter true,$(COOKIECUTTER_HOOKS)),$(1),$(2))
 {% endmacro %}
 
 {% import '.cookiecutter_includes/makefile/utils.j2' as utils with context %}
-{% import '.cookiecutter_includes/registry/_vars.j2' as v with context %}
 {%- macro build(
+    ns,
     jekyll_enabled,
     sphinx_enabled
 ) -%}
-    {% for group_id, group_data in v.ns.settings.items() %}
+    {%- for group_id, group_data in ns.settings.items() -%}
         {# 1. Generate Header using the metadata keys #}
-        {{- utils.section_header(group_data._title, group_data._icon) }}
+        {{- utils.section_header(group_data._title, group_data._icon) -}}
         {# 2. Generate Variables (skipping metadata keys) #}
-        {% for var_name, info in group_data.items() if not var_name.startswith('_') %}
+        {%- for var_name, info in group_data.items() if not var_name.startswith('_') -%}
             {% if info.quote | default(false) %}
                 {{- var_name }} := "{{ info.val }}"
             {% else %}
@@ -124,7 +124,9 @@ cc_or_std = $(if $(filter true,$(COOKIECUTTER_HOOKS)),$(1),$(2))
     {% endfor %}
 {% endmacro %}
 
+
 {%- macro create(
+    ns,
     jekyll_enabled,
     sphinx_enabled
 ) -%}
@@ -137,12 +139,13 @@ cc_or_std = $(if $(filter true,$(COOKIECUTTER_HOOKS)),$(1),$(2))
         Returns:
             str: Makefile settings section (environment, ci/cd, & build).
     #}
-    {{- environment() }}
-    {{- ci_cd() }}
+    {{- environment() -}}
+    {{- ci_cd() -}}
     {{- build(
+        ns,
         jekyll_enabled,
         sphinx_enabled
-    ) }}
+    ) -}}
 {% endmacro %}
 
 

@@ -37,7 +37,7 @@
 {%- endmacro %}
 #}
 
-{% macro debug_all() -%}
+{%- macro debug_all() -%}
 {{ utils.section_header("NAMESPACE DEBUG DUMP", "🪲") }}
 
 # === 1. PKG_GROUPS (Variables) ===
@@ -68,21 +68,22 @@
     {%- set cfg = tool.config -%}
     {%- set g = cfg.group -%}
     {%- set g_id = g.id if g is mapping else g -%}
-# -> ID: {{ "%-25s" | format(cfg.id) }} | Group: {{ "%-10s" | format(g_id) }} | Icon: {{ g.icon | default('❓') if g is mapping else '❓' }}
+# -> ID: {{ "%-25s" | format(tool.parent_id) }} | Mode: {{ "%-25s" | format(cfg.id) }} | Group: {{ "%-10s" | format(g_id) }} | Icon: {{ g.icon | default('❓') if g is mapping else '❓' }}
 {% else %}
 # !!! WARNING: No tools found in ns.active_tools !!!
 {%- endfor %}
 
 # === 5. ACTIVE SECTIONS ===
+{# Settings Section (environment, ci/cd, & build) #}
+{%- import '.cookiecutter_includes/makefile/settings.j2' as settings with context -%}
+{{- settings.create(
+        ns,
+        jekyll_enabled=jekyll_enabled,
+        sphinx_enabled=sphinx_enabled) -}}
+
 {# Loop through your package groups to show the final Makefile structure #}
 {% for group_id in ns.pkg_groups.keys() %}
-    {{- utils.render_section(ns, group_id) -}}
-{% endfor %}
+    {{- utils.render_section(ns, group_id) }}
+{%- endfor -%}
 
-
-{#
-{% for group_id in ns.pkg_groups.keys() %}
-    {{- utils.render_section(ns, group_id) -}}
-{% endfor %}
-#}
-{% endmacro %}
+{%- endmacro -%}

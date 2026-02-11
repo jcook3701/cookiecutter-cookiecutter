@@ -35,6 +35,9 @@
                 {%- set target_group = m_cfg.group | default(tool_cfg.group) | default(ns.pkg_groups.info) -%}
 
                 {%- do ns.active_tools.append({
+                    "parent_id": tool_cfg.id,
+                    "parent_group": tool_cfg.group,
+                    "parent_description": tool_cfg.description,
                     "config": {
                         "id": tool_cfg.id ~ "-" ~ m_id,
                         "name": m_cfg.name | default(tool_cfg.name ~ " (" ~ m_id ~ ")"),
@@ -53,6 +56,7 @@
             {%- for mode in tool_cfg.modes -%}
                 {# Standardize the entry to ensure downstream macros see 'config' #}
                 {%- do ns.active_tools.append({
+                    "parent_id": tool_cfg.id,
                     "config": mode
                 }) -%}
             {%- endfor -%}

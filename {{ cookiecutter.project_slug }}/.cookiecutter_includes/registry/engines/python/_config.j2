@@ -32,7 +32,10 @@
         "_title": "Python Commands (venv, activate, pip)",
         "_icon": "🐍",
         "PYTHON_CMD": {"val": "python" ~ cookiecutter.python_version},
-        "VENV_DIR": {"val": "$(PROJECT_ROOT)/.venv"}
+        "VENV_DIR": {"val": "$(PROJECT_ROOT)/.venv"},
+        "ACTIVATE": {"val": "source $(VENV_DIR)/bin/activate"},
+        "PYTHON": {"val": "$(ACTIVATE) && $(PYTHON_CMD)"}
+
     }
 } -%}
 
