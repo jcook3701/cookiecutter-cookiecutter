@@ -18,12 +18,34 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
-{% set config = {
-    "id": "rosdep-install",
-    "name": "Rosdep Install",
-    "icon": "📦",
-    "group": "deps",
-    "command": "rosdep install",
-    "args": "--from-paths src --ignore-src -r -y",
-    "description": "Install all system dependencies defined in package.xml."
-} %}
+{% macro get_config(groups, settings, result) %}
+    {#
+        Provides the configuration dictionary for the rosdep dependency tool.
+        Maps ROS system dependency installation to the global dependencies group.
+
+        Args:
+            groups (dict): The hydrated ns.pkg_groups dictionary.
+            settings (dict): The hydrated settings dictionary.
+            result (dict): A dictionary to be updated with the config.
+
+        Returns:
+            dict: The tool configuration object including the group metadata.
+    #}
+    {%- set s = settings -%}
+    {%- set config = {
+        "id": "rosdep-install",
+        "name": "Rosdep Install",
+        "icon": "📦",
+        "group": groups.deps,
+        "command": "rosdep install",
+        "description": "Install all system dependencies defined in package.xml.",
+        "modes": {
+            "install": {
+                "args": "--from-paths $(" ~ s.dirs.SRC_DIR.val ~ ") --ignore-src -r -y",
+                "start_msg": "📦 Installing ROS system dependencies via rosdep...",
+                "end_msg": "✅ ROS dependencies installed!"
+            }
+        }
+    } -%}
+    {%- do result.update(config) -%}
+{% endmacro %}

@@ -18,34 +18,38 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
-{% from '.cookiecutter_includes/registry/_vars.j2' import ns with context %}
-
+{%- import '.cookiecutter_includes/registry/utils.j2' as utils with context -%}
 {%- import '.cookiecutter_includes/registry/tools/vcs/git.j2' as _git with context -%}
 {%- import '.cookiecutter_includes/registry/tools/vcs/gh.j2' as _gh with context -%}
 
-{%- set git = _git -%}
-{%- set github = _gh -%}
-
-{%- set _all_tools = [
-    git,
-    github
-] -%}
-
 {%- macro get_active_tools(ns) -%}
-    {%- set active_tools = [] -%}
-    {%- for tool in _all_tools -%}
-        {% if tool.config is defined %}
-            {%- set tool_id = tool.config.id -%}
-            {%- set feature_id = tool_id | upper -%}
+    {#
+        Registers active version control tools into the global namespace.
 
-            {%- set is_core = tool_id in ['git', 'github'] -%}
+        Args:
+            ns (namespace): Global project namespace.
+    #}
+
+    {# Create live dictionary links #}
+    {%- set git = {} -%}
+    {%- set github = {} -%}
+
+    {%- do _git.get_config(ns.pkg_groups, ns.settings, git) -%}
+    {%- do _gh.get_config(ns.pkg_groups, ns.settings, github) -%}
+
+    {%- set tools_to_check = [
+        git,
+        github
+    ] -%}
+
+    {%- for tool_cfg in tools_to_check -%}
+        {%- if tool_cfg is mapping -%}
+            {%- set feature_id = tool_cfg.id | upper | replace("-", "_") -%}
             {%- set is_enabled = ns.features.tools.vcs.get(feature_id) | default(false) %}
 
-            {%- if is_core or is_enabled -%}
-                {%- do active_tools.append(tool) -%}
-                {%- do ns.active_tools.append(tool) -%}
+            {%- if is_enabled -%}
+                {{- utils.register_tool(ns, tool_cfg) -}}
             {%- endif -%}
         {% endif %}
     {%- endfor -%}
-    {{- active_tools -}}
 {%- endmacro -%}

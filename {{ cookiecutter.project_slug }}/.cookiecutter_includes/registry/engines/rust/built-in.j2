@@ -1,0 +1,107 @@
+{#
+# registry/engines/rust/git-cliff.j2 for cookiecutter-cookiecutter
+#
+# SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#}
+
+
+{% macro get_config(groups, settings, result) %}
+    {#
+        Provides a multi-mode configuration for Cargo (Rust) operations.
+        Maps the Rust ecosystem lifecycle from compilation to publishing.
+
+        Args:
+            groups (dict): The hydrated ns.pkg_groups dictionary.
+            settings (dict): The hydrated settings dictionary.
+            result (dict): A dictionary to be updated with the config.
+
+        Returns:
+            dict: A tool configuration containing functional Rust/Cargo modes.
+    #}
+    {%- set s = settings -%}
+    {%- set config = {
+        "id": "cargo",
+        "name": "Cargo",
+        "icon": "🦀",
+        "group": groups.setup,
+        "command": "cargo",
+        "description": "The Rust package manager and build system.",
+        "modes": {
+            "build": {
+                "id": "cargo-build",
+                "name": "Cargo Build",
+                "group": groups.pkg,
+                "command": "build",
+                "args": "--release",
+                "description": "Compile the Rust project in release mode.",
+                "start_msg": "🏗️ Compiling Rust project in release mode...",
+                "end_msg": "✅ Cargo build complete!"
+            },
+            "lint": {
+                "id": "clippy",
+                "name": "Clippy",
+                "group": groups.lint,
+                "command": "clippy",
+                "args": "-- -D warnings",
+                "description": "Catch common mistakes and improve your Rust code.",
+                "start_msg": "📎 Running Clippy for Rust static analysis...",
+                "end_msg": "✅ Clippy check complete!"
+            },
+            "format": {
+                "id": "rustfmt",
+                "name": "Rustfmt",
+                "group": groups.format,
+                "command": "fmt",
+                "args": "--all",
+                "description": "Format Rust code according to style guidelines.",
+                "start_msg": "✨ Formatting Rust code with rustfmt...",
+                "end_msg": "🎨 Rust formatting complete!"
+            },
+            "test": {
+                "id": "cargo-test",
+                "name": "Cargo Test",
+                "group": groups.test,
+                "command": "test",
+                "args": "",
+                "description": "Run unit and integration tests.",
+                "start_msg": "🧪 Running Rust unit and integration tests...",
+                "end_msg": "✅ Cargo tests complete!"
+            },
+            "doc": {
+                "id": "cargo-doc",
+                "name": "Cargo Doc",
+                "group": groups.docs,
+                "command": "doc",
+                "args": "--no-deps --open",
+                "description": "Build and open the project documentation.",
+                "start_msg": "📚 Generating Rust project documentation...",
+                "end_msg": "✅ Documentation build complete!"
+            },
+            "publish": {
+                "id": "cargo-publish",
+                "name": "Cargo Publish",
+                "group": groups.release,
+                "command": "publish",
+                "args": "--dry-run",
+                "description": "Upload the package to crates.io (dry-run by default).",
+                "start_msg": "🚢 Preparing to publish Rust package (dry-run)...",
+                "end_msg": "✅ Publish dry-run complete!"
+            }
+        }
+    } -%}
+    {%- do result.update(config) -%}
+{% endmacro %}

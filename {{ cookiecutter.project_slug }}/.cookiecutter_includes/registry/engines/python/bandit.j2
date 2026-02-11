@@ -18,16 +18,35 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
-{% set config = {
-    "id": "bandit",
-    "name": "Bandit",
-    "icon": "🕵️",
-    "group": "security",
-    "command": "$(PYTHON) -m bandit",
-    "start_msg": "Running deep security scan...",
-    "end_msg": "Security scan complete!",
-    "ci_safe": true,
-    "modes": {
-        "check": "-r $(SRC_DIR) -lll"
-    }
-} %}
+{% macro get_config(groups, settings, result) %}
+    {#
+        Provides the configuration dictionary for the Bandit security tool.
+        Maps static analysis security testing to the global security group.
+
+        Args:
+            groups (dict): The hydrated ns.pkg_groups dictionary.
+            settings (dict): The hydrated settings dictionary.
+            result (dict): A dictionary to be updated with the config.
+
+        Returns:
+            dict: The tool configuration object including the group metadata.
+    #}
+    {%- set s = settings -%}
+    {%- set config = {
+        "id": "bandit",
+        "name": "Bandit",
+        "icon": "🕵️",
+        "group": groups.security,
+        "command": "$(PYTHON) -m bandit",
+        "description": "Security linter for Python code to find common security issues.",
+        "modes": {
+            "check": {
+                "args": "-r $(" ~ s.dirs.SRC_DIR.val ~ ") -lll",
+                "start_msg": "🛡️ Running deep security scan with Bandit...",
+                "end_msg": "✅ Security scan complete!"
+            }
+        },
+        "ci_safe": true
+    } -%}
+    {%- do result.update(config) -%}
+{% endmacro %}

@@ -18,17 +18,40 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
-{% set config = {
-    "id": "tox",
-    "name": "Tox",
-    "icon": "🧪",
-    "group": "testing",
-    "command": "$(PYTHON) -m tox",
-    "start_msg": "Running multi-environment tests...",
-    "end_msg": "Tox testing suite complete!",
-    "ci_safe": true,
-    "modes": {
-        "run": "-e py310,py311,py312",
-        "list": "-l"
-    }
-} %}
+{% macro get_config(groups, settings, result) %}
+    {#
+        Provides the configuration dictionary for the Tox automation tool.
+        Maps multi-environment Python testing to the global testing group.
+
+        Args:
+            groups (dict): The hydrated ns.pkg_groups dictionary.
+            settings (dict): The hydrated settings dictionary.
+            result (dict): A dictionary to be updated with the config.
+
+        Returns:
+            dict: The tool configuration object including the group metadata.
+    #}
+    {%- set s = settings -%}
+    {%- set config = {
+        "id": "tox",
+        "name": "Tox",
+        "icon": "🧪",
+        "group": groups.test,
+        "command": "$(PYTHON) -m tox",
+        "description": "Command line tool to check your package installs correctly with different Python versions.",
+        "ci_safe": true,
+        "modes": {
+            "run": {
+                "args": "-e py310,py311,py312",
+                "start_msg": "🧪 Running multi-environment tests with Tox...",
+                "end_msg": "✅ Tox testing suite complete!"
+            },
+            "list": {
+                "args": "-l",
+                "start_msg": "🔍 Listing configured Tox environments...",
+                "end_msg": "✅ Tox environment list generated!"
+            }
+        }
+    } -%}
+    {%- do result.update(config) -%}
+{% endmacro %}

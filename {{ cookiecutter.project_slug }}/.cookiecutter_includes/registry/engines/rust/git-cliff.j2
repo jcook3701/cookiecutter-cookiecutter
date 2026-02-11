@@ -19,23 +19,54 @@
 #}
 
 
-{% set config = {
-    "id": "git-cliff",
-    "name": "Git-cliff",
-    "icons": "⛰️",
-    "group": "release",
-    "command": "git-cliff",
-    "start_msg": "Generating changelog from git history...",
-    "end_msg": "Changelog generation complete!",
-    "pre_cmd": "git fetch --tags",
-    "modes": {
-        "full": "--output CHANGELOG.md",
-        "unreleased": "--unreleased --tag v1.0.0 --output CHANGELOG.md",
-        "preview": "--unreleased --stdout",
-        "init": "--init"
-    },
-    "exclude": "--exclude-path 'tests/*'"
-} %}
+{% macro get_config(groups, settings, result) %}
+    {#
+        Provides the configuration dictionary for the Git-cliff changelog generator.
+        Maps git history parsing to the global changelogs group.
+
+        Args:
+            groups (dict): The hydrated ns.pkg_groups dictionary.
+            settings (dict): The hydrated settings dictionary.
+            result (dict): A dictionary to be updated with the config.
+
+        Returns:
+            dict: The tool configuration object including the group metadata.
+    #}
+    {%- set s = settings -%}
+    {%- set config = {
+        "id": "git-cliff",
+        "name": "Git-cliff",
+        "icon": "⛰️",
+        "group": groups.changelogs,
+        "command": "git-cliff",
+        "description": "A highly customizable changelog generator that follows Conventional Commits.",
+        "pre_cmd": "git fetch --tags",
+        "exclude": "--exclude-path '$(" ~ s.dirs.TEST_DIR.val ~ ")/*'",
+        "modes": {
+            "full": {
+                "args": "--output $(" ~ s.files.CHANGELOG_FILE.val ~ ")",
+                "start_msg": "📝 Generating full project changelog from git history...",
+                "end_msg": "✅ Full changelog generation complete!"
+            },
+            "unreleased": {
+                "args": "--unreleased --tag $(" ~ s.project.RELEASE.val ~ ") --output $(" ~ s.files.CHANGELOG_FILE.val ~ ")",
+                "start_msg": "📝 Updating changelog with unreleased changes for $(" ~ s.project.RELEASE.val ~ ")...",
+                "end_msg": "✅ Unreleased changes added to changelog!"
+            },
+            "preview": {
+                "args": "--unreleased --stdout",
+                "start_msg": "🔍 Previewing unreleased changes...",
+                "end_msg": "✅ Preview complete!"
+            },
+            "init": {
+                "args": "--init",
+                "start_msg": "⚙️ Initializing git-cliff configuration...",
+                "end_msg": "✅ git-cliff initialized!"
+            }
+        }
+    } -%}
+    {%- do result.update(config) -%}
+{% endmacro %}
 
 
 {# #TODO: Deprecated beyond this point!!!! #}

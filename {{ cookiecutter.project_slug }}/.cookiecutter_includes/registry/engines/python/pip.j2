@@ -19,20 +19,39 @@
 #}
 
 
-{%- set config = {
-    "id": "pip",
-    "name": "pip",
-    "icon": "📦",
-    "group": "pkg",
-    "command": "$(PYTHON) -m pip",
-    "start_msg": "Installing project dependencies...",
-    "end_msg": "Dependencies installed.",
-    "modes": {
-        "install": "install --upgrade pip setuptools wheel && \
-                  $(PIP) install -e $(DEV_DEPS) && \
-                  $(PIP) install -e $(DEV_DOCS)"
-    }
-} -%}
+{% macro get_config(groups, settings, result) %}
+    {#
+        Provides the configuration dictionary for the pip package manager.
+        Maps dependency installation and environment setup to the packaging group.
+
+        Args:
+            groups (dict): The hydrated ns.pkg_groups dictionary.
+            settings (dict): The hydrated settings dictionary.
+            result (dict): A dictionary to be updated with the config.
+
+        Returns:
+            dict: The tool configuration object including the group metadata.
+    #}
+    {%- set s = settings -%}
+    {%- set config = {
+        "id": "pip",
+        "name": "pip",
+        "icon": "📦",
+        "group": groups.pkg,
+        "command": "$(PYTHON) -m pip",
+        "description": "The standard package installer for Python.",
+        "modes": {
+            "install": {
+                "args": "install --upgrade pip setuptools wheel && " ~
+                        "$(PIP) install -e $(" ~ s.python_settings.DEV_DEPS.val | default('DEV_DEPS') ~ ") && " ~
+                        "$(PIP) install -e $(" ~ s.python_settings.DEV_DOCS.val | default('DEV_DOCS') ~ ")",
+                "start_msg": "📦 Installing project dependencies and development tools...",
+                "end_msg": "✅ Dependencies installed successfully!"
+            }
+        }
+    } -%}
+    {%- do result.update(config) -%}
+{% endmacro %}
 
 
 {# #TODO: Deprecated beyond this point!!!! #}

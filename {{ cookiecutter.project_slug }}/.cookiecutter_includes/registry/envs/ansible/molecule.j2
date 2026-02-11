@@ -18,12 +18,43 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
-{% set config = {
-    "id": "molecule-test",
-    "name": "Molecule",
-    "icon": "🧪",
-    "group": "test",
-    "command": "molecule test",
-    "args": "--all",
-    "description": "Test-driven development for Ansible roles (runs lint, create, converge, verify)."
-} %}
+{% macro get_config(groups, settings, result) %}
+    {#
+        Provides the configuration dictionary for Molecule.
+        Maps Ansible role testing to the global test group.
+
+        Args:
+            groups (dict): The hydrated pkg_groups dictionary.
+            settings (dict): The hydrated settings dictionary.
+            result (dict): A dictionary to be updated with the config.
+
+        Returns:
+            dict: The tool configuration object for Molecule.
+    #}
+    {%- set config = {
+        "id": "molecule",
+        "name": "Molecule",
+        "icon": "🧪",
+        "group": groups.test,
+        "command": "molecule",
+        "modes": {
+            "test": {
+                "args": "test --all",
+                "start_msg": "🧪 Running full Molecule test suite (lint, converge, verify)...",
+                "end_msg": "✅ Molecule tests passed!"
+            },
+            "converge": {
+                "args": "converge",
+                "start_msg": "🚀 Converging Ansible roles with Molecule...",
+                "end_msg": "✨ Molecule convergence complete!"
+            },
+            "verify": {
+                "args": "verify",
+                "start_msg": "🔍 Verifying Molecule instances...",
+                "end_msg": "✅ Verification complete!"
+            }
+        },
+        "description": "Test-driven development for Ansible roles."
+    } -%}
+    {%- do result.update(config) -%}
+{% endmacro %}

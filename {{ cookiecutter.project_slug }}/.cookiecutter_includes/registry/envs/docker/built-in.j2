@@ -19,69 +19,91 @@
 #}
 
 
-{% set config = {
-    "id": "docker-build",
-    "name": "Docker Build",
-    "icon": "🐳",
-    "group": "build",
-    "command": "docker",
-    "modes": [
-        {
-            "id": "docker-build",
-            "name": "Docker Build",
-            "icon": "🏗️",
-            "group": "build",
-            "command": "build",
-            "args": "-t $(GITHUB_REPO):$(VERSION) .",
-            "description": "Build the container image using the Dockerfile."
-        },
-        {
-            "id": "docker-run",
-            "name": "Docker Run",
-            "icon": "🚀",
-            "group": "test",
-            "command": "run",
-            "args": "--rm -it $(GITHUB_REPO):$(VERSION)",
-            "description": "Run the container locally for testing."
-        },
-        {
-            "id": "hadolint",
-            "name": "Hadolint",
-            "icon": "",
-            "group": "lint",
-            "command": "run",
-            "args": "--rm -i hadolint/hadolint < Dockerfile",
-            "description": "Lint the Dockerfile to ensure best practices."
-        },
-        {
-            "id": "docker-scan",
-            "name": "Docker Scan",
-            "icon": "🔍",
-            "group": "security",
-            "command": "scan",
-            "args": "$(GITHUB_REPO):$(VERSION)",
-            "description": "Scan the image for vulnerabilities."
-        },
-        {
-            "id": "docker-push",
-            "name": "Docker Push",
-            "icon": "🚢",
-            "group": "",
-            "command": "push",
-            "args": "$(GITHUB_REPO):$(VERSION)",
-            "description": "Push the image to the configured registry."
-        },
-        {
-            "id": "docker-prune",
-            "name": "Docker Prune",
-            "icon": "🧹",
-            "group": "vcs",
-            "command": "system prune",
-            "args": "-f",
-            "description": "Remove unused data to save disk space."
+{% macro get_config(groups, settings, result) %}
+    {#
+        Provides a multi-mode configuration for Docker-related operations.
+        Maps container lifecycle actions to global project groups.
+
+        Args:
+            groups (dict): The hydrated ns.pkg_groups dictionary.
+            settings (dict): The hydrated settings dictionary.
+            result (dict): A dictionary to be updated with the config.
+
+        Returns:
+            dict: A tool configuration containing functional Docker modes.
+    #}
+    {%- set s = settings -%}
+    {%- set config = {
+        "id": "docker",
+        "name": "Docker",
+        "icon": "🐳",
+        "group": groups.infra,
+        "command": "docker",
+        "modes": {
+            "build": {
+                "id": "docker-build",
+                "name": "Docker Build",
+                "group": groups.pkg,
+                "command": "build",
+                "args": "-t $(" ~ s.github.GITHUB_REPO.val ~ "):$(" ~ s.project.VERSION.val ~ ") .",
+                "description": "Build the container image using the Dockerfile.",
+                "start_msg": "🏗️ Building Docker image...",
+                "end_msg": "✅ Build complete!"
+            },
+            "run": {
+                "id": "docker-run",
+                "name": "Docker Run",
+                "group": groups.test,
+                "command": "run",
+                "args": "--rm -it $(" ~ s.github.GITHUB_REPO.val ~ "):$(" ~ s.project.VERSION.val ~ ")",
+                "description": "Run the container locally for testing.",
+                "start_msg": "🚀 Starting local Docker container...",
+                "end_msg": "🛑 Container stopped."
+            },
+            "lint": {
+                "id": "hadolint",
+                "name": "Hadolint",
+                "group": groups.lint,
+                "command": "run",
+                "args": "--rm -i hadolint/hadolint < Dockerfile",
+                "description": "Lint the Dockerfile to ensure best practices.",
+                "start_msg": "🔍 Linting Dockerfile with Hadolint...",
+                "end_msg": "✅ Linting complete!"
+            },
+            "scan": {
+                "id": "docker-scan",
+                "name": "Docker Scan",
+                "group": groups.security,
+                "command": "scan",
+                "args": "$(" ~ s.github.GITHUB_REPO.val ~ "):$(" ~ s.project.VERSION.val ~ ")",
+                "description": "Scan the image for vulnerabilities.",
+                "start_msg": "🛡️ Scanning image for vulnerabilities...",
+                "end_msg": "✅ Scan complete!"
+            },
+            "push": {
+                "id": "docker-push",
+                "name": "Docker Push",
+                "group": groups.release,
+                "command": "push",
+                "args": "$(" ~ s.github.GITHUB_REPO.val ~ "):$(" ~ s.project.VERSION.val ~ ")",
+                "description": "Push the image to the configured registry.",
+                "start_msg": "🚢 Pushing image to registry...",
+                "end_msg": "✅ Push complete!"
+            },
+            "prune": {
+                "id": "docker-prune",
+                "name": "Docker Prune",
+                "group": groups.clean,
+                "command": "system prune",
+                "args": "-f",
+                "description": "Remove unused data to save disk space.",
+                "start_msg": "🧹 Pruning Docker system resources...",
+                "end_msg": "✅ Cleanup complete!"
+            }
         }
-    ],
-} %}
+    } -%}
+    {%- do result.update(config) -%}
+{% endmacro %}
 
 {#
 publish-all: ## 🚀 Publish everything

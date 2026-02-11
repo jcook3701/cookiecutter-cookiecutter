@@ -18,16 +18,39 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
-{% set config = {
-    "id": "pip_deptree",
-    "name": "pip-deptree",
-    "icon": "🌲",
-    "group": "deps",
-    "command": "$(PYTHON) -m pip_deptree",
-    "start_msg": "Visualizing dependency tree...",
-    "end_msg": "Dependency tree generated!",
-    "modes": {
-        "tree": "--warn silence",
-        "freeze": "--warn silence --freeze"
-    }
-} %}
+{% macro get_config(groups, settings, result) %}
+    {#
+        Provides the configuration dictionary for the pip-deptree tool.
+        Maps dependency tree visualization and freezing to the global dependencies group.
+
+        Args:
+            groups (dict): The hydrated ns.pkg_groups dictionary.
+            settings (dict): The hydrated settings dictionary.
+            result (dict): A dictionary to be updated with the config.
+
+        Returns:
+            dict: The tool configuration object including the group metadata.
+    #}
+    {%- set s = settings -%}
+    {%- set config = {
+        "id": "pip_deptree",
+        "name": "pip-deptree",
+        "icon": "🌲",
+        "group": groups.deps,
+        "command": "$(PYTHON) -m pip_deptree",
+        "description": "Command line utility for displaying the installed python packages in form of a dependency tree.",
+        "modes": {
+            "tree": {
+                "args": "--warn silence",
+                "start_msg": "🌲 Visualizing Python dependency tree...",
+                "end_msg": "✅ Dependency tree generated!"
+            },
+            "freeze": {
+                "args": "--warn silence --freeze",
+                "start_msg": "🌲 Freezing Python dependency tree to requirements format...",
+                "end_msg": "✅ Dependency freeze complete!"
+            }
+        }
+    } -%}
+    {%- do result.update(config) -%}
+{% endmacro %}

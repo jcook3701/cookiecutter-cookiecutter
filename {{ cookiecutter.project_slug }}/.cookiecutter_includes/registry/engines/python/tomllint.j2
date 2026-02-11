@@ -17,20 +17,39 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
-{% set config = {
-    "id": "tomllint",
-    "name": "Tomllint",
-    "icon": "📝",
-    "group": "lint",
-    "command": "tomllint",
-    "start_msg": "Running Tomllint...",
-    "end_msg": "Finished linting check of toml files with Tomllint!",
-    "modes": {
-        "check": ""
-    },
-    "custom_shell": "$(TOML_FILE_LIST) | tr '\\0' '\\n'; \
-        $(ACTIVATE) && $(TOML_FILE_LIST) | xargs -0 -n 1 $(TOMLLINT)"
-} %}
+{% macro get_config(groups, settings, result) %}
+    {#
+        Provides the configuration dictionary for the Tomllint tool.
+        Maps TOML file validation to the global linting group.
+
+        Args:
+            groups (dict): The hydrated ns.pkg_groups dictionary.
+            settings (dict): The hydrated settings dictionary.
+            result (dict): A dictionary to be updated with the config.
+
+        Returns:
+            dict: The tool configuration object including the group metadata.
+    #}
+    {%- set s = settings -%}
+    {%- set config = {
+        "id": "tomllint",
+        "name": "Tomllint",
+        "icon": "📝",
+        "group": groups.lint,
+        "command": "tomllint",
+        "description": "Linting and validation for TOML configuration files.",
+        "modes": {
+            "check": {
+                "args": "",
+                "start_msg": "🔍 Running Tomllint on project configuration...",
+                "end_msg": "✅ Finished linting check of toml files with Tomllint!"
+            }
+        },
+        "custom_shell": "$(TOML_FILE_LIST) | tr '\\0' '\\n'; " ~
+                        "$(ACTIVATE) && $(TOML_FILE_LIST) | xargs -0 -n 1 $(TOMLLINT)"
+    } -%}
+    {%- do result.update(config) -%}
+{% endmacro %}
 
 
 {# #TODO: Deprecated beyond this point!!!! #}

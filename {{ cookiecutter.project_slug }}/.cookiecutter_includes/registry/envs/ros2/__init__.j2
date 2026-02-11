@@ -18,38 +18,44 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
-
-{% from '.cookiecutter_includes/registry/_vars.j2' import ns with context %}
-
+{%- import '.cookiecutter_includes/registry/utils.j2' as utils with context -%}
 {%- import '.cookiecutter_includes/registry/envs/ros2/ament_lint_common.j2' as _ament_lint_common with context -%}
 {%- import '.cookiecutter_includes/registry/envs/ros2/bloom-release.j2' as _bloom_release with context -%}
 {%- import '.cookiecutter_includes/registry/envs/ros2/colcon.j2' as _colcon with context -%}
 {%- import '.cookiecutter_includes/registry/envs/ros2/rosdep.j2' as _rosdep with context -%}
 
-{%- set ament_lint_common = _ament_lint_common -%}
-{%- set bloom_release = _bloom_release -%}
-{%- set colcon = _colcon -%}
-{%- set rosdep = _rosdep -%}
+{% macro get_active_tools(ns) %}
+    {#
+        Registers active ROS2 tools into the global namespace.
 
-{%- set _all_tools = [
-    ament_lint_common, bloom_release, colcon, rosdep
-] -%}
+        Args:
+            ns (namespace): Global project namespace.
+    #}
+    {%- set ament_lint_common = {} -%}
+    {%- set bloom_release = {} -%}
+    {%- set colcon = {} -%}
+    {%- set rosdep = {} -%}
 
-{%- macro get_active_tools(ns) -%}
-    {%- set active_tools = [] -%}
-    {%- for tool in _all_tools -%}
-        {% if tool.config is defined %}
-            {%- set tool_id = tool.config.id -%}
-            {%- set feature_id = tool_id | upper -%}
+    {%- do _ament_lint_common.get_config(ns.pkg_groups, ns.settings, ament_lint_common) %}
+    {%- do _bloom_release.get_config(ns.pkg_groups, ns.settings, bloom_release) %}
+    {%- do _colcon.get_config(ns.pkg_groups, ns.settings, colcon) %}
+    {%- do _rosdep.get_config(ns.pkg_groups, ns.settings, rosdep) %}
 
-            {%- set is_core = tool_id in [''] -%}
-            {%- set is_enabled = ns.features.envs.ros2.get(feature_id) | default(false) %}
+    {%- set tools_to_check = [
+        ament_lint_common,
+        bloom_release,
+        colcon,
+        rosdep
+    ] -%}
 
-            {%- if is_core or is_enabled -%}
-                {%- do active_tools.append(tool) -%}
-                {%- do ns.active_tools.append(tool) -%}
-            {%- endif -%}
+    {%- for tool_cfg in tools_to_check -%}
+        {%- if tool_cfg is mapping -%}
+            {% set feature_id = tool_cfg.id | upper | replace("-", "_") -%}
+            {% set is_enabled = ns.features.envs.ros2.get(feature_id) | default(false) %}
+
+            {% if is_enabled %}
+                {{- utils.register_tool(ns, tool_cfg) -}}
+            {% endif %}
         {% endif %}
-    {%- endfor -%}
-    {{- active_tools -}}
+    {% endfor %}
 {% endmacro %}

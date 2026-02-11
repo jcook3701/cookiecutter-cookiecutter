@@ -18,16 +18,40 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
-{% set config = {
-    "id": "storybook",
-    "name": "Storybook",
-    "icon": "📖",
-    "group": "docs",
-    "command": "$(NPM) run storybook",
-    "start_msg": "Starting Storybook dev server...",
-    "end_msg": "Storybook stopped.",
-    "modes": {
-        "dev": "",
-        "build": "build-storybook"
-    }
-} %}
+{% macro get_config(groups, settings, result) %}
+    {#
+        Provides the configuration dictionary for Storybook.
+        Maps component documentation and UI development to the docs group.
+
+        Args:
+            groups (dict): The hydrated ns.pkg_groups dictionary.
+            settings (dict): The hydrated settings dictionary.
+            result (dict): A dictionary to be updated with the config.
+
+        Returns:
+            dict: The tool configuration object including the group metadata.
+    #}
+    {%- set s = settings -%}
+    {%- set config = {
+        "id": "storybook",
+        "name": "Storybook",
+        "icon": "📖",
+        "group": groups.docs,
+        "command": "$(NPM) run",
+        "description": "Frontend workshop for building UI components and pages in isolation.",
+        "modes": {
+            "dev": {
+                "args": "storybook",
+                "start_msg": "📖 Starting Storybook development server...",
+                "end_msg": "🛑 Storybook server stopped."
+            },
+            "build": {
+                "args": "build-storybook",
+                "group": groups.pkg,
+                "start_msg": "🏗️  Building static Storybook documentation...",
+                "end_msg": "✅ Storybook build complete!"
+            }
+        }
+    } -%}
+    {%- do result.update(config) -%}
+{% endmacro %}

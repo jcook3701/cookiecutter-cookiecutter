@@ -31,29 +31,39 @@
     "python_infra": {
         "_title": "Python Commands (venv, activate, pip)",
         "_icon": "🐍",
-        "PYTHON_CMD": {"val": "python" ~ cookiecutter.python_version}
+        "PYTHON_CMD": {"val": "python" ~ cookiecutter.python_version},
+        "VENV_DIR": {"val": "$(PROJECT_ROOT)/.venv"}
     }
 } -%}
 
 {%- set python_cmd_map = {
-    "BLACK":        cookiecutter.__python.black,
-    "BUILD":        cookiecutter.__python.build | default(false),
-    "BUMPVERSION":  cookiecutter.__python.bump_my_version,
-    "CODESPELL":    cookiecutter.__python.codespell,
-    "DEPTRY":       cookiecutter.__python.deptry,
-    "DJLINT":       cookiecutter.__python.djlint,
-    "JINJA":        cookiecutter.__python.jinja_cli | default(false),
-    "MYPY":         cookiecutter.__python.mypy,
-    "PIPAUDIT":     cookiecutter.__python.pip_audit,
-    "PRECOMMIT":    cookiecutter.__python.pre_commit,
-    "PYTEST":       cookiecutter.__python.pytest,
-    "RUFF":         cookiecutter.__python.ruff,
-    "TOMLLINT":     cookiecutter.__python.tomllint,
-    "TWINE":        cookiecutter.__python.twine | default(false),
-    "YAMLLINT":     cookiecutter.__python.yamllint
+    "BANDIT":                           cookiecutter.__python.bandit | default(false),
+    "BLACK":                            cookiecutter.__python.black | default(false),
+    "BUILD":                            cookiecutter.__python.build | default(false),
+    "BUMPVERSION":                      cookiecutter.__python.bump_my_version | default(false),
+    "CODESPELL":                        cookiecutter.__python.codespell | default(false),
+    "COOKIECUTTER_PROJECT_UPGRADER":    cookiecutter.__python.cookiecutter_project_upgrader | default(true),
+    "COOKIECUTTER":                     cookiecutter.__python.cookiecutter | default(false),
+    "DEPTRY":                           cookiecutter.__python.deptry | default(false),
+    "DJLINT":                           cookiecutter.__python.djlint | default(false),
+    "JINJA":                            cookiecutter.__python.jinja_cli | default(false),
+    "MYPY":                             cookiecutter.__python.mypy | default(false),
+    "NUTRIMATIC":                       cookiecutter.__python.nutrimatic| default(false),
+    "PIP_AUDIT":                        cookiecutter.__python.pip_audit | default(false),
+    "PIP_DEPTREE":                      cookiecutter.__python.pip_deptree | default(false),
+    "PIP":                              true,
+    "PRE_COMMIT":                       cookiecutter.__python.pre_commit | default(false),
+    "PYTEST":                           cookiecutter.__python.pytest | default(false),
+    "RUFF":                             cookiecutter.__python.ruff | default(false),
+    "TOMLLINT":                         cookiecutter.__python.tomllint | default(false),
+    "TOX":                              cookiecutter.__python.tox | default(false),
+    "TWINE":                            cookiecutter.__python.twine | default(false),
+    "VENV":                             true,
+    "YAMLLINT":                         cookiecutter.__python.yamllint | default(false)
 } -%}
 
 {%- set validate = debug.validate_features(python_cmd_map, "python/_config.j2") -%}
 {% if validate == "PASS" %}
     {% set features = python_cmd_map %}
+    {% set settings = python_settings_map %}
 {% endif %}

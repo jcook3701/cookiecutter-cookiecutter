@@ -19,20 +19,48 @@
 #}
 
 
-{% set config = {
-    "id": "bumpversion",
-    "name": "Bump-My-Version",
-    "icon": "🔖",
-    "group": "version",
-    "command": "$(ACTIVATE) && bump-my-version bump --verbose",
-    "start_msg": "Updating $(PROJECT_NAME) version from $(VERSION)...",
-    "end_msg": "$(PROJECT_NAME) version update complete!",
-    "modes": {
-        "patch": "$(PATCH)",
-        "minor": "$(MINOR)",
-        "major": "$(MAJOR)"
-    }
-} %}
+{% macro get_config(groups, settings, result) %}
+    {#
+        Provides the configuration dictionary for the Bump-My-Version tool.
+        Maps version advancement (major, minor, patch) to the global versioning group.
+
+        Args:
+            groups (dict): The hydrated ns.pkg_groups dictionary.
+            settings (dict): The hydrated settings dictionary.
+            result (dict): A dictionary to be updated with the config.
+
+        Returns:
+            dict: The tool configuration object including the group metadata.
+    #}
+    {%- set s = settings -%}
+    {%- set config = {
+        "id": "bumpversion",
+        "name": "Bump-My-Version",
+        "icon": "🔖",
+        "group": groups.version,
+        "command": "$(ACTIVATE) && bump-my-version bump --verbose",
+        "description": "Version bumping tool with Git tagging support.",
+        "modes": {
+            "patch": {
+                "args": "patch",
+                "start_msg": "🔖 Updating $(" ~ s.project.PROJECT_NAME.val ~ ") patch version from $(" ~ s.project.VERSION.val ~ ")...",
+                "end_msg": "✅ Patch version update complete!"
+            },
+            "minor": {
+                "args": "minor",
+                "start_msg": "🔖 Updating $(" ~ s.project.PROJECT_NAME.val ~ ") minor version from $(" ~ s.project.VERSION.val ~ ")...",
+                "end_msg": "✅ Minor version update complete!"
+            },
+            "major": {
+                "args": "major",
+                "start_msg": "🔖 Updating $(" ~ s.project.PROJECT_NAME.val ~ ") major version from $(" ~ s.project.VERSION.val ~ ")...",
+                "end_msg": "✅ Major version update complete!"
+            }
+        }
+    } -%}
+    {%- do result.update(config) -%}
+{% endmacro %}
+
 
 {% macro helpers() %}
 # Patch types:

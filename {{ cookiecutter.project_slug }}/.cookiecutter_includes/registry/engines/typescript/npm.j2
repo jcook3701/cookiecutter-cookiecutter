@@ -18,25 +18,89 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
+{% macro get_config(groups, settings, result) %}
+    {#
+        Provides a multi-mode configuration for the NPM package manager.
+        Maps the full JavaScript/TypeScript lifecycle from installation to publishing.
 
-{% set config = {
-    "id": "npm",
-    "name": "NPM",
-    "icon": "📥",
-    "group": "setup",
-    "command": "$(NPM)",
-    "start_msg": "Managing JS package...",
-    "end_msg": "JS package operation complete!",
-    "modes": {
-        "install": "install",
-        "ci": "ci",
-        "audit": "audit",
-        "outdated": "outdated",
-        "build": "run build",
-        "version-patch": "version patch",
-        "version-minor": "version minor",
-        "version-major": "version major",
-        "publish": "publish --access public",
-        "publish-dry": "publish --dry-run"
-    }
-} %}
+        Args:
+            groups (dict): The hydrated ns.pkg_groups dictionary.
+            settings (dict): The hydrated settings dictionary.
+            result (dict): A dictionary to be updated with the config.
+
+        Returns:
+            dict: A tool configuration containing functional NPM modes.
+    #}
+    {%- set s = settings -%}
+    {%- set config = {
+        "id": "npm",
+        "name": "NPM",
+        "icon": "📥",
+        "group": groups.setup,
+        "command": "$(NPM)",
+        "description": "The standard package manager for the JavaScript runtime environment Node.js.",
+        "modes": {
+            "install": {
+                "args": "install",
+                "group": groups.deps,
+                "start_msg": "📥 Installing Node.js dependencies...",
+                "end_msg": "✅ Dependencies installed!"
+            },
+            "ci": {
+                "args": "ci",
+                "group": groups.deps,
+                "start_msg": "📥 Performing clean-slate dependency installation (CI mode)...",
+                "end_msg": "✅ Clean installation complete!"
+            },
+            "audit": {
+                "args": "audit",
+                "group": groups.security,
+                "start_msg": "🛡️  Auditing Node.js dependencies for vulnerabilities...",
+                "end_msg": "✅ Dependency audit complete!"
+            },
+            "outdated": {
+                "args": "outdated",
+                "group": groups.deps,
+                "start_msg": "🔍 Checking for outdated Node.js packages...",
+                "end_msg": "✅ Outdated check complete!"
+            },
+            "build": {
+                "args": "run build",
+                "group": groups.pkg,
+                "start_msg": "🏗️  Building JavaScript/TypeScript production assets...",
+                "end_msg": "✅ Build complete!"
+            },
+            "version-patch": {
+                "args": "version patch",
+                "group": groups.version,
+                "start_msg": "🔖 Bumping NPM patch version...",
+                "end_msg": "✅ NPM version updated!"
+            },
+            "version-minor": {
+                "args": "version minor",
+                "group": groups.version,
+                "start_msg": "🔖 Bumping NPM minor version...",
+                "end_msg": "✅ NPM version updated!"
+            },
+            "version-major": {
+                "args": "version major",
+                "group": groups.version,
+                "start_msg": "🔖 Bumping NPM major version...",
+                "end_msg": "✅ NPM version updated!"
+            },
+            "publish": {
+                "args": "publish --access public",
+                "group": groups.release,
+                "start_msg": "🚢 Publishing package to NPM registry...",
+                "end_msg": "✅ Publication complete!"
+            },
+            "publish-dry": {
+                "args": "publish --dry-run",
+                "group": groups.release,
+                "start_msg": "🚢 Performing NPM publish dry-run...",
+                "end_msg": "✅ Dry-run complete!"
+            }
+        }
+    } -%}
+    {%- do result.update(config) -%}
+{% endmacro %}

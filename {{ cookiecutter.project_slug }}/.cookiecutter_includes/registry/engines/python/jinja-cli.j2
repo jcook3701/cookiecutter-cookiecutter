@@ -18,32 +18,52 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
-{% set config = {
-    "id": "jinja",
-    "name": "Jinja2 CLI",
-    "icon": "🔍",
-    "group": "lint",
-    "command": "$(ACTIVATE) && jinja2",
-    "start_msg": "jinja2 lint (Deprecated - use djlint)...",
-    "end_msg": "Finished linting check of jinja2 macro files with jinja2!",
-    "modes": {
-        "lint-check": "--strict \
-            --extension=cookiecutter.extensions.JsonifyExtension \
-            --extension=cookiecutter.extensions.RandomStringExtension \
-            --extension=cookiecutter.extensions.SlugifyExtension \
-            --extension=cookiecutter.extensions.TimeExtension \
-            --extension=cookiecutter.extensions.UUIDExtension"
-    },
-    "custom_shell": "jq '{cookiecutter: .}' cookiecutter.json > /tmp/_cc_wrapped.json; \
-        $(JINJA_FILE_LIST) | tr '\\0' '\\n'; \
-        $(ACTIVATE) && $(JINJA_FILE_LIST) | \
-        while IFS= read -r -d '' f; do \
-            if file \"$$f\" | grep -q text; then \
-                echo \"Checking $$f\"; \
-                $(JINJA) \"$$f\" /tmp/_cc_wrapped.json || exit 1; \
-            fi; \
-        done"
-} %}
+{% macro get_config(groups, settings, result) %}
+    {#
+        Provides the configuration dictionary for the Jinja2 CLI tool.
+        Maps strict template validation and rendering tests to the linting group.
+        Note: Marked as deprecated in favor of djlint for general linting.
+
+        Args:
+            groups (dict): The hydrated ns.pkg_groups dictionary.
+            settings (dict): The hydrated settings dictionary.
+            result (dict): A dictionary to be updated with the config.
+
+        Returns:
+            dict: The tool configuration object including the group metadata.
+    #}
+    {%- set s = settings -%}
+    {%- set config = {
+        "id": "jinja",
+        "name": "Jinja2 CLI",
+        "icon": "🔍",
+        "group": groups.lint,
+        "command": "$(ACTIVATE) && jinja2",
+        "description": "CLI for rendering Jinja2 templates; used here for strict syntax validation.",
+        "modes": {
+            "lint-check": {
+                "args": "--strict " ~
+                        "--extension=cookiecutter.extensions.JsonifyExtension " ~
+                        "--extension=cookiecutter.extensions.RandomStringExtension " ~
+                        "--extension=cookiecutter.extensions.SlugifyExtension " ~
+                        "--extension=cookiecutter.extensions.TimeExtension " ~
+                        "--extension=cookiecutter.extensions.UUIDExtension",
+                "start_msg": "🔍 Running strict Jinja2 syntax validation...",
+                "end_msg": "✅ Finished linting check of jinja2 macro files with jinja2!"
+            }
+        },
+        "custom_shell": "jq '{cookiecutter: .}' cookiecutter.json > /tmp/_cc_wrapped.json; " ~
+                        "$(" ~ s.cookie.COOKIE_MACRO_DIR.val ~ ") | tr '\\0' '\\n'; " ~
+                        "$(ACTIVATE) && $(" ~ s.cookie.COOKIE_MACRO_DIR.val ~ ") | " ~
+                        "while IFS= read -r -d '' f; do " ~
+                            "if file \"$$f\" | grep -q text; then " ~
+                                "echo \"Checking $$f\"; " ~
+                                "$(JINJA) \"$$f\" /tmp/_cc_wrapped.json || exit 1; " ~
+                            "fi; " ~
+                        "done"
+    } -%}
+    {%- do result.update(config) -%}
+{% endmacro %}
 
 
 {# #TODO: Deprecated beyond this point!!!! #}

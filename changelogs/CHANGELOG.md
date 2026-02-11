@@ -443,3 +443,4 @@ Feat 032 (#81)
 - *(jinja)* This builds and the jinja config files are working!
 - *(jinja)* Makefile configuration setup works! Move this out of makefile!  This will work for entire project.
 - *(jinja)* Created a jinja2 settings registry to manage templates.
+- *(jinja)* Jinja registry is looking good.

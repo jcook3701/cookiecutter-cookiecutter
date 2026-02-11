@@ -18,25 +18,78 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
-{# Styling macros below #}
 {% macro section_header(title, icon="⚙️") %}
+    {#
+        Styling macros below
+    #}
 # --------------------------------------------------
 # {{ icon }} {{ title }}
 # --------------------------------------------------
 {% endmacro %}
 
 
-{% macro tool_cmds(
-    config
-) %}
-    {# This is the engine that actually writes the Makefile target #}
+{% macro tool_cmds(config) %}
+    {#
+        This is the engine that actually writes the Makefile target
+    #}
     {{- config.id | upper }} := {{ config.command }}
 {% endmacro %}
 
 
 {% macro tool_action(config) %}
+    {#
+        Generates the executable Makefile target for a specific tool.
+        Renders the target name, help description, and the command recipe
+        including lifecycle start and end messages.
+
+        Args:
+            config (dict): The hydrated tool configuration object.
+
+        Returns:
+            str: A formatted Makefile target with recipe.
+    #}
 {{ config.id }}: ## {{ config.description | default("Run " ~ config.id) }}
-	$(AT)echo "Running {{ config.start_msg }}..."
-	{{ config.command }} {{ config.args | join(' ') if config.args is defined else '' }}
-	$(AT)echo "{{ config.end_msg }}"
+	$(AT)echo "Running {{ config.start_msg | default('task...') }}"
+	{{ config.command }} {{ config.args if config.args is defined else '' }}
+	$(AT)echo "{{ config.end_msg | default('Task complete!') }}"
+{% endmacro %}
+
+
+{% macro render_section(ns, group_id) %}
+    {#
+        Dynamically renders a Makefile section by filtering active tools.
+        Includes safety guards for missing groups and non-object tool configs.
+
+        Args:
+            ns (namespace): Global project namespace.
+            group_id (str): The ID of the group to render (e.g., 'lint').
+    #}
+    {%- set group_meta = ns.pkg_groups.get(group_id) -%}
+
+    {# GUARD: If the group_id doesn't exist in pkg_groups, stop here #}
+    {%- if group_meta is mapping -%}
+        {%- set tools = [] -%}
+
+        {%- for tool in ns.active_tools -%}
+            {%- set config = tool.get('config', {}) -%}
+            {%- set g = config.get('group', {}) -%}
+
+            {# Resolve the group ID whether it is an object or a string #}
+            {%- set tool_group_id = g.id if g is mapping and g.id is defined else g -%}
+
+            {%- if tool_group_id == group_id -%}
+                {%- do tools.append(tool) -%}
+            {%- endif -%}
+        {%- endfor -%}
+
+        {%- if tools | length > 0 -%}
+            {{- section_header(group_meta.get('label', group_id | upper), group_meta.get('icon', '⚙️')) }}
+            {%- for tool in tools %}
+                {%- if tool.config is defined -%}
+                    {{- tool_cmds(tool.config) }}
+                    {{- tool_action(tool.config) }}
+                {%- endif %}
+            {%- endfor %}
+        {%- endif %}
+    {%- endif %}
 {% endmacro %}

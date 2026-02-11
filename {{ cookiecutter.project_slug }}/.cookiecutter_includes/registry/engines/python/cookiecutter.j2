@@ -18,19 +18,39 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
-{% set config = {
-    "id": "cookiecutter",
-    "name": "Cookiecutter",
-    "icon": "🍪",
-    "group": "template",
-    "command": "$(ACTIVATE) && cookiecutter",
-    "start_msg": "Rendering project from initial cookiecutter template...",
-    "end_msg": "Finished project render!",
-    "pre_cmd": "rm -rf $(RENDERED_COOKIE_DIR)",
-    "modes": {
-        "render": ". --no-input --output-dir $(RENDERED_COOKIE_DIR) --overwrite-if-exists --keep-project-on-failure"
-    }
-} %}
+{% macro get_config(groups, settings, result) %}
+    {#
+        Provides the configuration dictionary for the Cookiecutter tool.
+        Maps template rendering and generation to the global template group.
+
+        Args:
+            groups (dict): The hydrated ns.pkg_groups dictionary.
+            settings (dict): The hydrated settings dictionary.
+            result (dict): A dictionary to be updated with the config.
+
+        Returns:
+            dict: The tool configuration object including the group metadata.
+    #}
+    {%- set s = settings -%}
+    {%- set config = {
+        "id": "cookiecutter",
+        "name": "Cookiecutter",
+        "icon": "🍪",
+        "group": groups.template,
+        "command": "$(ACTIVATE) && cookiecutter",
+        "description": "Command line utility for creating projects from templates.",
+        "pre_cmd": "rm -rf $(" ~ s.cookie.RENDERED_COOKIE_DIR.val ~ ")",
+        "modes": {
+            "render": {
+                "args": ". --no-input --output-dir $(" ~ s.cookie.RENDERED_COOKIE_DIR.val ~ ") --overwrite-if-exists --keep-project-on-failure",
+                "start_msg": "🍪 Rendering project from initial cookiecutter template...",
+                "end_msg": "✅ Finished project render!"
+            }
+        }
+    } -%}
+    {%- do result.update(config) -%}
+{% endmacro %}
+
 
 {# #TODO: Deprecated beyond this point!!!! #}
 {% set python_cmd %}

@@ -18,20 +18,40 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
-{% set config = {
-    "id": "mypy",
-    "name": "MyPy",
-    "icon": "🧠",
-    "group": "typing",
-    "command": "$(PYTHON) -m mypy",
-    "start_msg": "Checking types (MyPy)...",
-    "end_msg": "Python typecheck complete!",
-    "ci_safe": true,
-    "pre_cmd": "$(MAKE) list-folders",
-    "modes": {
-        "run": "$(SRC_DIR) $(TESTS_DIR)"
-    }
-} %}
+{% macro get_config(groups, settings, result) %}
+    {#
+        Provides the configuration dictionary for the MyPy static type checker.
+        Maps static type analysis to the global typing group.
+
+        Args:
+            groups (dict): The hydrated ns.pkg_groups dictionary.
+            settings (dict): The hydrated settings dictionary.
+            result (dict): A dictionary to be updated with the config.
+
+        Returns:
+            dict: The tool configuration object including the group metadata.
+    #}
+    {%- set s = settings -%}
+    {%- set config = {
+        "id": "mypy",
+        "name": "MyPy",
+        "icon": "🧠",
+        "group": groups.typing,
+        "command": "$(PYTHON) -m mypy",
+        "description": "Optional static typing for Python using PEP 484 annotations.",
+        "ci_safe": true,
+        "pre_cmd": "$(MAKE) list-folders",
+        "modes": {
+            "run": {
+                "args": "$(" ~ s.dirs.SRC_DIR.val ~ ") $(" ~ s.dirs.TEST_DIR.val ~ ")",
+                "start_msg": "🧠 Checking Python types with MyPy...",
+                "end_msg": "✅ Python typecheck complete!"
+            }
+        }
+    } -%}
+    {%- do result.update(config) -%}
+{% endmacro %}
+
 
 {# #TODO: Deprecated beyond this point!!!! #}
 {% set python_cmd %}

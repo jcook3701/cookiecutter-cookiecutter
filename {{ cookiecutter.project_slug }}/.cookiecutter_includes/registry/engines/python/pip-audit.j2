@@ -19,19 +19,38 @@
 #}
 
 
-{% set config = {
-    "id": "pipaudit",
-    "name": "pip-audit",
-    "icon": "🛡️",
-    "group": "security",
-    "command": "$(ACTIVATE) && pip-audit",
-    "start_msg": "Running security audit...",
-    "end_msg": "Finished security audit!",
-    "ci_safe": true,
-    "modes": {
-        "run": ""
-    }
-} %}
+{% macro get_config(groups, settings, result) %}
+    {#
+        Provides the configuration dictionary for the pip-audit tool.
+        Maps dependency vulnerability scanning to the global security group.
+
+        Args:
+            groups (dict): The hydrated ns.pkg_groups dictionary.
+            settings (dict): The hydrated settings dictionary.
+            result (dict): A dictionary to be updated with the config.
+
+        Returns:
+            dict: The tool configuration object including the group metadata.
+    #}
+    {%- set s = settings -%}
+    {%- set config = {
+        "id": "pipaudit",
+        "name": "pip-audit",
+        "icon": "🛡️",
+        "group": groups.security,
+        "command": "$(ACTIVATE) && pip-audit",
+        "description": "Scans Python environments for packages with known vulnerabilities.",
+        "ci_safe": true,
+        "modes": {
+            "run": {
+                "args": "",
+                "start_msg": "🛡️ Running security audit on Python dependencies...",
+                "end_msg": "✅ Finished security audit!"
+            }
+        }
+    } -%}
+    {%- do result.update(config) -%}
+{% endmacro %}
 
 
 {# #TODO: Deprecated beyond this point!!!! #}

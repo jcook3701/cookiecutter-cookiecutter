@@ -18,6 +18,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
+{%- import '.cookiecutter_includes/registry/utils.j2' as utils with context -%}
 {% import '.cookiecutter_includes/registry/engines/python/bandit.j2' as _bandit with context %}
 {% import '.cookiecutter_includes/registry/engines/python/black.j2' as _black with context %}
 {% import '.cookiecutter_includes/registry/engines/python/build.j2' as _build with context %}
@@ -43,54 +44,98 @@
 {% import '.cookiecutter_includes/registry/engines/python/venv.j2' as _venv with context %}
 {% import '.cookiecutter_includes/registry/engines/python/yamllint.j2' as _yamllint with context %}
 
-{% set bandit = _bandit %}
-{% set black = _black %}
-{% set build = _build %}
-{% set built_in = _built_in %}
-{% set bump_my_version = _bump_my_version %}
-{% set codespell = _codespell %}
-{% set cookie_upgrader = _cookie_upgrader %}
-{% set cookie = _cookie %}
-{% set deptry = _deptry %}
-{% set djlint = _djlint %}
-{% set jinja_cli = _jinja_cli %}
-{% set mypy = _mypy %}
-{% set nutrimatic = _nutrimatic %}
-{% set pip_audit = _pip_audit %}
-{% set pip_deptree = _pip_deptree %}
-{% set pip = _pip %}
-{% set pre_commit = _pre_commit %}
-{% set pytest = _pytest %}
-{% set ruff = _ruff %}
-{% set tomllint = _tomllint %}
-{% set venv = _venv %}
-{% set tox = _tox %}
-{% set twine = _twine %}
-{% set yamllint = _yamllint %}
+{% macro get_active_tools(ns) %}
+    {#
+        Registers active Python tools into the global namespace.
 
-{% set _all_tools = [
-    bandit, black, build, built_in, bump_my_version, codespell,
-    cookie_upgrader, cookie, deptry, djlint, jinja_cli,
-    mypy, nutrimatic, pip_audit, pip_deptree, pip, pre_commit, pytest,
-    ruff, tomllint, tox, twine, venv, yamllint
-] %}
+        Args:
+            ns (namespace): Global project namespace.
+    #}
 
-{%- macro get_active_tools(ns) -%}
-    {% set active_tools = [] %}
-    {% for tool in _all_tools %}
-        {# GUARD: Only process if the imported file actually has a 'config' dict #}
-        {% if tool.config is defined %}
-            {% set tool_id = tool.config.id %}
-            {% set feature_id = tool_id | upper %}
+    {%- set bandit = {} -%}
+    {%- set black = {} -%}
+    {%- set build = {} -%}
+    {%- set bump_my_version = {} -%}
+    {%- set codespell = {} -%}
+    {%- set cookie_upgrader = {} -%}
+    {%- set cookie = {} -%}
+    {%- set deptry = {} -%}
+    {%- set djlint = {} -%}
+    {%- set jinja_cli = {} -%}
+    {%- set mypy = {} -%}
+    {%- set nutrimatic = {} -%}
+    {%- set pip_audit = {} -%}
+    {%- set pip_deptree = {} -%}
+    {%- set pip = {} -%}
+    {%- set pre_commit = {} -%}
+    {%- set pytest = {} -%}
+    {%- set ruff = {} -%}
+    {%- set tomllint = {} -%}
+    {%- set venv = {} -%}
+    {%- set tox = {} -%}
+    {%- set twine = {} -%}
+    {%- set yamllint = {} -%}
 
-            {% set is_core = tool_id in ['venv', 'pip'] %}
+    {%- do _bandit.get_config(ns.pkg_groups, ns.settings, bandit) -%}
+    {%- do _black.get_config(ns.pkg_groups, ns.settings, black) -%}
+    {%- do _build.get_config(ns.pkg_groups, ns.settings, build) -%}
+    {%- do _bump_my_version.get_config(ns.pkg_groups, ns.settings, bump_my_version) -%}
+    {%- do _codespell.get_config(ns.pkg_groups, ns.settings, codespell) -%}
+    {%- do _cookie_upgrader.get_config(ns.pkg_groups, ns.settings, cookie_upgrader) -%}
+    {%- do _cookie.get_config(ns.pkg_groups, ns.settings, cookie) -%}
+    {%- do _deptry.get_config(ns.pkg_groups, ns.settings, deptry) -%}
+    {%- do _djlint.get_config(ns.pkg_groups, ns.settings, djlint) -%}
+    {%- do _jinja_cli.get_config(ns.pkg_groups, ns.settings, jinja_cli) -%}
+    {%- do _mypy.get_config(ns.pkg_groups, ns.settings, mypy) -%}
+    {%- do _nutrimatic.get_config(ns.pkg_groups, ns.settings, nutrimatic) -%}
+    {%- do _pip_audit.get_config(ns.pkg_groups, ns.settings, pip_audit) -%}
+    {%- do _pip_deptree.get_config(ns.pkg_groups, ns.settings, pip_deptree) -%}
+    {%- do _pip.get_config(ns.pkg_groups, ns.settings, pip) -%}
+    {%- do _pre_commit.get_config(ns.pkg_groups, ns.settings, pre_commit) -%}
+    {%- do _pytest.get_config(ns.pkg_groups, ns.settings, pytest) -%}
+    {%- do _ruff.get_config(ns.pkg_groups, ns.settings, ruff) -%}
+    {%- do _tomllint.get_config(ns.pkg_groups, ns.settings, tomllint) -%}
+    {%- do _venv.get_config(ns.pkg_groups, ns.settings, venv) -%}
+    {%- do _tox.get_config(ns.pkg_groups, ns.settings, tox) -%}
+    {%- do _twine.get_config(ns.pkg_groups, ns.settings, twine) -%}
+    {%- do _yamllint.get_config(ns.pkg_groups, ns.settings, yamllint) -%}
+
+    {%- set tools_to_check = [
+        bandit,
+        black,
+        build,
+        bump_my_version,
+        codespell,
+        cookie_upgrader,
+        cookie,
+        deptry,
+        djlint,
+        jinja_cli,
+        mypy,
+        nutrimatic,
+        pip_audit,
+        pip_deptree,
+        pip,
+        pre_commit,
+        pytest,
+        ruff,
+        tomllint,
+        venv,
+        tox,
+        twine,
+        yamllint
+    ] -%}
+
+
+    {# 3. Filter and Register #}
+     {% for tool_cfg in tools_to_check -%}
+        {% if tool_cfg is mapping -%}
+            {% set feature_id = tool_cfg.id | upper | replace("-", "_") %}
             {% set is_enabled = ns.features.engines.python.get(feature_id) | default(false) %}
 
-            {% if is_core or is_enabled %}
-                {% do active_tools.append(tool) %}
-                {% do ns.active_tools.append(tool) %}
-            {% endif %}
+            {% if is_enabled %}
+                {{- utils.register_tool(ns, tool_cfg) -}}
+            {% endif -%}
         {% endif %}
     {% endfor %}
-    {{- active_tools -}}
-{%- endmacro -%}
+{% endmacro %}

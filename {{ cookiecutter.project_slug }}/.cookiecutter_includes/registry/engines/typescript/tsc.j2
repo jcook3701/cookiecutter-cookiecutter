@@ -18,15 +18,34 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
-{% set config = {
-    "id": "tsc",
-    "name": "TypeScript Compiler",
-    "icon": "🧠",
-    "group": "typing",
-    "command": "$(NPX) tsc",
-    "start_msg": "Checking TypeScript types...",
-    "end_msg": "TypeScript typecheck complete!",
-    "modes": {
-        "check": "--noEmit"
-    }
-} %}
+{% macro get_config(groups, settings, result) %}
+    {#
+        Provides the configuration dictionary for the TypeScript Compiler (tsc).
+        Maps static type analysis to the global typing group.
+
+        Args:
+            groups (dict): The hydrated ns.pkg_groups dictionary.
+            settings (dict): The hydrated settings dictionary.
+            result (dict): A dictionary to be updated with the config.
+
+        Returns:
+            dict: The tool configuration object including the group metadata.
+    #}
+    {%- set s = settings -%}
+    {%- set config = {
+        "id": "tsc",
+        "name": "TypeScript Compiler",
+        "icon": "🧠",
+        "group": groups.typing,
+        "command": "$(NPX) tsc",
+        "description": "TypeScript's own compiler used here for static type analysis.",
+        "modes": {
+            "check": {
+                "args": "--noEmit $(" ~ s.dirs.PROJECT_ROOT.val ~ ")",
+                "start_msg": "🧠 Checking TypeScript types...",
+                "end_msg": "✅ TypeScript typecheck complete!"
+            }
+        }
+    } -%}
+    {%- do result.update(config) -%}
+{% endmacro %}

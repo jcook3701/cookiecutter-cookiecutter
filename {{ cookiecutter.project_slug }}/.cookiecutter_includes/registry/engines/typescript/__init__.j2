@@ -18,8 +18,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
-{% from '.cookiecutter_includes/registry/_vars.j2' import ns with context %}
-
+{%- import '.cookiecutter_includes/registry/utils.j2' as utils with context -%}
 {%- import '.cookiecutter_includes/registry/engines/typescript/npm.j2' as _npm with context -%}
 {%- import '.cookiecutter_includes/registry/engines/typescript/eslint.j2' as _eslint with context -%}
 {%- import '.cookiecutter_includes/registry/engines/typescript/prettier.j2' as _prettier with context -%}
@@ -28,33 +27,41 @@
 {%- import '.cookiecutter_includes/registry/engines/typescript/tsc.j2' as _tsc with context -%}
 {%- import '.cookiecutter_includes/registry/engines/typescript/typedoc.j2' as _typedoc with context -%}
 
-{%- set npm = _npm -%}
-{%- set eslint = _eslint -%}
-{%- set prettier = _prettier -%}
-{%- set vitest = _vitest -%}
-{%- set storybook = _storybook -%}
-{%- set tsc = _tsc -%}
-{%- set typedoc = _typedoc -%}
+{% macro get_active_tools(ns) %}
+    {#
+        Registers active Typescript tools into the global namespace.
 
-{%- set _all_tools = [
-    npm, eslint, prettier, vitest, storybook, tsc, typedoc
-] -%}
+        Args:
+            ns (namespace): Global project namespace.
+    #}
+    {%- set npm = {} -%}
+    {%- set eslint = {} -%}
+    {%- set prettier = {} -%}
+    {%- set vitest = {} -%}
+    {%- set storybook = {} -%}
+    {%- set tsc = {} -%}
+    {%- set typedoc = {} -%}
 
-{%- macro get_active_tools(ns) -%}
-    {%- set active_tools = [] -%}
-    {%- for tool in _all_tools -%}
-        {% if tool.config is defined %}
-            {%- set tool_id = tool.config.id -%}
-            {%- set feature_id = tool_id | upper -%}
+    {%- do _npm.get_config(ns.pkg_groups, ns.settings, npm) -%}
+    {%- do _eslint.get_config(ns.pkg_groups, ns.settings, eslint) -%}
+    {%- do _prettier.get_config(ns.pkg_groups, ns.settings, prettier) -%}
+    {%- do _vitest.get_config(ns.pkg_groups, ns.settings, vitest) -%}
+    {%- do _storybook.get_config(ns.pkg_groups, ns.settings, storybook) -%}
+    {%- do _tsc.get_config(ns.pkg_groups, ns.settings, tsc) -%}
+    {%- do _typedoc.get_config(ns.pkg_groups, ns.settings, typedoc) -%}
 
-            {%- set is_core = tool_id == 'npm' -%}
-            {%- set is_enabled = ns.features.engines.typescript.get(feature_id) | default(false) %}
+    {%- set tools_to_check = [
+        npm, eslint, prettier, vitest, storybook, tsc, typedoc
+    ] -%}
 
-            {%- if is_core or is_enabled -%}
-                {%- do active_tools.append(tool) -%}
-                {%- do ns.active_tools.append(tool) -%}
-            {%- endif -%}
+    {%- for tool_cfg in tools_to_check -%}
+        {%- if tool_cfg is mapping -%}
+            {% set feature_id = tool_cfg.id | upper | replace("-", "_") %}
+            {% set is_enabled = ns.features.engines.typescript.get(feature_id) | default(false) %}
+
+            {% if is_enabled %}
+                {{- utils.register_tool(ns, tool_cfg) -}}
+            {% endif -%}
         {% endif %}
-    {%- endfor -%}
-    {{- active_tools -}}
+    {% endfor %}
 {% endmacro %}

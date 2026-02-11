@@ -18,19 +18,39 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
-{% set config = {
-    "id": "codespell",
-    "name": "Codespell",
-    "icon": "🎓",
-    "group": "spelling",
-    "command": "$(ACTIVATE) && codespell",
-    "start_msg": "Checking Spelling (codespell)...",
-    "end_msg": "Finished spellcheck!",
-    "ci_safe": true,
-    "modes": {
-        "run": ""
-    }
-} %}
+{% macro get_config(groups, settings, result) %}
+    {#
+        Provides the configuration dictionary for the Codespell tool.
+        Maps source code spellchecking to the global spelling group.
+
+        Args:
+            groups (dict): The hydrated ns.pkg_groups dictionary.
+            settings (dict): The hydrated settings dictionary.
+            result (dict): A dictionary to be updated with the config.
+
+        Returns:
+            dict: The tool configuration object including the group metadata.
+    #}
+    {%- set s = settings -%}
+    {%- set config = {
+        "id": "codespell",
+        "name": "Codespell",
+        "icon": "🎓",
+        "group": groups.spelling,
+        "command": "$(ACTIVATE) && codespell",
+        "description": "Fix common misspellings in text files and source code.",
+        "modes": {
+            "run": {
+                "args": "$(" ~ s.dirs.PROJECT_ROOT.val ~ ")",
+                "start_msg": "🎓 Checking Spelling (codespell) across project...",
+                "end_msg": "✅ Finished spellcheck!"
+            }
+        },
+        "ci_safe": true
+    } -%}
+    {%- do result.update(config) -%}
+{% endmacro %}
+
 
 {# #TODO: Deprecated beyond this point!!!! #}
 {% set python_cmd %}

@@ -26,9 +26,12 @@
 {%- import '.cookiecutter_includes/registry/settings.j2' as settings_data with context -%}
 {# {%- import '.cookiecutter_includes/registry/features.j2' as features with context -%} #}
 {%- import '.cookiecutter_includes/registry/features.j2' as build_data with context -%}
+{%- import '.cookiecutter_includes/registry/groups.j2' as pkg_groups_data with context -%}
+
 
 {%- do ns.active_sections.build.update(build_data.features) -%}
 {%- do ns.settings.update(settings_data.settings) -%}
+{%- do ns.pkg_groups.update(pkg_groups_data.pkg_groups)%}
 
 {# --- LANGUAGE BOOTLOADERS --- #}
 {# This pulls in Python/TS/VCS features into ns.features #}
@@ -44,9 +47,15 @@
 {# --- TOOLS BOOTLOADERS --- #}
 {%- import '.cookiecutter_includes/registry/tools/vcs/_config.j2' as vcs_data with context -%}
 
-{# 2. Join them into the Namespace #}
+{# 2. Join Settings into the Namespace #}
+{%- do ns.settings.update(py_data.settings) -%}
+{# {%- do ns.settings.update(rust_data.settings) -%} #}
+{# {%- do ns.settings.update(ts_data.settings) -%} #}
+
+{# 3. Join Features into the Namespace #}
 {# {%- do ns.features.gcc.update(gcc_data.features) -%} #}
 {%- do ns.features.engines.python.update(py_data.features) -%}
+
 {%- do ns.features.engines.rust.update(rust_data.features) -%}
 {%- do ns.features.engines.typescript.update(ts_data.features) -%}
 
@@ -75,13 +84,13 @@
 {%- set _ = python.get_active_tools(ns) -%}
 {%- set _ = rust.get_active_tools(ns) -%}
 {%- set _ = typescript.get_active_tools(ns) -%}
+
 {# --- ENVIRONMENT TRIGGER --- #}
 {%- set _ = ansible.get_active_tools(ns) -%}
 {%- set _ = docker.get_active_tools(ns) -%}
 {%- set _ = ros2.get_active_tools(ns) -%}
 {# --- TOOLS TRIGGER --- #}
 {%- set _ = vcs.get_active_tools(ns) -%}
-
 
 {# Dynamically add optional paths based on user choices #}
 {%- if cookiecutter.add_sphinx_docs -%}

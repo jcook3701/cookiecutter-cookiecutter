@@ -18,33 +18,52 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
-{% set config = {
-    "id": "colcon",
-    "name": "Colcon",
-    "icon": "🌌",
-    "command": "colcon",
-    "models": [
-        {
-            "id": "colcon-test",
-            "name": "Colcon Test",
-            "icon": "🧪",
-            "group": "test",
-            "command": "test",
-            "args": "--event-handlers console_direct+ --return-code-on-test-failure",
-            "description": "Run tests for all packages in the workspace."
-        },
-        {
-            "id": "colcon-build",
-            "name": "Colcon Build",
-            "icon": "🏗️",
-            "group": "build",
-            "command": "build",
-            "args": "--symlink-install --cmake-args -DCMAKE_BUILD_TYPE=Release",
-            "description": "Build the workspace using symlink-install for fast development."
-        },
-    ],
-    "description": "Colcon is an iteration on the ROS build tools catkin_make, catkin_make_isolated, catkin_tools and ament_tools."
-} %}
+{% macro get_config(groups, settings, result) %}
+    {#
+        Provides a multi-mode configuration for the Colcon (ROS 2) build tool.
+        Maps workspace building and testing to global project groups.
+
+        Args:
+            groups (dict): The hydrated ns.pkg_groups dictionary.
+            settings (dict): The hydrated settings dictionary.
+            result (dict): A dictionary to be updated with the config.
+
+        Returns:
+            dict: A tool configuration containing functional Colcon modes.
+    #}
+    {%- set s = settings -%}
+    {%- set config = {
+        "id": "colcon",
+        "name": "Colcon",
+        "icon": "🚜",
+        "group": groups.setup,
+        "command": "colcon",
+        "description": "The standard build tool for ROS 2 workspaces.",
+        "modes": {
+            "build": {
+                "id": "colcon-build",
+                "name": "Colcon Build",
+                "group": groups.pkg,
+                "command": "build",
+                "args": "--symlink-install --cmake-args -DCMAKE_BUILD_TYPE=Release",
+                "description": "Build the workspace using symlink-install for fast development.",
+                "start_msg": "🏗️ Building ROS 2 workspace with Colcon...",
+                "end_msg": "✅ Colcon build complete!"
+            },
+            "test": {
+                "id": "colcon-test",
+                "name": "Colcon Test",
+                "group": groups.test,
+                "command": "test",
+                "args": "--event-handlers console_direct+ --return-code-on-test-failure",
+                "description": "Run tests for all packages in the workspace.",
+                "start_msg": "🧪 Running ROS 2 workspace tests with Colcon...",
+                "end_msg": "✅ Colcon tests complete!"
+            }
+        }
+    } -%}
+    {%- do result.update(config) -%}
+{% endmacro %}
 
 {#
 colcon-build: ## 🏗️ Build ROS 2 workspace

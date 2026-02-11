@@ -18,51 +18,71 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
-{% set config = {
-    "id": "ansible-galaxy",
-    "name": "Ansible Galaxy",
-    "icon": "🌌",
-    "command": "ansible-galaxy",
-    "modes": [
-        {
-            "id": "galaxy-init",
-            "name": "Ansible Galaxy Initialization",
-            "icon": "🌌",
-            "group": "vcs",
-            "command": "collection init",
-            "args": "{{ cookiecutter.github_username }}.{{ cookiecutter.project_slug }}",
-            "description": "Initialize a new Ansible collection structure."
+{% macro get_config(groups, settings, result) %}
+    {#
+        Provides a multi-mode configuration for Ansible Galaxy operations.
+        Maps collection initialization, dependency management, and publishing.
+
+        Args:
+            groups (dict): The hydrated ns.pkg_groups dictionary.
+            settings (dict): The hydrated settings dictionary.
+            result (dict): A dictionary to be updated with the config.
+
+        Returns:
+            dict: A tool configuration containing functional Ansible modes.
+    #}
+    {%- set config = {
+        "id": "ansible-galaxy",
+        "name": "Ansible Galaxy",
+        "icon": "🌌",
+        "group": groups.setup,
+        "command": "ansible-galaxy",
+        "modes": {
+            "init": {
+                "id": "galaxy-init",
+                "name": "Ansible Galaxy Initialization",
+                "group": groups.vcs,
+                "command": "collection init",
+                "args": settings.github.GITHUB_USER.val | lower ~ "." ~ settings.project.PROJECT_NAME.val,
+                "description": "Initialize a new Ansible collection structure.",
+                "start_msg": "🌌 Initializing Ansible collection structure...",
+                "end_msg": "✅ Collection structure initialized!"
+            },
+            "install": {
+                "id": "galaxy-install",
+                "name": "Ansible Galaxy Install",
+                "group": groups.deps,
+                "command": "collection install",
+                "args": "-r requirements.yml",
+                "description": "Install dependent roles and collections.",
+                "start_msg": "📦 Installing Ansible dependencies from requirements.yml...",
+                "end_msg": "✅ Ansible dependencies installed!"
+            },
+            "build": {
+                "id": "galaxy-build",
+                "name": "Ansible Galaxy Build",
+                "group": groups.pkg,
+                "command": "collection build",
+                "args": "--force",
+                "description": "Build the collection artifact (tarball) for publishing.",
+                "start_msg": "🏗️ Building Ansible collection artifact...",
+                "end_msg": "✅ Collection build complete!"
+            },
+            "publish": {
+                "id": "galaxy-publish",
+                "name": "Ansible Galaxy Publish",
+                "group": groups.release,
+                "command": "collection publish",
+                "args": "*.tar.gz --api-key $(GALAXY_API_KEY)",
+                "description": "Upload the collection to Ansible Galaxy.",
+                "start_msg": "🚢 Publishing collection to Ansible Galaxy...",
+                "end_msg": "✅ Publishing complete!"
+            }
         },
-        {
-            "id": "galaxy-install",
-            "name": "Ansible Galaxy Install",
-            "icon": "📦",
-            "group": "deps",
-            "command": "install",
-            "args": "-r requirements.yml",
-            "description": "Install dependent roles and collections."
-        },
-        {
-            "id": "galaxy-build",
-            "name": "Ansible Galaxy Build",
-            "icon": "🏗️",
-            "group": "build",
-            "command": "collection build",
-            "args": "--force",
-            "description": "Build the collection artifact (tarball) for publishing."
-        },
-        {
-            "id": "galaxy-publish",
-            "name": "Ansible Galaxy Publish",
-            "icon": "🚢",
-            "group": "publish",
-            "command": "collection publish",
-            "args": "*.tar.gz --api-key $(GALAXY_API_KEY)",
-            "description": "Upload the collection to Ansible Galaxy."
-        }
-    ],
-    "description": " Ansible Galaxy Toolset."
-} %}
+        "description": "Ansible Galaxy Toolset."
+    } -%}
+    {%- do result.update(config) -%}
+{% endmacro %}
 
 {#
 {% if cookiecutter.__python.ansible %}

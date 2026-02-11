@@ -19,19 +19,37 @@
 #}
 
 
-{%- set config = {
-    "id": "precommit",
-    "name": "pre-commit",
-    "icon": "⚓",
-    "group": "vcs",
-    "command": "$(ACTIVATE) && pre-commit",
-    "start_msg": "Installing pre-commit hooks and hook-types...",
-    "end_msg": "pre-commit dependencies installed!",
-    "modes": {
-        "init": "install --install-hooks && \
-                $(PRECOMMIT) install --hook-type pre-commit --hook-type commit-msg"
-    }
-} -%}
+{% macro get_config(groups, settings, result) %}
+    {#
+        Provides the configuration dictionary for the pre-commit tool.
+        Maps Git hook installation and management to the global version control group.
+
+        Args:
+            groups (dict): The hydrated ns.pkg_groups dictionary.
+            settings (dict): The hydrated settings dictionary.
+            result (dict): A dictionary to be updated with the config.
+
+        Returns:
+            dict: The tool configuration object including the group metadata.
+    #}
+    {%- set s = settings -%}
+    {%- set config = {
+        "id": "precommit",
+        "name": "pre-commit",
+        "icon": "⚓",
+        "group": groups.vcs,
+        "command": "$(ACTIVATE) && pre-commit",
+        "description": "A framework for managing and maintaining multi-language pre-commit hooks.",
+        "modes": {
+            "init": {
+                "args": "install --install-hooks && $(PRECOMMIT) install --hook-type pre-commit --hook-type commit-msg",
+                "start_msg": "⚓ Installing pre-commit hooks and specialized hook-types...",
+                "end_msg": "✅ pre-commit dependencies and hooks installed!"
+            }
+        }
+    } -%}
+    {%- do result.update(config) -%}
+{% endmacro %}
 
 
 {# #TODO: Deprecated beyond this point!!!! #}

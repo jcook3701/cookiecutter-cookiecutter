@@ -18,12 +18,34 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
-{% set config = {
-    "id": "ament-lint",
-    "name": "Ament Lint",
-    "icon": "🛡️",
-    "group": "lint",
-    "command": "ament_lint_common",
-    "args": "src/{{ cookiecutter.project_slug }}",
-    "description": "Run standard ROS 2 linters (cppcheck, flake8, pep257, etc)."
-} %}
+{% macro get_config(groups, settings, result) %}
+    {#
+        Provides the configuration dictionary for the Ament Lint toolset.
+        Maps ROS 2 standard linting (cppcheck, flake8, etc.) to the global linting group.
+
+        Args:
+            groups (dict): The hydrated ns.pkg_groups dictionary.
+            settings (dict): The hydrated settings dictionary.
+            result (dict): A dictionary to be updated with the config.
+
+        Returns:
+            dict: The tool configuration object including the group metadata.
+    #}
+    {%- set s = settings -%}
+    {%- set config = {
+        "id": "ament-lint",
+        "name": "Ament Lint",
+        "icon": "🛡️",
+        "group": groups.lint,
+        "command": "ament_lint_common",
+        "description": "Run standard ROS 2 linters (cppcheck, flake8, pep257, etc).",
+        "modes": {
+            "check": {
+                "args": "$(" ~ s.dirs.SRC_DIR.val ~ ")",
+                "start_msg": "🔍 Running ROS 2 standard linters via ament_lint_common...",
+                "end_msg": "✅ ROS 2 linting checks complete!"
+            }
+        }
+    } -%}
+    {%- do result.update(config) -%}
+{% endmacro %}

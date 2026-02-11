@@ -19,19 +19,42 @@
 #}
 
 
-{% set config = {
-    "id": "black",
-    "name": "Black",
-    "icon": "⬛",
-    "group": "format",
-    "command": "$(PYTHON) -m black",
-    "start_msg": "Running black formatter style check...",
-    "end_msg": "Finished formatting check of Python code with Black!",
-    "modes": {
-        "check": "--check --diff",
-        "fix": ""
-    }
-} %}
+{% macro get_config(groups, settings, result) %}
+    {#
+        Provides the configuration dictionary for the Black formatter.
+        Maps PEP 8 code formatting to the global formatting group.
+
+        Args:
+            groups (dict): The hydrated ns.pkg_groups dictionary.
+            settings (dict): The hydrated settings dictionary.
+            result (dict): A dictionary to be updated with the config.
+
+        Returns:
+            dict: The tool configuration object including the group metadata.
+    #}
+    {%- set s = settings -%}
+    {%- set config = {
+        "id": "black",
+        "name": "Black",
+        "icon": "⬛",
+        "group": groups.format,
+        "command": "$(PYTHON) -m black",
+        "description": "The uncompromising Python code formatter.",
+        "modes": {
+            "check": {
+                "args": "--check --diff $(" ~ s.dirs.SRC_DIR.val ~ ")",
+                "start_msg": "🔍 Checking Python code style with Black...",
+                "end_msg": "✅ Style check complete!"
+            },
+            "fix": {
+                "args": "$(" ~ s.dirs.SRC_DIR.val ~ ")",
+                "start_msg": "🎨 Formatting Python code with Black...",
+                "end_msg": "✨ Code formatting complete!"
+            }
+        }
+    } -%}
+    {%- do result.update(config) -%}
+{% endmacro %}
 
 
 {# #TODO: Deprecated beyond this point!!!! #}

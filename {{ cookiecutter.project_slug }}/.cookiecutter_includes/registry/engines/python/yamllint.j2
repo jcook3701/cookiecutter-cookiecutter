@@ -18,18 +18,37 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
-{% set config = {
-    "id": "yamllint",
-    "name": "Yamllint",
-    "icon": "📄",
-    "group": "lint",
-    "command": "$(PYTHON) -m yamllint",
-    "start_msg": "Running yamllint...",
-    "end_msg": "Finished linting check of yaml files with yamllint!",
-    "modes": {
-        "check": "$(PROJECT_ROOT) $(RENDERED_COOKIE_DIR)"
-    }
-} %}
+{% macro get_config(groups, settings, result) %}
+    {#
+        Provides the configuration dictionary for the Yamllint tool.
+        Maps YAML file validation and linting to the global linting group.
+
+        Args:
+            groups (dict): The hydrated ns.pkg_groups dictionary.
+            settings (dict): The hydrated settings dictionary.
+            result (dict): A dictionary to be updated with the config.
+
+        Returns:
+            dict: The tool configuration object including the group metadata.
+    #}
+    {%- set s = settings -%}
+    {%- set config = {
+        "id": "yamllint",
+        "name": "Yamllint",
+        "icon": "📄",
+        "group": groups.lint,
+        "command": "$(PYTHON) -m yamllint",
+        "description": "A linter for YAML files that checks for syntax validity and style.",
+        "modes": {
+            "check": {
+                "args": "$(" ~ s.dirs.PROJECT_ROOT.val ~ ") $(" ~ s.cookie.RENDERED_COOKIE_DIR.val ~ ")",
+                "start_msg": "🔍 Running Yamllint check on YAML files...",
+                "end_msg": "✅ Finished linting check of yaml files with yamllint!"
+            }
+        }
+    } -%}
+    {%- do result.update(config) -%}
+{% endmacro %}
 
 
 {# #TODO: Deprecated beyond this point!!!! #}

@@ -22,6 +22,7 @@
 {%- from '.cookiecutter_includes/registry/_config.j2' import ns with context -%}
 {%- import '.cookiecutter_includes/makefile/utils.j2' as utils with context -%}
 
+{#
 {% macro render_config() -%}
     {{ utils.section_header("Configuration Settings", "⚙️") }}
 
@@ -29,23 +30,29 @@
     {{- '# ---' }} ~ {{ section_data._icon | default('🔹') }} {{ section_data._title | default(section_id | capitalize) }}
         {% for key, meta in section_data.items() if not key.startswith('_') %}
             {%- set value = meta.val -%}
-            {# Apply quotes if the meta-dict says so #}
             {%- if meta.quote | default(false) -%}{%- set value = '"' ~ value ~ '"' -%}{%- endif -%}
                 {{- "%-30s" | format(key.upper()) }} ?= {{ value }} # {{ meta.label | default(key) }}
         {% endfor %}
     {% endfor %}
 {%- endmacro %}
-
+#}
 
 {% macro debug_all() -%}
 {{ utils.section_header("NAMESPACE DEBUG DUMP", "🪲") }}
 
-# === 1. SETTINGS (Variables) ===
-{% for section_id, data in ns.settings.items() -%}
-# [{{ "%-10s" | format(section_id | upper) }}]: {{ data.keys() | list | join(', ') }}
+# === 1. PKG_GROUPS (Variables) ===
+{% for section_id, data in ns.pkg_groups.items() -%}
+    # [{{ "%-8s" | format(section_id | upper) }}]: {% for key, val in data.items() -%}
+        {{ key }} = {{ val }}{{ ", " if not loop.last -}}
+    {% endfor +%}
 {% endfor %}
 
-# === 2. FEATURES (Booleans) ===
+# === 2. SETTINGS (Variables) ===
+{% for section_id, data in ns.settings.items() -%}
+    # [{{ "%-10s" | format(section_id | upper) }}]: {{ data.keys() | list | join(', ') }}
+{% endfor %}
+
+# === 3. FEATURES (Booleans) ===
 {% for lang, features in ns.features.items() -%}
 {% if features %}
 # [{{ "%-10s" | format(lang | upper) }}]
@@ -55,16 +62,27 @@
 {% endif %}
 {%- endfor %}
 
-# === 3. ACTIVE TOOLS (The Registry) ===
+# === 4. ACTIVE TOOLS (The Registry) ===
 # Count: {{ ns.active_tools | length }}
 {% for tool in ns.active_tools %}
-# -> ID: {{ "%-15s" | format(tool.config.id) }} | Group: {{ tool.config.group }}
+    {%- set cfg = tool.config -%}
+    {%- set g = cfg.group -%}
+    {%- set g_id = g.id if g is mapping else g -%}
+# -> ID: {{ "%-25s" | format(cfg.id) }} | Group: {{ "%-10s" | format(g_id) }} | Icon: {{ g.icon | default('❓') if g is mapping else '❓' }}
 {% else %}
 # !!! WARNING: No tools found in ns.active_tools !!!
 {%- endfor %}
 
-# === 4. ACTIVE SECTIONS ===
-{% for group_id, tools in ns.active_sections.build.items() -%}
-# [{{ "%-10s" | format(group_id | upper) }}]: {{ tools.keys() | join(', ') }}
+# === 5. ACTIVE SECTIONS ===
+{# Loop through your package groups to show the final Makefile structure #}
+{% for group_id in ns.pkg_groups.keys() %}
+    {{- utils.render_section(ns, group_id) -}}
 {% endfor %}
+
+
+{#
+{% for group_id in ns.pkg_groups.keys() %}
+    {{- utils.render_section(ns, group_id) -}}
+{% endfor %}
+#}
 {% endmacro %}

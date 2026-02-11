@@ -18,29 +18,32 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
-{% import '.cookiecutter_includes/registry/engines/rust/git-cliff.j2' as _git_cliff with context %}
+{%- import '.cookiecutter_includes/registry/utils.j2' as utils with context -%}
+{%- import '.cookiecutter_includes/registry/engines/rust/built-in.j2' as _built_in with context -%}
+{%- import '.cookiecutter_includes/registry/engines/rust/git-cliff.j2' as _git_cliff with context -%}
 
-{% set git_cliff = _git_cliff %}
+{% macro get_active_tools(ns) %}
+    {%- set cargo = {} -%}
+    {%- set git_cliff = {} -%}
 
-{%- set _all_tools = [
-    git_cliff,
-] -%}
+    {%- do _built_in.get_config(ns.pkg_groups, ns.settings, cargo) -%}
+    {%- do _git_cliff.get_config(ns.pkg_groups, ns.settings, git_cliff) -%}
 
-{%- macro get_active_tools(ns) -%}
-    {%- set active_tools = [] -%}
-    {%- for tool in _all_tools -%}
-        {% if tool.config is defined %}
-            {%- set tool_id = tool.config.id -%}
-            {%- set feature_id = tool_id | upper -%}
+    {%- set tools_to_check = [
+        cargo,
+        git_cliff
+    ] -%}
 
-            {%- set is_core = tool_id in ['git-cliff'] -%}
-            {%- set is_enabled = ns.features.engines.rust.get(feature_id) | default(false) %}
+    {%- for tool_cfg in tools_to_check -%}
+        {%- if tool_cfg is mapping -%}
+            {%- set feature_id = tool_cfg.id | upper | replace("-", "_") -%}
+
+            {%- set is_core = feature_id in ['GIT_CLIFF'] -%}
+            {%- set is_enabled = ns.features.engines.rust.get(feature_id) | default(false) -%}
 
             {%- if is_core or is_enabled -%}
-                {%- do active_tools.append(tool) -%}
-                {%- do ns.active_tools.append(tool) -%}
+                {{- utils.register_tool(ns, tool_cfg) -}}
             {%- endif -%}
-        {% endif %}
+        {%- endif -%}
     {%- endfor -%}
-    {{- active_tools -}}
-{%- endmacro -%}
+{% endmacro %}

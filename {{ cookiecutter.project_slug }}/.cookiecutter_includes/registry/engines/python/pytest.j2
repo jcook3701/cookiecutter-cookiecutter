@@ -18,19 +18,39 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
-{% set config = {
-    "id": "pytest",
-    "name": "Pytest",
-    "icon": "🧪",
-    "group": "test",
-    "command": "$(PYTHON) -m pytest",
-    "start_msg": "Running tests with pytest...",
-    "end_msg": "Python tests complete!",
-    "ci_safe": true,
-    "modes": {
-        "run": ""
-    }
-} %}
+{% macro get_config(groups, settings, result) %}
+    {#
+        Provides the configuration dictionary for the Pytest testing framework.
+        Maps Python unit and functional testing to the global testing group.
+
+        Args:
+            groups (dict): The hydrated ns.pkg_groups dictionary.
+            settings (dict): The hydrated settings dictionary.
+            result (dict): A dictionary to be updated with the config.
+
+        Returns:
+            dict: The tool configuration object including the group metadata.
+    #}
+    {%- set s = settings -%}
+    {%- set config = {
+        "id": "pytest",
+        "name": "Pytest",
+        "icon": "🧪",
+        "group": groups.test,
+        "command": "$(PYTHON) -m pytest",
+        "description": "A framework that makes it easy to write small, readable tests.",
+        "ci_safe": true,
+        "modes": {
+            "run": {
+                "args": "$(" ~ s.dirs.TEST_DIR.val ~ ")",
+                "start_msg": "🧪 Running Python tests with Pytest...",
+                "end_msg": "✅ Python tests complete!"
+            }
+        }
+    } -%}
+    {%- do result.update(config) -%}
+{% endmacro %}
+
 
 {# #TODO: Deprecated beyond this point!!!! #}
 {% set python_cmd %}

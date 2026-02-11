@@ -18,26 +18,84 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
-{% set config = {
-    "id": "git",
-    "name": "Git",
-    "icon": "🐙",
-    "group": "vcs",
-    "command": "git",
-    "start_msg": "Executing Git",
-    "end_msg": "Git operation complete!",
-    "modes": {
-        "check": "--version",
-        "status": "status",
-        "init": "init -b {{ cookiecutter._default_branch }}",
-        "remote": "remote add origin {{ cookiecutter.repo_url }}.git",
-        "stage": "add -A",
-        "commit": "commit -m 'chore(init): initial commit'",
-        "tag": "tag -a $(RELEASE) -m 'Release $(RELEASE)'",
-        "push": "push origin $(RELEASE)",
-        "branch": "rev-parse --abbrev-ref HEAD"
-    }
-} %}
+{% macro get_config(groups, settings, result) %}
+    {#
+        Provides the configuration dictionary for the Git version control tool.
+        Maps source control lifecycle, repository initialization, and tagging.
+
+        Args:
+            groups (dict): The hydrated ns.pkg_groups dictionary.
+            settings (dict): The hydrated settings dictionary.
+            result (dict): A dictionary to be updated with the config.
+
+        Returns:
+            dict: The tool configuration object including the group metadata.
+    #}
+    {%- set s = settings -%}
+    {%- set config = {
+        "id": "git",
+        "name": "Git",
+        "icon": "🐙",
+        "group": groups.vcs,
+        "command": "git",
+        "description": "Distributed version control system for tracking changes in source code.",
+        "modes": {
+            "check": {
+                "args": "--version",
+                "group": groups.info,
+                "start_msg": "🔍 Checking Git version...",
+                "end_msg": "✅ Git version check complete!"
+            },
+            "status": {
+                "args": "status",
+                "start_msg": "🔍 Checking repository status...",
+                "end_msg": "✅ Status check complete!"
+            },
+            "init": {
+                "args": "init -b " ~ cookiecutter._default_branch,
+                "group": groups.setup,
+                "start_msg": "📁 Initializing new Git repository...",
+                "end_msg": "✅ Repository initialized!"
+            },
+            "remote": {
+                "args": "remote add origin " ~ cookiecutter.repo_url ~ ".git",
+                "group": groups.setup,
+                "start_msg": "🌐 Adding remote origin...",
+                "end_msg": "✅ Remote added!"
+            },
+            "stage": {
+                "args": "add -A",
+                "start_msg": "📥 Staging all changes...",
+                "end_msg": "✅ Changes staged!"
+            },
+            "commit": {
+                "args": "commit -m 'chore(init): initial commit'",
+                "start_msg": "💾 Committing initial project structure...",
+                "end_msg": "✅ Initial commit created!"
+            },
+            "tag": {
+                "args": "tag -a $(" ~ s.project.RELEASE.val ~ ") -m 'Release $(" ~ s.project.RELEASE.val ~ ")'",
+                "group": groups.version,
+                "start_msg": "🔖 Creating Git tag for $(" ~ s.project.RELEASE.val ~ ")...",
+                "end_msg": "✅ Git tag created!"
+            },
+            "push": {
+                "args": "push origin $(" ~ s.project.RELEASE.val ~ ")",
+                "group": groups.release,
+                "start_msg": "🚀 Pushing tag $(" ~ s.project.RELEASE.val ~ ") to origin...",
+                "end_msg": "✅ Push complete!"
+            },
+            "branch": {
+                "args": "rev-parse --abbrev-ref HEAD",
+                "group": groups.info,
+                "start_msg": "🔍 Identifying current branch...",
+                "end_msg": "✅ Branch identified!"
+            }
+        }
+    } -%}
+    {%- do result.update(config) -%}
+{% endmacro %}
+
 
 {# TODO: Deprecated.  Remove in the future... #}
 {% set python_cmd %}

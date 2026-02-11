@@ -18,18 +18,38 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
-{% set config = {
-    "id": "deptry",
-    "name": "Deptry",
-    "icon": "🧬",
-    "group": "deps",
-    "command": "$(ACTIVATE) && deptry",
-    "start_msg": "Checking dependency issues...",
-    "end_msg": "Finished checking for dependency issues!",
-    "modes": {
-        "check": "--pep621-dev-dependency-groups dev,docs $(SRC_DIR)"
-    }
-} %}
+{% macro get_config(groups, settings, result) %}
+    {#
+        Provides the configuration dictionary for the Deptry tool.
+        Maps dependency health checks to the global dependencies group.
+
+        Args:
+            groups (dict): The hydrated ns.pkg_groups dictionary.
+            settings (dict): The hydrated settings dictionary.
+            result (dict): A dictionary to be updated with the config.
+
+        Returns:
+            dict: The tool configuration object including the group metadata.
+    #}
+    {%- set s = settings -%}
+    {%- set config = {
+        "id": "deptry",
+        "name": "Deptry",
+        "icon": "🧬",
+        "group": groups.deps,
+        "command": "$(ACTIVATE) && deptry",
+        "description": "Finds unused, missing, and transitive dependencies in Python projects.",
+        "modes": {
+            "check": {
+                "args": "--pep621-dev-dependency-groups dev,docs $(" ~ s.dirs.SRC_DIR.val ~ ")",
+                "start_msg": "🧬 Checking Python dependency health with Deptry...",
+                "end_msg": "✅ Finished checking for dependency issues!"
+            }
+        }
+    } -%}
+    {%- do result.update(config) -%}
+{% endmacro %}
+
 
 {# #TODO: Deprecated beyond this point!!!! #}
 {% set python_cmd %}

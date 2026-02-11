@@ -19,16 +19,39 @@
 #}
 
 
-{% set config = {
-    "id": "eslint",
-    "name": "ESLint",
-    "icon": "🛡️",
-    "group": "lint",
-    "command": "npx eslint",
-    "start_msg": "Running ESLint check...",
-    "end_msg": "Finished linting check with ESLint!",
-    "modes": {
-        "check": "--ext .ts,.tsx .",
-        "fix": "--ext .ts,.tsx . --fix"
-    }
-} %}
+{% macro get_config(groups, settings, result) %}
+    {#
+        Provides the configuration dictionary for the ESLint tool.
+        Maps TypeScript and JavaScript linting to the global linting group.
+
+        Args:
+            groups (dict): The hydrated ns.pkg_groups dictionary.
+            settings (dict): The hydrated settings dictionary.
+            result (dict): A dictionary to be updated with the config.
+
+        Returns:
+            dict: The tool configuration object including the group metadata.
+    #}
+    {%- set s = settings -%}
+    {%- set config = {
+        "id": "eslint",
+        "name": "ESLint",
+        "icon": "🛡️",
+        "group": groups.lint,
+        "command": "npx eslint",
+        "description": "Find and fix problems in your JavaScript and TypeScript code.",
+        "modes": {
+            "check": {
+                "args": "--ext .ts,.tsx $(" ~ s.dirs.PROJECT_ROOT.val ~ ")",
+                "start_msg": "🔍 Running ESLint check on TypeScript files...",
+                "end_msg": "✅ Finished linting check with ESLint!"
+            },
+            "fix": {
+                "args": "--ext .ts,.tsx $(" ~ s.dirs.PROJECT_ROOT.val ~ ") --fix",
+                "start_msg": "🛠️  Applying ESLint automated fixes...",
+                "end_msg": "✨ ESLint fixes applied successfully!"
+            }
+        }
+    } -%}
+    {%- do result.update(config) -%}
+{% endmacro %}

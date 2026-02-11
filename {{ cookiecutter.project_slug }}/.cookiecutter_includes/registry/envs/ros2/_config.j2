@@ -23,8 +23,8 @@
 {%- set ros_settings = cookiecutter._ros2 | default({}) -%}
 
 {%- set ros2_map = {
-    "AMENT_LINT": ros_settings.ament_lint_common | default(true),
-    "BLOOM": ros_settings.bloom | default(true),
+    "AMENT_LINT": ros_settings.ament_lint_common | default(false),
+    "BLOOM": ros_settings.bloom | default(false),
     "COLCON": ros_settings.colcon | default(false),
     "ROSDEP": ros_settings.rosdep | default(false)
 } -%}

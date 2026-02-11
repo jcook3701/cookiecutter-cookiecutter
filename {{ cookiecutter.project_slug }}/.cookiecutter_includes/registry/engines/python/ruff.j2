@@ -18,23 +18,56 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
-{% set config = {
-    "id": "ruff",
-    "name": "Ruff",
-    "icon": "🦀",
-    "group": "lint",
-    "command": "$(PYTHON) -m ruff",
-    "start_msg": "Running ruff",
-    "end_msg": "Finished ruff check of Python code!",
-    "pre_cmd": "$(MAKE) list-folders",
-    "modes": {
-        "lint-check": "check --config pyproject.toml $(SRC_DIR) $(TESTS_DIR)",
-        "lint-fix": "check --config pyproject.toml --fix $(SRC_DIR) $(TESTS_DIR)",
-        "format": "format --config pyproject.toml $(SRC_DIR) $(TESTS_DIR)",
-        "format-check": "format --config pyproject.toml --check $(SRC_DIR) $(TESTS_DIR)"
-    },
-    "exclude": "--force-exclude '$(COOKIE_DIR)/pyproject.toml'"
-} %}
+{% macro get_config(groups, settings, result) %}
+    {#
+        Provides the configuration dictionary for the Ruff linter and formatter.
+        Maps high-performance Python linting and formatting to the global groups.
+
+        Args:
+            groups (dict): The hydrated ns.pkg_groups dictionary.
+            settings (dict): The hydrated settings dictionary.
+            result (dict): A dictionary to be updated with the config.
+
+        Returns:
+            dict: The tool configuration object including the group metadata.
+    #}
+    {%- set s = settings -%}
+    {%- set config = {
+        "id": "ruff",
+        "name": "Ruff",
+        "icon": "🦀",
+        "group": groups.lint,
+        "command": "$(PYTHON) -m ruff",
+        "description": "An extremely fast Python linter and code formatter, written in Rust.",
+        "pre_cmd": "$(MAKE) list-folders",
+        "exclude": "--force-exclude '$(" ~ s.cookie.COOKIE_DIR.val ~ ")/pyproject.toml'",
+        "modes": {
+            "lint-check": {
+                "args": "check --config pyproject.toml $(" ~ s.dirs.SRC_DIR.val ~ ") $(" ~ s.dirs.TEST_DIR.val ~ ")",
+                "start_msg": "🔍 Running Ruff style and logic check...",
+                "end_msg": "✅ Finished Ruff check of Python code!"
+            },
+            "lint-fix": {
+                "args": "check --config pyproject.toml --fix $(" ~ s.dirs.SRC_DIR.val ~ ") $(" ~ s.dirs.TEST_DIR.val ~ ")",
+                "start_msg": "🛠️  Applying Ruff automated fixes...",
+                "end_msg": "✨ Ruff fixes applied successfully!"
+            },
+            "format": {
+                "args": "format --config pyproject.toml $(" ~ s.dirs.SRC_DIR.val ~ ") $(" ~ s.dirs.TEST_DIR.val ~ ")",
+                "group": groups.format,
+                "start_msg": "🎨 Formatting Python code with Ruff...",
+                "end_msg": "✨ Ruff formatting complete!"
+            },
+            "format-check": {
+                "args": "format --config pyproject.toml --check $(" ~ s.dirs.SRC_DIR.val ~ ") $(" ~ s.dirs.TEST_DIR.val ~ ")",
+                "group": groups.format,
+                "start_msg": "🔍 Verifying Python code format with Ruff...",
+                "end_msg": "✅ Ruff format check complete!"
+            }
+        }
+    } -%}
+    {%- do result.update(config) -%}
+{% endmacro %}
 
 
 

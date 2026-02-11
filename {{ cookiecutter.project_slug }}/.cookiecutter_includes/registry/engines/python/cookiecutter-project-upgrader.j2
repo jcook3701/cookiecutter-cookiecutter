@@ -18,21 +18,41 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
-{% set config = {
-    "id": "project_upgrade",
-    "name": "Project Upgrader",
-    "icon": "🍪",
-    "group": "upgrader",
-    "command": "$(ACTIVATE) && cookiecutter_project_upgrader",
-    "start_msg": "Upgrading project from initial cookiecutter template...",
-    "end_msg": "Finished project upgrade!",
-    "modes": {
-        "run": "--context-file ./docs/cookiecutter_input.json \
-                --upgrade-branch main \
-                -e 'cookiecutter.json' \
-                -e '$(COOKIE_DIR)'"
-    }
-} %}
+{% macro get_config(groups, settings, result) %}
+    {#
+        Provides the configuration dictionary for the Cookiecutter Project Upgrader.
+        Maps template synchronization and project maintenance to the upgrader group.
+
+        Args:
+            groups (dict): The hydrated ns.pkg_groups dictionary.
+            settings (dict): The hydrated settings dictionary.
+            result (dict): A dictionary to be updated with the config.
+
+        Returns:
+            dict: The tool configuration object including the group metadata.
+    #}
+    {%- set s = settings -%}
+    {%- set config = {
+        "id": "project_upgrade",
+        "name": "Project Upgrader",
+        "icon": "🍪",
+        "group": groups.upgrader,
+        "command": "$(ACTIVATE) && cookiecutter_project_upgrader",
+        "description": "Syncs the project with the latest version of its parent template.",
+        "modes": {
+            "run": {
+                "args": "--context-file $(" ~ s.dirs.DOCS_DIR.val ~ ")/cookiecutter_input.json " ~
+                        "--upgrade-branch main " ~
+                        "-e 'cookiecutter.json' " ~
+                        "-e '$(" ~ s.cookie.COOKIE_DIR.val ~ ")'",
+                "start_msg": "🍪 Upgrading project from initial cookiecutter template...",
+                "end_msg": "✅ Finished project upgrade!"
+            }
+        }
+    } -%}
+    {%- do result.update(config) -%}
+{% endmacro %}
+
 
 {# #TODO: Deprecated beyond this point!!!! #}
 {% set python_cmd %}

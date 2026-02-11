@@ -19,16 +19,39 @@
 #}
 
 
-{% set config = {
-    "id": "prettier",
-    "name": "Prettier",
-    "icon": "✨",
-    "group": "format",
-    "command": "$(NPX) prettier",
-    "start_msg": "Running Prettier formatting check...",
-    "end_msg": "Finished formatting with Prettier!",
-    "modes": {
-        "check": "--check .",
-        "fix": "--write ."
-    }
-} %}
+{% macro get_config(groups, settings, result) %}
+    {#
+        Provides the configuration dictionary for the Prettier formatter.
+        Maps opinionated code formatting to the global formatting group.
+
+        Args:
+            groups (dict): The hydrated ns.pkg_groups dictionary.
+            settings (dict): The hydrated settings dictionary.
+            result (dict): A dictionary to be updated with the config.
+
+        Returns:
+            dict: The tool configuration object including the group metadata.
+    #}
+    {%- set s = settings -%}
+    {%- set config = {
+        "id": "prettier",
+        "name": "Prettier",
+        "icon": "✨",
+        "group": groups.format,
+        "command": "$(NPX) prettier",
+        "description": "An opinionated code formatter supporting multiple languages.",
+        "modes": {
+            "check": {
+                "args": "--check $(" ~ s.dirs.PROJECT_ROOT.val ~ ")",
+                "start_msg": "🔍 Checking project formatting with Prettier...",
+                "end_msg": "✅ Prettier formatting check complete!"
+            },
+            "fix": {
+                "args": "--write $(" ~ s.dirs.PROJECT_ROOT.val ~ ")",
+                "start_msg": "🎨 Fixing project formatting with Prettier...",
+                "end_msg": "✨ Finished formatting with Prettier!"
+            }
+        }
+    } -%}
+    {%- do result.update(config) -%}
+{% endmacro %}

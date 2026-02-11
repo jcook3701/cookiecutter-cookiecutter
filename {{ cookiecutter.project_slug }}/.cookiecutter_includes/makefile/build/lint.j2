@@ -22,10 +22,10 @@
 
 {%- macro cmds(ns) -%}
     {# Use the namespaced version which is guaranteed to be in scope #}
-    {%- set lint_tools = ns.active_tools | selectattr("config.group", "equalto", "lint") | list -%}
+    {# {%- set lint_tools = ns.active_tools | selectattr("config.group", "equalto", "lint") | list -%}
 
     {% for tool in lint_tools %}
         {{- utils.section_header(tool.config.name, tool.config.icon | default("None")) }}
         {{- utils.tool_cmds(tool.config) }}
-    {%- endfor -%}
+    {%- endfor -%} #}
 {%- endmacro -%}
