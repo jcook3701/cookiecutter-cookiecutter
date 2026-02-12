@@ -18,7 +18,40 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
-{%- macro section_header(title, icon="⚙️", parents=[]) -%}
+
+{# --- ATOMIC COMPONENTS (MAKEFILE PRIMITIVES) --- #}
+
+{% macro tool_info(config, parent_id) %}
+    {#
+        Renders a diagnostic version check for a tool.
+    #}
+{%- set var_name = parent_id | upper | replace("-", "_") -%}
+info-{{ config.id }}: ## Check {{ config.name }} version.
+	$(AT)echo -n "🛠️ {{ config.name }}: "
+	$(AT)$({{ var_name }}) --version
+{% endmacro %}
+
+
+{% macro tool_guard(binary, install_msg="") %}
+    {#
+        Checks for binary existence before execution.
+        Args:
+            binary (str): The command to check (e.g., 'docker').
+            install_msg (str): Instructions if missing.
+    #}
+	$(AT)command -v {{ binary }} >/dev/null 2>&1 || { echo >&2 "❌ {{ binary }} is required but not installed. {{ install_msg }}"; exit 1; }
+{% endmacro %}
+
+
+{% macro tool_ci_wrap(command) %}
+    {#
+        Wraps a command in the CI safety logic.
+    #}
+	$(AT)$(call run_ci_safe, {{ command }})
+{% endmacro %}
+
+
+{%- macro tool_section_header(title, icon="⚙️", parents=[]) -%}
     {#
         Renders a standardized Makefile section header.
 
@@ -56,36 +89,20 @@
 {%- endmacro -%}
 
 
-{%- macro render_vars_section(ns, group_id) -%}
+{%- macro tool_phony_header(ns) -%}
     {#
-        Filters the registry for a specific group and renders ONLY the action recipes.
-
-        Args:
-            ns (namespace): The global project namespace.
-            group_id (str): The ID of the group to filter for (e.g., 'lint').
+        Generates the phony header for a makefile
     #}
-    {%- set group_meta = ns.pkg_groups.get(group_id) -%}
+{%- set phony_header -%}
+{{ ".PHONY: \\" }}
+{%- endset -%}
+    {{- tool_section_header("Phony")}}
+    {{- phony_header }}
+{%- endmacro -%}
 
-    {%- if group_meta is mapping -%}
-        {%- set tools = [] -%}
-        {%- set parents = [] -%}
-        {%- for tool in ns.active_tools -%}
-            {%- set g = tool.config.get('group', {}) -%}
-            {%- set tool_group_id = g.id if g is mapping and g.id is defined else g -%}
-            {%- if tool_group_id == group_id -%}
-                {%- do tools.append(tool) -%}
-                {%- if tool.parent_id not in parents -%}
-                    {%- do parents.append(tool.parent_id) -%}
-                {%- endif -%}
-            {%- endif -%}
-        {%- endfor -%}
-        {%- if tools | length > 0 -%}
-            {{- section_header(group_meta.get('label', group_id | upper), group_meta.get('icon', '⚙️'), parents) }}
-            {%- for tool in tools %}
-                {{- tool_vars(tool.config, tool.parent_id) }}
-            {% endfor -%}
-        {%- endif -%}
-    {%- endif -%}
+
+{%- macro tool_phony_line() %}
+
 {%- endmacro -%}
 
 
@@ -111,81 +128,40 @@
 {% endmacro -%}
 
 
-{% macro render_group(ns, group_id, mode="action") %}
+{%- macro tool_version_header(ns) -%}
     {#
-        Orchestrates the rendering of a Makefile group by category.
-
-        This macro implements a dual-pass logic:
-        1. 'vars' mode: Filters the ROOT 'ns.tools' list. Variables are
-           rendered ONLY in the section matching the tool's primary group.
-        2. 'action' mode: Filters the FLATTENED 'ns.active_tools' list.
-           Recipes are rendered in the section matching the specific mode's group.
-
-        Args:
-            ns (namespace): The global project namespace containing the registry.
-            group_id (str): The unique ID of the package group to render.
-            mode (str): Determines output type: 'vars' (binaries) or 'action' (recipes).
-
-        Returns:
-            str: A formatted block of Makefile variables or targets.
+        Atomic: Project Version Header
+        Uses hydrated settings to render project metadata.
     #}
-    {%- set group_meta = ns.pkg_groups.get(group_id) -%}
-    {%- if group_meta is mapping -%}
-        {%- set outputs = [] -%}
-        {%- set parents_in_section = [] -%}
-
-        {%- for tool in ns.active_tools -%}
-            {# Comparison Logic #}
-            {%- set p_group = tool.parent_group -%}
-            {%- set p_group_id = p_group.id if p_group is mapping else p_group -%}
-
-            {%- set m_group = tool.config.group -%}
-            {%- set m_group_id = m_group.id if m_group is mapping else m_group -%}
-
-            {%- if mode == "vars" -%}
-                {# VARS Pass: ONLY render if this is the PARENT'S group #}
-                {%- if p_group_id == group_id -%}
-                    {%- if tool.parent_id not in parents_in_section -%}
-                        {%- do outputs.append(tool_vars(tool.config, tool.parent_id)) -%}
-                        {%- do parents_in_section.append(tool.parent_id) -%}
-                    {%- endif -%}
-                {%- endif -%}
-            {%- else -%}
-                {# ACTION Pass: Render based on the MODE'S group #}
-                {%- if m_group_id == group_id -%}
-                    {%- do outputs.append(tool_action(tool.config, tool.parent_id)) -%}
-                    {%- if tool.parent_id not in parents_in_section -%}
-                        {%- do parents_in_section.append(tool.parent_id) -%}
-                    {%- endif -%}
-                {%- endif -%}
-            {%- endif -%}
-        {%- endfor -%}
-
-        {% if outputs | length > 0 %}
-            {{- section_header(group_meta.get('label', group_id | upper), group_meta.get('icon', '⚙️'), parents_in_section) }}
-            {{- outputs | join('\n\n' if mode == 'action' else '\n') }}
-        {% endif %}
-    {%- endif -%}
-{% endmacro %}
-
-
-{%- macro render_section(ns, group_id) -%}
-    {#
-        Orchestrates the full rendering of a Makefile's sections (Variables + Actions).
-
-        This macro executes a two-pass rendering for a specific group ID:
-        1. 'vars': Renders the global binary definitions (e.g., RUFF := ...)
-           if the group matches the Tool's root configuration.
-        2. 'actions': Renders the procedural recipes (e.g., ruff-check: ...)
-           if the group matches the Mode's specific configuration.
-
-        Args:
-            ns (namespace): The global project namespace containing the registry.
-            group_id (str): The unique ID of the package group (e.g., 'lint').
-
-        Returns:
-            str: The complete combined output of the section for the Makefile.
-    #}
-    {{- render_group(ns, group_id, "vars") -}}
-    {# {{- render_group(ns, group_id, "actions") }} #}
+{%- set version_header -%}
+version: ## Show project and tool versions.
+    $(AT)echo "$($(ns.settings.project.PROJECT_NAME.val))"
+    $(AT)echo "  author: $($(ns.settings.project.AUTHOR.val))"
+    $(AT)echo "  version: $($(ns.settings.project.VERSION.val))"
+    $(AT)echo "  tools:"
+{%- endset -%}
+    {{- tool_section_header("Version")}}
+    {{- version_header }}
 {%- endmacro -%}
+
+
+{%- macro tool_version_line(config, parent_id) -%}
+    {#
+        Atomic: Tool Version Line
+        Renders a single line for the master 'version' target.
+    #}
+{%- set var_name = parent_id | upper | replace("-", "_") -%}
+{%- set version_line %}
+    $(AT)echo -n "  - {{ config.name }}: " && $({{ var_name }}) --version
+{%- endset -%}
+    {{- version_line }}
+{%- endmacro -%}
+
+{% macro tool_help() %}
+    {#
+        Generates the standard self-documenting 'help' target.
+        Parses all targets with '##' descriptions.
+    #}
+help: ## Show this help message.
+	$(AT)grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
+{% endmacro %}

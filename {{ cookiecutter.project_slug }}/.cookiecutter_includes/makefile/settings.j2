@@ -18,9 +18,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
-{% macro environment(
-
-) %}
+{% macro environment() %}
     {#
         Generates ⚙️ Makefile  environment settings section.
 
@@ -66,9 +64,7 @@ endif
 {% endmacro %}
 
 
-{% macro ci_cd(
-
-) %}
+{% macro ci_cd() %}
     {#
         ⚙️ Generates Makefile ci/cd settings section.
 
@@ -104,15 +100,12 @@ endef
 cc_or_std = $(if $(filter true,$(COOKIECUTTER_HOOKS)),$(1),$(2))
 {% endmacro %}
 
+
 {% import '.cookiecutter_includes/makefile/utils.j2' as utils with context %}
-{%- macro build(
-    ns,
-    jekyll_enabled,
-    sphinx_enabled
-) -%}
+{%- macro build(ns) -%}
     {%- for group_id, group_data in ns.settings.items() -%}
         {# 1. Generate Header using the metadata keys #}
-        {{- utils.section_header(group_data._title, group_data._icon) -}}
+        {{- utils.tool_section_header(group_data._title, group_data._icon) -}}
         {# 2. Generate Variables (skipping metadata keys) #}
         {%- for var_name, info in group_data.items() if not var_name.startswith('_') -%}
             {% if info.quote | default(false) %}
@@ -125,13 +118,9 @@ cc_or_std = $(if $(filter true,$(COOKIECUTTER_HOOKS)),$(1),$(2))
 {% endmacro %}
 
 
-{%- macro create(
-    ns,
-    jekyll_enabled,
-    sphinx_enabled
-) -%}
+{%- macro create(ns) -%}
     {#
-        ⚙️ Generates Makefile settings section (environment, ci/cd, & build).
+        ⚙️ Generates Makefile settings sections (environment, ci/cd, & build).
 
         Args:
             template_type (str): .
@@ -141,11 +130,7 @@ cc_or_std = $(if $(filter true,$(COOKIECUTTER_HOOKS)),$(1),$(2))
     #}
     {{- environment() -}}
     {{- ci_cd() -}}
-    {{- build(
-        ns,
-        jekyll_enabled,
-        sphinx_enabled
-    ) -}}
+    {{- build(ns) -}}
 {% endmacro %}
 
 

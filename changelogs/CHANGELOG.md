@@ -445,3 +445,4 @@ Feat 032 (#81)
 - *(jinja)* Created a jinja2 settings registry to manage templates.
 - *(jinja)* Jinja registry is looking good.
 - *(jinja)* Major registry update.  Almost able to build makefile for any tool/env.
+- *(jinja)* Jinja registry fixes.  Am now mostly able to build command variables and command actions for Makefile.

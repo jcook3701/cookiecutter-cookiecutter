@@ -18,21 +18,10 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
-{%- from '.cookiecutter_includes/registry/_config.j2' import ns with context -%}
-
-{% import '.cookiecutter_includes/makefile/clean.j2' as clean with context %}
 {% import '.cookiecutter_includes/makefile/docs.j2' as docs with context %}
-{% import '.cookiecutter_includes/makefile/help.j2' as help with context %}
-{% import '.cookiecutter_includes/makefile/phony.j2' as phony with context %}
-{% import '.cookiecutter_includes/makefile/build.j2' as build with context %}
 {% import '.cookiecutter_includes/makefile/settings.j2' as settings with context %}
-{% import '.cookiecutter_includes/makefile/version.j2' as version with context %}
 
-{%- macro create(
-	template_type,
-	jekyll_enabled,
-	sphinx_enabled
-) -%}
+{%- macro create(ns) -%}
     {#
         Generates project Makefile file.
 
@@ -51,15 +40,10 @@
 		comment_style='hash') -}}
 
 {# Settings Section (environment, ci/cd, & build) #}
-{{ settings.create(
-	jekyll_enabled=jekyll_enabled,
-	sphinx_enabled=sphinx_enabled) }}
+{{ settings.create(ns) }}
 
 {# TODO: Build Commands Section #}
-{{ build.commands(
-	ns=ns,
-	jekyll_enabled=jekyll_enabled,
-	sphinx_enabled=sphinx_enabled) }}
+{# {{ build.commands(ns=ns) }} #}
 
 # --------------------------------------------------
 # Functions
@@ -88,23 +72,17 @@ TOML_FILE_LIST := 	( \
 	)
 # --------------------------------------------------
 {# .PHONY Section #}
-{{ phony.selection(
-	jekyll_enabled=jekyll_enabled,
-	sphinx_enabled=sphinx_enabled) }}
+
 
 {# TODO: Project Build Section #}
-{{ build.actions(
-	jekyll_enabled=jekyll_enabled,
-	sphinx_enabled=sphinx_enabled) }}
+{# {{ build.actions(ns) }} #}
+
 
 {# Clean Section #}
-{{ clean.actions(
-	jekyll_enabled=jekyll_enabled,
-	sphinx_enabled=sphinx_enabled) }}
+{# {{ clean.actions(ns) }} #}
 {# Version Section #}
-{{ version.actions() }}
+{# {{ version.actions() }} #}
 {# Help Section #}
-{{ help.actions(
-	jekyll_enabled=jekyll_enabled,
-	sphinx_enabled=sphinx_enabled) }}
+{# {{ help.actions(ns) }} #}
+
 {%- endmacro -%}
