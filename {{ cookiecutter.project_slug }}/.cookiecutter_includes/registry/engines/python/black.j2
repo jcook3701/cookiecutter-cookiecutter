@@ -38,16 +38,16 @@
         "name": "Black",
         "icon": "⬛",
         "group": groups.format,
-        "command": "$(PYTHON) -m black",
+        "command": "$(" ~ s.python_infra.python.label ~ ") -m black",
         "description": "The uncompromising Python code formatter.",
         "modes": {
             "check": {
-                "args": "--check --diff $(" ~ s.dirs.SRC_DIR.val ~ ")",
+                "args": "--check --diff $(" ~ s.dirs.src.label ~ ")",
                 "start_msg": "🔍 Checking Python code style with Black...",
                 "end_msg": "✅ Style check complete!"
             },
             "fix": {
-                "args": "$(" ~ s.dirs.SRC_DIR.val ~ ")",
+                "args": "$(" ~ s.dirs.src.label ~ ")",
                 "start_msg": "🎨 Formatting Python code with Black...",
                 "end_msg": "✨ Code formatting complete!"
             }

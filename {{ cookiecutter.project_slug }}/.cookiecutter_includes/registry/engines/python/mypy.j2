@@ -37,13 +37,13 @@
         "name": "MyPy",
         "icon": "🧠",
         "group": groups.typing,
-        "command": "$(PYTHON) -m mypy",
+        "command": "$(" ~ s.python_infra.python.label ~ ") -m mypy",
         "description": "Optional static typing for Python using PEP 484 annotations.",
         "ci_safe": true,
         "pre_cmd": "$(MAKE) list-folders",
         "modes": {
             "run": {
-                "args": "$(" ~ s.dirs.SRC_DIR.val ~ ") $(" ~ s.dirs.TEST_DIR.val ~ ")",
+                "args": "$(" ~ s.dirs.src.label ~ ") $(" ~ s.dirs.test.label ~ ")",
                 "start_msg": "🧠 Checking Python types with MyPy...",
                 "end_msg": "✅ Python typecheck complete!"
             }

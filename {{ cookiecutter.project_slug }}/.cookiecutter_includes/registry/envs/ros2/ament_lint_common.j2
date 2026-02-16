@@ -41,7 +41,7 @@
         "description": "Run standard ROS 2 linters (cppcheck, flake8, pep257, etc).",
         "modes": {
             "check": {
-                "args": "$(" ~ s.dirs.SRC_DIR.val ~ ")",
+                "args": "$(" ~ s.dirs.src.label ~ ")",
                 "start_msg": "🔍 Running ROS 2 standard linters via ament_lint_common...",
                 "end_msg": "✅ ROS 2 linting checks complete!"
             }

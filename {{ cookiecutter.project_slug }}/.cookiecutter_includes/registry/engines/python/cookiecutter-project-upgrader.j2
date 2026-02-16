@@ -37,14 +37,14 @@
         "name": "Project Upgrader",
         "icon": "🍪",
         "group": groups.upgrader,
-        "command": "$(ACTIVATE) && cookiecutter_project_upgrader",
+        "command": "$(" ~ s.python_infra.activate.label ~ ") && cookiecutter_project_upgrader",
         "description": "Syncs the project with the latest version of its parent template.",
         "modes": {
             "run": {
-                "args": "--context-file $(" ~ s.dirs.DOCS_DIR.val ~ ")/cookiecutter_input.json " ~
+                "args": "--context-file $(" ~ s.dirs.docs.label ~ ")/cookiecutter_input.json " ~
                         "--upgrade-branch main " ~
                         "-e 'cookiecutter.json' " ~
-                        "-e '$(" ~ s.cookie.COOKIE_DIR.val ~ ")'",
+                        "-e '$(" ~ s.cookie.template_dir.label ~ ")'",
                 "start_msg": "🍪 Upgrading project from initial cookiecutter template...",
                 "end_msg": "✅ Finished project upgrade!"
             }

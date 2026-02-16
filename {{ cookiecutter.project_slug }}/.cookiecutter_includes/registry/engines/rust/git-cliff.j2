@@ -41,16 +41,16 @@
         "command": "git-cliff",
         "description": "A highly customizable changelog generator that follows Conventional Commits.",
         "pre_cmd": "git fetch --tags",
-        "exclude": "--exclude-path '$(" ~ s.dirs.TEST_DIR.val ~ ")/*'",
+        "exclude": "--exclude-path '$(" ~ s.dirs.test.label ~ ")/*'",
         "modes": {
             "full": {
-                "args": "--output $(" ~ s.files.CHANGELOG_FILE.val ~ ")",
+                "args": "--output $(" ~ s.files.changelog.label ~ ")",
                 "start_msg": "📝 Generating full project changelog from git history...",
                 "end_msg": "✅ Full changelog generation complete!"
             },
             "unreleased": {
-                "args": "--unreleased --tag $(" ~ s.project.RELEASE.val ~ ") --output $(" ~ s.files.CHANGELOG_FILE.val ~ ")",
-                "start_msg": "📝 Updating changelog with unreleased changes for $(" ~ s.project.RELEASE.val ~ ")...",
+                "args": "--unreleased --tag $(" ~ s.project.release.label ~ ") --output $(" ~ s.files.changelog_release.label ~ ")",
+                "start_msg": "📝 Updating changelog with unreleased changes for $(" ~ s.project.release.label ~ ")...",
                 "end_msg": "✅ Unreleased changes added to changelog!"
             },
             "preview": {

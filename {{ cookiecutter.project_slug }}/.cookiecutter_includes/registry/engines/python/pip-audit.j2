@@ -38,7 +38,7 @@
         "name": "pip-audit",
         "icon": "🛡️",
         "group": groups.security,
-        "command": "$(ACTIVATE) && pip-audit",
+        "command": "$(" ~ s.python_infra.activate.label ~ ") && pip-audit",
         "description": "Scans Python environments for packages with known vulnerabilities.",
         "ci_safe": true,
         "modes": {

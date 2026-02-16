@@ -44,6 +44,37 @@
     {%- endif -%}
 {% endmacro %}
 
+
+{% macro _gate_group_logic(ns, group_meta, mode, outputs) %}
+    {#
+        Logic Function: Group Aggregator (Safe Edition)
+        Only executes if the current group explicitly opts-in.
+    #}
+    {%- if group_meta.supported_targets is defined -%}
+
+        {%- if mode == "action" -%}
+            {%- for suffix in group_meta.supported_targets -%}
+                {%- set sub_targets = [] -%}
+                {%- for tool in ns.active_tools -%}
+                    {%- if tool.config.group.id == group_meta.id and tool.config.id.endswith("-" ~ suffix) -%}
+                        {%- do sub_targets.append(tool.config.id) -%}
+                    {%- endif -%}
+                {%- endfor -%}
+
+                {%- if sub_targets | length > 0 -%}
+                    {%- do outputs.append(utils.tool_group_action(group_meta, suffix, sub_targets)) -%}
+                {%- endif -%}
+            {%- endfor -%}
+
+        {%- elif mode == "phony" -%}
+            {%- for suffix in group_meta.supported_targets -%}
+                {%- do outputs.append(group_meta.id ~ "-" ~ suffix) -%}
+            {%- endfor -%}
+        {%- endif -%}
+
+    {%- endif -%}
+{% endmacro %}
+
 {# --- SUB-RENDERERS (THE "COMPONENTS") --- #}
 
 {% macro _render_vars(tool, group_id, outputs, seen) %}
@@ -61,6 +92,14 @@
 
 {% macro _render_phony(tool, group_id, outputs, seen) %}
     {{- _gate_logic(tool, group_id, outputs, seen, none, use_parent_group=False) -}}
+{% endmacro %}
+
+{% macro _collect_group_aggregates(ns, group_meta, mode, outputs) %}
+    {#
+        Wrapper: Group Aggregate Collector
+        Delegates to the logic function to populate the outputs.
+    #}
+    {%- do _gate_group_logic(ns, group_meta, mode, outputs) -%}
 {% endmacro %}
 
 {# --- THE CENTRAL ORCHESTRATOR --- #}
@@ -90,6 +129,7 @@
         {%- set outputs = [] -%}
         {%- set parents_in_section = [] -%}
 
+        {# 1. Tool-Level Logic: Iterate through all active tools #}
         {%- for tool in ns.active_tools -%}
             {%- if mode == "vars" -%}
                 {%- do _render_vars(tool, group_id, outputs, parents_in_section) -%}
@@ -102,6 +142,9 @@
             {%- endif -%}
         {%- endfor -%}
 
+        {# 2. Group-Level Logic: Trigger the aggregate collector #}
+        {%- do _collect_group_aggregates(ns, group_meta, mode, outputs) -%}
+
         {%- if outputs | length > 0 -%}
             {%- set result.outputs = outputs -%}
             {%- set result.parents = parents_in_section -%}
@@ -111,7 +154,7 @@
 {%- endmacro -%}
 
 
-{%- macro render_section(ns, mode="action") -%}
+{%- macro _render_section(ns, mode="action") -%}
     {#
         Top-Level Orchestrator: Section Generator
         Iterates through all defined package groups to render a specific Makefile layer.
@@ -132,6 +175,8 @@
         {{- utils.tool_version_header(ns) }}
     {% elif mode == "phony" %}
         {{- utils.tool_phony_header(ns) }}
+    {% elif mode == "help" %}
+        {{- utils.tool_help() }}
     {% endif %}
 
     {%- for group_id in ns.pkg_groups.keys() -%}
@@ -152,15 +197,38 @@
             {% elif mode == "vars" %}
                 {{- utils.tool_section_header(meta.get('label', group_id | upper), meta.get('icon', '⚙️'), parents) }}
                 {{- outputs | join('\n') }}
-            {% elif mode == "action"%}
+            {% elif mode == "action" %}
                 {{- utils.tool_section_header(meta.get('label', group_id | upper), meta.get('icon', '⚙️'), parents) }}
-                {{- outputs | join('\n' ) }}
+                {{- outputs | join('\n' ) -}}
             {% endif %}
         {% endif %}
     {%- endfor -%}
 {%- endmacro -%}
 
+{%- macro render_vars(ns) -%}
+    {{- _render_section(ns, mode="vars") -}}
+{%- endmacro %}
 
+{%- macro render_phony(ns) -%}
+    {{- _render_section(ns, mode="phony") -}}
+{%- endmacro %}
+
+{%- macro render_action(ns) -%}
+    {{- _render_section(ns, mode="action") -}}
+{%- endmacro %}
+
+{%- macro render_version(ns) -%}
+    {{- _render_section(ns, mode="version") -}}
+{%- endmacro %}
+
+{%- macro render_help(ns) -%}
+    {{- _render_section(ns, mode="help") -}}
+{%- endmacro %}
+
+{#
+    TODO: Finish the following sections: Functions, Default, Make Internal Utilities,
+    Dependency Checks, 📢 Release, & 🧹 Clean artifacts.
+#}
 {%- macro render_all(ns) -%}
     {#
         Final Assembly: Makefile Generator
@@ -176,9 +244,9 @@
         Returns:
             str: The consolidated output of the triggered render passes.
     #}
-    {{- render_section(ns, mode="vars") -}}
-    {{- render_section(ns, mode="phony") -}}
-    {{- render_section(ns, mode="action") -}}
-    {{- render_section(ns, mode="version") -}}
-    {{- render_section(ns, mode="help") -}}
+    {{- render_vars(ns) }}
+    {{- render_phony(ns) }}
+    {{- render_action(ns) }}
+    {{- render_version(ns) }}
+    {{- render_help(ns) }}
 {%- endmacro -%}

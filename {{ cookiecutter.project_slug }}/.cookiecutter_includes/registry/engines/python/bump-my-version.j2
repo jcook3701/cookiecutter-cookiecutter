@@ -38,22 +38,22 @@
         "name": "Bump-My-Version",
         "icon": "🔖",
         "group": groups.version,
-        "command": "$(ACTIVATE) && bump-my-version bump --verbose",
+        "command": "$(" ~ s.python_infra.activate.label ~ ") && bump-my-version bump --verbose",
         "description": "Version bumping tool with Git tagging support.",
         "modes": {
             "patch": {
                 "args": "patch",
-                "start_msg": "🔖 Updating $(" ~ s.project.PROJECT_NAME.val ~ ") patch version from $(" ~ s.project.VERSION.val ~ ")...",
+                "start_msg": "🔖 Updating $(" ~ s.project.name.label ~ ") patch version from $(" ~ s.project.version.label ~ ")...",
                 "end_msg": "✅ Patch version update complete!"
             },
             "minor": {
                 "args": "minor",
-                "start_msg": "🔖 Updating $(" ~ s.project.PROJECT_NAME.val ~ ") minor version from $(" ~ s.project.VERSION.val ~ ")...",
+                "start_msg": "🔖 Updating $(" ~ s.project.name.label ~ ") minor version from $(" ~ s.project.version.label ~ ")...",
                 "end_msg": "✅ Minor version update complete!"
             },
             "major": {
                 "args": "major",
-                "start_msg": "🔖 Updating $(" ~ s.project.PROJECT_NAME.val ~ ") major version from $(" ~ s.project.VERSION.val ~ ")...",
+                "start_msg": "🔖 Updating $(" ~ s.project.name.label ~ ") major version from $(" ~ s.project.version.label ~ ")...",
                 "end_msg": "✅ Major version update complete!"
             }
         }

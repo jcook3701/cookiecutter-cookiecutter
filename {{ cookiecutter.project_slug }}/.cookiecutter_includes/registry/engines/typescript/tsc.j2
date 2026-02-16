@@ -41,7 +41,7 @@
         "description": "TypeScript's own compiler used here for static type analysis.",
         "modes": {
             "check": {
-                "args": "--noEmit $(" ~ s.dirs.PROJECT_ROOT.val ~ ")",
+                "args": "--noEmit $(" ~ s.dirs.root.label ~ ")",
                 "start_msg": "🧠 Checking TypeScript types...",
                 "end_msg": "✅ TypeScript typecheck complete!"
             }

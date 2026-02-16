@@ -37,11 +37,11 @@
         "name": "Yamllint",
         "icon": "📄",
         "group": groups.lint,
-        "command": "$(PYTHON) -m yamllint",
+        "command": "$(" ~ s.python_infra.python.label ~ ") -m yamllint",
         "description": "A linter for YAML files that checks for syntax validity and style.",
         "modes": {
             "check": {
-                "args": "$(" ~ s.dirs.PROJECT_ROOT.val ~ ") $(" ~ s.cookie.RENDERED_COOKIE_DIR.val ~ ")",
+                "args": "$(" ~ s.dirs.root.label ~ ") $(" ~ s.cookie.render_dir.label ~ ")",
                 "start_msg": "🔍 Running Yamllint check on YAML files...",
                 "end_msg": "✅ Finished linting check of yaml files with yamllint!"
             }

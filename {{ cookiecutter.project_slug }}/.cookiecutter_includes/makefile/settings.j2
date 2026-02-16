@@ -109,9 +109,9 @@ cc_or_std = $(if $(filter true,$(COOKIECUTTER_HOOKS)),$(1),$(2))
         {# 2. Generate Variables (skipping metadata keys) #}
         {%- for var_name, info in group_data.items() if not var_name.startswith('_') -%}
             {% if info.quote | default(false) %}
-                {{- var_name }} := "{{ info.val }}"
+                {{- info.label }} := "{{ info.val }}"
             {% else %}
-                {{- var_name }} := {{ info.val }}
+                {{- info.label }} := {{ info.val }}
             {% endif %}
         {% endfor -%}
     {% endfor %}

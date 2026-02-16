@@ -37,7 +37,7 @@
         "name": "Nutri-Matic",
         "icon": "☕",
         "group": groups.docs,
-        "command": "$(PYTHON) -m nutrimatic",
+        "command": "$(" ~ s.python_infra.python.label ~ ") -m nutrimatic",
         "description": "Automated documentation assistant for Jinja and Jekyll templates.",
         "modes": {
             "run": {

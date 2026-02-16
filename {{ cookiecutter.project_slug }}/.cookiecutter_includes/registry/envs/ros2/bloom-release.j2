@@ -43,7 +43,7 @@
             "release": {
                 "args": "--rosdistro " ~ cookiecutter.ros_distro | default('humble') ~ " " ~
                         "--track " ~ cookiecutter.ros_distro | default('humble') ~ " " ~
-                        "$(" ~ s.project.PROJECT_NAME.val ~ ")",
+                        "$(" ~ s.project.name.label ~ ")",
                 "start_msg": "🌸 Generating ROS release metadata with Bloom...",
                 "end_msg": "✅ Bloom release metadata generated!"
             }

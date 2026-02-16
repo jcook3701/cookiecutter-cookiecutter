@@ -53,6 +53,7 @@
     "ansible": false,
     "bandit": true,
     "black": true,
+    "build": false,
     "bump_my_version": true,
     "codespell": true,
     "cookiecutter": true,
@@ -110,9 +111,10 @@
   },
   "_hooks": {
     "post_gen_make_cmds": {
-      "python-install": true,
-      "git-init": true,
-      "pre-commit-init": true,
+      "venv-create": true,
+      "pip-install": true,
+      "git-init": false,
+      "pre-commit-init": false,
       "changelog": false,
       "build-docs": false
     }

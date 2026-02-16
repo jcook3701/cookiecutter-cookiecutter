@@ -37,12 +37,12 @@
         "name": "Pytest",
         "icon": "🧪",
         "group": groups.test,
-        "command": "$(PYTHON) -m pytest",
+        "command": "$(" ~ s.python_infra.python.label ~ ") -m pytest",
         "description": "A framework that makes it easy to write small, readable tests.",
         "ci_safe": true,
         "modes": {
             "run": {
-                "args": "$(" ~ s.dirs.TEST_DIR.val ~ ")",
+                "args": "$(" ~ s.dirs.test.label ~ ")",
                 "start_msg": "🧪 Running Python tests with Pytest...",
                 "end_msg": "✅ Python tests complete!"
             }

@@ -38,18 +38,18 @@
         "name": "Twine",
         "icon": "🚀",
         "group": groups.release,
-        "command": "$(PYTHON) -m twine",
+        "command": "$(" ~ s.python_infra.python.label ~ ") -m twine",
         "description": "Utility for publishing Python packages to PyPI.",
         "modes": {
             "test": {
                 "args": "upload --repository testpypi --verbose dist/*",
-                "start_msg": "🚀 Publishing $(" ~ s.project.PROJECT_NAME.val ~ ") to TestPyPI...",
-                "end_msg": "✅ $(" ~ s.project.PROJECT_NAME.val ~ ") test upload complete!"
+                "start_msg": "🚀 Publishing $(" ~ s.project.name.label ~ ") to TestPyPI...",
+                "end_msg": "✅ $(" ~ s.project.name.label ~ ") test upload complete!"
             },
             "publish": {
                 "args": "upload dist/*",
-                "start_msg": "🚀 Publishing $(" ~ s.project.PROJECT_NAME.val ~ ") to PyPI...",
-                "end_msg": "✅ $(" ~ s.project.PROJECT_NAME.val ~ ") production upload complete!"
+                "start_msg": "🚀 Publishing $(" ~ s.project.name.label ~ ") to PyPI...",
+                "end_msg": "✅ $(" ~ s.project.name.label ~ ") production upload complete!"
             }
         }
     } -%}

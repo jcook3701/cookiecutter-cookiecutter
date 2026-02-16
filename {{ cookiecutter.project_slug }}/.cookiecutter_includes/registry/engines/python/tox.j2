@@ -37,7 +37,7 @@
         "name": "Tox",
         "icon": "🧪",
         "group": groups.test,
-        "command": "$(PYTHON) -m tox",
+        "command": "$(" ~ s.python_infra.python.label ~ ") -m tox",
         "description": "Command line tool to check your package installs correctly with different Python versions.",
         "ci_safe": true,
         "modes": {

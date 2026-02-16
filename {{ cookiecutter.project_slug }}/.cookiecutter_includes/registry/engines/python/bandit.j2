@@ -37,11 +37,11 @@
         "name": "Bandit",
         "icon": "🕵️",
         "group": groups.security,
-        "command": "$(PYTHON) -m bandit",
+        "command": "$(" ~ s.python_infra.python.label ~ ") -m bandit",
         "description": "Security linter for Python code to find common security issues.",
         "modes": {
             "check": {
-                "args": "-r $(" ~ s.dirs.SRC_DIR.val ~ ") -lll",
+                "args": "-r $(" ~ s.dirs.src.label ~ ") -lll",
                 "start_msg": "🛡️ Running deep security scan with Bandit...",
                 "end_msg": "✅ Security scan complete!"
             }

@@ -38,7 +38,7 @@
         "name": "pre-commit",
         "icon": "⚓",
         "group": groups.vcs,
-        "command": "$(ACTIVATE) && pre-commit",
+        "command": "$(" ~ s.python_infra.activate.label ~ ") && pre-commit",
         "description": "A framework for managing and maintaining multi-language pre-commit hooks.",
         "modes": {
             "init": {

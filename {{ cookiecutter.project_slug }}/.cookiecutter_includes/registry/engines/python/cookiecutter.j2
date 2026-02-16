@@ -37,12 +37,12 @@
         "name": "Cookiecutter",
         "icon": "🍪",
         "group": groups.template,
-        "command": "$(ACTIVATE) && cookiecutter",
+        "command": "$(" ~ s.python_infra.activate.label ~ ") && cookiecutter",
         "description": "Command line utility for creating projects from templates.",
-        "pre_cmd": "rm -rf $(" ~ s.cookie.RENDERED_COOKIE_DIR.val ~ ")",
+        "pre_cmd": "rm -rf $(" ~ s.cookie.render_dir.label ~ ")",
         "modes": {
             "render": {
-                "args": ". --no-input --output-dir $(" ~ s.cookie.RENDERED_COOKIE_DIR.val ~ ") --overwrite-if-exists --keep-project-on-failure",
+                "args": ". --no-input --output-dir $(" ~ s.cookie.render_dir.label ~ ") --overwrite-if-exists --keep-project-on-failure",
                 "start_msg": "🍪 Rendering project from initial cookiecutter template...",
                 "end_msg": "✅ Finished project render!"
             }

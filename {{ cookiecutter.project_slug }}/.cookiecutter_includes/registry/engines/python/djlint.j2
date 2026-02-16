@@ -37,16 +37,17 @@
         "name": "djLint",
         "icon": "✨",
         "group": groups.lint,
-        "command": "$(ACTIVATE) && djlint",
+        "command": "$(" ~ s.python_infra.activate.label ~ ") && djlint",
         "description": "Linting and reformatting for Jinja2 and HTML templates.",
+        "ci_safe": true,
         "modes": {
             "lint-check": {
-                "args": "$(" ~ s.dirs.PROJECT_ROOT.val ~ ") --lint --profile=jinja",
+                "args": "$(" ~ s.dirs.root.label ~ ") --lint --profile=jinja",
                 "start_msg": "🔍 Running djLint style check on Jinja2 templates...",
                 "end_msg": "✅ Finished linting check of jinja2 macro files with djlint!"
             },
             "lint-fix": {
-                "args": "$(" ~ s.dirs.PROJECT_ROOT.val ~ ") --reformat",
+                "args": "$(" ~ s.dirs.root.label ~ ") --reformat",
                 "start_msg": "✨ Reformatting Jinja2 templates with djLint...",
                 "end_msg": "🎨 djLint reformat complete!"
             }

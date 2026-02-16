@@ -38,13 +38,13 @@
         "name": "pip",
         "icon": "📦",
         "group": groups.pkg,
-        "command": "$(PYTHON) -m pip",
+        "command": "$(" ~ s.python_infra.python.label ~ ") -m pip",
         "description": "The standard package installer for Python.",
         "modes": {
             "install": {
                 "args": "install --upgrade pip setuptools wheel && " ~
-                        "$(PIP) install -e $(" ~ s.python_settings.DEV_DEPS.val | default('DEV_DEPS') ~ ") && " ~
-                        "$(PIP) install -e $(" ~ s.python_settings.DEV_DOCS.val | default('DEV_DOCS') ~ ")",
+                        "$(PIP) install -e $(" ~ s.python_settings.dev_deps.label | default('DEV_DEPS') ~ ") && " ~
+                        "$(PIP) install -e $(" ~ s.python_settings.dev_docs.label | default('DEV_DOCS') ~ ")",
                 "start_msg": "📦 Installing project dependencies and development tools...",
                 "end_msg": "✅ Dependencies installed successfully!"
             }

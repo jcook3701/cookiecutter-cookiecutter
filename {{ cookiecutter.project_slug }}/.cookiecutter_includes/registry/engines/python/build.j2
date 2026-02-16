@@ -37,13 +37,13 @@
         "name": "Build System",
         "icon": "📦",
         "group": groups.pkg,
-        "command": "$(PYTHON) -m build",
+        "command": "$(" ~ s.python_infra.python.label ~ ") -m build",
         "description": "Standard PEP 517 compliant Python package builder.",
         "modes": {
             "package": {
                 "args": "",
-                "start_msg": "📦 Packing $(" ~ s.project.PROJECT_NAME.val ~ ")...",
-                "end_msg": "✅ $(" ~ s.project.PROJECT_NAME.val ~ ") packaging complete!"
+                "start_msg": "📦 Packing $(" ~ s.project.name.label ~ ")...",
+                "end_msg": "✅ $(" ~ s.project.name.label ~ ") packaging complete!"
             }
         }
     } -%}

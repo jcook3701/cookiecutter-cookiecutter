@@ -43,7 +43,7 @@
                 "name": "Ansible Galaxy Initialization",
                 "group": groups.vcs,
                 "command": "collection init",
-                "args": settings.github.GITHUB_USER.val | lower ~ "." ~ settings.project.PROJECT_NAME.val,
+                "args": settings.github.user.label | lower ~ "." ~ settings.project.name.label,
                 "description": "Initialize a new Ansible collection structure.",
                 "start_msg": "🌌 Initializing Ansible collection structure...",
                 "end_msg": "✅ Collection structure initialized!"

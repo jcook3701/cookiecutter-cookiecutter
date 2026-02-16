@@ -20,6 +20,7 @@
 
 {% import '.cookiecutter_includes/makefile/docs.j2' as docs with context %}
 {% import '.cookiecutter_includes/makefile/settings.j2' as settings with context %}
+{% import '.cookiecutter_includes/makefile/components.j2' as components with context %}
 
 {%- macro create(ns) -%}
     {#
@@ -31,20 +32,19 @@
         Returns:
             str: project Makefile.
     #}
-{% import '.cookiecutter_includes/license/__init__.j2' as license_macros with context %}
-{{- license_macros.license_header.create(
-		cookiecutter.license,
-		cookiecutter.copyright,
-		cookiecutter.project_slug,
-		file_name='Makefile',
-		comment_style='hash') -}}
+	{%- import '.cookiecutter_includes/license/__init__.j2' as license_macros with context -%}
+	{{- license_macros.license_header.create(
+			cookiecutter.license,
+			cookiecutter.copyright,
+			cookiecutter.project_slug,
+			file_name='Makefile',
+			comment_style='hash') -}}
 
-{# Settings Section (environment, ci/cd, & build) #}
-{{ settings.create(ns) }}
+	{# Settings Section (Environment, CI/CD, Build, & Engine/Env) #}
+	{{- settings.create(ns) -}}
 
-{# TODO: Build Commands Section #}
-{# {{ build.commands(ns=ns) }} #}
-
+	{# TODO: Build Commands Section #}
+    {{- components.render_vars(ns) -}}
 # --------------------------------------------------
 # Functions
 # --------------------------------------------------
@@ -70,19 +70,24 @@ TOML_FILE_LIST := 	( \
 		$(call get_files_by_extension,$(PROJECT_ROOT),*.toml); \
 		$(call get_files_by_extension,$(RENDERED_COOKIE_DIR),*.toml) \
 	)
-# --------------------------------------------------
-{# .PHONY Section #}
+	{# Makefile Phony Section #}
+    {{- components.render_phony(ns) -}}
 
+	{# TODO: Makefile Actions Section #}
+    {{- components.render_action(ns) -}}
 
-{# TODO: Project Build Section #}
-{# {{ build.actions(ns) }} #}
-
-
-{# Clean Section #}
-{# {{ clean.actions(ns) }} #}
-{# Version Section #}
-{# {{ version.actions() }} #}
-{# Help Section #}
-{# {{ help.actions(ns) }} #}
-
+	{# Clean Section #}
+	{# {{ clean.actions(ns) }} #}
+	{# Version Section #}
+    {{- components.render_version(ns) -}}
+	{# Help Section #}
+    {{- components.render_help(ns) -}}
 {%- endmacro -%}
+
+{# TODO: Move hooks from nutri-matic into .cookiecutter-includes. #}
+{# NOTE:  This project is going to become the centralized template repository #}
+{# TODO: Rename this project Template Factor (template-factory) #}
+{# TODO: Figure out how to have a file be created or not depending on template settings #}
+	{# Example: Python project should have pyproject.toml file #}
+		{# Actually most projects will have pyproject.toml to run cookiecutter_project_upgrader commands. #}
+	{# Example: Typescript project should be only project type with package.json #}

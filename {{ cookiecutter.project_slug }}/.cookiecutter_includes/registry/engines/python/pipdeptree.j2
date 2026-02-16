@@ -37,7 +37,7 @@
         "name": "pipdeptree",
         "icon": "🌲",
         "group": groups.deps,
-        "command": "$(PYTHON) -m pipdeptree",
+        "command": "$(" ~ s.python_infra.python.label ~ ") -m pipdeptree",
         "description": "Command line utility for displaying the installed python packages in form of a dependency tree.",
         "modes": {
             "tree": {

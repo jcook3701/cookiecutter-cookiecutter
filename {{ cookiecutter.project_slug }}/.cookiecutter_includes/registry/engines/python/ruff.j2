@@ -37,29 +37,29 @@
         "name": "Ruff",
         "icon": "🦀",
         "group": groups.lint,
-        "command": "$(PYTHON) -m ruff",
+        "command": "$(" ~ s.python_infra.python.label ~ ") -m ruff",
         "description": "An extremely fast Python linter and code formatter, written in Rust.",
         "pre_cmd": "$(MAKE) list-folders",
-        "exclude": "--force-exclude '$(" ~ s.cookie.COOKIE_DIR.val ~ ")/pyproject.toml'",
+        "exclude": "--force-exclude '$(" ~ s.cookie.template_dir.label ~ ")/pyproject.toml'",
         "modes": {
             "lint-check": {
-                "args": "check --config pyproject.toml $(" ~ s.dirs.SRC_DIR.val ~ ") $(" ~ s.dirs.TEST_DIR.val ~ ")",
+                "args": "check --config pyproject.toml $(" ~ s.dirs.src.label ~ ") $(" ~ s.dirs.test.label ~ ")",
                 "start_msg": "🔍 Running Ruff style and logic check...",
                 "end_msg": "✅ Finished Ruff check of Python code!"
             },
             "lint-fix": {
-                "args": "check --config pyproject.toml --fix $(" ~ s.dirs.SRC_DIR.val ~ ") $(" ~ s.dirs.TEST_DIR.val ~ ")",
+                "args": "check --config pyproject.toml --fix $(" ~ s.dirs.src.label ~ ") $(" ~ s.dirs.test.label ~ ")",
                 "start_msg": "🛠️  Applying Ruff automated fixes...",
                 "end_msg": "✨ Ruff fixes applied successfully!"
             },
             "format": {
-                "args": "format --config pyproject.toml $(" ~ s.dirs.SRC_DIR.val ~ ") $(" ~ s.dirs.TEST_DIR.val ~ ")",
+                "args": "format --config pyproject.toml $(" ~ s.dirs.src.label ~ ") $(" ~ s.dirs.test.label ~ ")",
                 "group": groups.format,
                 "start_msg": "🎨 Formatting Python code with Ruff...",
                 "end_msg": "✨ Ruff formatting complete!"
             },
             "format-check": {
-                "args": "format --config pyproject.toml --check $(" ~ s.dirs.SRC_DIR.val ~ ") $(" ~ s.dirs.TEST_DIR.val ~ ")",
+                "args": "format --config pyproject.toml --check $(" ~ s.dirs.src.label ~ ") $(" ~ s.dirs.test.label ~ ")",
                 "group": groups.format,
                 "start_msg": "🔍 Verifying Python code format with Ruff...",
                 "end_msg": "✅ Ruff format check complete!"
@@ -68,31 +68,6 @@
     } -%}
     {%- do result.update(config) -%}
 {% endmacro %}
-
-
-
-{# #TODO: Deprecated beyond this point!!!! #}
-{% macro actions(cfg=config) -%}
-# --- {{ cfg.name }} (Linter & Formatter) ---
-
-{{ cfg.id }}-lint: ## {{ cfg.icon }} Run {{ cfg.name }} linter
-	$(AT)echo "🔍 {{ cfg.name }}: Checking linting..."
-	$(AT){{ cfg.command }} {{ cfg.modes.lint }} $(SRC_DIR) $(TESTS_DIR) {{ cfg.exclude }}
-
-{{ cfg.id }}-lint-fix: ## {{ cfg.icon }} Run {{ cfg.name }} linter and fix errors
-	$(AT)echo "🎨 {{ cfg.name }}: Fixing linting issues..."
-	$(AT){{ cfg.command }} {{ cfg.modes['lint-fix'] }} $(SRC_DIR) $(TESTS_DIR) {{ cfg.exclude }}
-
-{{ cfg.id }}-format: ## ✨ Run {{ cfg.name }} code formatter
-	$(AT)echo "🪄 {{ cfg.name }}: Formatting code..."
-	$(AT){{ cfg.command }} {{ cfg.modes.format }} $(SRC_DIR) $(TESTS_DIR) {{ cfg.exclude }}
-
-{{ cfg.id }}-format-check: ## 🕵️ Run {{ cfg.name }} format check (CI mode)
-	$(AT)echo "📏 {{ cfg.name }}: Checking code formatting..."
-	$(AT){{ cfg.command }} {{ cfg.modes['format-check'] }} $(SRC_DIR) $(TESTS_DIR) {{ cfg.exclude }}
-{%- endmacro %}
-
-
 
 
 {# TODO: Deprecated #}

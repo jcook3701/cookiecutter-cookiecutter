@@ -42,12 +42,12 @@
         "description": "An opinionated code formatter supporting multiple languages.",
         "modes": {
             "check": {
-                "args": "--check $(" ~ s.dirs.PROJECT_ROOT.val ~ ")",
+                "args": "--check $(" ~ s.dirs.root.label ~ ")",
                 "start_msg": "🔍 Checking project formatting with Prettier...",
                 "end_msg": "✅ Prettier formatting check complete!"
             },
             "fix": {
-                "args": "--write $(" ~ s.dirs.PROJECT_ROOT.val ~ ")",
+                "args": "--write $(" ~ s.dirs.root.label ~ ")",
                 "start_msg": "🎨 Fixing project formatting with Prettier...",
                 "end_msg": "✨ Finished formatting with Prettier!"
             }

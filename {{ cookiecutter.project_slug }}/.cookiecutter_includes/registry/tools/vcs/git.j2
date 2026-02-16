@@ -74,15 +74,15 @@
                 "end_msg": "✅ Initial commit created!"
             },
             "tag": {
-                "args": "tag -a $(" ~ s.project.RELEASE.val ~ ") -m 'Release $(" ~ s.project.RELEASE.val ~ ")'",
+                "args": "tag -a $(" ~ s.project.release.label ~ ") -m 'Release $(" ~ s.project.release.label ~ ")'",
                 "group": groups.version,
-                "start_msg": "🔖 Creating Git tag for $(" ~ s.project.RELEASE.val ~ ")...",
+                "start_msg": "🔖 Creating Git tag for $(" ~ s.project.release.label ~ ")...",
                 "end_msg": "✅ Git tag created!"
             },
             "push": {
-                "args": "push origin $(" ~ s.project.RELEASE.val ~ ")",
+                "args": "push origin $(" ~ s.project.release.label ~ ")",
                 "group": groups.release,
-                "start_msg": "🚀 Pushing tag $(" ~ s.project.RELEASE.val ~ ") to origin...",
+                "start_msg": "🚀 Pushing tag $(" ~ s.project.release.label ~ ") to origin...",
                 "end_msg": "✅ Push complete!"
             },
             "branch": {

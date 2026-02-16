@@ -41,7 +41,7 @@
         "description": "Creation of virtual environments for Python package isolation.",
         "modes": {
             "create": {
-                "args": "$(" ~ s.python_infra.VENV_DIR.val | default('VENV_DIR') ~ ")",
+                "args": "$(" ~ s.python_infra.venv_dir.label | default('VENV_DIR') ~ ")",
                 "start_msg": "🐍 Creating Python virtual environment...",
                 "end_msg": "✅ Virtual environment created successfully!"
             }

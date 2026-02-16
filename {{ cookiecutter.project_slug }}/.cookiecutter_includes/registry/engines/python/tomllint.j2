@@ -36,7 +36,7 @@
         "name": "Tomllint",
         "icon": "📝",
         "group": groups.lint,
-        "command": "tomllint",
+        "command": "$(" ~ s.python_infra.activate.label ~ ") && tomllint",
         "description": "Linting and validation for TOML configuration files.",
         "modes": {
             "check": {

@@ -22,40 +22,39 @@
     "project": {
         "_title": "Build Settings",
         "_icon": "⚙️",
-        "PROJECT_NAME": {"val": cookiecutter.__python.project_name, "quote": true, "label": "Project"},
-        "AUTHOR":       {"val": cookiecutter.author,                "quote": true, "label": "Author"},
-        "VERSION":      {"val": cookiecutter.version,               "label": "Version"},
-        "RELEASE":      {"val": "v$(VERSION)",                      "label": "Release"}
+        "name": {"val": cookiecutter.__python.project_name, "quote": true, "label": "PROJECT_NAME"},
+        "author":       {"val": cookiecutter.author,                "quote": true, "label": "AUTHOR"},
+        "version":      {"val": cookiecutter.version,               "label": "VERSION"},
+        "release":      {"val": "v$(VERSION)",                      "label": "RELEASE"}
     },
     "github": {
         "_title": "Github Build Settings",
         "_icon": "🐙",
-        "GITHUB_USER": {"val": cookiecutter.github_username,        "quote": true, "label": "GitHub User"},
-        "GITHUB_REPO": {"val": "$(GITHUB_USER)/$(PROJECT_NAME)",    "label": "Repository"}
+        "user": {"val": cookiecutter.github_username,        "quote": true, "label": "GITHUB_USER"},
+        "repo": {"val": "$(GITHUB_USER)/$(PROJECT_NAME)",    "label": "GITHUB_REPO"}
     },
     "dirs": {
         "_title": "Build Directories",
         "_icon": "📁",
-        "PROJECT_ROOT":  {"val": "$(call cc_or_std,$(CURDIR),$(PWD))", "label": "Root"},
-        "SRC_DIR":       {"val": "$(HOOKS_DIR)",                       "label": "Source"},
-        "TEST_DIR":      {"val": "$(PROJECT_ROOT)/tests",              "label": "Tests"},
-        "CHANGELOG_DIR": {"val": "$(PROJECT_ROOT)/changelogs",         "label": "Changelog"},
-        "DOCS_DIR":      {"val": "$(PROJECT_ROOT)/docs",               "label": "Docs"}
+        "root":          {"val": "$(call cc_or_std,$(CURDIR),$(PWD))", "label": "PROJECT_ROOT"},
+        "src":           {"val": "$(HOOKS_DIR)",                       "label": "SRC_DIR"},
+        "test":          {"val": "$(PROJECT_ROOT)/tests",              "label": "TEST_DIR"},
+        "changelog":     {"val": "$(PROJECT_ROOT)/changelogs",         "label": "CHANGELOG_DIR"},
+        "docs":          {"val": "$(PROJECT_ROOT)/docs",               "label": "DOCS_DIR"}
     },
     "cookie": {
        "_title": "Template Directories",
         "_icon": "🍪",
-        "COOKIE_DIR":          {"val": "{{ cookiecutter.project_slug }}", "label": "Template Dir"},
-        "COOKIE_MACRO_DIR":    {"val": "$(COOKIE_DIR)/.cookiecutter_includes",           "label": "Macro Dir"},
-        "RENDERED_COOKIE_DIR": {"val": "/tmp/rendered",                                  "label": "Render Path"},
-        "RENDERED_VENV_DIR":   {"val": "$(RENDERED_COOKIE_DIR)/**/.venv",                "label": "Render Venv"}
+        "template_dir": {"val": "{{ cookiecutter.project_slug }}",       "label": "COOKIE_DIR"},
+        "macro_dir":    {"val": "$(COOKIE_DIR)/.cookiecutter_includes",  "label": "COOKIE_MACRO_DIR"},
+        "render_dir":   {"val": "/tmp/rendered",                         "label": "RENDERED_COOKIE_DIR"},
+        "render_venv":  {"val": "$(RENDERED_COOKIE_DIR)/**/.venv",       "label": "RENDERED_VENV_DIR"}
     },
     "files": {
        "_title": "Build Files",
         "_icon": "📄",
-        "CHANGELOG_FILE":         {"val": "$(CHANGELOG_DIR)/CHANGELOG.md",           "label": "Changelog File"},
-        "CHANGELOG_RELEASE_FILE": {"val": "$(CHANGELOG_DIR)/releases/$(RELEASE).md", "label": "Changelog File"},
-        "README_FILE":            {"val": "$(PROJECT_ROOT)/README.md",               "label": "Readme File"}
-
+        "changelog":            {"val": "$(CHANGELOG_DIR)/CHANGELOG.md",           "label": "CHANGELOG_FILE"},
+        "changelog_release":    {"val": "$(CHANGELOG_DIR)/releases/$(RELEASE).md", "label": "CHANGELOG_RELEASE_FILE"},
+        "readme":               {"val": "$(PROJECT_ROOT)/README.md",               "label": "README_FILE"}
     }
  } -%}

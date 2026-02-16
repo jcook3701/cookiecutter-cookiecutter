@@ -41,7 +41,7 @@
         "description": "Install all system dependencies defined in package.xml.",
         "modes": {
             "install": {
-                "args": "--from-paths $(" ~ s.dirs.SRC_DIR.val ~ ") --ignore-src -r -y",
+                "args": "--from-paths $(" ~ s.dirs.src.label ~ ") --ignore-src -r -y",
                 "start_msg": "📦 Installing ROS system dependencies via rosdep...",
                 "end_msg": "✅ ROS dependencies installed!"
             }

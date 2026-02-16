@@ -37,11 +37,11 @@
         "name": "Deptry",
         "icon": "🧬",
         "group": groups.deps,
-        "command": "$(ACTIVATE) && deptry",
+        "command": "$(" ~ s.python_infra.activate.label ~ ") && deptry",
         "description": "Finds unused, missing, and transitive dependencies in Python projects.",
         "modes": {
             "check": {
-                "args": "--pep621-dev-dependency-groups dev,docs $(" ~ s.dirs.SRC_DIR.val ~ ")",
+                "args": "--pep621-dev-dependency-groups dev,docs $(" ~ s.dirs.src.label ~ ")",
                 "start_msg": "🧬 Checking Python dependency health with Deptry...",
                 "end_msg": "✅ Finished checking for dependency issues!"
             }

@@ -38,7 +38,7 @@
         "name": "Jinja2 CLI",
         "icon": "🔍",
         "group": groups.lint,
-        "command": "$(ACTIVATE) && jinja2",
+        "command": "$(" ~ s.python_infra.activate.label ~ ") && jinja2",
         "description": "CLI for rendering Jinja2 templates; used here for strict syntax validation.",
         "modes": {
             "lint-check": {
@@ -53,8 +53,8 @@
             }
         },
         "custom_shell": "jq '{cookiecutter: .}' cookiecutter.json > /tmp/_cc_wrapped.json; " ~
-                        "$(" ~ s.cookie.COOKIE_MACRO_DIR.val ~ ") | tr '\\0' '\\n'; " ~
-                        "$(ACTIVATE) && $(" ~ s.cookie.COOKIE_MACRO_DIR.val ~ ") | " ~
+                        "$(" ~ s.cookie.macro_dir.label ~ ") | tr '\\0' '\\n'; " ~
+                        "$(" ~ s.python_infra.activate.label ~ ") && $(" ~ s.cookie.macro_dir.label ~ ") | " ~
                         "while IFS= read -r -d '' f; do " ~
                             "if file \"$$f\" | grep -q text; then " ~
                                 "echo \"Checking $$f\"; " ~

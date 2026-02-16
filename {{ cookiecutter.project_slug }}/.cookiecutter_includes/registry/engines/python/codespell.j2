@@ -37,11 +37,11 @@
         "name": "Codespell",
         "icon": "🎓",
         "group": groups.spelling,
-        "command": "$(ACTIVATE) && codespell",
+        "command": "$(" ~ s.python_infra.activate.label ~ ") && codespell",
         "description": "Fix common misspellings in text files and source code.",
         "modes": {
             "run": {
-                "args": "$(" ~ s.dirs.PROJECT_ROOT.val ~ ")",
+                "args": "$(" ~ s.dirs.root.label ~ ")",
                 "start_msg": "🎓 Checking Spelling (codespell) across project...",
                 "end_msg": "✅ Finished spellcheck!"
             }

@@ -33,7 +33,7 @@
 {% import '.cookiecutter_includes/registry/engines/python/mypy.j2' as _mypy with context %}
 {% import '.cookiecutter_includes/registry/engines/python/nutrimatic.j2' as _nutrimatic with context %}
 {% import '.cookiecutter_includes/registry/engines/python/pip-audit.j2' as _pip_audit with context %}
-{% import '.cookiecutter_includes/registry/engines/python/pip-deptree.j2' as _pip_deptree with context %}
+{% import '.cookiecutter_includes/registry/engines/python/pipdeptree.j2' as _pipdeptree with context %}
 {% import '.cookiecutter_includes/registry/engines/python/pip.j2' as _pip with context %}
 {% import '.cookiecutter_includes/registry/engines/python/pre-commit.j2' as _pre_commit with context %}
 {% import '.cookiecutter_includes/registry/engines/python/pytest.j2' as _pytest with context %}
@@ -89,7 +89,7 @@
     {%- do _mypy.get_config(ns.pkg_groups, ns.settings, mypy) -%}
     {%- do _nutrimatic.get_config(ns.pkg_groups, ns.settings, nutrimatic) -%}
     {%- do _pip_audit.get_config(ns.pkg_groups, ns.settings, pip_audit) -%}
-    {%- do _pip_deptree.get_config(ns.pkg_groups, ns.settings, pip_deptree) -%}
+    {%- do _pipdeptree.get_config(ns.pkg_groups, ns.settings, pip_deptree) -%}
     {%- do _pip.get_config(ns.pkg_groups, ns.settings, pip) -%}
     {%- do _pre_commit.get_config(ns.pkg_groups, ns.settings, pre_commit) -%}
     {%- do _pytest.get_config(ns.pkg_groups, ns.settings, pytest) -%}

@@ -45,7 +45,7 @@
                 "name": "Docker Build",
                 "group": groups.pkg,
                 "command": "build",
-                "args": "-t $(" ~ s.github.GITHUB_REPO.val ~ "):$(" ~ s.project.VERSION.val ~ ") .",
+                "args": "-t $(" ~ s.github.repo.label ~ "):$(" ~ s.project.version.label ~ ") .",
                 "description": "Build the container image using the Dockerfile.",
                 "start_msg": "🏗️ Building Docker image...",
                 "end_msg": "✅ Build complete!"
@@ -55,7 +55,7 @@
                 "name": "Docker Run",
                 "group": groups.test,
                 "command": "run",
-                "args": "--rm -it $(" ~ s.github.GITHUB_REPO.val ~ "):$(" ~ s.project.VERSION.val ~ ")",
+                "args": "--rm -it $(" ~ s.github.repo.label ~ "):$(" ~ s.project.version.label ~ ")",
                 "description": "Run the container locally for testing.",
                 "start_msg": "🚀 Starting local Docker container...",
                 "end_msg": "🛑 Container stopped."
@@ -75,7 +75,7 @@
                 "name": "Docker Scan",
                 "group": groups.security,
                 "command": "scan",
-                "args": "$(" ~ s.github.GITHUB_REPO.val ~ "):$(" ~ s.project.VERSION.val ~ ")",
+                "args": "$(" ~ s.github.repo.label ~ "):$(" ~ s.project.version.label ~ ")",
                 "description": "Scan the image for vulnerabilities.",
                 "start_msg": "🛡️ Scanning image for vulnerabilities...",
                 "end_msg": "✅ Scan complete!"
@@ -85,7 +85,7 @@
                 "name": "Docker Push",
                 "group": groups.release,
                 "command": "push",
-                "args": "$(" ~ s.github.GITHUB_REPO.val ~ "):$(" ~ s.project.VERSION.val ~ ")",
+                "args": "$(" ~ s.github.repo.label ~ "):$(" ~ s.project.version.label ~ ")",
                 "description": "Push the image to the configured registry.",
                 "start_msg": "🚢 Pushing image to registry...",
                 "end_msg": "✅ Push complete!"

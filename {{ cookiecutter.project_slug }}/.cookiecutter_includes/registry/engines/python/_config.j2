@@ -24,18 +24,17 @@
     "python_settings": {
         "_title": "Python Settings",
         "_icon": "🐍",
-        "DEPS":     {"val": "."},
-        "DEV_DEPS": {"val": ".[dev]"},
-        "DEV_DOCS": {"val": ".[docs]"}
+        "deps":     {"val": ".", "label": "DEPS"},
+        "dev_deps": {"val": ".[dev]", "label": "DEV_DEPS"},
+        "dev_docs": {"val": ".[docs]", "label": "DEV_DOCS"}
     },
     "python_infra": {
         "_title": "Python Commands (venv, activate, pip)",
         "_icon": "🐍",
-        "PYTHON_CMD": {"val": "python" ~ cookiecutter.python_version},
-        "VENV_DIR": {"val": "$(PROJECT_ROOT)/.venv"},
-        "ACTIVATE": {"val": "source $(VENV_DIR)/bin/activate"},
-        "PYTHON": {"val": "$(ACTIVATE) && $(PYTHON_CMD)"}
-
+        "python_cmd":   {"val": "python" ~ cookiecutter.python_version, "label": "PYTHON_CMD"},
+        "venv_dir":     {"val": "$(PROJECT_ROOT)/.venv", "label": "VENV_DIR"},
+        "activate":     {"val": "source $(VENV_DIR)/bin/activate", "label": "ACTIVATE"},
+        "python":       {"val": "$(ACTIVATE) && $(PYTHON_CMD)", "label": "PYTHON"}
     }
 } -%}
 

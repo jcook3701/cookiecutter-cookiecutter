@@ -53,9 +53,9 @@
                 "end_msg": "✅ Authentication check complete!"
             },
             "release": {
-                "args": "release create $(" ~ s.project.RELEASE.val ~ ") --generate-notes",
+                "args": "release create $(" ~ s.project.release.label ~ ") --generate-notes",
                 "group": groups.release,
-                "start_msg": "🚀 Creating GitHub release for $(" ~ s.project.RELEASE.val ~ ")...",
+                "start_msg": "🚀 Creating GitHub release for $(" ~ s.project.release.label ~ ")...",
                 "end_msg": "✅ GitHub release created!"
             },
             "repo-view": {

@@ -31,7 +31,7 @@
 
 {%- do ns.active_sections.build.update(build_data.features) -%}
 {%- do ns.settings.update(settings_data.settings) -%}
-{%- do ns.pkg_groups.update(pkg_groups_data.pkg_groups)%}
+{%- do ns.pkg_groups.update(pkg_groups_data.pkg_groups) %}
 
 {# --- LANGUAGE BOOTLOADERS --- #}
 {# This pulls in Python/TS/VCS features into ns.features #}
@@ -94,20 +94,20 @@
 
 {# Dynamically add optional paths based on user choices #}
 {%- if cookiecutter.add_sphinx_docs -%}
-    {%- do ns.settings.dirs.update({"SPHINX_DIR": {"val": "$(DOCS_DIR)/sphinx", "label": "Sphinx" }}) -%}
+    {%- do ns.settings.dirs.update({"sphinx": {"val": "$(DOCS_DIR)/sphinx", "label": "SPHINX_DIR" }}) -%}
 {%- endif -%}
 {%- if cookiecutter.add_github_docs -%}
-    {%- do ns.settings.dirs.update({"JEKYLL_DIR": {"val": "$(DOCS_DIR)/jekyll", "label": "Jekyll" }}) -%}
-    {%- do ns.settings.dirs.update({"README_GEN_DIR": {"val": "$(JEKYLL_DIR)/tmp_readme", "label": "Readme Generation" }}) -%}
+    {%- do ns.settings.dirs.update({"jekyll": {"val": "$(DOCS_DIR)/jekyll", "label": "JEKYLL_DIR" }}) -%}
+    {%- do ns.settings.dirs.update({"readme_generation": {"val": "$(JEKYLL_DIR)/tmp_readme", "label": "README_GEN_DIR" }}) -%}
 {%- endif -%}
 {%- if cookiecutter.add_community_health_files -%}
-    {%- do ns.settings.dirs.update({"HEALTH_DIR": {"val": "$(PROJECT_ROOT)/.github", "label": "Health" }}) -%}
+    {%- do ns.settings.dirs.update({"health": {"val": "$(PROJECT_ROOT)/.github", "label": "HEALTH_DIR" }}) -%}
 {%- endif -%}
 
 {# Only should happen when cookiecutter-cookiecutter generates a template. Not in projects generated from those projects. #}
 {# For example cookiecutter-cookiecutter generates python3-cookiecutter which generates python3 projects. #}
 {# TODO: This is an error!!!!! #}
-{%- do ns.settings.dirs.update({"HOOKS_DIR": {"val": "$(PROJECT_ROOT)/hooks", "label": "Hooks" },}) -%}
+{%- do ns.settings.dirs.update({"hooks": {"val": "$(PROJECT_ROOT)/hooks", "label": "HOOKS_DIR" },}) -%}
 
 
 {%- do ns.features.sub.update({

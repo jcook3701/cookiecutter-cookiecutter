@@ -42,12 +42,12 @@
         "description": "Find and fix problems in your JavaScript and TypeScript code.",
         "modes": {
             "check": {
-                "args": "--ext .ts,.tsx $(" ~ s.dirs.PROJECT_ROOT.val ~ ")",
+                "args": "--ext .ts,.tsx $(" ~ s.dirs.root.label ~ ")",
                 "start_msg": "🔍 Running ESLint check on TypeScript files...",
                 "end_msg": "✅ Finished linting check with ESLint!"
             },
             "fix": {
-                "args": "--ext .ts,.tsx $(" ~ s.dirs.PROJECT_ROOT.val ~ ") --fix",
+                "args": "--ext .ts,.tsx $(" ~ s.dirs.root.label ~ ") --fix",
                 "start_msg": "🛠️  Applying ESLint automated fixes...",
                 "end_msg": "✨ ESLint fixes applied successfully!"
             }

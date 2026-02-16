@@ -96,7 +96,7 @@ info-{{ config.id }}: ## Check {{ config.name }} version.
 {%- set phony_header -%}
 {{ ".PHONY: \\" }}
 {%- endset -%}
-    {{- tool_section_header("Phony")}}
+    {{- tool_section_header("Phony") }}
     {{- phony_header }}
 {%- endmacro -%}
 
@@ -128,6 +128,24 @@ info-{{ config.id }}: ## Check {{ config.name }} version.
 {% endmacro -%}
 
 
+{%- macro tool_group_action(group_meta, suffix, child_ids) -%}
+    {#
+        Atomic: Group-Level Master Target
+        Aggregates multiple tool targets into a single entry point.
+
+        Args:
+            group_meta (dict): The group object (id, label, icon).
+            suffix (str): The action suffix (check, fix, run).
+            child_ids (list): The list of specific targets to execute.
+    #}
+{%- set group_action -%}
+{{ group_meta.id }}-{{ suffix }}: ## Run all {{ group_meta.label }} {{ suffix }} tasks ({{ child_ids | join(', ') }}).
+	$(AT)$(MAKE) {{ child_ids | join(' ') }}
+{% endset -%}
+    {{- group_action }}
+{%- endmacro -%}
+
+
 {%- macro tool_version_header(ns) -%}
     {#
         Atomic: Project Version Header
@@ -135,12 +153,12 @@ info-{{ config.id }}: ## Check {{ config.name }} version.
     #}
 {%- set version_header -%}
 version: ## Show project and tool versions.
-    $(AT)echo "$($(ns.settings.project.PROJECT_NAME.val))"
-    $(AT)echo "  author: $($(ns.settings.project.AUTHOR.val))"
-    $(AT)echo "  version: $($(ns.settings.project.VERSION.val))"
-    $(AT)echo "  tools:"
+	$(AT)echo "$({{ ns.settings.project.name.label }})"
+	$(AT)echo "  author: $({{ ns.settings.project.author.label }})"
+	$(AT)echo "  version: $({{ ns.settings.project.version.label }})"
+	$(AT)echo "  tools:"
 {%- endset -%}
-    {{- tool_section_header("Version")}}
+    {{- tool_section_header("Version") }}
     {{- version_header }}
 {%- endmacro -%}
 
@@ -162,6 +180,10 @@ version: ## Show project and tool versions.
         Generates the standard self-documenting 'help' target.
         Parses all targets with '##' descriptions.
     #}
+{%- set help %}
 help: ## Show this help message.
 	$(AT)grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
+{%- endset %}
+    {{- tool_section_header("Help", icon="❓") }}
+    {{- help }}
 {% endmacro %}
