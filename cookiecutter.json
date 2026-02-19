@@ -57,11 +57,13 @@
     "bump_my_version": true,
     "codespell": true,
     "cookiecutter": true,
+    "cookiecutter_project_upgrader": true,
     "deptry": true,
     "djlint": true,
     "jinja2_cli": false,
     "mypy": true,
     "nameisok": true,
+    "nutrimatic": false,
     "pip_audit": true,
     "pipdeptree": true,
     "pre_commit": true,
@@ -74,13 +76,22 @@
     "yamllint": true
   },
   "__rust": {
-
+    "built_in": false,
+    "git_cliff": true
   },
   "__typescript": {
-
+    "built_in": false,
+    "eslint": false,
+    "npm": false,
+    "prettier": false,
+    "storybook": false,
+    "tsc": false,
+    "typedoc": false,
+    "vitest": false
   },
   "__tools": {
-
+    "github": true,
+    "git": true
   },
   "ga_tracking": "G-C7PWLWSHB9",
   "github_org": null,
@@ -107,6 +118,7 @@
   "__meta": {
     "is_python": "{{ 'python' in cookiecutter.template_type }}",
     "is_ansible": "{{ 'ansible' in cookiecutter.template_type }}",
+    "is_cookiecutter": "{{'cookiecutter' in cookiecutter.template_type }}",
     "needs_pypi": "{{ 'python' in cookiecutter.template_type and cookiecutter.license != 'none' }}"
   },
   "_hooks": {

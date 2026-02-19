@@ -447,3 +447,4 @@ Feat 032 (#81)
 - *(jinja)* Major registry update.  Almost able to build makefile for any tool/env.
 - *(jinja)* Jinja registry fixes.  Am now mostly able to build command variables and command actions for Makefile.
 - *(jinja2)* Makefile template built from registry almost working.
+- *(jinja2)* Makefile template upgrade.

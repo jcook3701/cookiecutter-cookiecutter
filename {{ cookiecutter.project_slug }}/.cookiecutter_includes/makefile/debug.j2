@@ -76,9 +76,5 @@
 
 # === 5. ACTIVE SECTIONS ===
 {# Settings Section (environment, ci/cd, & build) #}
-{%- import '.cookiecutter_includes/makefile/settings.j2' as settings with context -%}
-{{- settings.create(ns) -}}
-
-{{- components.render_all(ns) }}
 
 {%- endmacro -%}

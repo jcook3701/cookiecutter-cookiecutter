@@ -22,16 +22,23 @@
     "project": {
         "_title": "Build Settings",
         "_icon": "⚙️",
-        "name": {"val": cookiecutter.__python.project_name, "quote": true, "label": "PROJECT_NAME"},
-        "author":       {"val": cookiecutter.author,                "quote": true, "label": "AUTHOR"},
-        "version":      {"val": cookiecutter.version,               "label": "VERSION"},
-        "release":      {"val": "v$(VERSION)",                      "label": "RELEASE"}
+        "name":         {"val": cookiecutter.project_name,              "quote": true, "label": "PROJECT_NAME"},
+        "slug":         {"val": cookiecutter.project_slug,              "label": "PROJECT_SLUG"},
+        "description":  {"val": cookiecutter.description,               "quote": true, "label": "DESCRIPTION"},
+        "_company":     {"val": cookiecutter.company | default(null),   "quote": true, "label": "COMPANY"},
+        "author":       {"val": cookiecutter.author,                    "quote": true, "label": "AUTHOR"},
+        "email":        {"val": cookiecutter.email,                     "label": "EMAIL"},
+        "license":      {"val": cookiecutter.license,                   "label": "LICENSE"},
+        "copyright":    {"val": cookiecutter.copyright,                 "quote": true, "label": "COPYRIGHT"},
+        "version":      {"val": cookiecutter.version,                   "label": "VERSION"},
+        "release":      {"val": "v$(VERSION)",                          "label": "RELEASE"}
     },
     "github": {
         "_title": "Github Build Settings",
         "_icon": "🐙",
-        "user": {"val": cookiecutter.github_username,        "quote": true, "label": "GITHUB_USER"},
-        "repo": {"val": "$(GITHUB_USER)/$(PROJECT_NAME)",    "label": "GITHUB_REPO"}
+        "_org": {"val": cookiecutter.github_org | default(null),    "label": "GITHUB_ORG"},
+        "user": {"val": cookiecutter.github_username,               "quote": true, "label": "GITHUB_USER"},
+        "repo": {"val": "$(GITHUB_USER)/$(PROJECT_NAME)",           "label": "GITHUB_REPO"}
     },
     "dirs": {
         "_title": "Build Directories",
@@ -56,5 +63,11 @@
         "changelog":            {"val": "$(CHANGELOG_DIR)/CHANGELOG.md",           "label": "CHANGELOG_FILE"},
         "changelog_release":    {"val": "$(CHANGELOG_DIR)/releases/$(RELEASE).md", "label": "CHANGELOG_RELEASE_FILE"},
         "readme":               {"val": "$(PROJECT_ROOT)/README.md",               "label": "README_FILE"}
+    },
+    "urls": {
+        "_title": "Urls",
+        "_icon": "🔗",
+        "repo":         {"val": cookiecutter.repo_url,  "label": "REPO_URL"},
+        "github_io":    {"val": cookiecutter.github_io, "label": "GITHUB_IO_URL"}
     }
  } -%}

@@ -1,4 +1,5 @@
-# post_gen_project.py for cookiecutter-cookiecutter
+{#
+# hooks/post_gen_project.j2 for cookiecutter-cookiecutter
 #
 # SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
 # SPDX-License-Identifier: AGPL-3.0-or-later
@@ -15,20 +16,39 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#}
+
+
+
+{%- macro create(ns) -%}
+    {#
+        Generates project post_gen_project.py file.
+
+        Args:
+            template_type (str): .
+
+        Returns:
+            str: project post_gen_project.py.
+    #}
+    {%- import '.cookiecutter_includes/license/__init__.j2' as license_macros with context -%}
+    {{- license_macros.license_header.create(
+            cookiecutter.license,
+            cookiecutter.copyright,
+            cookiecutter.project_slug,
+            file_name='post_gen_project.py',
+            comment_style='hash') }}
+    {%- set changelog = cookiecutter.changelog %}
 
 import json
 import os
-import sys
 
-PROJECT_ROOT = os.path.abspath(os.curdir)
-INCLUDES_PATH = os.path.join(PROJECT_ROOT, ".cookiecutter_includes", "hooks")
-
-if INCLUDES_PATH not in sys.path:
-    sys.path.insert(0, INCLUDES_PATH)
-
-from core import make  # noqa: E402
-from post_gen_logic import (  # noqa: E402
+from nutrimatic.core import make
+from nutrimatic.hooks.post_gen_logic import (
+    {% if changelog == "antsibull" %}
+    generate_ansible_dirs,
+    {% elif changelog == "git-cliff" %}
     generate_cliff_changelog_dirs,
+    {% endif %}
     generate_docs_templates,
     get_make_cmds,
 )
@@ -40,12 +60,18 @@ def main() -> None:
     if os.getenv("CI"):
         print("⚙️  Detected CI environment — skipping GitHub Docs generation.")
         return
+    {%- raw %}
     os.environ["COOKIECUTTER_HOOKS"] = "true"
 
     # Access cookiecutter context safely
     context = json.loads("""{{ cookiecutter | jsonify }}""")
+    {% endraw %}
     generate_docs_templates(context)
+    {% if changelog == "antsibull" %}
+    generate_ansible_dirs()
+    {% elif changelog == "git-cliff" %}
     generate_cliff_changelog_dirs()
+    {% endif %}
 
     # Run make commands to get project seeded
     make_cmds: list[str] = get_make_cmds(context)
@@ -56,3 +82,4 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+{%- endmacro -%}

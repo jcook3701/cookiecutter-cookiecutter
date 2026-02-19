@@ -38,21 +38,21 @@
         "name": "Bump-My-Version",
         "icon": "🔖",
         "group": groups.version,
-        "command": "$(" ~ s.python_infra.activate.label ~ ") && bump-my-version bump --verbose",
+        "command": "$(" ~ s.python_infra.activate.label ~ ") && bump-my-version",
         "description": "Version bumping tool with Git tagging support.",
         "modes": {
             "patch": {
-                "args": "patch",
+                "args": "bump --verbose patch",
                 "start_msg": "🔖 Updating $(" ~ s.project.name.label ~ ") patch version from $(" ~ s.project.version.label ~ ")...",
                 "end_msg": "✅ Patch version update complete!"
             },
             "minor": {
-                "args": "minor",
+                "args": "bump --verbose minor",
                 "start_msg": "🔖 Updating $(" ~ s.project.name.label ~ ") minor version from $(" ~ s.project.version.label ~ ")...",
                 "end_msg": "✅ Minor version update complete!"
             },
             "major": {
-                "args": "major",
+                "args": "bump --verbose major",
                 "start_msg": "🔖 Updating $(" ~ s.project.name.label ~ ") major version from $(" ~ s.project.version.label ~ ")...",
                 "end_msg": "✅ Major version update complete!"
             }
@@ -60,30 +60,3 @@
     } -%}
     {%- do result.update(config) -%}
 {% endmacro %}
-
-
-{% macro helpers() %}
-# Patch types:
-MAJOR := major
-MINOR := minor
-PATCH := patch
-{% endmacro %}
-
-
-{# #TODO: Deprecated beyond this point!!!! #}
-{% set python_cmd %}
-BUMPVERSION := $(ACTIVATE) && bump-my-version bump --verbose
-# Patch types:
-MAJOR := major
-MINOR := minor
-PATCH := patch
-{% endset %}
-
-
-{% set shell_cmd %}
-# TODO: Also create a git tag of current version.
-bump-version-patch:
-	$(AT)echo "🔖 Updating $(PROJECT_NAME) version from $(VERSION)..."
-	$(AT)$(BUMPVERSION) $(PATCH)
-	$(AT)echo "✅ $(PROJECT_NAME) version update complete!"
-{% endset %}

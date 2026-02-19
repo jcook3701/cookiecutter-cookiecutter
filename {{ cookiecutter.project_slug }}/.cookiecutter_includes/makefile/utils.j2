@@ -124,7 +124,7 @@ info-{{ config.id }}: ## Check {{ config.name }} version.
 	$(AT)$({{ var_name }}) {{ config.args | default('') }}
 	$(AT)echo "{{ config.end_msg | default('Task complete!') }}"
 {%- endset -%}
-    {{- action }}
+	{{- action }}
 {% endmacro -%}
 
 
@@ -142,7 +142,7 @@ info-{{ config.id }}: ## Check {{ config.name }} version.
 {{ group_meta.id }}-{{ suffix }}: ## Run all {{ group_meta.label }} {{ suffix }} tasks ({{ child_ids | join(', ') }}).
 	$(AT)$(MAKE) {{ child_ids | join(' ') }}
 {% endset -%}
-    {{- group_action }}
+	{{- group_action }}
 {%- endmacro -%}
 
 
@@ -170,9 +170,9 @@ version: ## Show project and tool versions.
     #}
 {%- set var_name = parent_id | upper | replace("-", "_") -%}
 {%- set version_line %}
-    $(AT)echo -n "  - {{ config.name }}: " && $({{ var_name }}) --version
+	$(AT)echo -n "  - {{ config.name }}: " && $({{ var_name }}) --version
 {%- endset -%}
-    {{- version_line }}
+	{{- version_line }}
 {%- endmacro -%}
 
 {% macro tool_help() %}
@@ -182,7 +182,11 @@ version: ## Show project and tool versions.
     #}
 {%- set help %}
 help: ## Show this help message.
-	$(AT)grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
+	$(AT)printf "📦 \033[1m%s Makefile\033[0m\n\n" "$(PROJECT_NAME)"
+	$(AT)grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-30s\033[0m %s\n", $$1, $$2}'
+	$(AT)printf "\n\033[1mOptions:\033[0m\n"
+	$(AT)printf "  \033[36m%-30s\033[0m %s\n" "V=1" "Enable verbose output (show all commands)"
+	$(AT)printf "  \033[36m%-30s\033[0m %s\n" "make -s" "Run completely silently (suppress output)"
 {%- endset %}
     {{- tool_section_header("Help", icon="❓") }}
     {{- help }}

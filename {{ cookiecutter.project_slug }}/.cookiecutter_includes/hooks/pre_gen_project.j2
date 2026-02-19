@@ -1,4 +1,5 @@
-# post_gen_project.py for cookiecutter-cookiecutter
+{#
+# hooks/pre_gen_project.j2 for cookiecutter-cookiecutter
 #
 # SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
 # SPDX-License-Identifier: AGPL-3.0-or-later
@@ -15,44 +16,43 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#}
+
+
+{%- macro create(ns) -%}
+    {#
+        Generates project pre_gen_project.py file.
+
+        Args:
+            template_type (str): .
+
+        Returns:
+            str: project pre_gen_project.py.
+    #}
+    {%- import '.cookiecutter_includes/license/__init__.j2' as license_macros with context -%}
+    {{- license_macros.license_header.create(
+            cookiecutter.license,
+            cookiecutter.copyright,
+            cookiecutter.project_slug,
+            file_name='pre_gen_project.py',
+            comment_style='hash') }}
 
 import json
 import os
-import sys
-
-PROJECT_ROOT = os.path.abspath(os.curdir)
-INCLUDES_PATH = os.path.join(PROJECT_ROOT, ".cookiecutter_includes", "hooks")
-
-if INCLUDES_PATH not in sys.path:
-    sys.path.insert(0, INCLUDES_PATH)
-
-from core import make  # noqa: E402
-from post_gen_logic import (  # noqa: E402
-    generate_cliff_changelog_dirs,
-    generate_docs_templates,
-    get_make_cmds,
-)
 
 
 def main() -> None:
-    """Cookiecutter Post Generation Scripts"""
+    """Cookiecutter Pre Generation Scripts"""
     # Detect CI (e.g. GitHub Actions, GitLab CI, etc.)
     if os.getenv("CI"):
         print("⚙️  Detected CI environment — skipping GitHub Docs generation.")
         return
-    os.environ["COOKIECUTTER_HOOKS"] = "true"
-
-    # Access cookiecutter context safely
+    {%- raw %}
     context = json.loads("""{{ cookiecutter | jsonify }}""")
-    generate_docs_templates(context)
-    generate_cliff_changelog_dirs()
-
-    # Run make commands to get project seeded
-    make_cmds: list[str] = get_make_cmds(context)
-
-    for cmd in make_cmds:
-        make(cmd)
+    {% endraw %}
+    print(f"Context: {context}")
 
 
 if __name__ == "__main__":
     main()
+{%- endmacro -%}
