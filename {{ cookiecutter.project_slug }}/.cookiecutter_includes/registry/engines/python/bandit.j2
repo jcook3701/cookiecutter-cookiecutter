@@ -1,0 +1,52 @@
+{#
+# registry/engines/python/bandit.j2 for cookiecutter-cookiecutter
+#
+# SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#}
+
+{% macro get_config(groups, settings, result) %}
+    {#
+        Provides the configuration dictionary for the Bandit security tool.
+        Maps static analysis security testing to the global security group.
+
+        Args:
+            groups (dict): The hydrated ns.pkg_groups dictionary.
+            settings (dict): The hydrated settings dictionary.
+            result (dict): A dictionary to be updated with the config.
+
+        Returns:
+            dict: The tool configuration object including the group metadata.
+    #}
+    {%- set s = settings -%}
+    {%- set config = {
+        "id": "bandit",
+        "name": "Bandit",
+        "icon": "🕵️",
+        "group": groups.security,
+        "command": "$(" ~ s.python_infra.python.label ~ ") -m bandit",
+        "description": "Security linter for Python code to find common security issues.",
+        "modes": {
+            "check": {
+                "args": "-r $(" ~ s.dirs.src.label ~ ") -lll",
+                "start_msg": "🛡️ Running deep security scan with Bandit...",
+                "end_msg": "✅ Security scan complete!"
+            }
+        },
+        "ci_safe": true
+    } -%}
+    {%- do result.update(config) -%}
+{% endmacro %}

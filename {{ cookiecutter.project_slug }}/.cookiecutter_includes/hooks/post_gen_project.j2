@@ -1,0 +1,85 @@
+{#
+# hooks/post_gen_project.j2 for cookiecutter-cookiecutter
+#
+# SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#}
+
+
+
+{%- macro create(ns) -%}
+    {#
+        Generates project post_gen_project.py file.
+
+        Args:
+            template_type (str): .
+
+        Returns:
+            str: project post_gen_project.py.
+    #}
+    {%- import '.cookiecutter_includes/license/__init__.j2' as license_macros with context -%}
+    {{- license_macros.license_header.create(
+            cookiecutter.license,
+            cookiecutter.copyright,
+            cookiecutter.project_slug,
+            file_name='post_gen_project.py',
+            comment_style='hash') }}
+    {%- set changelog = cookiecutter.changelog %}
+
+import json
+import os
+
+from nutrimatic.core import make
+from nutrimatic.hooks.post_gen_logic import (
+    {% if changelog == "antsibull" %}
+    generate_ansible_dirs,
+    {% elif changelog == "git-cliff" %}
+    generate_cliff_changelog_dirs,
+    {% endif %}
+    generate_docs_templates,
+    get_make_cmds,
+)
+
+
+def main() -> None:
+    """Cookiecutter Post Generation Scripts"""
+    # Detect CI (e.g. GitHub Actions, GitLab CI, etc.)
+    if os.getenv("CI"):
+        print("⚙️  Detected CI environment — skipping GitHub Docs generation.")
+        return
+    {%- raw %}
+    os.environ["COOKIECUTTER_HOOKS"] = "true"
+
+    # Access cookiecutter context safely
+    context = json.loads("""{{ cookiecutter | jsonify }}""")
+    {% endraw %}
+    generate_docs_templates(context)
+    {% if changelog == "antsibull" %}
+    generate_ansible_dirs()
+    {% elif changelog == "git-cliff" %}
+    generate_cliff_changelog_dirs()
+    {% endif %}
+
+    # Run make commands to get project seeded
+    make_cmds: list[str] = get_make_cmds(context)
+
+    for cmd in make_cmds:
+        make(cmd)
+
+
+if __name__ == "__main__":
+    main()
+{%- endmacro -%}

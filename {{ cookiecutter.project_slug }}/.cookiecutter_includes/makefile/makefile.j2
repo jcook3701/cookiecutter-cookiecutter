@@ -1,0 +1,96 @@
+{#
+# makefile/makefile.j2 for cookiecutter-cookiecutter
+#
+# SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#}
+
+{% import '.cookiecutter_includes/makefile/clean.j2' as clean with context %}
+{% import '.cookiecutter_includes/makefile/docs.j2' as docs with context %}
+{% import '.cookiecutter_includes/makefile/settings.j2' as settings with context %}
+{% import '.cookiecutter_includes/makefile/components.j2' as components with context %}
+
+{%- macro create(ns) -%}
+    {#
+        Generates project Makefile file.
+
+        Args:
+            template_type (str): .
+
+        Returns:
+            str: project Makefile.
+    #}
+	{%- import '.cookiecutter_includes/license/__init__.j2' as license_macros with context -%}
+	{{- license_macros.license_header.create(
+			cookiecutter.license,
+			cookiecutter.copyright,
+			cookiecutter.project_slug,
+			file_name='Makefile',
+			comment_style='hash') -}}
+
+	{# Settings Section (Environment, CI/CD, Build, & Engine/Env) #}
+	{{- settings.create(ns) -}}
+
+	{# TODO: Build Commands Section #}
+    {{- components.render_vars(ns) -}}
+# --------------------------------------------------
+# Functions
+# --------------------------------------------------
+{%- raw %}
+# Finds files of a given extension or "*" (all files) under a directory,
+# skipping VENV_DIR and template markers like {{ }}.
+define get_files_by_extension
+	find $(1) -name "$(2)" \
+		! -path "$(VENV_DIR)/*" \
+		! -path "$(RENDERED_VENV_DIR)/*" \
+		! -path "*{{*" \
+		! -path "*}}*" \
+		! -name "__init__.j2" \
+		-print0
+endef
+{% endraw %}
+
+JINJA_FILE_LIST := ( \
+		$(call get_files_by_extension,$(PROJECT_ROOT),*.j2); \
+		$(call get_files_by_extension,$(RENDERED_COOKIE_DIR),*.j2) \
+	)
+TOML_FILE_LIST := 	( \
+		$(call get_files_by_extension,$(PROJECT_ROOT),*.toml); \
+		$(call get_files_by_extension,$(RENDERED_COOKIE_DIR),*.toml) \
+	)
+	{# Makefile Phony Section #}
+    {{- components.render_phony(ns) -}}
+
+	{# TODO: Makefile Actions Section #}
+    {{- components.render_action(ns) -}}
+
+	{# Documentation Section #}
+	{{- docs.actions(ns) }}
+	{# Clean Section #}
+	{{- clean.actions(ns) }}
+	{# Version Section #}
+    {{- components.render_version(ns) -}}
+	{# Help Section #}
+    {{- components.render_help(ns) -}}
+{%- endmacro -%}
+
+{# TODO: Move hooks from nutri-matic into .cookiecutter-includes. #}
+{# NOTE:  This project is going to become the centralized template repository #}
+{# TODO: Rename this project Template Factor (template-factory) #}
+{# TODO: Figure out how to have a file be created or not depending on template settings #}
+	{# Example: Python project should have pyproject.toml file #}
+		{# Actually most projects will have pyproject.toml to run cookiecutter_project_upgrader commands. #}
+	{# Example: Typescript project should be only project type with package.json #}

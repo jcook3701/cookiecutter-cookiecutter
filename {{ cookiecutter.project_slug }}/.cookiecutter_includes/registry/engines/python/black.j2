@@ -1,0 +1,76 @@
+{#
+# registry/engines/python/black.j2 for cookiecutter-cookiecutter
+#
+# SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#}
+
+
+{% macro get_config(groups, settings, result) %}
+    {#
+        Provides the configuration dictionary for the Black formatter.
+        Maps PEP 8 code formatting to the global formatting group.
+
+        Args:
+            groups (dict): The hydrated ns.pkg_groups dictionary.
+            settings (dict): The hydrated settings dictionary.
+            result (dict): A dictionary to be updated with the config.
+
+        Returns:
+            dict: The tool configuration object including the group metadata.
+    #}
+    {%- set s = settings -%}
+    {%- set config = {
+        "id": "black",
+        "name": "Black",
+        "icon": "⬛",
+        "group": groups.format,
+        "command": "$(" ~ s.python_infra.python.label ~ ") -m black",
+        "description": "The uncompromising Python code formatter.",
+        "modes": {
+            "check": {
+                "args": "--check --diff $(" ~ s.dirs.src.label ~ ")",
+                "start_msg": "🔍 Checking Python code style with Black...",
+                "end_msg": "✅ Style check complete!"
+            },
+            "fix": {
+                "args": "$(" ~ s.dirs.src.label ~ ")",
+                "start_msg": "🎨 Formatting Python code with Black...",
+                "end_msg": "✨ Code formatting complete!"
+            }
+        }
+    } -%}
+    {%- do result.update(config) -%}
+{% endmacro %}
+
+
+{# #TODO: Deprecated beyond this point!!!! #}
+{% set python_cmd %}
+BLACK := $(PYTHON) -m black
+{% endset %}
+
+
+{% set shell_cmd %}
+black-formatter-check:
+	$(AT)echo "🔍 Running black formatter style check..."
+	$(AT)$(call run_ci_safe, $(BLACK) --check $(SRC_DIR) $(TESTS_DIR))
+	$(AT)echo "✅ Finished formatting check of Python code with Black!"
+
+black-formatter-fix:
+	$(AT)echo "🎨 Running black formatter fixes..."
+	$(AT)$(BLACK) $(SRC_DIR) $(TESTS_DIR)
+	$(AT)echo "✅ Finished formatting Python code with Black!"
+{% endset %}

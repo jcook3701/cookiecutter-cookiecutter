@@ -1,0 +1,46 @@
+{#
+# makefile/envs/ansible/ansible-lint.j2 for cookiecutter-cookiecutter
+#
+# SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#}
+
+{% macro get_config(groups, settings, result) %}
+    {#
+        Provides the configuration dictionary for Ansible Lint.
+        Maps to the global linting group for project-wide consistency.
+
+        Args:
+            groups (dict): The hydrated pkg_groups dictionary.
+            settings (dict): The hydrated settings dictionary.
+            result (dict): A dictionary to be updated with the config.
+
+        Returns:
+            dict: The tool configuration object.
+    #}
+    {%- set config = {
+        "id": "ansible-lint",
+        "name": "Ansible Lint",
+        "icon": "🛡️",
+        "group": groups.lint,
+        "command": "ansible-lint",
+        "args": settings.dirs.root.label ~ "/ansible",
+        "start_msg": "🔍 Running Ansible Lint for best practices check...",
+        "end_msg": "✅ Ansible Linting complete!",
+        "description": "Best practices linter for Ansible playbooks and roles."
+    } -%}
+    {%- do result.update(config) -%}
+{% endmacro %}

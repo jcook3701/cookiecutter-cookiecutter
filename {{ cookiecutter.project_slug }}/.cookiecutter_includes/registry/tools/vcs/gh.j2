@@ -1,0 +1,70 @@
+{#
+# makefile/vcs/gh.j2 for cookiecutter-cookiecutter
+#
+# SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#}
+
+{% macro get_config(groups, settings, result) %}
+    {#
+        Provides the configuration dictionary for the GitHub CLI (gh).
+        Maps repository management and release automation to the global groups.
+
+        Args:
+            groups (dict): The hydrated ns.pkg_groups dictionary.
+            settings (dict): The hydrated settings dictionary.
+            result (dict): A dictionary to be updated with the config.
+
+        Returns:
+            dict: The tool configuration object including the group metadata.
+    #}
+    {%- set s = settings -%}
+    {%- set config = {
+        "id": "github",
+        "name": "GitHub CLI",
+        "icon": "🐙",
+        "group": groups.vcs,
+        "command": "gh",
+        "description": "GitHub’s official command line tool for repository and release management.",
+        "modes": {
+            "check": {
+                "args": "--version",
+                "group": groups.info,
+                "start_msg": "🔍 Checking GitHub CLI version...",
+                "end_msg": "✅ GitHub CLI version check complete!"
+            },
+            "auth": {
+                "args": "auth status",
+                "group": groups.setup,
+                "start_msg": "🔐 Checking GitHub authentication status...",
+                "end_msg": "✅ Authentication check complete!"
+            },
+            "release": {
+                "args": "release create $(" ~ s.project.release.label ~ ") --generate-notes",
+                "group": groups.release,
+                "start_msg": "🚀 Creating GitHub release for $(" ~ s.project.release.label ~ ")...",
+                "end_msg": "✅ GitHub release created!"
+            },
+            "repo-view": {
+                "args": "repo view --web",
+                "group": groups.info,
+                "start_msg": "🌐 Opening GitHub repository in browser...",
+                "end_msg": "✅ Repository opened!"
+            }
+        }
+    } -%}
+    {%- do result.update(config) -%}
+{% endmacro %}

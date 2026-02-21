@@ -1,0 +1,80 @@
+{#
+# makefile/debug.j2 for cookiecutter-cookiecutter
+#
+# SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#}
+
+
+{%- from '.cookiecutter_includes/registry/_config.j2' import ns with context -%}
+{%- import '.cookiecutter_includes/makefile/utils.j2' as utils with context -%}
+{%- import '.cookiecutter_includes/makefile/components.j2' as components with context -%}
+
+{#
+{% macro render_config() -%}
+    {{ utils.tool_section_header("Configuration Settings", "⚙️") }}
+
+    {% for section_id, section_data in ns.settings.items() %}
+    {{- '# ---' }} ~ {{ section_data._icon | default('🔹') }} {{ section_data._title | default(section_id | capitalize) }}
+        {% for key, meta in section_data.items() if not key.startswith('_') %}
+            {%- set value = meta.val -%}
+            {%- if meta.quote | default(false) -%}{%- set value = '"' ~ value ~ '"' -%}{%- endif -%}
+                {{- "%-30s" | format(key.upper()) }} ?= {{ value }} # {{ meta.label | default(key) }}
+        {% endfor %}
+    {% endfor %}
+{%- endmacro %}
+#}
+
+{%- macro debug_all() -%}
+{{ utils.tool_section_header("NAMESPACE DEBUG DUMP", "🪲") }}
+
+# === 1. PKG_GROUPS (Variables) ===
+{% for section_id, data in ns.pkg_groups.items() -%}
+    # [{{ "%-8s" | format(section_id | upper) }}]: {% for key, val in data.items() -%}
+        {{ key }} = {{ val }}{{ ", " if not loop.last -}}
+    {% endfor +%}
+{% endfor %}
+
+# === 2. SETTINGS (Variables) ===
+{% for section_id, data in ns.settings.items() -%}
+    # [{{ "%-10s" | format(section_id | upper) }}]: {{ data.keys() | list | join(', ') }}
+{% endfor %}
+
+# === 3. FEATURES (Booleans) ===
+{% for lang, features in ns.features.items() -%}
+{% if features %}
+# [{{ "%-10s" | format(lang | upper) }}]
+{% for key, val in features.items() %}
+#   - {{ "%-15s" | format(key) }} = {{ val }}
+{% endfor %}
+{% endif %}
+{%- endfor %}
+
+# === 4. ACTIVE TOOLS (The Registry) ===
+# Count: {{ ns.active_tools | length }}
+{% for tool in ns.active_tools %}
+    {%- set cfg = tool.config -%}
+    {%- set g = cfg.group -%}
+    {%- set g_id = g.id if g is mapping else g -%}
+# -> ID: {{ "%-25s" | format(tool.parent_id) }} | Mode: {{ "%-25s" | format(cfg.id) }} | Group: {{ "%-10s" | format(g_id) }} | Icon: {{ g.icon | default('❓') if g is mapping else '❓' }}
+{% else %}
+# !!! WARNING: No tools found in ns.active_tools !!!
+{%- endfor %}
+
+# === 5. ACTIVE SECTIONS ===
+{# Settings Section (environment, ci/cd, & build) #}
+
+{%- endmacro -%}

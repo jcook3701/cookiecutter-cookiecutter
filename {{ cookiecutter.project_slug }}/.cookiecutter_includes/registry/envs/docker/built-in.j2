@@ -1,0 +1,118 @@
+{#
+# makefile/envs/docker/built-in.j2 for cookiecutter-cookiecutter
+#
+# SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#}
+
+
+{% macro get_config(groups, settings, result) %}
+    {#
+        Provides a multi-mode configuration for Docker-related operations.
+        Maps container lifecycle actions to global project groups.
+
+        Args:
+            groups (dict): The hydrated ns.pkg_groups dictionary.
+            settings (dict): The hydrated settings dictionary.
+            result (dict): A dictionary to be updated with the config.
+
+        Returns:
+            dict: A tool configuration containing functional Docker modes.
+    #}
+    {%- set s = settings -%}
+    {%- set config = {
+        "id": "docker",
+        "name": "Docker",
+        "icon": "🐳",
+        "group": groups.infra,
+        "command": "docker",
+        "modes": {
+            "build": {
+                "id": "docker-build",
+                "name": "Docker Build",
+                "group": groups.pkg,
+                "command": "build",
+                "args": "-t $(" ~ s.github.repo.label ~ "):$(" ~ s.project.version.label ~ ") .",
+                "description": "Build the container image using the Dockerfile.",
+                "start_msg": "🏗️ Building Docker image...",
+                "end_msg": "✅ Build complete!"
+            },
+            "run": {
+                "id": "docker-run",
+                "name": "Docker Run",
+                "group": groups.test,
+                "command": "run",
+                "args": "--rm -it $(" ~ s.github.repo.label ~ "):$(" ~ s.project.version.label ~ ")",
+                "description": "Run the container locally for testing.",
+                "start_msg": "🚀 Starting local Docker container...",
+                "end_msg": "🛑 Container stopped."
+            },
+            "lint": {
+                "id": "hadolint",
+                "name": "Hadolint",
+                "group": groups.lint,
+                "command": "run",
+                "args": "--rm -i hadolint/hadolint < Dockerfile",
+                "description": "Lint the Dockerfile to ensure best practices.",
+                "start_msg": "🔍 Linting Dockerfile with Hadolint...",
+                "end_msg": "✅ Linting complete!"
+            },
+            "scan": {
+                "id": "docker-scan",
+                "name": "Docker Scan",
+                "group": groups.security,
+                "command": "scan",
+                "args": "$(" ~ s.github.repo.label ~ "):$(" ~ s.project.version.label ~ ")",
+                "description": "Scan the image for vulnerabilities.",
+                "start_msg": "🛡️ Scanning image for vulnerabilities...",
+                "end_msg": "✅ Scan complete!"
+            },
+            "push": {
+                "id": "docker-push",
+                "name": "Docker Push",
+                "group": groups.release,
+                "command": "push",
+                "args": "$(" ~ s.github.repo.label ~ "):$(" ~ s.project.version.label ~ ")",
+                "description": "Push the image to the configured registry.",
+                "start_msg": "🚢 Pushing image to registry...",
+                "end_msg": "✅ Push complete!"
+            },
+            "prune": {
+                "id": "docker-prune",
+                "name": "Docker Prune",
+                "group": groups.clean,
+                "command": "system prune",
+                "args": "-f",
+                "description": "Remove unused data to save disk space.",
+                "start_msg": "🧹 Pruning Docker system resources...",
+                "end_msg": "✅ Cleanup complete!"
+            }
+        }
+    } -%}
+    {%- do result.update(config) -%}
+{% endmacro %}
+
+{#
+publish-all: ## 🚀 Publish everything
+	$(MAKE) python-publish
+	$(MAKE) docker-push
+#}
+
+{#
+{% if cookiecutter.add_docker %}
+    {% set active_tools = active_tools + docker.docker_dev_stack %}
+{% endif %}
+#}

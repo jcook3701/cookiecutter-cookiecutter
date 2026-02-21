@@ -1,0 +1,72 @@
+{#
+# registry/engines/python/vars.j2 for cookiecutter-cookiecutter
+#
+# SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#}
+
+{%- import '.cookiecutter_includes/registry/debug.j2' as debug with context -%}
+
+{%- set python_settings_map = {
+    "python_settings": {
+        "_title": "Python Settings",
+        "_icon": "🐍",
+        "_version":  {"val": cookiecutter.python_version, "label": "PYTHON_VERSION"},
+        "deps":     {"val": ".", "label": "DEPS"},
+        "dev_deps": {"val": ".[dev]", "label": "DEV_DEPS"},
+        "dev_docs": {"val": ".[docs]", "label": "DEV_DOCS"}
+    },
+    "python_infra": {
+        "_title": "Python Commands (venv, activate, pip)",
+        "_icon": "🐍",
+        "python_cmd":   {"val": "python" ~ cookiecutter.python_version, "label": "PYTHON_CMD"},
+        "venv_dir":     {"val": "$(PROJECT_ROOT)/.venv", "label": "VENV_DIR"},
+        "activate":     {"val": "source $(VENV_DIR)/bin/activate", "label": "ACTIVATE"},
+        "python":       {"val": "$(ACTIVATE) && $(PYTHON_CMD)", "label": "PYTHON"}
+    }
+} -%}
+
+{%- set python_cmd_map = {
+    "BANDIT":                           cookiecutter.__python.bandit | default(false),
+    "BLACK":                            cookiecutter.__python.black | default(false),
+    "BUILD":                            cookiecutter.__python.build | default(false),
+    "BUMPVERSION":                      cookiecutter.__python.bump_my_version | default(false),
+    "CODESPELL":                        cookiecutter.__python.codespell | default(false),
+    "COOKIECUTTER_PROJECT_UPGRADER":    cookiecutter.__python.cookiecutter_project_upgrader | default(true),
+    "COOKIECUTTER":                     cookiecutter.__python.cookiecutter | default(false),
+    "DEPTRY":                           cookiecutter.__python.deptry | default(false),
+    "DJLINT":                           cookiecutter.__python.djlint | default(false),
+    "JINJA":                            cookiecutter.__python.jinja_cli | default(false),
+    "MYPY":                             cookiecutter.__python.mypy | default(false),
+    "NUTRIMATIC":                       cookiecutter.__python.nutrimatic| default(false),
+    "PIP_AUDIT":                        cookiecutter.__python.pip_audit | default(false),
+    "PIPDEPTREE":                       cookiecutter.__python.pipdeptree | default(false),
+    "PIP":                              true,
+    "PRE_COMMIT":                       cookiecutter.__python.pre_commit | default(false),
+    "PYTEST":                           cookiecutter.__python.pytest | default(false),
+    "RUFF":                             cookiecutter.__python.ruff | default(false),
+    "TOMLLINT":                         cookiecutter.__python.tomllint | default(false),
+    "TOX":                              cookiecutter.__python.tox | default(false),
+    "TWINE":                            cookiecutter.__python.twine | default(false),
+    "VENV":                             true,
+    "YAMLLINT":                         cookiecutter.__python.yamllint | default(false)
+} -%}
+
+{%- set validate = debug.validate_features(python_cmd_map, "python/_config.j2") -%}
+{% if validate == "PASS" %}
+    {% set features = python_cmd_map %}
+    {% set settings = python_settings_map %}
+{% endif %}

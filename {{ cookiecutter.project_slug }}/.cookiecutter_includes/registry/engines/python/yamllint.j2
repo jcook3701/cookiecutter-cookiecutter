@@ -1,0 +1,66 @@
+{#
+# registry/engines/python/yamllint.j2 for cookiecutter-cookiecutter
+#
+# SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#}
+
+{% macro get_config(groups, settings, result) %}
+    {#
+        Provides the configuration dictionary for the Yamllint tool.
+        Maps YAML file validation and linting to the global linting group.
+
+        Args:
+            groups (dict): The hydrated ns.pkg_groups dictionary.
+            settings (dict): The hydrated settings dictionary.
+            result (dict): A dictionary to be updated with the config.
+
+        Returns:
+            dict: The tool configuration object including the group metadata.
+    #}
+    {%- set s = settings -%}
+    {%- set config = {
+        "id": "yamllint",
+        "name": "Yamllint",
+        "icon": "📄",
+        "group": groups.lint,
+        "command": "$(" ~ s.python_infra.python.label ~ ") -m yamllint",
+        "description": "A linter for YAML files that checks for syntax validity and style.",
+        "modes": {
+            "check": {
+                "args": "$(" ~ s.dirs.root.label ~ ") $(" ~ s.cookie.render_dir.label ~ ")",
+                "start_msg": "🔍 Running Yamllint check on YAML files...",
+                "end_msg": "✅ Finished linting check of yaml files with yamllint!"
+            }
+        }
+    } -%}
+    {%- do result.update(config) -%}
+{% endmacro %}
+
+
+{# #TODO: Deprecated beyond this point!!!! #}
+{% set python_cmd %}
+YAMLLINT := $(PYTHON) -m yamllint
+{% endset %}
+
+
+{% set shell_cmd %}
+yaml-lint-check:
+	$(AT)echo "🔍 Running yamllint..."
+	$(AT)$(YAMLLINT) $(PROJECT_ROOT)
+	$(AT)$(YAMLLINT) $(RENDERED_COOKIE_DIR)
+	$(AT)echo "✅ Finished linting check of yaml files with yamllint!"
+{% endset %}

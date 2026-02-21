@@ -1,0 +1,68 @@
+{#
+# registry/engines/python/mypy.j2 for cookiecutter-cookiecutter
+#
+# SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#}
+
+{% macro get_config(groups, settings, result) %}
+    {#
+        Provides the configuration dictionary for the MyPy static type checker.
+        Maps static type analysis to the global typing group.
+
+        Args:
+            groups (dict): The hydrated ns.pkg_groups dictionary.
+            settings (dict): The hydrated settings dictionary.
+            result (dict): A dictionary to be updated with the config.
+
+        Returns:
+            dict: The tool configuration object including the group metadata.
+    #}
+    {%- set s = settings -%}
+    {%- set config = {
+        "id": "mypy",
+        "name": "MyPy",
+        "icon": "🧠",
+        "group": groups.typing,
+        "command": "$(" ~ s.python_infra.python.label ~ ") -m mypy",
+        "description": "Optional static typing for Python using PEP 484 annotations.",
+        "ci_safe": true,
+        "pre_cmd": "$(MAKE) list-folders",
+        "modes": {
+            "run": {
+                "args": "$(" ~ s.dirs.src.label ~ ") $(" ~ s.dirs.test.label ~ ")",
+                "start_msg": "🧠 Checking Python types with MyPy...",
+                "end_msg": "✅ Python typecheck complete!"
+            }
+        }
+    } -%}
+    {%- do result.update(config) -%}
+{% endmacro %}
+
+
+{# #TODO: Deprecated beyond this point!!!! #}
+{% set python_cmd %}
+MYPY := $(PYTHON) -m mypy
+{% endset %}
+
+
+{% set shell_cmd %}
+typecheck:
+	$(AT)echo "🧠 Checking types (MyPy)..."
+	$(AT)$(MAKE) list-folders
+	$(AT)$(call run_ci_safe, $(MYPY) $(SRC_DIR) $(TESTS_DIR))
+	$(AT)echo "✅ Python typecheck complete!"
+{% endset %}

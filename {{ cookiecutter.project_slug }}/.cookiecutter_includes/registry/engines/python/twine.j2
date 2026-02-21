@@ -1,0 +1,88 @@
+{#
+# registry/engines/python/twine.j2 for cookiecutter-cookiecutter
+#
+# SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#}
+
+
+{% macro get_config(groups, settings, result) %}
+    {#
+        Provides the configuration dictionary for the Twine publishing tool.
+        Maps Python package uploads to the global release group.
+
+        Args:
+            groups (dict): The hydrated ns.pkg_groups dictionary.
+            settings (dict): The hydrated settings dictionary.
+            result (dict): A dictionary to be updated with the config.
+
+        Returns:
+            dict: The tool configuration object including the group metadata.
+    #}
+    {%- set s = settings -%}
+    {%- set config = {
+        "id": "twine",
+        "name": "Twine",
+        "icon": "🚀",
+        "group": groups.release,
+        "command": "$(" ~ s.python_infra.python.label ~ ") -m twine",
+        "description": "Utility for publishing Python packages to PyPI.",
+        "modes": {
+            "test": {
+                "args": "upload --repository testpypi --verbose dist/*",
+                "start_msg": "🚀 Publishing $(" ~ s.project.name.label ~ ") to TestPyPI...",
+                "end_msg": "✅ $(" ~ s.project.name.label ~ ") test upload complete!"
+            },
+            "publish": {
+                "args": "upload dist/*",
+                "start_msg": "🚀 Publishing $(" ~ s.project.name.label ~ ") to PyPI...",
+                "end_msg": "✅ $(" ~ s.project.name.label ~ ") production upload complete!"
+            }
+        }
+    } -%}
+    {%- do result.update(config) -%}
+{% endmacro %}
+
+
+{# #TODO: Deprecated beyond this point!!!! #}
+{#
+# --------------------------------------------------
+# 🚀 Publishing (twine)
+# --------------------------------------------------
+#}
+
+{% set python_cmd %}
+TWINE := $(PYTHON) -m twine
+# Repos:
+PYPI := upload dist/*
+TESTPYPI := upload --repository testpypi --verbose dist/*
+{% endset %}
+
+
+{% set shell_cmd %}
+# --------------------------------------------------
+# 🚀 Publish program (twine) (Repos: Testpypi, & Pypi)
+# --------------------------------------------------
+publish-test:
+	$(AT)echo "🚀 Publishing $(PACKAGE_NAME) to testpypi..."
+	$(AT)$(TWINE) $(TESTPYPI)
+	$(AT)echo "✅ $(PACKAGE_NAME) upload complete!"
+
+publish:
+	$(AT)echo "🚀 Publishing $(PACKAGE_NAME) to pypi..."
+	$(AT)$(TWINE) $(PYPI)
+	$(AT)echo "✅ $(PACKAGE_NAME) upload complete!"
+{% endset %}

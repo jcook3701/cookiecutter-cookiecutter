@@ -40,7 +40,10 @@
         {% do dev_deps.append('"antsibull-changelog>=0.34"') %}
         {% do dev_deps.append('"antsichaut>=0.4"') %}
     {% endif %}
+    {% if config.bandit %}{% do dev_deps.append('"bandit>=1.9"') %}{% endif %}
     {% if config.black %}{% do dev_deps.append('"black>=25.11"') %}{% endif %}
+    {% if config.build %}{% do dev_deps.append('"build>=1.4"') %}{% endif %}
+
     {% if config.bump_my_version %}{% do dev_deps.append('"bump-my-version>=1.2"') %}{% endif %}
     {% if config.codespell %}{% do dev_deps.append('"codespell>=2.4"') %}{% endif %}
     {% do dev_deps.append('"cookiecutter>=2.6"') %}
@@ -54,6 +57,7 @@
     {% if config.mypy %}{% do dev_deps.append('"mypy==1.9"') %}{% endif %}
     {% if config.nameisok %}{% do dev_deps.append('"nameisok>=0.1"') %}{% endif %}
     {% if config.pip_audit %}{% do dev_deps.append('"pip-audit>=2.10"') %}{% endif %}
+    {% if config.pipdeptree %}{% do dev_deps.append('"pipdeptree>=2.30"') %}{% endif %}
     {% if config.pre_commit %}{% do dev_deps.append('"pre-commit>=4.5"') %}{% endif %}
     {% if config.pytest %}
         {% do dev_deps.append('"pytest>=9.0"') %}

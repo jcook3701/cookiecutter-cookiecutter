@@ -1,0 +1,73 @@
+{#
+# registry/settings.j2 for cookiecutter-cookiecutter
+#
+# SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#}
+
+{%- set settings = {
+    "project": {
+        "_title": "Build Settings",
+        "_icon": "⚙️",
+        "name":         {"val": cookiecutter.project_name,              "quote": true, "label": "PROJECT_NAME"},
+        "slug":         {"val": cookiecutter.project_slug,              "label": "PROJECT_SLUG"},
+        "description":  {"val": cookiecutter.description,               "quote": true, "label": "DESCRIPTION"},
+        "_company":     {"val": cookiecutter.company | default(null),   "quote": true, "label": "COMPANY"},
+        "author":       {"val": cookiecutter.author,                    "quote": true, "label": "AUTHOR"},
+        "email":        {"val": cookiecutter.email,                     "label": "EMAIL"},
+        "license":      {"val": cookiecutter.license,                   "label": "LICENSE"},
+        "copyright":    {"val": cookiecutter.copyright,                 "quote": true, "label": "COPYRIGHT"},
+        "version":      {"val": cookiecutter.version,                   "label": "VERSION"},
+        "release":      {"val": "v$(VERSION)",                          "label": "RELEASE"}
+    },
+    "github": {
+        "_title": "Github Build Settings",
+        "_icon": "🐙",
+        "_org": {"val": cookiecutter.github_org | default(null),    "label": "GITHUB_ORG"},
+        "user": {"val": cookiecutter.github_username,               "quote": true, "label": "GITHUB_USER"},
+        "repo": {"val": "$(GITHUB_USER)/$(PROJECT_NAME)",           "label": "GITHUB_REPO"}
+    },
+    "dirs": {
+        "_title": "Build Directories",
+        "_icon": "📁",
+        "root":          {"val": "$(call cc_or_std,$(CURDIR),$(PWD))", "label": "PROJECT_ROOT"},
+        "src":           {"val": "$(HOOKS_DIR)",                       "label": "SRC_DIR"},
+        "test":          {"val": "$(PROJECT_ROOT)/tests",              "label": "TEST_DIR"},
+        "changelog":     {"val": "$(PROJECT_ROOT)/changelogs",         "label": "CHANGELOG_DIR"},
+        "docs":          {"val": "$(PROJECT_ROOT)/docs",               "label": "DOCS_DIR"}
+    },
+    "cookie": {
+       "_title": "Template Directories",
+        "_icon": "🍪",
+        "template_dir": {"val": "{{ cookiecutter.project_slug }}",       "label": "COOKIE_DIR"},
+        "macro_dir":    {"val": "$(COOKIE_DIR)/.cookiecutter_includes",  "label": "COOKIE_MACRO_DIR"},
+        "render_dir":   {"val": "/tmp/rendered",                         "label": "RENDERED_COOKIE_DIR"},
+        "render_venv":  {"val": "$(RENDERED_COOKIE_DIR)/**/.venv",       "label": "RENDERED_VENV_DIR"}
+    },
+    "files": {
+       "_title": "Build Files",
+        "_icon": "📄",
+        "changelog":            {"val": "$(CHANGELOG_DIR)/CHANGELOG.md",           "label": "CHANGELOG_FILE"},
+        "changelog_release":    {"val": "$(CHANGELOG_DIR)/releases/$(RELEASE).md", "label": "CHANGELOG_RELEASE_FILE"},
+        "readme":               {"val": "$(PROJECT_ROOT)/README.md",               "label": "README_FILE"}
+    },
+    "urls": {
+        "_title": "Urls",
+        "_icon": "🔗",
+        "repo":         {"val": cookiecutter.repo_url,  "label": "REPO_URL"},
+        "github_io":    {"val": cookiecutter.github_io, "label": "GITHUB_IO_URL"}
+    }
+ } -%}

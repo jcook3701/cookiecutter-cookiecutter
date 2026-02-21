@@ -1,0 +1,72 @@
+{#
+# registry/utils.j2 for cookiecutter-cookiecutter
+#
+# SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#}
+
+{% macro register_tool(ns, tool_cfg) %}
+    {#
+        Registers a tool and its sub-modes into the global active_tools list.
+        Standardizes the schema to ensure 'group' is ALWAYS a dictionary.
+
+        Args:
+            ns (namespace): The global project namespace.
+            tool_cfg (dict): The tool configuration dictionary.
+    #}
+    {%- if tool_cfg.modes is defined -%}
+        {# 1. HANDLE DICTIONARY MODES (Ruff, Black, etc.) #}
+        {%- if tool_cfg.modes is mapping -%}
+            {%- for m_id, m_cfg in tool_cfg.modes.items() -%}
+                {# Fallback: Mode Group -> Parent Tool Group -> Info Group #}
+                {%- set target_group = m_cfg.group | default(tool_cfg.group) | default(ns.pkg_groups.info) -%}
+
+                {%- do ns.active_tools.append({
+                    "parent_id": tool_cfg.id,
+                    "parent_group": tool_cfg.group,
+                    "parent_description": tool_cfg.description,
+                    "config": {
+                        "id": tool_cfg.id ~ "-" ~ m_id,
+                        "name": m_cfg.name | default(tool_cfg.name ~ " (" ~ m_id ~ ")"),
+                        "group": target_group,
+                        "command": tool_cfg.command,
+                        "args": m_cfg.args | default(''),
+                        "custom_shell": m_cfg.custom_shell | default(null),
+                        "start_msg": m_cfg.start_msg | default('Running ' ~ tool_cfg.id ~ ' ' ~ m_id),
+                        "end_msg": m_cfg.end_msg | default(tool_cfg.id ~ ' ' ~ m_id ~ ' complete!'),
+                        "description": m_cfg.description | default(tool_cfg.description)
+                    }
+                }) -%}
+            {%- endfor -%}
+
+        {# 2. HANDLE LIST MODES (Docker, Cargo, Ansible-Galaxy) #}
+        {%- elif tool_cfg.modes is iterable -%}
+            {%- for mode in tool_cfg.modes -%}
+                {# Standardize the entry to ensure downstream macros see 'config' #}
+                {%- do ns.active_tools.append({
+                    "parent_id": tool_cfg.id,
+                    "config": mode
+                }) -%}
+            {%- endfor -%}
+        {%- endif -%}
+
+    {# 3. HANDLE SINGLE TOOLS (Bandit, Pytest) #}
+    {%- else -%}
+        {%- do ns.active_tools.append({
+            "config": tool_cfg
+        }) -%}
+    {%- endif -%}
+{% endmacro %}

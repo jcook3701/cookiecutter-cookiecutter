@@ -1,0 +1,60 @@
+{#
+# makefile/envs/ansible/molecule.j2 for cookiecutter-cookiecutter
+#
+# SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#}
+
+{% macro get_config(groups, settings, result) %}
+    {#
+        Provides the configuration dictionary for Molecule.
+        Maps Ansible role testing to the global test group.
+
+        Args:
+            groups (dict): The hydrated pkg_groups dictionary.
+            settings (dict): The hydrated settings dictionary.
+            result (dict): A dictionary to be updated with the config.
+
+        Returns:
+            dict: The tool configuration object for Molecule.
+    #}
+    {%- set config = {
+        "id": "molecule",
+        "name": "Molecule",
+        "icon": "🧪",
+        "group": groups.test,
+        "command": "molecule",
+        "modes": {
+            "test": {
+                "args": "test --all",
+                "start_msg": "🧪 Running full Molecule test suite (lint, converge, verify)...",
+                "end_msg": "✅ Molecule tests passed!"
+            },
+            "converge": {
+                "args": "converge",
+                "start_msg": "🚀 Converging Ansible roles with Molecule...",
+                "end_msg": "✨ Molecule convergence complete!"
+            },
+            "verify": {
+                "args": "verify",
+                "start_msg": "🔍 Verifying Molecule instances...",
+                "end_msg": "✅ Verification complete!"
+            }
+        },
+        "description": "Test-driven development for Ansible roles."
+    } -%}
+    {%- do result.update(config) -%}
+{% endmacro %}

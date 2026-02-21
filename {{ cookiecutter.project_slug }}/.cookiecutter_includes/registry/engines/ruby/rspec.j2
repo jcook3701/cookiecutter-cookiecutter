@@ -1,0 +1,51 @@
+{#
+# registry/engines/ruby/rspec.j2 for cookiecutter-cookiecutter
+#
+# SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#}
+
+{% macro get_config(groups, settings, result) %}
+    {#
+        Provides the configuration dictionary for RSpec.
+        Maps unit and integration testing to the global test group.
+
+        Args:
+            groups (dict): The hydrated ns.pkg_groups dictionary.
+            settings (dict): The hydrated settings dictionary.
+            result (dict): A dictionary to be updated with the config.
+
+        Returns:
+            dict: The tool configuration object for Ruby testing.
+    #}
+    {%- set s = settings -%}
+    {%- set config = {
+        "id": "rspec",
+        "name": "RSpec",
+        "icon": "🧪",
+        "group": groups.test,
+        "command": "$(" ~ s.ruby_tools.bundler.label ~ ") exec $(" ~ s.ruby_tools.rspec.label ~ ")",
+        "description": "Behavior Driven Development testing framework for Ruby.",
+        "modes": {
+            "test": {
+                "args": "--format documentation",
+                "start_msg": "🧪 Running RSpec unit and integration tests...",
+                "end_msg": "✅ Ruby tests complete!"
+            }
+        }
+    } -%}
+    {%- do result.update(config) -%}
+{% endmacro %}

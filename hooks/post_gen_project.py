@@ -18,9 +18,16 @@
 
 import json
 import os
+import sys
 
-from nutrimatic.core import make
-from nutrimatic.hooks.post_gen_logic import (
+PROJECT_ROOT = os.path.abspath(os.curdir)
+INCLUDES_PATH = os.path.join(PROJECT_ROOT, ".cookiecutter_includes", "hooks")
+
+if INCLUDES_PATH not in sys.path:
+    sys.path.insert(0, INCLUDES_PATH)
+
+from core import make  # noqa: E402
+from post_gen_logic import (  # noqa: E402
     generate_cliff_changelog_dirs,
     generate_docs_templates,
     get_make_cmds,

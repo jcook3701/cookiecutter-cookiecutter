@@ -1,0 +1,67 @@
+{#
+# registry/engines/typescript/__init__.j2 for cookiecutter-cookiecutter
+#
+# SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#}
+
+{%- import '.cookiecutter_includes/registry/utils.j2' as utils with context -%}
+{%- import '.cookiecutter_includes/registry/engines/typescript/npm.j2' as _npm with context -%}
+{%- import '.cookiecutter_includes/registry/engines/typescript/eslint.j2' as _eslint with context -%}
+{%- import '.cookiecutter_includes/registry/engines/typescript/prettier.j2' as _prettier with context -%}
+{%- import '.cookiecutter_includes/registry/engines/typescript/vitest.j2' as _vitest with context -%}
+{%- import '.cookiecutter_includes/registry/engines/typescript/storybook.j2' as _storybook with context -%}
+{%- import '.cookiecutter_includes/registry/engines/typescript/tsc.j2' as _tsc with context -%}
+{%- import '.cookiecutter_includes/registry/engines/typescript/typedoc.j2' as _typedoc with context -%}
+
+{% macro get_active_tools(ns) %}
+    {#
+        Registers active Typescript tools into the global namespace.
+
+        Args:
+            ns (namespace): Global project namespace.
+    #}
+    {%- set npm = {} -%}
+    {%- set eslint = {} -%}
+    {%- set prettier = {} -%}
+    {%- set vitest = {} -%}
+    {%- set storybook = {} -%}
+    {%- set tsc = {} -%}
+    {%- set typedoc = {} -%}
+
+    {%- do _npm.get_config(ns.pkg_groups, ns.settings, npm) -%}
+    {%- do _eslint.get_config(ns.pkg_groups, ns.settings, eslint) -%}
+    {%- do _prettier.get_config(ns.pkg_groups, ns.settings, prettier) -%}
+    {%- do _vitest.get_config(ns.pkg_groups, ns.settings, vitest) -%}
+    {%- do _storybook.get_config(ns.pkg_groups, ns.settings, storybook) -%}
+    {%- do _tsc.get_config(ns.pkg_groups, ns.settings, tsc) -%}
+    {%- do _typedoc.get_config(ns.pkg_groups, ns.settings, typedoc) -%}
+
+    {%- set tools_to_check = [
+        npm, eslint, prettier, vitest, storybook, tsc, typedoc
+    ] -%}
+
+    {%- for tool_cfg in tools_to_check -%}
+        {%- if tool_cfg is mapping -%}
+            {% set feature_id = tool_cfg.id | upper | replace("-", "_") %}
+            {% set is_enabled = ns.features.engines.typescript.get(feature_id) | default(false) %}
+
+            {% if is_enabled %}
+                {{- utils.register_tool(ns, tool_cfg) -}}
+            {% endif -%}
+        {% endif %}
+    {% endfor %}
+{% endmacro %}

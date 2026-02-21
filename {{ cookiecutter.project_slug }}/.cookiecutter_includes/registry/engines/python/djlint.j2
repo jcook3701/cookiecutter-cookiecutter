@@ -1,0 +1,76 @@
+{#
+# registry/engines/python/djlint.j2 for cookiecutter-cookiecutter
+#
+# SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#}
+
+{% macro get_config(groups, settings, result) %}
+    {#
+        Provides the configuration dictionary for the djLint tool.
+        Maps Jinja2 and HTML linting/formatting to the global linting group.
+
+        Args:
+            groups (dict): The hydrated ns.pkg_groups dictionary.
+            settings (dict): The hydrated settings dictionary.
+            result (dict): A dictionary to be updated with the config.
+
+        Returns:
+            dict: The tool configuration object including the group metadata.
+    #}
+    {%- set s = settings -%}
+    {%- set config = {
+        "id": "djlint",
+        "name": "djLint",
+        "icon": "✨",
+        "group": groups.lint,
+        "command": "$(" ~ s.python_infra.activate.label ~ ") && djlint",
+        "description": "Linting and reformatting for Jinja2 and HTML templates.",
+        "ci_safe": true,
+        "modes": {
+            "lint-check": {
+                "args": "$(" ~ s.dirs.root.label ~ ") --lint --profile=jinja",
+                "start_msg": "🔍 Running djLint style check on Jinja2 templates...",
+                "end_msg": "✅ Finished linting check of jinja2 macro files with djlint!"
+            },
+            "lint-fix": {
+                "args": "$(" ~ s.dirs.root.label ~ ") --reformat",
+                "start_msg": "✨ Reformatting Jinja2 templates with djLint...",
+                "end_msg": "🎨 djLint reformat complete!"
+            }
+        }
+    } -%}
+    {%- do result.update(config) -%}
+{% endmacro %}
+
+
+{# #TODO: Deprecated beyond this point!!!! #}
+{% set python_cmd %}
+DJLINT := $(ACTIVATE) && djlint
+{% endset %}
+
+
+{% set shell_cmd %}
+djlint-lint-check:
+	$(AT)echo "🔍 djlint lint..."
+	$(AT)$(DJLINT) . --lint --profile=jinja
+	$(AT)echo "✅ Finished linting check of jinja2 macro files with djlint!"
+
+djlint-lint-fix:
+	$(AT)echo "🔍 djlint reformat..."
+	$(AT)$(DJLINT) . --reformat
+	$(AT)echo "✅ Finished reformatting of jinja2 macro files with djlint!"
+{% endset %}

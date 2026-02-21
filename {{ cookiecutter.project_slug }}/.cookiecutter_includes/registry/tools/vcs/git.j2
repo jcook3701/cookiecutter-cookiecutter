@@ -1,0 +1,150 @@
+{#
+# makefile/vcs/git.j2 for cookiecutter-cookiecutter
+#
+# SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#}
+
+{% macro get_config(groups, settings, result) %}
+    {#
+        Provides the configuration dictionary for the Git version control tool.
+        Maps source control lifecycle, repository initialization, and tagging.
+
+        Args:
+            groups (dict): The hydrated ns.pkg_groups dictionary.
+            settings (dict): The hydrated settings dictionary.
+            result (dict): A dictionary to be updated with the config.
+
+        Returns:
+            dict: The tool configuration object including the group metadata.
+    #}
+    {%- set s = settings -%}
+    {%- set config = {
+        "id": "git",
+        "name": "Git",
+        "icon": "🐙",
+        "group": groups.vcs,
+        "command": "git",
+        "description": "Distributed version control system for tracking changes in source code.",
+        "modes": {
+            "check": {
+                "args": "--version",
+                "group": groups.info,
+                "start_msg": "🔍 Checking Git version...",
+                "end_msg": "✅ Git version check complete!"
+            },
+            "status": {
+                "args": "status",
+                "start_msg": "🔍 Checking repository status...",
+                "end_msg": "✅ Status check complete!"
+            },
+            "init": {
+                "args": "init -b " ~ cookiecutter._default_branch,
+                "group": groups.setup,
+                "start_msg": "📁 Initializing new Git repository...",
+                "end_msg": "✅ Repository initialized!"
+            },
+            "remote": {
+                "args": "remote add origin " ~ cookiecutter.repo_url ~ ".git",
+                "group": groups.setup,
+                "start_msg": "🌐 Adding remote origin...",
+                "end_msg": "✅ Remote added!"
+            },
+            "stage": {
+                "args": "add -A",
+                "start_msg": "📥 Staging all changes...",
+                "end_msg": "✅ Changes staged!"
+            },
+            "commit": {
+                "args": "commit -m 'chore(init): initial commit'",
+                "start_msg": "💾 Committing initial project structure...",
+                "end_msg": "✅ Initial commit created!"
+            },
+            "tag": {
+                "args": "tag -a $(" ~ s.project.release.label ~ ") -m 'Release $(" ~ s.project.release.label ~ ")'",
+                "group": groups.version,
+                "start_msg": "🔖 Creating Git tag for $(" ~ s.project.release.label ~ ")...",
+                "end_msg": "✅ Git tag created!"
+            },
+            "push": {
+                "args": "push origin $(" ~ s.project.release.label ~ ")",
+                "group": groups.release,
+                "start_msg": "🚀 Pushing tag $(" ~ s.project.release.label ~ ") to origin...",
+                "end_msg": "✅ Push complete!"
+            },
+            "branch": {
+                "args": "rev-parse --abbrev-ref HEAD",
+                "group": groups.info,
+                "start_msg": "🔍 Identifying current branch...",
+                "end_msg": "✅ Branch identified!"
+            }
+        }
+    } -%}
+    {%- do result.update(config) -%}
+{% endmacro %}
+
+
+{# TODO: Deprecated.  Remove in the future... #}
+{% set python_cmd %}
+GIT := git
+GITHUB := gh
+# Commands:
+GIT_INIT_STATUS := git rev-parse --is-inside-work-tree > /dev/null 2>&1
+{% endset %}
+
+
+{#
+git-init: ## {{ shell_dev_stack[0].icon }} Initialize git
+	@if [ ! -d .git ]; then \
+		{{ shell_dev_stack[0].command }} {{ shell_dev_stack[0].args }}; \
+	else \
+		echo "Repository already initialized."; \
+	fi
+#}
+{% set shell_cmd %}
+# --------------------------------------------------
+# 🐙 Github Commands (git)
+# --------------------------------------------------
+# Note: Run as part of project initialization.  No manual run needed.
+git-init: git-dependency-check
+	$(AT)if ! $(GIT_INIT_STATUS); then \
+		echo "🌱 $(PROJECT_NAME) Git initialization! 🎉"; \
+		$(GIT) init; \
+		$(GIT) add --all; \
+		$(GIT) commit -m "chore(init): Init commit. \
+			Project $(PROJECT_NAME) template generation complete."; \
+		echo "✅ Finished Git initialization!"; \
+	else \
+		echo "ℹ️ Git is already initialized for $(PROJECT_NAME)."; \
+	fi
+
+git-release:
+	$(AT)if $(GIT_INIT_STATUS); then \
+		echo "📦 $(PROJECT_NAME) Release Tag - $(RELEASE)! 🎉"; \
+		$(GIT) tag -a $(RELEASE) -m "Release $(RELEASE)"; \
+		$(GIT) push origin $(RELEASE); \
+		$(GITHUB) release create $(RELEASE) --generate-notes; \
+	echo "✅ Finished uploading Release - $(RELEASE)! 🎉"; \
+	else \
+		echo "❌ Git is not yet initialized.  Skipping version release." \
+	fi
+{% endset %}
+
+{#
+pre-publish: ## Ensure repo is clean before release
+	$(AT)$(MAKE) git-status
+	$(AT)git diff-index --quiet HEAD -- || (echo "❌ Error: Uncommitted changes!" && exit 1)
+#}

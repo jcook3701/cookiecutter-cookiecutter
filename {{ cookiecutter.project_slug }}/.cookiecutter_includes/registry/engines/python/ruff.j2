@@ -1,0 +1,93 @@
+{#
+# registry/engines/python/ruff.j2 for cookiecutter-cookiecutter
+#
+# SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#}
+
+{% macro get_config(groups, settings, result) %}
+    {#
+        Provides the configuration dictionary for the Ruff linter and formatter.
+        Maps high-performance Python linting and formatting to the global groups.
+
+        Args:
+            groups (dict): The hydrated ns.pkg_groups dictionary.
+            settings (dict): The hydrated settings dictionary.
+            result (dict): A dictionary to be updated with the config.
+
+        Returns:
+            dict: The tool configuration object including the group metadata.
+    #}
+    {%- set s = settings -%}
+    {%- set config = {
+        "id": "ruff",
+        "name": "Ruff",
+        "icon": "🦀",
+        "group": groups.lint,
+        "command": "$(" ~ s.python_infra.python.label ~ ") -m ruff",
+        "description": "An extremely fast Python linter and code formatter, written in Rust.",
+        "pre_cmd": "$(MAKE) list-folders",
+        "exclude": "--force-exclude '$(" ~ s.cookie.template_dir.label ~ ")/pyproject.toml'",
+        "modes": {
+            "lint-check": {
+                "args": "check --config pyproject.toml $(" ~ s.dirs.src.label ~ ") $(" ~ s.dirs.test.label ~ ")",
+                "start_msg": "🔍 Running Ruff style and logic check...",
+                "end_msg": "✅ Finished Ruff check of Python code!"
+            },
+            "lint-fix": {
+                "args": "check --config pyproject.toml --fix $(" ~ s.dirs.src.label ~ ") $(" ~ s.dirs.test.label ~ ")",
+                "start_msg": "🛠️  Applying Ruff automated fixes...",
+                "end_msg": "✨ Ruff fixes applied successfully!"
+            },
+            "format": {
+                "args": "format --config pyproject.toml $(" ~ s.dirs.src.label ~ ") $(" ~ s.dirs.test.label ~ ")",
+                "group": groups.format,
+                "start_msg": "🎨 Formatting Python code with Ruff...",
+                "end_msg": "✨ Ruff formatting complete!"
+            },
+            "format-check": {
+                "args": "format --config pyproject.toml --check $(" ~ s.dirs.src.label ~ ") $(" ~ s.dirs.test.label ~ ")",
+                "group": groups.format,
+                "start_msg": "🔍 Verifying Python code format with Ruff...",
+                "end_msg": "✅ Ruff format check complete!"
+            }
+        }
+    } -%}
+    {%- do result.update(config) -%}
+{% endmacro %}
+
+
+{# TODO: Deprecated #}
+{% set python_cmd %}
+RUFF := $(PYTHON) -m ruff
+{% endset %}
+
+
+{% set lint_shell_cmd %}
+ruff-lint-check:
+	$(AT)echo "🔍 Running ruff linting..."
+	$(AT)$(MAKE) list-folders
+	$(AT)$(RUFF) check --config pyproject.toml $(SRC_DIR) $(TESTS_DIR) \
+		--force-exclude '$(COOKIE_DIR)/pyproject.toml'
+	$(AT)echo "✅ Finished linting check of Python code with Ruff!"
+
+ruff-lint-fix:
+	$(AT)echo "🎨 Running ruff lint fixes..."
+	$(AT)$(RUFF) check --config pyproject.toml --show-files $(SRC_DIR) $(TESTS_DIR)
+	$(AT)$(RUFF) check --config pyproject.toml --fix $(SRC_DIR) $(TESTS_DIR) \
+		--force-exclude '$(COOKIE_DIR)/pyproject.toml'
+	$(AT)echo "✅ Finished linting Python code with Ruff!"
+{% endset %}

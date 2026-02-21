@@ -3,14 +3,33 @@
 {%- raw %}
   "project_slug": "{{ cookiecutter.project_name | slugify }}",
 {% endraw %}
+  "company": null,
   "author": "Jared Cook",
   "email": "jcook3701+github@gmail.com",
   "version": "0.1.0",
+  "timezone": [
+    "America/Los_Angeles"
+  ],
   "license": [
-    "GPL-3.0",
+    "AGPL-3.0-or-later",
+    "AGPL-3.0-only",
+    "GPL-3.0-or-later",
+    "GPL-3.0-only",
     "Apache-2.0",
     "BSD-3-Clause",
-    "MIT"
+    "BSD-2-Clause",
+    "0BSD",
+    "MIT",
+    "Unlicense"
+  ],
+  "contribution_model": [
+    "CLA",
+    "DCO"
+  ],
+  "changelog": [
+    "none",
+    "git-cliff",
+    "antsibull"
   ],
 {%- raw %}
   "__copyright": "Copyright (c) {% now 'utc', '%Y' %} {{ cookiecutter.author }}",
@@ -38,9 +57,25 @@
   "linkedin_usercode": "jared-cook-b3585a114",
   "buymeacoffee_username": "jcook3701",
   "theme": [
+    "just-the-docs/just-the-docs@v0.11.0",
     "pmarsceill/just-the-docs",
     "carlosperate/jekyll-theme-rtd"
   ],
+  "template_type": [
+    "ansible",
+    "c/c++",
+    "cookiecutter",
+    "documentation",
+    "python",
+    "ros2",
+    "typescript"
+  ],
+  "__meta": {
+    "is_python": "{{ 'python' in cookiecutter.template_type }}",
+    "is_ansible": "{{ 'ansible' in cookiecutter.template_type }}",
+    "is_cookiecutter": "{{'cookiecutter' in cookiecutter.template_type }}",
+    "needs_pypi": "{{ 'python' in cookiecutter.template_type and cookiecutter.license != 'none' }}"
+  },
   "_hooks": {
     "post_gen_make_cmds": {
       "install": true,
@@ -52,6 +87,12 @@
   },
   "_copy_without_render": [
     ".github/workflows/*"
+  ],
+  "_extensions": [
+    "jinja2.ext.do",
+    "jinja2.ext.loopcontrols",
+    "jinja2_time.TimeExtension",
+    "jinja2.ext.debug"
   ],
   "_jinja2_env_vars": {
     "lstrip_blocks": true,

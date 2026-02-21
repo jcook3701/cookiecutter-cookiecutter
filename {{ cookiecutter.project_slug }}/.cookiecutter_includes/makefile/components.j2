@@ -1,0 +1,252 @@
+{#
+# makefile/components.j2 for cookiecutter-cookiecutter
+#
+# SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#}
+
+{%- import '.cookiecutter_includes/makefile/utils.j2' as utils with context -%}
+
+{# --- GATE LOGIC (THE "DATA") --- #}
+
+{% macro _gate_logic(tool, group_id, outputs, seen, renderer_cb, use_parent_group=False) %}
+    {# 1. Identify which group we are checking against #}
+    {%- set target_group = tool.parent_group if use_parent_group else tool.config.group -%}
+    {%- set target_group_id = target_group.id if target_group is mapping else target_group -%}
+
+    {# 2. Identify the unique key for de-duplication (Parent ID for vars/version, Config ID for actions/phony) #}
+    {%- set unique_id = tool.parent_id if use_parent_group else tool.config.id -%}
+
+    {# 3. The Gate #}
+    {%- if target_group_id == group_id and unique_id not in seen -%}
+        {%- if renderer_cb -%}
+            {%- do outputs.append(renderer_cb(tool.config, tool.parent_id)) -%}
+        {%- else -%}
+            {# Fallback for Phony where we just need the ID string #}
+            {%- do outputs.append(unique_id) -%}
+        {%- endif -%}
+
+        {# 4. Update the tracker #}
+        {%- do seen.append(unique_id) -%}
+    {%- endif -%}
+{% endmacro %}
+
+
+{% macro _gate_group_logic(ns, group_meta, mode, outputs) %}
+    {#
+        Logic Function: Group Aggregator (Safe Edition)
+        Only executes if the current group explicitly opts-in.
+    #}
+    {%- if group_meta.supported_targets is defined -%}
+
+        {%- if mode == "action" -%}
+            {%- for suffix in group_meta.supported_targets -%}
+                {%- set sub_targets = [] -%}
+                {%- for tool in ns.active_tools -%}
+                    {%- if tool.config.group.id == group_meta.id and tool.config.id.endswith("-" ~ suffix) -%}
+                        {%- do sub_targets.append(tool.config.id) -%}
+                    {%- endif -%}
+                {%- endfor -%}
+
+                {%- if sub_targets | length > 0 -%}
+                    {%- do outputs.append(utils.tool_group_action(group_meta, suffix, sub_targets)) -%}
+                {%- endif -%}
+            {%- endfor -%}
+
+        {%- elif mode == "phony" -%}
+            {%- for suffix in group_meta.supported_targets -%}
+                {%- do outputs.append(group_meta.id ~ "-" ~ suffix) -%}
+            {%- endfor -%}
+        {%- endif -%}
+
+    {%- endif -%}
+{% endmacro %}
+
+{# --- SUB-RENDERERS (THE "COMPONENTS") --- #}
+
+{% macro _render_vars(tool, group_id, outputs, seen) %}
+    {{- _gate_logic(tool, group_id, outputs, seen, utils.tool_vars, use_parent_group=True) -}}
+{% endmacro %}
+
+{% macro _render_versions(tool, group_id, outputs, seen) %}
+    {{- _gate_logic(tool, group_id, outputs, seen, utils.tool_version_line, use_parent_group=True) -}}
+{% endmacro %}
+
+{# These use 'use_parent_group=False' because they are specific to the mode/action #}
+{% macro _render_actions(tool, group_id, outputs, seen) %}
+    {{- _gate_logic(tool, group_id, outputs, seen, utils.tool_action, use_parent_group=False) -}}
+{% endmacro %}
+
+{% macro _render_phony(tool, group_id, outputs, seen) %}
+    {{- _gate_logic(tool, group_id, outputs, seen, none, use_parent_group=False) -}}
+{% endmacro %}
+
+{% macro _collect_group_aggregates(ns, group_meta, mode, outputs) %}
+    {#
+        Wrapper: Group Aggregate Collector
+        Delegates to the logic function to populate the outputs.
+    #}
+    {%- do _gate_group_logic(ns, group_meta, mode, outputs) -%}
+{% endmacro %}
+
+{# --- THE CENTRAL ORCHESTRATOR --- #}
+
+{% macro _render_group(ns, group_id, mode="action", result={}) %}
+    {#
+        Orchestrates the rendering of a Makefile group by category.
+
+        This macro implements a dual-pass logic:
+        1. 'vars' mode: Filters the ROOT 'ns.tools' list. Variables are
+           rendered ONLY in the section matching the tool's primary group.
+        2. 'phony' mode:
+        3. 'action' mode: Filters the FLATTENED 'ns.active_tools' list.
+           Recipes are rendered in the section matching the specific mode's group.
+        4. 'version' mode:
+
+        Args:
+            ns (namespace): The global project namespace containing the registry.
+            group_id (str): The unique ID of the package group to render.
+            mode (str): Determines output type: 'vars' (binaries) or 'action' (recipes).
+
+        Returns:
+            str: A formatted block of Makefile variables or targets.
+    #}
+    {%- set group_meta = ns.pkg_groups.get(group_id) -%}
+    {%- if group_meta is mapping -%}
+        {%- set outputs = [] -%}
+        {%- set parents_in_section = [] -%}
+
+        {# 1. Tool-Level Logic: Iterate through all active tools #}
+        {%- for tool in ns.active_tools -%}
+            {%- if mode == "vars" -%}
+                {%- do _render_vars(tool, group_id, outputs, parents_in_section) -%}
+            {%- elif mode == "phony" -%}
+                {%- do _render_phony(tool, group_id, outputs, parents_in_section) -%}
+            {%- elif mode == "action" -%}
+                {%- do _render_actions(tool, group_id, outputs, parents_in_section) -%}
+            {%- elif mode == "version" -%}
+                {%- do _render_versions(tool, group_id, outputs, parents_in_section) -%}
+            {%- endif -%}
+        {%- endfor -%}
+
+        {# 2. Group-Level Logic: Trigger the aggregate collector #}
+        {%- do _collect_group_aggregates(ns, group_meta, mode, outputs) -%}
+
+        {%- if outputs | length > 0 -%}
+            {%- set result.outputs = outputs -%}
+            {%- set result.parents = parents_in_section -%}
+            {%- set result.meta = group_meta -%}
+        {%- endif -%}
+    {%- endif -%}
+{%- endmacro -%}
+
+
+{%- macro _render_section(ns, mode="action") -%}
+    {#
+        Top-Level Orchestrator: Section Generator
+        Iterates through all defined package groups to render a specific Makefile layer.
+
+        Depending on the 'mode' passed, this macro will:
+        1. 'vars': Render all unique tool binaries for every group.
+        2. 'actions': Render all executable recipes/targets for every group.
+        3. 'phony': Render all .PHONY declarations for every group.
+
+        Args:
+            ns (namespace): The global project namespace containing 'pkg_groups' and 'active_tools'.
+            mode (str): The architectural layer to render ('vars', 'actions', or 'phony').
+
+        Returns:
+            str: The full vertically-integrated output for that specific Makefile layer.
+    #}
+    {% if mode == "version" %}
+        {{- utils.tool_version_header(ns) }}
+    {% elif mode == "phony" %}
+        {{- utils.tool_phony_header(ns) }}
+    {% elif mode == "help" %}
+        {{- utils.tool_help() }}
+    {% endif %}
+
+    {%- for group_id in ns.pkg_groups.keys() -%}
+        {%- set group_result = namespace() -%}
+        {# Loop through your package groups to show the final Makefile structure #}
+        {%- do _render_group(ns, group_id, mode, group_result) -%}
+
+        {%- if group_result.outputs is defined -%}
+            {%- set outputs = group_result.outputs -%}
+            {%- set parents = group_result.parents -%}
+            {%- set meta = group_result.meta -%}
+
+            {% if mode == "phony" %}
+                {# Render the Phony block for this specific group #}
+                {{- "    " }}{{ outputs | join(' ') }} {{ '\\' if not loop.last else '' }}
+            {% elif mode == "version" %}
+                {{- outputs | join('\n') }}
+            {% elif mode == "vars" %}
+                {{- utils.tool_section_header(meta.get('label', group_id | upper), meta.get('icon', '⚙️'), parents) }}
+                {{- outputs | join('\n') }}
+            {% elif mode == "action" %}
+                {{- utils.tool_section_header(meta.get('label', group_id | upper), meta.get('icon', '⚙️'), parents) }}
+                {{- outputs | join('\n' ) -}}
+            {% endif %}
+        {% endif %}
+    {%- endfor -%}
+{%- endmacro -%}
+
+{%- macro render_vars(ns) -%}
+    {{- _render_section(ns, mode="vars") -}}
+{%- endmacro %}
+
+{%- macro render_phony(ns) -%}
+    {{- _render_section(ns, mode="phony") -}}
+{%- endmacro %}
+
+{%- macro render_action(ns) -%}
+    {{- _render_section(ns, mode="action") -}}
+{%- endmacro %}
+
+{%- macro render_version(ns) -%}
+    {{- _render_section(ns, mode="version") -}}
+{%- endmacro %}
+
+{%- macro render_help(ns) -%}
+    {{- _render_section(ns, mode="help") -}}
+{%- endmacro %}
+
+{#
+    TODO: Finish the following sections: Functions, Default, Make Internal Utilities,
+    Dependency Checks, 📢 Release, & 🧹 Clean artifacts.
+#}
+{%- macro render_all(ns) -%}
+    {#
+        Final Assembly: Makefile Generator
+        The master entry point that triggers the sequence-specific rendering of the Makefile.
+
+        Currently handles the global .PHONY pass across all groups. This macro ensures
+        that the high-scale template's 74-file architecture flattens into a
+        standardized, functional Makefile.
+
+        Args:
+            ns (namespace): The global project namespace.
+
+        Returns:
+            str: The consolidated output of the triggered render passes.
+    #}
+    {{- render_vars(ns) }}
+    {{- render_phony(ns) }}
+    {{- render_action(ns) }}
+    {{- render_version(ns) }}
+    {{- render_help(ns) }}
+{%- endmacro -%}

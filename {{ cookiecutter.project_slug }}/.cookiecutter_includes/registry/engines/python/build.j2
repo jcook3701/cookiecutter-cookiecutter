@@ -1,0 +1,60 @@
+{#
+# registry/engines/python/build.j2 for cookiecutter-cookiecutter
+#
+# SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#}
+
+{% macro get_config(groups, settings, result) %}
+    {#
+        Provides the configuration dictionary for the Python build module.
+        Maps source distribution and wheel creation to the global packaging group.
+
+        Args:
+            groups (dict): The hydrated ns.pkg_groups dictionary.
+            settings (dict): The hydrated settings dictionary.
+            result (dict): A dictionary to be updated with the config.
+
+        Returns:
+            dict: The tool configuration object including the group metadata.
+    #}
+    {%- set s = settings -%}
+    {%- set config = {
+        "id": "build",
+        "name": "Build System",
+        "icon": "📦",
+        "group": groups.pkg,
+        "command": "$(" ~ s.python_infra.python.label ~ ") -m build",
+        "description": "Standard PEP 517 compliant Python package builder.",
+        "modes": {
+            "package": {
+                "args": "",
+                "start_msg": "📦 Packing $(" ~ s.project.name.label ~ ")...",
+                "end_msg": "✅ $(" ~ s.project.name.label ~ ") packaging complete!"
+            }
+        }
+    } -%}
+    {%- do result.update(config) -%}
+{% endmacro %}
+
+{# We add a custom action here because you want a specific echo message #}
+{% macro actions(cfg=config) %}
+# --- {{ cfg.name }} ---
+{{ cfg.id }}: ## {{ cfg.icon }} Package the project
+	$(AT)echo "{{ cfg.icon }} Packing $(PROJECT_NAME)..."
+	$(AT)$(BUILD)
+	$(AT)echo "✅ $(PROJECT_NAME) packaging complete!"
+{% endmacro %}

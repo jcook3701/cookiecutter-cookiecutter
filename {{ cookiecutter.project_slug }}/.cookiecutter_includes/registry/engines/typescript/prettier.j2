@@ -1,0 +1,57 @@
+{#
+# registry/engines/typescript/prettier.j2 for cookiecutter-cookiecutter
+#
+# SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#}
+
+
+{% macro get_config(groups, settings, result) %}
+    {#
+        Provides the configuration dictionary for the Prettier formatter.
+        Maps opinionated code formatting to the global formatting group.
+
+        Args:
+            groups (dict): The hydrated ns.pkg_groups dictionary.
+            settings (dict): The hydrated settings dictionary.
+            result (dict): A dictionary to be updated with the config.
+
+        Returns:
+            dict: The tool configuration object including the group metadata.
+    #}
+    {%- set s = settings -%}
+    {%- set config = {
+        "id": "prettier",
+        "name": "Prettier",
+        "icon": "✨",
+        "group": groups.format,
+        "command": "$(NPX) prettier",
+        "description": "An opinionated code formatter supporting multiple languages.",
+        "modes": {
+            "check": {
+                "args": "--check $(" ~ s.dirs.root.label ~ ")",
+                "start_msg": "🔍 Checking project formatting with Prettier...",
+                "end_msg": "✅ Prettier formatting check complete!"
+            },
+            "fix": {
+                "args": "--write $(" ~ s.dirs.root.label ~ ")",
+                "start_msg": "🎨 Fixing project formatting with Prettier...",
+                "end_msg": "✨ Finished formatting with Prettier!"
+            }
+        }
+    } -%}
+    {%- do result.update(config) -%}
+{% endmacro %}

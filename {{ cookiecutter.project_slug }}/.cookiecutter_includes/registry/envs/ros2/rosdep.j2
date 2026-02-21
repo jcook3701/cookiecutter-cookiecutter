@@ -1,0 +1,51 @@
+{#
+# makefile/envs/ros2/rosdep.j2 for cookiecutter-cookiecutter
+#
+# SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#}
+
+{% macro get_config(groups, settings, result) %}
+    {#
+        Provides the configuration dictionary for the rosdep dependency tool.
+        Maps ROS system dependency installation to the global dependencies group.
+
+        Args:
+            groups (dict): The hydrated ns.pkg_groups dictionary.
+            settings (dict): The hydrated settings dictionary.
+            result (dict): A dictionary to be updated with the config.
+
+        Returns:
+            dict: The tool configuration object including the group metadata.
+    #}
+    {%- set s = settings -%}
+    {%- set config = {
+        "id": "rosdep-install",
+        "name": "Rosdep Install",
+        "icon": "📦",
+        "group": groups.deps,
+        "command": "rosdep install",
+        "description": "Install all system dependencies defined in package.xml.",
+        "modes": {
+            "install": {
+                "args": "--from-paths $(" ~ s.dirs.src.label ~ ") --ignore-src -r -y",
+                "start_msg": "📦 Installing ROS system dependencies via rosdep...",
+                "end_msg": "✅ ROS dependencies installed!"
+            }
+        }
+    } -%}
+    {%- do result.update(config) -%}
+{% endmacro %}

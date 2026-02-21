@@ -1,0 +1,193 @@
+{#
+# makefile/utils.j2 for cookiecutter-cookiecutter
+#
+# SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#}
+
+
+{# --- ATOMIC COMPONENTS (MAKEFILE PRIMITIVES) --- #}
+
+{% macro tool_info(config, parent_id) %}
+    {#
+        Renders a diagnostic version check for a tool.
+    #}
+{%- set var_name = parent_id | upper | replace("-", "_") -%}
+info-{{ config.id }}: ## Check {{ config.name }} version.
+	$(AT)echo -n "🛠️ {{ config.name }}: "
+	$(AT)$({{ var_name }}) --version
+{% endmacro %}
+
+
+{% macro tool_guard(binary, install_msg="") %}
+    {#
+        Checks for binary existence before execution.
+        Args:
+            binary (str): The command to check (e.g., 'docker').
+            install_msg (str): Instructions if missing.
+    #}
+	$(AT)command -v {{ binary }} >/dev/null 2>&1 || { echo >&2 "❌ {{ binary }} is required but not installed. {{ install_msg }}"; exit 1; }
+{% endmacro %}
+
+
+{% macro tool_ci_wrap(command) %}
+    {#
+        Wraps a command in the CI safety logic.
+    #}
+	$(AT)$(call run_ci_safe, {{ command }})
+{% endmacro %}
+
+
+{%- macro tool_section_header(title, icon="⚙️", parents=[]) -%}
+    {#
+        Renders a standardized Makefile section header.
+
+        Args:
+            title (str): The display label for the group (e.g., 'Linting').
+            icon (str): The emoji icon associated with the group.
+            parents (list): Unique parent tool IDs active in this section
+                           (e.g., ['ruff', 'black']).
+
+        Returns:
+            str: A formatted comment block with the title and parent tools.
+    #}
+{%- set header -%}
+# --------------------------------------------------
+# {{ icon }} {{ title }}{% if parents %} ({{ parents | join(', ') }}){% endif +%}
+# --------------------------------------------------
+{%- endset -%}
+    {{- header }}
+{% endmacro -%}
+
+
+{% macro tool_vars(config, parent_id) %}
+    {#
+        Writes a global Makefile binary variable definition.
+
+        Args:
+            config (dict): The tool configuration dictionary.
+            parent_id (str): The parent tool ID (e.g., 'git-cliff').
+
+        Returns:
+            str: A Makefile variable assignment (e.g., RUFF := python3 -m ruff).
+    #}
+{%- set var_name = parent_id | upper | replace("-", "_") -%}
+    {{- var_name }} := {{ config.command }}
+{%- endmacro -%}
+
+
+{%- macro tool_phony_header(ns) -%}
+    {#
+        Generates the phony header for a makefile
+    #}
+{%- set phony_header -%}
+{{ ".PHONY: \\" }}
+{%- endset -%}
+    {{- tool_section_header("Phony") }}
+    {{- phony_header }}
+{%- endmacro -%}
+
+
+{%- macro tool_phony_line() %}
+
+{%- endmacro -%}
+
+
+{%- macro tool_action(config, parent_id) -%}
+    {#
+        Generates an executable Makefile target and its recipe.
+
+        Args:
+            config (dict): The hydrated mode/tool configuration.
+            parent_id (str): The ID used to reference the global binary variable.
+
+        Returns:
+            str: A formatted Makefile target with help text and shell recipe.
+    #}
+{%- set var_name = parent_id | upper | replace("-", "_") -%}
+{%- set action -%}
+{{ config.id }}: ## {{ config.description | default("Run " ~ config.id) }}
+	$(AT)echo "Running {{ config.start_msg | default('task...') }}"
+	$(AT)$({{ var_name }}) {{ config.args | default('') }}
+	$(AT)echo "{{ config.end_msg | default('Task complete!') }}"
+{%- endset -%}
+	{{- action }}
+{% endmacro -%}
+
+
+{%- macro tool_group_action(group_meta, suffix, child_ids) -%}
+    {#
+        Atomic: Group-Level Master Target
+        Aggregates multiple tool targets into a single entry point.
+
+        Args:
+            group_meta (dict): The group object (id, label, icon).
+            suffix (str): The action suffix (check, fix, run).
+            child_ids (list): The list of specific targets to execute.
+    #}
+{%- set group_action -%}
+{{ group_meta.id }}-{{ suffix }}: ## Run all {{ group_meta.label }} {{ suffix }} tasks ({{ child_ids | join(', ') }}).
+	$(AT)$(MAKE) {{ child_ids | join(' ') }}
+{% endset -%}
+	{{- group_action }}
+{%- endmacro -%}
+
+
+{%- macro tool_version_header(ns) -%}
+    {#
+        Atomic: Project Version Header
+        Uses hydrated settings to render project metadata.
+    #}
+{%- set version_header -%}
+version: ## Show project and tool versions.
+	$(AT)echo "$({{ ns.settings.project.name.label }})"
+	$(AT)echo "  author: $({{ ns.settings.project.author.label }})"
+	$(AT)echo "  version: $({{ ns.settings.project.version.label }})"
+	$(AT)echo "  tools:"
+{%- endset -%}
+    {{- tool_section_header("Version") }}
+    {{- version_header }}
+{%- endmacro -%}
+
+
+{%- macro tool_version_line(config, parent_id) -%}
+    {#
+        Atomic: Tool Version Line
+        Renders a single line for the master 'version' target.
+    #}
+{%- set var_name = parent_id | upper | replace("-", "_") -%}
+{%- set version_line %}
+	$(AT)echo -n "  - {{ config.name }}: " && $({{ var_name }}) --version
+{%- endset -%}
+	{{- version_line }}
+{%- endmacro -%}
+
+{% macro tool_help() %}
+    {#
+        Generates the standard self-documenting 'help' target.
+        Parses all targets with '##' descriptions.
+    #}
+{%- set help %}
+help: ## Show this help message.
+	$(AT)printf "📦 \033[1m%s Makefile\033[0m\n\n" "$(PROJECT_NAME)"
+	$(AT)grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-30s\033[0m %s\n", $$1, $$2}'
+	$(AT)printf "\n\033[1mOptions:\033[0m\n"
+	$(AT)printf "  \033[36m%-30s\033[0m %s\n" "V=1" "Enable verbose output (show all commands)"
+	$(AT)printf "  \033[36m%-30s\033[0m %s\n" "make -s" "Run completely silently (suppress output)"
+{%- endset %}
+    {{- tool_section_header("Help", icon="❓") }}
+    {{- help }}
+{% endmacro %}

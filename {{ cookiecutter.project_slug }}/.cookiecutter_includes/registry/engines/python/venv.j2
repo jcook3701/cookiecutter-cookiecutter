@@ -1,0 +1,91 @@
+{#
+# registry/engines/python/venv.j2 for cookiecutter-cookiecutter
+#
+# SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#}
+
+{% macro get_config(groups, settings, result) %}
+    {#
+        Provides the configuration dictionary for the Python Virtual Environment tool.
+        Maps environment creation and isolation to the global setup group.
+
+        Args:
+            groups (dict): The hydrated ns.pkg_groups dictionary.
+            settings (dict): The hydrated settings dictionary.
+            result (dict): A dictionary to be updated with the config.
+
+        Returns:
+            dict: The tool configuration object including the group metadata.
+    #}
+    {%- set s = settings -%}
+    {%- set config = {
+        "id": "venv",
+        "name": "Virtual Environment",
+        "icon": "🐍",
+        "group": groups.setup,
+        "command": "$(PYTHON_CMD) -m venv",
+        "description": "Creation of virtual environments for Python package isolation.",
+        "modes": {
+            "create": {
+                "args": "$(" ~ s.python_infra.venv_dir.label | default('VENV_DIR') ~ ")",
+                "start_msg": "🐍 Creating Python virtual environment...",
+                "end_msg": "✅ Virtual environment created successfully!"
+            }
+        }
+    } -%}
+    {%- do result.update(config) -%}
+{% endmacro %}
+
+
+{# We define the ACTIVATE and PYTHON strings here as they are helpers, not just tools #}
+{% macro helpers() %}
+CREATE_VENV := $(PYTHON_CMD) -m venv $(VENV_DIR)
+ACTIVATE := source $(VENV_DIR)/bin/activate
+PYTHON := $(ACTIVATE) && $(PYTHON_CMD)
+{% endmacro %}
+
+
+{# #TODO: Deprecated beyond this point!!!! #}
+{#
+# --------------------------------------------------
+# 🐍 Python / Virtual Environment
+# --------------------------------------------------
+#}
+{% set settings %}
+VENV_DIR := $(PROJECT_ROOT)/.venv
+{% endset %}
+
+
+{% set python_cmd %}
+CREATE_VENV := $(PYTHON_CMD) -m venv $(VENV_DIR)
+ACTIVATE := source $(VENV_DIR)/bin/activate
+PYTHON := $(ACTIVATE) && $(PYTHON_CMD)
+{% endset %}
+
+
+
+{#
+# --------------------------------------------------
+# 🐍 Virtual Environment Setup
+# --------------------------------------------------
+#}
+{% set shell_cmd %}
+venv:
+	$(AT)echo "🐍 Creating virtual environment..."
+	$(AT)$(CREATE_VENV)
+	$(AT)echo "✅ Virtual environment created."
+{% endset %}
