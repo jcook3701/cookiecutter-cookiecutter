@@ -1,5 +1,5 @@
 {#
-# registry/engines/python/nutrimatic.j2 for cookiecutter-cookiecutter
+# registry/engines/ruby/built-in.j2 for cookiecutter-cookiecutter
 #
 # SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
 # SPDX-License-Identifier: AGPL-3.0-or-later
@@ -20,8 +20,8 @@
 
 {% macro get_config(groups, settings, result) %}
     {#
-        Provides the configuration dictionary for the Nutri-Matic tool.
-        Maps documentation generation or liquid-related tasks to the docs group.
+        Provides the configuration dictionary for Bundler (Ruby).
+        Maps dependency management and environment setup to the global setup group.
 
         Args:
             groups (dict): The hydrated ns.pkg_groups dictionary.
@@ -29,37 +29,28 @@
             result (dict): A dictionary to be updated with the config.
 
         Returns:
-            dict: The tool configuration object including the group metadata.
+            dict: The tool configuration object for core Ruby dependency management.
     #}
     {%- set s = settings -%}
     {%- set config = {
-        "id": "nutrimatic",
-        "name": "Nutri-Matic",
-        "icon": "☕",
-        "group": groups.docs,
-        "command": "$(" ~ s.python_infra.python.label ~ ") -m nutrimatic",
-        "description": "Automated documentation assistant for Jinja and Jekyll templates.",
+        "id": "bundler",
+        "name": "Bundler",
+        "icon": "💎",
+        "group": groups.setup,
+        "command": "$(" ~ s.ruby_tools.bundler.label ~ ")",
+        "description": "The Ruby dependency manager and environment controller.",
         "modes": {
-            "readme": {
-                "args": "build readme $(JEKYLL_DIR) $(README_FILE) --tmp-dir $(README_GEN_DIR) --jekyll-cmd '$(JEKYLL) build'",
-                "start_msg": "☕ Nutri-Matic readme generator...",
-                "end_msg": "✅ Nutri-Matic documentation generation complete!"
+            "install": {
+                "args": "install --path $(" ~ s.ruby_settings.bundle_path.label ~ ")",
+                "start_msg": "💎 Installing Ruby gems into $(" ~ s.ruby_settings.bundle_path.label ~ ")...",
+                "end_msg": "✅ Gem installation complete!"
+            },
+            "update": {
+                "args": "update",
+                "start_msg": "🔄 Updating Ruby gems via Bundler...",
+                "end_msg": "✅ Gems updated successfully!"
             }
         }
     } -%}
     {%- do result.update(config) -%}
 {% endmacro %}
-
-
-{# #TODO: Deprecated beyond this point!!!! #}
-{% set python_cmd %}
-# --------------------------------------------------
-# 🏃‍♂️ Nutri-Matic command
-# --------------------------------------------------
-NUTRIMATIC := $(PYTHON) -m nutrimatic
-{% endset %}
-
-
-{% set shell_cmd %}
-
-{% endset %}

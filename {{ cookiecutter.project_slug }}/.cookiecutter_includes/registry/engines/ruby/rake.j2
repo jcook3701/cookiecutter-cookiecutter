@@ -1,5 +1,5 @@
 {#
-# registry/_vars.j2 for cookiecutter-cookiecutter
+# registry/engines/ruby/rake.j2 for cookiecutter-cookiecutter
 #
 # SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
 # SPDX-License-Identifier: AGPL-3.0-or-later
@@ -18,30 +18,22 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
-
-{%- set ns = namespace(
-    pkg_groups={},
-    settings={},
-    features={
-        "sub": {},
-        "engines": {
-            "gcc": {},
-            "python": {},
-            "ruby": {},
-            "rust": {},
-            "typescript": {},
-        },
-        "envs": {
-            "ansible": {},
-            "docker": {},
-            "ros2": {},
-        },
-        "tools": {
-            "vcs": {},
-        },
-    },
-    active_tools=[],
-    active_sections={
-        "build": {}
-    }
-) -%}
+{% macro get_config(groups, settings, result) %}
+    {%- set s = settings -%}
+    {%- set config = {
+        "id": "rake",
+        "name": "Rake",
+        "icon": "⚙️",
+        "group": groups.pkg,
+        "command": "$(" ~ s.ruby_tools.bundler.label ~ ") exec $(" ~ s.ruby_tools.rake.label ~ ")",
+        "description": "Ruby build program (task runner).",
+        "modes": {
+            "list": {
+                "args": "-T",
+                "start_msg": "⚙️ Listing Rake tasks...",
+                "end_msg": "✅ Listing complete!"
+            }
+        }
+    } -%}
+    {%- do result.update(config) -%}
+{% endmacro %}

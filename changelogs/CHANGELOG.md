@@ -448,3 +448,4 @@ Feat 032 (#81)
 - *(jinja)* Jinja registry fixes.  Am now mostly able to build command variables and command actions for Makefile.
 - *(jinja2)* Makefile template built from registry almost working.
 - *(jinja2)* Makefile template upgrade.
+- *(jinja)* Large update for Makefile build.  Moved nutri-matic hooks into project to make this easier to manage.

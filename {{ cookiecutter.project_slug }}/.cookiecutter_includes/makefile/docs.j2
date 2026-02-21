@@ -51,10 +51,6 @@ jekyll:
 
 jekyll-serve: docs
 	$(MAKE) -C $(JEKYLL_DIR) run;
-
-readme:
-	$(AT)$(NUTRIMATIC) build readme $(JEKYLL_DIR) $(README_FILE) \
-		--tmp-dir $(README_GEN_DIR) --jekyll-cmd '$(JEKYLL_BUILD)'
 {%- endmacro -%}
 
 
@@ -102,19 +98,19 @@ readme:
 
     {%- set docs_body -%}
         {% if sphinx_enabled and jekyll_enabled %}
-{{ sphinx_cmds }}
+            {{- sphinx_cmds }}
 
-{{ jekyll_cmds }}
+            {{- jekyll_cmds }}
         {% elif sphinx_enabled %}
-{{ sphinx_cmds }}
+            {{- sphinx_cmds }}
         {% elif jekyll_enabled %}
-{{ jekyll_cmds }}
+            {{- jekyll_cmds }}
         {% endif %}
 
 # Note: Run as part of pre-commit.  No manual run needed.
 build-docs:
         {%- if sphinx_enabled %} sphinx {%- endif %}
-        {%- if jekyll_enabled %} jekyll readme
+        {%- if jekyll_enabled %} jekyll nutrimatic-readme
 	$(AT)$(GIT) add $(DOCS_DIR)
 	$(AT)$(GIT) add $(README_FILE)
 
@@ -122,7 +118,7 @@ run-docs: jekyll-serve
         {%- else -%}
         {%- endif -%}
     {%- endset -%}
-{{ docs_body }}
+    {{- docs_body }}
 {%- endmacro -%}
 
 
@@ -182,10 +178,7 @@ JEKYLL_SERVE := bundle exec jekyll serve
 {%- endmacro -%}
 
 
-{% macro doc_actions(
-    jekyll_enabled,
-    sphinx_enabled
-) -%}
+{% macro actions(ns) -%}
   {#
     Generates a formatted Makefile 📚 documentation command section based on active tools.
 
@@ -196,6 +189,9 @@ JEKYLL_SERVE := bundle exec jekyll serve
     Returns:
       String: Makefile documentation command section.
   #}
+    {# TODO: These should use ns not cookiecutter #}
+    {%- set jekyll_enabled = cookiecutter.add_github_docs -%}
+    {%- set sphinx_enabled = cookiecutter.add_sphinx_docs -%}
     {%- set title = generate_doc_title(jekyll_enabled, sphinx_enabled) -%}
     {%- set cmds = docs_cmds(jekyll_enabled, sphinx_enabled) -%}
 

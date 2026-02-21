@@ -37,6 +37,7 @@
 {# This pulls in Python/TS/VCS features into ns.features #}
 {# {%- import '.cookiecutter_includes/registry/engines/gcc/_config.j2' as gcc_data with context -%} #}
 {%- import '.cookiecutter_includes/registry/engines/python/_config.j2' as py_data with context -%}
+{%- import '.cookiecutter_includes/registry/engines/ruby/_config.j2' as ruby_data with context -%}
 {%- import '.cookiecutter_includes/registry/engines/rust/_config.j2' as rust_data with context -%}
 {%- import '.cookiecutter_includes/registry/engines/typescript/_config.j2' as ts_data with context -%}
 {# --- ENVIRONMENT BOOTLOADERS --- #}
@@ -49,13 +50,14 @@
 
 {# 2. Join Settings into the Namespace #}
 {%- do ns.settings.update(py_data.settings) -%}
+{%- do ns.settings.update(ruby_data.settings) -%}
 {# {%- do ns.settings.update(rust_data.settings) -%} #}
 {# {%- do ns.settings.update(ts_data.settings) -%} #}
 
 {# 3. Join Features into the Namespace #}
 {# {%- do ns.features.gcc.update(gcc_data.features) -%} #}
 {%- do ns.features.engines.python.update(py_data.features) -%}
-
+{%- do ns.features.engines.ruby.update(ruby_data.features) -%}
 {%- do ns.features.engines.rust.update(rust_data.features) -%}
 {%- do ns.features.engines.typescript.update(ts_data.features) -%}
 
@@ -68,6 +70,7 @@
 {# --- LANGUAGE PARTS --- #}
 {# {%- import '.cookiecutter_includes/registry/engines/gcc/__init__.j2' as gcc with context -%} #}
 {%- import '.cookiecutter_includes/registry/engines/python/__init__.j2' as python with context -%}
+{%- import '.cookiecutter_includes/registry/engines/ruby/__init__.j2' as ruby with context -%}
 {%- import '.cookiecutter_includes/registry/engines/rust/__init__.j2' as rust with context -%}
 {%- import '.cookiecutter_includes/registry/engines/typescript/__init__.j2' as typescript with context -%}
 
@@ -82,6 +85,7 @@
 {# --- LANGUAGE TRIGGER --- #}
 {# {%- set _ = gcc.get_active_tools(ns) %} #}
 {%- set _ = python.get_active_tools(ns) -%}
+{%- set _ = ruby.get_active_tools(ns) -%}
 {%- set _ = rust.get_active_tools(ns) -%}
 {%- set _ = typescript.get_active_tools(ns) -%}
 

@@ -18,6 +18,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
+{% import '.cookiecutter_includes/makefile/clean.j2' as clean with context %}
 {% import '.cookiecutter_includes/makefile/docs.j2' as docs with context %}
 {% import '.cookiecutter_includes/makefile/settings.j2' as settings with context %}
 {% import '.cookiecutter_includes/makefile/components.j2' as components with context %}
@@ -76,8 +77,10 @@ TOML_FILE_LIST := 	( \
 	{# TODO: Makefile Actions Section #}
     {{- components.render_action(ns) -}}
 
+	{# Documentation Section #}
+	{{- docs.actions(ns) }}
 	{# Clean Section #}
-	{# {{ clean.actions(ns) }} #}
+	{{- clean.actions(ns) }}
 	{# Version Section #}
     {{- components.render_version(ns) -}}
 	{# Help Section #}

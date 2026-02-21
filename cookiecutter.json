@@ -63,7 +63,7 @@
     "jinja2_cli": false,
     "mypy": true,
     "nameisok": true,
-    "nutrimatic": false,
+    "nutrimatic": true,
     "pip_audit": true,
     "pipdeptree": true,
     "pre_commit": true,
@@ -74,6 +74,9 @@
     "tox": false,
     "twine": false,
     "yamllint": true
+  },
+  "__ruby": {
+
   },
   "__rust": {
     "built_in": false,

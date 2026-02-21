@@ -1,0 +1,66 @@
+{#
+# registry/engines/ruby/jekyll.j2 for cookiecutter-cookiecutter
+#
+# SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#}
+
+{% macro get_config(groups, settings, result) %}
+    {#
+        Unified Jekyll Config: Works for both Root and Sub-repo.
+        Detects if it should run recursively or locally based on the presence of DOCS_DIR.
+    #}
+    {%- set s = settings -%}
+
+    {#
+       LOGIC: If we have a DOCS_DIR label and we aren't ALREADY in that dir, use recursive Make.
+       Otherwise, just run the command directly.
+    #}
+    {%- if s.dirs.docs is defined and s.dirs.docs.label != "PROJECT_ROOT" -%}
+        {%- set base_cmd = "$(MAKE) -C $(" ~ s.dirs.docs.label ~ ")" -%}
+    {%- else -%}
+        {%- set base_cmd = "$(MAKE)" -%}
+    {%- endif -%}
+
+    {%- set s = settings -%}
+    {%- set config = {
+        "id": "jekyll",
+        "name": "Jekyll",
+        "icon": "🧪",
+        "group": groups.docs,
+        "command": "$(" ~ s.ruby_tools.bundler.label ~ ") exec jekyll",
+        "description": "A Ruby-based static site generator for project documentation.",
+        "pre_cmd": "$(" ~ s.ruby_tools.bundler.label ~ ") install",
+        "modes": {
+            "build": {
+                "args": "build --source $(" ~ s.dirs.docs.label ~ ") --destination $(" ~ s.dirs.docs.label ~ ")/_site",
+                "start_msg": "🚀 Building Jekyll site in $(" ~ s.dirs.docs.label ~ ")...",
+                "end_msg": "✅ Jekyll build complete!"
+            },
+            "serve": {
+                "args": "serve --source $(" ~ s.dirs.docs.label ~ ") --livereload",
+                "start_msg": "🌐 Starting local Jekyll server...",
+                "end_msg": "🛑 Jekyll server stopped."
+            },
+            "clean": {
+                "args": "clean --source $(" ~ s.dirs.docs.label ~ ")",
+                "start_msg": "🧹 Cleaning Jekyll build artifacts...",
+                "end_msg": "✅ Jekyll workspace cleaned!"
+            }
+        }
+    } -%}
+    {%- do result.update(config) -%}
+{% endmacro %}

@@ -41,12 +41,12 @@
         "modes": {
             "check": {
                 "args": "",
+                "custom_shell": "$(TOML_FILE_LIST) | tr '\\0' '\\n'; " ~
+                        "$(ACTIVATE) && $(TOML_FILE_LIST) | xargs -0 -n 1 $(TOMLLINT)",
                 "start_msg": "🔍 Running Tomllint on project configuration...",
                 "end_msg": "✅ Finished linting check of toml files with Tomllint!"
             }
         },
-        "custom_shell": "$(TOML_FILE_LIST) | tr '\\0' '\\n'; " ~
-                        "$(ACTIVATE) && $(TOML_FILE_LIST) | xargs -0 -n 1 $(TOMLLINT)"
     } -%}
     {%- do result.update(config) -%}
 {% endmacro %}

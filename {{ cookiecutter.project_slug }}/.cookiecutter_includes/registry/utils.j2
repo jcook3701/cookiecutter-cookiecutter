@@ -44,6 +44,7 @@
                         "group": target_group,
                         "command": tool_cfg.command,
                         "args": m_cfg.args | default(''),
+                        "custom_shell": m_cfg.custom_shell | default(null),
                         "start_msg": m_cfg.start_msg | default('Running ' ~ tool_cfg.id ~ ' ' ~ m_id),
                         "end_msg": m_cfg.end_msg | default(tool_cfg.id ~ ' ' ~ m_id ~ ' complete!'),
                         "description": m_cfg.description | default(tool_cfg.description)
